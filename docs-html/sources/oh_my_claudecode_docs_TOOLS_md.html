@@ -1,0 +1,789 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oh-my-claudecode/docs/TOOLS.md</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+</head>
+<body>
+<main>
+<nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
+<h1 class="path">oh-my-claudecode/docs/TOOLS.md</h1><p>被引用於：<code>02-project-guides.md</code></p><p><a href="../../oh-my-claudecode/docs/TOOLS.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code># MCP Tools</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code># MCP 工具</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&gt; OMC provides MCP tools for state management, code intelligence, and data analysis.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&gt; OMC 提供用於狀態管理、程式碼智能和資料分析的 MCP 工具。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Unlike skills that users invoke directly, tools are used internally by agents during task execution.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>與使用者直接呼叫的 skills 不同，tools 是由 agents 在執行任務期間於內部使用。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Tool Categories</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 工具分類</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- [State](#state) — Manage execution mode state
+- [Notepad](#notepad) — Persistent notes that survive context compaction
+- [Project Memory](#project-memory) — Long-term per-project memory across sessions
+- [LSP](#lsp) — Language Server Protocol code intelligence (12 tools)
+- [AST Grep](#ast-grep) — Structural AST-based code search and replacement
+- [Python REPL](#python-repl) — Persistent Python execution environment
+- [Session Search](#session-search) — Search previous session history
+- [Trace](#trace) — Agent flow trace analysis
+- [Shared Memory](#shared-memory) — Cross-agent shared memory for team coordination
+- [Skills](#skills) — Internal skill management tools
+- [Deepinit Manifest](#deepinit-manifest) — Incremental AGENTS.md regeneration manifest</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- [State](#state) — 管理執行模式狀態
+- [Notepad](#notepad) — 可持久保存、在上下文壓縮後仍會保留的筆記
+- [Project Memory](#project-memory) — 跨工作階段的每專案長期記憶
+- [LSP](#lsp) — Language Server Protocol 程式碼智能（12 個工具）
+- [AST Grep](#ast-grep) — 基於 AST 結構的程式碼搜尋與替換
+- [Python REPL](#python-repl) — 持久化的 Python 執行環境
+- [Session Search](#session-search) — 搜尋先前的工作階段歷史
+- [Trace](#trace) — Agent 流程追蹤分析
+- [Shared Memory](#shared-memory) — 供團隊協作使用的跨 agent 共享記憶體
+- [Skills](#skills) — 內部 skill 管理工具
+- [Deepinit Manifest](#deepinit-manifest) — 漸進式 AGENTS.md 重新生成清單</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## State</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 狀態</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>State tools manage the state of OMC execution modes (autopilot, ralph, ultrawork, etc.). Each mode records its current progress, active status, and configuration in state files.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>State 工具負責管理 OMC 執行模式（autopilot、ralph、ultrawork 等）的狀態。每個模式都會在狀態檔案中記錄目前進度、啟用狀態與設定。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Storage Path</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 存放路徑</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+.omc/state/
+├── sessions/{sessionId}/     # Session-scoped state
+│   ├── autopilot-state.json
+│   ├── ralph-state.json
+│   └── ultrawork-state.json
+├── autopilot-state.json      # Legacy fallback
+├── ralph-state.json
+└── ultrawork-state.json
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+.omc/state/
+├── sessions/{sessionId}/     # Session-scoped state
+│   ├── autopilot-state.json
+│   ├── ralph-state.json
+│   └── ultrawork-state.json
+├── autopilot-state.json      # Legacy fallback
+├── ralph-state.json
+└── ultrawork-state.json
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>When a session ID is provided, the session-scoped path is used; otherwise the legacy path is used as a fallback.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當提供 session ID 時，會使用以工作階段為範圍的路徑；否則會使用舊版路徑作為回退。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Tools</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 工具</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `state_read`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `state_read`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Reads the state for a given mode.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>讀取指定模式的狀態。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+state_read(mode=&quot;ralph&quot;)
+state_read(mode=&quot;ralph&quot;, session_id=&quot;abc123&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+state_read(mode=&quot;ralph&quot;)
+state_read(mode=&quot;ralph&quot;, session_id=&quot;abc123&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Returns an empty response if no state file exists.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>如果不存在狀態檔案，則回傳空回應。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `state_write`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `state_write`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Saves the state for a given mode.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>儲存指定模式的狀態。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+state_write(mode=&quot;ralph&quot;, state={
+  active: true,
+  current_phase: &quot;execution&quot;,
+  iteration: 3,
+  max_iterations: 10
+})
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+state_write(mode=&quot;ralph&quot;, state={
+  active: true,
+  current_phase: &quot;execution&quot;,
+  iteration: 3,
+  max_iterations: 10
+})
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `state_clear`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `state_clear`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Deletes the state file for a given mode.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>刪除指定模式的狀態檔案。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+state_clear(mode=&quot;ralph&quot;)
+state_clear(mode=&quot;ralph&quot;, session_id=&quot;abc123&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+state_clear(mode=&quot;ralph&quot;)
+state_clear(mode=&quot;ralph&quot;, session_id=&quot;abc123&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>When called without a session ID, clears the legacy file.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在未提供 session ID 的情況下，會清除舊版檔案。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `state_list_active`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `state_list_active`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Lists all currently active sessions.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>列出目前所有啟用中的工作階段。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+state_list_active()
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+state_list_active()
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Returns all session IDs and their corresponding modes under `.omc/state/sessions/`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>回傳 `.omc/state/sessions/` 下所有 session ID 及其對應模式。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `state_get_status`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `state_get_status`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Returns a status summary for a specific session.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>回傳特定工作階段的狀態摘要。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+state_get_status(session_id=&quot;abc123&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+state_get_status(session_id=&quot;abc123&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Includes the active mode name and whether dependent modes exist.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>包含目前啟用的模式名稱，以及是否存在相依模式。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Environment Variables</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 環境變數</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Variable | Default | Description |
+|----------|---------|-------------|
+| `OMC_STATE_DIR` | (unset) | Centralized state directory. When set, state persists even if the worktree is deleted. |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| Variable | Default | Description |
+|----------|---------|-------------|
+| `OMC_STATE_DIR` | (unset) | 集中式狀態目錄。設定後，即使工作樹被刪除，狀態仍會保留。 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>When `OMC_STATE_DIR` is set, state is stored at `$OMC_STATE_DIR/{project-id}/`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當設定 `OMC_STATE_DIR` 時，狀態會儲存在 `$OMC_STATE_DIR/{project-id}/`。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```bash
+export OMC_STATE_DIR=&quot;$HOME/.claude/omc&quot;
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```bash
+export OMC_STATE_DIR=&quot;$HOME/.claude/omc&quot;
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Usage Patterns</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 使用模式</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Activate a mode:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**啟用模式：**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+state_write(mode=&quot;autopilot&quot;, state={
+  active: true,
+  current_phase: &quot;expansion&quot;,
+  started_at: &quot;2024-01-15T09:00:00Z&quot;
+})
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+state_write(mode=&quot;autopilot&quot;, state={
+  active: true,
+  current_phase: &quot;expansion&quot;,
+  started_at: &quot;2024-01-15T09:00:00Z&quot;
+})
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Deactivate a mode:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**停用模式：**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+state_clear(mode=&quot;autopilot&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+state_clear(mode=&quot;autopilot&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Check active modes:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**檢查啟用中的模式：**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+state_list_active()
+→ [{session_id: &quot;abc123&quot;, mode: &quot;ralph&quot;, active: true}]
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+state_list_active()
+→ [{session_id: &quot;abc123&quot;, mode: &quot;ralph&quot;, active: true}]
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Notepad</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## Notepad</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Notepad is a persistent note system that survives context window compaction. In long sessions, when important information from early in the conversation is pushed out of context, notes saved to Notepad are restored after compaction.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Notepad 是一個可持久保存的筆記系統，即使經過上下文視窗壓縮仍會保留。在長時間的工作階段中，當對話前期的重要資訊被擠出上下文時，儲存在 Notepad 的筆記會在壓縮後恢復。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Storage Path</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 存放路徑</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+.omc/notepad.md
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+.omc/notepad.md
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Tools</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 工具</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `notepad_read`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `notepad_read`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Reads the full contents of the notepad.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>讀取 notepad 的完整內容。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+notepad_read()
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+notepad_read()
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `notepad_write_priority`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `notepad_write_priority`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Saves a note at the highest priority. Restored first during compaction.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>以最高優先級儲存筆記。壓縮時會最先恢復。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+notepad_write_priority(content=&quot;This project uses TypeScript strict mode&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+notepad_write_priority(content=&quot;This project uses TypeScript strict mode&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Use for architecture decisions, critical constraints, and information that must never be forgotten.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>用於架構決策、關鍵限制，以及絕不能遺忘的資訊。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `notepad_write_working`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `notepad_write_working`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Saves the current working context. General-purpose notes.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>儲存目前的工作上下文。通用型筆記。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+notepad_write_working(content=&quot;Currently refactoring auth module, 3/5 files done&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+notepad_write_working(content=&quot;Currently refactoring auth module, 3/5 files done&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Use for progress tracking, next steps, and information discovered during work.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>用於進度追蹤、下一步，以及工作期間發現的資訊。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `notepad_write_manual`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `notepad_write_manual`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Manually saves a note at a specific location.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>手動將筆記儲存在特定位置。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+notepad_write_manual(content=&quot;Bug: sessionId undefined at session.ts:45&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+notepad_write_manual(content=&quot;Bug: sessionId undefined at session.ts:45&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `notepad_prune`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `notepad_prune`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Cleans up old or unnecessary notes.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>清理舊的或不必要的筆記。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+notepad_prune()
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+notepad_prune()
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `notepad_stats`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `notepad_stats`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Returns statistics about the notepad (entry count, size, etc.).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>回傳關於 notepad 的統計資料（項目數量、大小等）。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+notepad_stats()
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+notepad_stats()
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Usage Patterns</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 使用模式</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Record an important decision:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**記錄重要決策：**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+notepad_write_priority(content=&quot;DB migration: PostgreSQL → MySQL is forbidden. Existing query compatibility issue.&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+notepad_write_priority(content=&quot;DB migration: PostgreSQL → MySQL is forbidden. Existing query compatibility issue.&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Track work progress:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**追蹤工作進度：**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+notepad_write_working(content=&quot;TODO: 1. Fix auth module ✓  2. Add tests  3. Update docs&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+notepad_write_working(content=&quot;TODO: 1. Fix auth module ✓  2. Add tests  3. Update docs&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Restore context when resuming a session:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**在恢復工作階段時還原上下文：**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+notepad_read()
+→ &quot;Currently refactoring auth. src/auth/login.ts done. Next: src/auth/session.ts&quot;
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+notepad_read()
+→ &quot;Currently refactoring auth. src/auth/login.ts done. Next: src/auth/session.ts&quot;
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Compaction Behavior</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 壓縮行為</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>When Claude Code compacts context:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當 Claude Code 壓縮上下文時：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Notepad contents are included in the compaction result
+2. Priority notes are restored first
+3. Working notes are restored next
+4. Pruned notes are excluded</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. Notepad 內容會納入壓縮結果
+2. 優先級筆記會先恢復
+3. 工作筆記接著恢復
+4. 已清理的筆記會被排除</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Core context is preserved even in very long sessions.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>即使在非常長的工作階段中，核心上下文也會被保留。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Project Memory</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 專案記憶</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Project Memory manages long-term per-project memory. It persists project structure, rules, learned knowledge, and directives across sessions, enabling agents to quickly understand project context.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Project Memory 管理每個專案的長期記憶。它會在不同工作階段之間保留專案結構、規則、已學得的知識與指令，讓 agents 能快速理解專案上下文。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Storage Path</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 存放路徑</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+.omc/project-memory.json
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+.omc/project-memory.json
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Tools</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 工具</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `project_memory_read`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `project_memory_read`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Reads the full contents of project memory.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>讀取專案記憶的完整內容。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+project_memory_read()
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+project_memory_read()
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Returns all stored notes and directives for the project.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>回傳此專案所有已儲存的筆記與指令。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `project_memory_write`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `project_memory_write`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Overwrites project memory entirely.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>完整覆寫專案記憶。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+project_memory_write(content={
+  notes: [&quot;Uses TypeScript strict mode&quot;, &quot;Tests use vitest&quot;],
+  directives: [&quot;JSDoc required on all functions&quot;]
+})
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+project_memory_write(content={
+  notes: [&quot;Uses TypeScript strict mode&quot;, &quot;Tests use vitest&quot;],
+  directives: [&quot;JSDoc required on all functions&quot;]
+})
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&gt; **Warning:** This completely replaces existing content. For partial updates, use `project_memory_add_note` or `project_memory_add_directive` instead.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&gt; **警告：** 這會完全取代既有內容。若要進行部分更新，請改用 `project_memory_add_note` 或 `project_memory_add_directive`。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `project_memory_add_note`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `project_memory_add_note`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Adds a note about the project.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>新增一則關於專案的筆記。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+project_memory_add_note(note=&quot;src/utils/ should contain pure functions only&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+project_memory_add_note(note=&quot;src/utils/ should contain pure functions only&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Use for project structure, patterns, and learned knowledge.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>用於專案結構、模式與已學得的知識。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `project_memory_add_directive`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `project_memory_add_directive`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Adds a directive that agents must follow.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>新增一條 agents 必須遵循的指令。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+project_memory_add_directive(directive=&quot;Use structured logging instead of console.log&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+project_memory_add_directive(directive=&quot;Use structured logging instead of console.log&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Use for coding rules, prohibitions, and requirements.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>用於程式設計規則、禁止事項與要求。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Notes vs Directives</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 備註與指令</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| | Notes | Directives |
+|---|---|---|
+| Nature | Information, observations, learned knowledge | Rules, constraints, requirements |
+| Example | &quot;This project uses a monorepo structure&quot; | &quot;No PRs without tests&quot; |
+| Agent behavior | Used as reference for decisions | Must be strictly followed |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| | 備註 | 指令 |
+|---|---|---|
+| 性質 | 資訊、觀察、學到的知識 | 規則、限制、要求 |
+| 範例 | &quot;This project uses a monorepo structure&quot; | &quot;No PRs without tests&quot; |
+| Agent 行為 | 作為決策參考 | 必須嚴格遵守 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Notepad vs Project Memory</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### Notepad 與 Project Memory</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| | Notepad | Project Memory |
+|---|---|---|
+| Scope | Current session | Entire project (persists across sessions) |
+| Purpose | In-progress notes | Project rules, structure, learned knowledge |
+| File | `.omc/notepad.md` | `.omc/project-memory.json` |
+| Compaction | Restored during compaction | Always available |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| | Notepad | Project Memory |
+|---|---|---|
+| 範圍 | 目前工作階段 | 整個專案（會跨工作階段持續保留） |
+| 目的 | 進行中的筆記 | 專案規則、結構、學到的知識 |
+| 檔案 | `.omc/notepad.md` | `.omc/project-memory.json` |
+| 壓縮 | 在壓縮期間還原 | 一律可用 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Usage Patterns</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 使用模式</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Register project rules:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**註冊專案規則：**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+project_memory_add_directive(&quot;This repo uses conventional commits&quot;)
+project_memory_add_directive(&quot;Files under src/generated/ must not be edited manually&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+project_memory_add_directive(&quot;This repo uses conventional commits&quot;)
+project_memory_add_directive(&quot;Files under src/generated/ must not be edited manually&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Record codebase structure:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**記錄程式碼庫結構：**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+project_memory_add_note(&quot;API layer: src/api/ → src/services/ → src/repositories/&quot;)
+project_memory_add_note(&quot;Auth: JWT + passport.js, implemented in src/auth/&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+project_memory_add_note(&quot;API layer: src/api/ → src/services/ → src/repositories/&quot;)
+project_memory_add_note(&quot;Auth: JWT + passport.js, implemented in src/auth/&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Record learned knowledge:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**記錄學到的知識：**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+project_memory_add_note(&quot;tsconfig paths settings need to be kept in sync with jest.config&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+project_memory_add_note(&quot;tsconfig paths settings need to be kept in sync with jest.config&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## LSP</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## LSP</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>LSP tools provide Language Server Protocol-based code intelligence: type information, go-to-definition, find references, error diagnostics, symbol search, and renaming.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>LSP 工具提供基於 Language Server Protocol 的程式碼智慧功能：型別資訊、跳至定義、尋找參照、錯誤診斷、符號搜尋與重新命名。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>A language server must be installed (e.g., `typescript-language-server`, `ty`, `rust-analyzer`, `gopls`). Use `lsp_servers()` to check installation status.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>必須安裝語言伺服器（例如 `typescript-language-server`、`ty`、`rust-analyzer`、`gopls`）。使用 `lsp_servers()` 檢查安裝狀態。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Tools</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 工具</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `lsp_hover`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `lsp_hover`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Returns type information and documentation at the specified position.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>返回指定位置的型別資訊與文件說明。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+lsp_hover(file=&quot;src/auth.ts&quot;, line=42, character=10)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+lsp_hover(file=&quot;src/auth.ts&quot;, line=42, character=10)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `lsp_goto_definition`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `lsp_goto_definition`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Navigates to the definition of a symbol.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>導覽至符號的定義。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+lsp_goto_definition(file=&quot;src/auth.ts&quot;, line=42, character=10)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+lsp_goto_definition(file=&quot;src/auth.ts&quot;, line=42, character=10)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `lsp_find_references`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `lsp_find_references`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Finds all usage locations of a symbol.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>找出符號的所有使用位置。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+lsp_find_references(file=&quot;src/auth.ts&quot;, line=42, character=10)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+lsp_find_references(file=&quot;src/auth.ts&quot;, line=42, character=10)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `lsp_document_symbols`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `lsp_document_symbols`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Returns the structural outline of a file (functions, classes, interfaces, etc.).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>返回檔案的結構大綱（函式、類別、介面等）。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+lsp_document_symbols(file=&quot;src/auth.ts&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+lsp_document_symbols(file=&quot;src/auth.ts&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `lsp_workspace_symbols`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `lsp_workspace_symbols`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Searches for symbols across the entire workspace.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>搜尋整個工作區中的符號。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+lsp_workspace_symbols(query=&quot;UserConfig&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+lsp_workspace_symbols(query=&quot;UserConfig&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `lsp_diagnostics`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `lsp_diagnostics`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Returns errors, warnings, and hints for a file.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>返回檔案的錯誤、警告與提示。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+lsp_diagnostics(file=&quot;src/auth.ts&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+lsp_diagnostics(file=&quot;src/auth.ts&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Useful for immediately checking type errors after a code change.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在程式碼變更後立即檢查型別錯誤時很有用。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `lsp_diagnostics_directory`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `lsp_diagnostics_directory`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Returns diagnostics for an entire directory or project.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>返回整個目錄或專案的診斷結果。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+lsp_diagnostics_directory(path=&quot;src/&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+lsp_diagnostics_directory(path=&quot;src/&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Use after complex multi-file changes to check project-wide type errors.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在複雜的多檔案變更後使用，以檢查全專案型別錯誤。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `lsp_prepare_rename`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `lsp_prepare_rename`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Checks whether a rename operation at the given position is valid.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>檢查指定位置的重新命名操作是否有效。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+lsp_prepare_rename(file=&quot;src/auth.ts&quot;, line=42, character=10)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+lsp_prepare_rename(file=&quot;src/auth.ts&quot;, line=42, character=10)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `lsp_rename`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `lsp_rename`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Renames a symbol across the entire project.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在整個專案中重新命名符號。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+lsp_rename(file=&quot;src/auth.ts&quot;, line=42, character=10, newName=&quot;AuthService&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+lsp_rename(file=&quot;src/auth.ts&quot;, line=42, character=10, newName=&quot;AuthService&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `lsp_code_actions`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `lsp_code_actions`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Returns available refactoring actions for a range.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>返回範圍內可用的重構動作。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+lsp_code_actions(file=&quot;src/auth.ts&quot;, startLine=40, endLine=50)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+lsp_code_actions(file=&quot;src/auth.ts&quot;, startLine=40, endLine=50)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `lsp_code_action_resolve`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `lsp_code_action_resolve`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Returns detailed information for a specific code action.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>返回特定程式碼動作的詳細資訊。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+lsp_code_action_resolve(action=&lt;action_object&gt;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+lsp_code_action_resolve(action=&lt;action_object&gt;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `lsp_servers`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `lsp_servers`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Returns the list of available language servers and their installation status.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>返回可用語言伺服器及其安裝狀態的清單。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+lsp_servers()
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+lsp_servers()
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Environment Variables</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 環境變數</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Variable | Default | Description |
+|----------|---------|-------------|
+| `OMC_LSP_TIMEOUT_MS` | `15000` | LSP request timeout in ms. Increase for large repos or slow servers. |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 變數 | 預設值 | 說明 |
+|----------|---------|-------------|
+| `OMC_LSP_TIMEOUT_MS` | `15000` | LSP 請求逾時（毫秒）。對大型儲存庫或較慢的伺服器可提高此值。 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Troubleshooting</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 疑難排解</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Problem | Solution |
+|---------|----------|
+| LSP tools not working | Install the language server: `npm install -g typescript-language-server` |
+| Timeout errors | Increase `OMC_LSP_TIMEOUT_MS` |
+| Check server status | Run `lsp_servers()` to verify installation |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 問題 | 解決方法 |
+|---------|----------|
+| LSP 工具無法運作 | 安裝語言伺服器：`npm install -g typescript-language-server` |
+| 逾時錯誤 | 提高 `OMC_LSP_TIMEOUT_MS` |
+| 檢查伺服器狀態 | 執行 `lsp_servers()` 驗證安裝 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## AST Grep</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## AST Grep</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>AST Grep tools use [@ast-grep/napi](https://ast-grep.github.io/) to search and replace structural code patterns. Because it operates on AST (Abstract Syntax Tree) rather than regex, it matches code structure precisely.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>AST Grep 工具使用 [@ast-grep/napi](https://ast-grep.github.io/) 來搜尋與取代結構化程式碼模式。由於它操作的是 AST（Abstract Syntax Tree，抽象語法樹）而不是 regex，因此能精確匹配程式碼結構。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Tools</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 工具</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `ast_grep_search`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `ast_grep_search`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Searches code using AST patterns.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>使用 AST 模式搜尋程式碼。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+ast_grep_search(
+  pattern=&quot;console.log($$$ARGS)&quot;,
+  lang=&quot;typescript&quot;
+)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+ast_grep_search(
+  pattern=&quot;console.log($$$ARGS)&quot;,
+  lang=&quot;typescript&quot;
+)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Meta variables:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**Meta 變數：**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Meta Variable | Description | Example |
+|---|---|---|
+| `$VAR` | Matches a single AST node | `$VAR.map($FUNC)` |
+| `$$$` | Matches multiple AST nodes | `console.log($$$ARGS)` |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| Meta Variable | 說明 | 範例 |
+|---|---|---|
+| `$VAR` | 比對單一 AST 節點 | `$VAR.map($FUNC)` |
+| `$$$` | 比對多個 AST 節點 | `console.log($$$ARGS)` |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Examples:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**範例：**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+# Find all console.log calls
+ast_grep_search(pattern=&quot;console.log($$$)&quot;, lang=&quot;typescript&quot;)
+
+# Find specific fetch call patterns
+ast_grep_search(pattern=&quot;fetch($URL, { method: 'POST', $$$REST })&quot;, lang=&quot;typescript&quot;)
+
+# Find React useState usage
+ast_grep_search(pattern=&quot;const [$STATE, $SETTER] = useState($INIT)&quot;, lang=&quot;tsx&quot;)
+
+# Find try-catch blocks
+ast_grep_search(pattern=&quot;try { $$$ } catch($ERR) { $$$ }&quot;, lang=&quot;typescript&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+# 找出所有 console.log 呼叫
+ast_grep_search(pattern=&quot;console.log($$$)&quot;, lang=&quot;typescript&quot;)
+
+# 找出特定的 fetch 呼叫模式
+ast_grep_search(pattern=&quot;fetch($URL, { method: 'POST', $$$REST })&quot;, lang=&quot;typescript&quot;)
+
+# 找出 React useState 的使用
+ast_grep_search(pattern=&quot;const [$STATE, $SETTER] = useState($INIT)&quot;, lang=&quot;tsx&quot;)
+
+# 找出 try-catch 區塊
+ast_grep_search(pattern=&quot;try { $$$ } catch($ERR) { $$$ }&quot;, lang=&quot;typescript&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `ast_grep_replace`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `ast_grep_replace`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Replaces code using structural AST patterns.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>使用結構化 AST 模式取代程式碼。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+ast_grep_replace(
+  pattern=&quot;console.log($$$ARGS)&quot;,
+  replacement=&quot;logger.info($$$ARGS)&quot;,
+  lang=&quot;typescript&quot;,
+  dryRun=true
+)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+ast_grep_replace(
+  pattern=&quot;console.log($$$ARGS)&quot;,
+  replacement=&quot;logger.info($$$ARGS)&quot;,
+  lang=&quot;typescript&quot;,
+  dryRun=true
+)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&gt; **Always run with `dryRun=true` first to review changes before applying.**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&gt; **請務必先以 `dryRun=true` 執行，先檢視變更再套用。**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Examples:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**範例：**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+# Replace console.log with logger.info
+ast_grep_replace(
+  pattern=&quot;console.log($$$ARGS)&quot;,
+  replacement=&quot;logger.info($$$ARGS)&quot;,
+  lang=&quot;typescript&quot;,
+  dryRun=true
+)
+
+# Convert synchronous functions to async
+ast_grep_replace(
+  pattern=&quot;function $NAME($$$PARAMS) { $$$BODY }&quot;,
+  replacement=&quot;async function $NAME($$$PARAMS) { $$$BODY }&quot;,
+  lang=&quot;typescript&quot;,
+  dryRun=true
+)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+# 使用 logger.info 取代 console.log
+ast_grep_replace(
+  pattern=&quot;console.log($$$ARGS)&quot;,
+  replacement=&quot;logger.info($$$ARGS)&quot;,
+  lang=&quot;typescript&quot;,
+  dryRun=true
+)
+
+# 將同步函式轉為 async
+ast_grep_replace(
+  pattern=&quot;function $NAME($$$PARAMS) { $$$BODY }&quot;,
+  replacement=&quot;async function $NAME($$$PARAMS) { $$$BODY }&quot;,
+  lang=&quot;typescript&quot;,
+  dryRun=true
+)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### AST Grep vs Regex</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### AST Grep 與 Regex</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| | Regex (Grep) | AST Grep |
+|---|---|---|
+| Matches against | Text patterns | Code structure |
+| Whitespace/newlines | Sensitive | Irrelevant |
+| Comments | Matched | Skipped |
+| Refactoring safety | Risky | Structure-preserving |
+| Use case | Text search | Code transformation |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| | Regex (Grep) | AST Grep |
+|---|---|---|
+| 比對對象 | 文字模式 | 程式碼結構 |
+| 空白字元/換行 | 敏感 | 不相關 |
+| 註解 | 會被匹配 | 會被略過 |
+| 重構安全性 | 有風險 | 保持結構 |
+| 使用情境 | 文字搜尋 | 程式碼轉換 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Supported Languages</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 支援的語言</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>TypeScript, JavaScript, TSX, JSX, Python, Go, Rust, Java, C, C++, C#, Ruby, Swift, Kotlin, and most major programming languages.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>TypeScript、JavaScript、TSX、JSX、Python、Go、Rust、Java、C、C++、C#、Ruby、Swift、Kotlin，以及大多數主要程式語言。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Python REPL</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## Python REPL</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Python REPL is a Python execution environment where state persists across calls within a session. Used for data analysis, statistical computation, visualization, and prototyping.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Python REPL 是一個 Python 執行環境，會在同一個 session 中跨呼叫保留狀態。可用於資料分析、統計計算、視覺化與原型開發。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Tool</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 工具</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `python_repl`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `python_repl`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Executes Python code and returns the result.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>執行 Python 程式碼並返回結果。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+python_repl(code=&quot;import json; data = json.loads('{\&quot;key\&quot;: \&quot;value\&quot;}'); print(data)&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+python_repl(code=&quot;import json; data = json.loads('{\&quot;key\&quot;: \&quot;value\&quot;}'); print(data)&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Features</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 功能</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Persistent state:** Variables, functions, and imports defined in one call remain available in subsequent calls.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**持久狀態：** 在一次呼叫中定義的變數、函式與匯入，在後續呼叫中仍可使用。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```python
+# First call
+python_repl(code=&quot;import pandas as pd; df = pd.read_csv('data.csv')&quot;)
+
+# Second call (df is still available)
+python_repl(code=&quot;print(df.describe())&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```python
+# 第一次呼叫
+python_repl(code=&quot;import pandas as pd; df = pd.read_csv('data.csv')&quot;)
+
+# 第二次呼叫（df 仍可使用）
+python_repl(code=&quot;print(df.describe())&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Data analysis:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**資料分析：**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```python
+python_repl(code=&quot;&quot;&quot;
+import json
+with open('.omc/research/session-1/state.json') as f:
+    state = json.load(f)
+print(f&quot;Stages: {len(state['stages'])}&quot;)
+print(f&quot;Status: {state['status']}&quot;)
+&quot;&quot;&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```python
+python_repl(code=&quot;&quot;&quot;
+import json
+with open('.omc/research/session-1/state.json') as f:
+    state = json.load(f)
+print(f&quot;Stages: {len(state['stages'])}&quot;)
+print(f&quot;Status: {state['status']}&quot;)
+&quot;&quot;&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Computation and transformation:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**計算與轉換：**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```python
+python_repl(code=&quot;&quot;&quot;
+# Token cost estimation
+input_tokens = 150000
+output_tokens = 50000
+cost = (input_tokens * 0.003 + output_tokens * 0.015) / 1000
+print(f&quot;Estimated cost: ${cost:.4f}&quot;)
+&quot;&quot;&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```python
+python_repl(code=&quot;&quot;&quot;
+# Token 成本估算
+input_tokens = 150000
+output_tokens = 50000
+cost = (input_tokens * 0.003 + output_tokens * 0.015) / 1000
+print(f&quot;估計成本：${cost:.4f}&quot;)
+&quot;&quot;&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**File processing:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**檔案處理：**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```python
+python_repl(code=&quot;&quot;&quot;
+import os
+
+# Project file statistics
+extensions = {}
+for root, dirs, files in os.walk('src'):
+    for f in files:
+        ext = os.path.splitext(f)[1]
+        extensions[ext] = extensions.get(ext, 0) + 1
+
+for ext, count in sorted(extensions.items(), key=lambda x: -x[1]):
+    print(f&quot;{ext}: {count} files&quot;)
+&quot;&quot;&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```python
+python_repl(code=&quot;&quot;&quot;
+import os
+
+# 專案檔案統計
+extensions = {}
+for root, dirs, files in os.walk('src'):
+    for f in files:
+        ext = os.path.splitext(f)[1]
+        extensions[ext] = extensions.get(ext, 0) + 1
+
+for ext, count in sorted(extensions.items(), key=lambda x: -x[1]):
+    print(f&quot;{ext}: {count} 個檔案&quot;)
+&quot;&quot;&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Use Cases</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 使用情境</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Use Case | Description |
+|----------|-------------|
+| Data analysis | Analyze CSV/JSON files, compute statistics |
+| Prototyping | Validate algorithms, test logic |
+| File processing | File transformation, batch processing |
+| Visualization | Generate charts with matplotlib or plotly |
+| Computation | Math calculations, cost estimation |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 使用情境 | 說明 |
+|----------|-------------|
+| 資料分析 | 分析 CSV/JSON 檔案，計算統計資料 |
+| 原型開發 | 驗證演算法，測試邏輯 |
+| 檔案處理 | 檔案轉換，批次處理 |
+| 視覺化 | 使用 matplotlib 或 plotly 產生圖表 |
+| 計算 | 數學計算，成本估算 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Integration with scientist Agent</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 與 scientist Agent 的整合</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>The `scientist` agent uses `python_repl` for data analysis tasks.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>The `scientist` agent 會使用 `python_repl` 進行資料分析工作。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Session Search</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 工作階段搜尋</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Search previous local session history and transcript artifacts.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>搜尋先前的本機工作階段歷史與轉錄產物。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Tool</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 工具</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `session_search`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `session_search`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Searches session history and returns matching excerpts.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>搜尋工作階段歷史並回傳符合的摘錄。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+session_search(query=&quot;authentication refactor&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+session_search(query=&quot;authentication refactor&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Returns session IDs, timestamps, source paths, and matching excerpts as structured JSON.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>以結構化 JSON 回傳工作階段 ID、時間戳記、來源路徑與符合的摘錄。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Trace</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 追蹤</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Analyze agent flow trace data for debugging and performance analysis.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>分析 agent 流程追蹤資料，以進行除錯與效能分析。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Tools</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 工具</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `trace_timeline`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `trace_timeline`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Displays hooks, keywords, skills, agents, and tools in chronological order.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>按時間順序顯示 hooks、keywords、skills、agents 與 tools。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+trace_timeline()
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+trace_timeline()
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `trace_summary`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `trace_summary`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Aggregates hook statistics, keyword frequency, skill activations, mode transitions, and tool bottlenecks.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>彙總 hook 統計、關鍵字頻率、技能啟用、模式切換與工具瓶頸。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+trace_summary()
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+trace_summary()
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Shared Memory</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 共享記憶體</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Cross-agent shared memory for team coordination. Enables agents to share data across team boundaries during coordinated workflows.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>跨 agent 的共享記憶體，用於團隊協作。讓 agents 在協調式工作流程中跨越團隊邊界共享資料。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Tools</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 工具</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `shared_memory_write`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `shared_memory_write`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Writes a value to shared memory.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>將值寫入共享記憶體。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+shared_memory_write(key=&quot;auth-spec&quot;, value=&quot;JWT with refresh tokens&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+shared_memory_write(key=&quot;auth-spec&quot;, value=&quot;JWT with refresh tokens&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `shared_memory_read`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `shared_memory_read`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Reads a value from shared memory.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>從共享記憶體讀取值。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+shared_memory_read(key=&quot;auth-spec&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+shared_memory_read(key=&quot;auth-spec&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `shared_memory_list`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `shared_memory_list`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Lists all keys in shared memory.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>列出共享記憶體中的所有鍵。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+shared_memory_list()
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+shared_memory_list()
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `shared_memory_delete`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `shared_memory_delete`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Deletes a key from shared memory.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>從共享記憶體刪除一個鍵。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+shared_memory_delete(key=&quot;auth-spec&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+shared_memory_delete(key=&quot;auth-spec&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `shared_memory_cleanup`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `shared_memory_cleanup`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Removes all entries from shared memory.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>移除共享記憶體中的所有項目。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+shared_memory_cleanup()
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+shared_memory_cleanup()
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Skills</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 技能</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Internal skill management tools used by the runtime to load and list available skills.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>執行階段用來載入並列出可用技能的內部技能管理工具。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Tools</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 工具</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `load_omc_skills_local`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `load_omc_skills_local`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Loads skills from the local project directory (`.omc/skills/`).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>從本機專案目錄（`.omc/skills/`）載入技能。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+load_omc_skills_local()
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+load_omc_skills_local()
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `load_omc_skills_global`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `load_omc_skills_global`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Loads skills from the global user directory (`~/.claude/skills/`).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>從全域使用者目錄（`~/.claude/skills/`）載入技能。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+load_omc_skills_global()
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+load_omc_skills_global()
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `list_omc_skills`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `list_omc_skills`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Lists all available OMC skills (built-in + local + global).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>列出所有可用的 OMC 技能（內建 + 本機 + 全域）。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+list_omc_skills()
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+list_omc_skills()
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Deepinit Manifest</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## Deepinit Manifest</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Manages the manifest for incremental AGENTS.md regeneration. Compares directory file lists to detect structural changes, enabling the `deepinit` skill to only regenerate documentation for directories that have changed.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>管理用於增量式 AGENTS.md 重新生成的 manifest。比較目錄檔案清單以偵測結構變更，讓 `deepinit` skill 只針對已變更的目錄重新生成文件。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Tool</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 工具</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### `deepinit_manifest`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### `deepinit_manifest`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Manages the deepinit manifest with three actions.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>以三個動作管理 deepinit manifest。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**diff** — Find directories with structural changes since last generation:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**diff** — 找出自上次生成以來具有結構變更的目錄：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+deepinit_manifest(action=&quot;diff&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+deepinit_manifest(action=&quot;diff&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**save** — Persist the current directory structure as the new baseline:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**save** — 將目前的目錄結構保存為新的基準：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+deepinit_manifest(action=&quot;save&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+deepinit_manifest(action=&quot;save&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**check** — Validate the existing manifest:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**check** — 驗證現有的 manifest：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+deepinit_manifest(action=&quot;check&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+deepinit_manifest(action=&quot;check&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Used internally by the `deepinit` skill (`/oh-my-claudecode:deepinit`) to enable incremental AGENTS.md regeneration instead of full re-scans.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>由 `deepinit` skill（`/oh-my-claudecode:deepinit`）在內部使用，以啟用增量式 AGENTS.md 重新生成，而非完整重新掃描。</code></pre></div></section>
+</main>
+</body>
+</html>

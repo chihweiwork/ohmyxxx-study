@@ -1,0 +1,46 @@
+[
+  {
+    "original": "<Good>\nCorrect parallel delegation:\n```\n\nTask(subagent_type=\"oh-my-claudecode:executor\", model=\"haiku\", prompt=\"Add type export for UserConfig\")\nTask(subagent_type=\"oh-my-claudecode:executor\", model=\"sonnet\", prompt=\"Implement the caching layer for API responses\")\nTask(subagent_type=\"oh-my-claudecode:executor\", model=\"opus\", prompt=\"Refactor auth module to support OAuth2 flow\")\n\n```\nWhy good: Three independent tasks fired simultaneously at appropriate tiers.\n</Good>",
+    "zh_tw": "<Good>\n正確的平行委派：\n```\n\nTask(subagent_type=\"oh-my-claudecode:executor\", model=\"haiku\", prompt=\"Add type export for UserConfig\")\nTask(subagent_type=\"oh-my-claudecode:executor\", model=\"sonnet\", prompt=\"Implement the caching layer for API responses\")\nTask(subagent_type=\"oh-my-claudecode:executor\", model=\"opus\", prompt=\"Refactor auth module to support OAuth2 flow\")\n\n```\n原因：三個彼此獨立的任務同時以適當的層級發送。\n</Good>"
+  },
+  {
+    "original": "<Good>\nStory-by-story verification:\n```\n\n1. Story US-001: \"Add flag detection helpers\"\n   - Criterion: \"Legacy --no-prd is stripped from the working prompt\" → Run test → PASS\n   - Criterion: \"TypeScript compiles\" → Run build → PASS\n   - Mark US-001 passes: true\n2. Story US-002: \"Wire PRD into bridge.ts\"\n   - Continue to next story...\n\n```\nWhy good: Each story verified against its own acceptance criteria before marking complete.\n</Good>",
+    "zh_tw": "<Good>\n逐個故事驗證：\n```\n\n1. Story US-001: \"Add flag detection helpers\"\n   - Criterion: \"Legacy --no-prd is stripped from the working prompt\" → Run test → PASS\n   - Criterion: \"TypeScript compiles\" → Run build → PASS\n   - Mark US-001 passes: true\n2. Story US-002: \"Wire PRD into bridge.ts\"\n   - Continue to next story...\n\n```\n原因：每個故事都先依據自己的驗收條件驗證完成後，才標記為完成。\n</Good>"
+  },
+  {
+    "original": "<Bad>\nClaiming completion without PRD verification:\n\"All the changes look good, the implementation should work correctly. Task complete.\"\nWhy bad: Uses \"should\" and \"look good\" -- no fresh evidence, no story-by-story verification, no architect review.\n</Bad>",
+    "zh_tw": "<Bad>\n未經 PRD 驗證就宣稱完成：\n\"所有變更看起來都不錯，實作應該可以正常運作。任務完成。\"\n原因：使用了 \"should\" 和 \"look good\" -- 沒有新的證據，沒有逐個故事的驗證，也沒有架構師審查。\n</Bad>"
+  },
+  {
+    "original": "<Bad>\nSequential execution of independent tasks:\n```\n\nTask(executor, \"Add type export\") → wait →\nTask(executor, \"Implement caching\") → wait →\nTask(executor, \"Refactor auth\")\n\n```\nWhy bad: These are independent tasks that should run in parallel, not sequentially.\n</Bad>",
+    "zh_tw": "<Bad>\n獨立任務採用序列執行：\n```\n\nTask(executor, \"Add type export\") → wait →\nTask(executor, \"Implement caching\") → wait →\nTask(executor, \"Refactor auth\")\n\n```\n原因：這些是彼此獨立的任務，應該平行執行，而不是依序執行。\n</Bad>"
+  },
+  {
+    "original": "<Bad>\nKeeping generic acceptance criteria:\n\"prd.json created with criteria: Implementation is complete, Code compiles. Moving on to coding.\"\nWhy bad: Did not refine scaffold criteria into task-specific ones. This is PRD theater.\n</Bad>\n</Examples>",
+    "zh_tw": "<Bad>\n保留通用的驗收標準：\n\"prd.json created with criteria: Implementation is complete, Code compiles. Moving on to coding.\"\n原因：沒有把骨架標準細化成任務專屬標準。這是 PRD 表演。\n</Bad>\n</Examples>"
+  },
+  {
+    "original": "<Escalation_And_Stop_Conditions>\n- Stop and report when a fundamental blocker requires user input (missing credentials, unclear requirements, external service down)\n- Stop when the user says \"stop\", \"cancel\", or \"abort\" -- run `/oh-my-claudecode:cancel`\n- Continue working when the hook system sends \"The boulder never stops\" -- this means the iteration continues\n- If the selected reviewer rejects verification, fix the issues and re-verify (do not stop)\n- If the same issue recurs across 3+ iterations, report it as a potential fundamental problem\n- **Do NOT stop after Step 7 approval.** The boulder continues through 7 → 7.5 → 7.6 → 8 in the same turn as a single chain. Step 7 is a checkpoint inside the loop, not a reporting moment. Treating an architect/critic APPROVED verdict as \"time to summarise and wait for user acknowledgment\" is a polite-stop anti-pattern — the only reporting moments in Ralph are Step 8 (successful cancel) or Step 9 (rejection).\n</Escalation_And_Stop_Conditions>",
+    "zh_tw": "<Escalation_And_Stop_Conditions>\n- 當根本性阻礙需要使用者輸入時，停止並回報（缺少憑證、需求不清楚、外部服務故障）\n- 當使用者說 \"stop\"、\"cancel\" 或 \"abort\" 時停止 -- 執行 `/oh-my-claudecode:cancel`\n- 當 hook 系統傳送 \"The boulder never stops\" 時繼續工作 -- 這表示迭代會持續進行\n- 如果選定的審查者拒絕驗證，修正問題並重新驗證（不要停止）\n- 如果相同問題在 3+ 次迭代中重現，將其回報為潛在的根本問題\n- **不要在 Step 7 核准後停止。** 這顆巨石會在同一次回合中以單一鏈條持續經過 7 → 7.5 → 7.6 → 8。Step 7 是迴圈中的檢查點，不是回報時機。把架構師/評論者的 APPROVED 判定視為「該開始總結並等待使用者確認」是一種禮貌停止的反模式 -- Ralph 中唯一的回報時機是 Step 8（成功取消）或 Step 9（拒絕）。\n</Escalation_And_Stop_Conditions>"
+  },
+  {
+    "original": "<Final_Checklist>\n- [ ] All prd.json stories have `passes: true` (no incomplete stories)\n- [ ] prd.json acceptance criteria are task-specific (not generic boilerplate)\n- [ ] All requirements from the original task are met (no scope reduction)\n- [ ] Zero pending or in_progress TODO items\n- [ ] Fresh test run output shows all tests pass\n- [ ] Fresh build output shows success\n- [ ] lsp_diagnostics shows 0 errors on affected files\n- [ ] progress.txt records implementation details and learnings\n- [ ] Selected reviewer verification passed against specific acceptance criteria\n- [ ] ai-slop-cleaner pass completed on changed files (or `--no-deslop` specified)\n- [ ] Post-deslop regression tests pass\n- [ ] `/oh-my-claudecode:cancel` run for clean state cleanup\n</Final_Checklist>",
+    "zh_tw": "<Final_Checklist>\n- [ ] 所有 prd.json 故事都具有 `passes: true`（沒有未完成的故事）\n- [ ] prd.json 的驗收標準是任務專屬的（不是通用樣板）\n- [ ] 已滿足原始任務中的所有需求（沒有縮減範圍）\n- [ ] 沒有待處理或 `in_progress` 的 TODO 項目\n- [ ] 最新的測試執行輸出顯示所有測試都通過\n- [ ] 最新的建置輸出顯示成功\n- [ ] lsp_diagnostics 顯示受影響檔案為 0 個錯誤\n- [ ] progress.txt 已記錄實作細節與學習內容\n- [ ] 已根據特定驗收標準通過所選審查者的驗證\n- [ ] 已完成對變更檔案的 ai-slop-cleaner 處理（或已指定 `--no-deslop`）\n- [ ] 離散化後的回歸測試通過\n- [ ] 已執行 `/oh-my-claudecode:cancel` 以進行乾淨狀態清理\n</Final_Checklist>"
+  },
+  {
+    "original": "<Advanced>\n## Background Execution Rules",
+    "zh_tw": "<Advanced>\n## 背景執行規則"
+  },
+  {
+    "original": "**Run in background** (`run_in_background: true`):\n- Package installation (npm install, pip install, cargo build)\n- Build processes (make, project build commands)\n- Test suites\n- Docker operations (docker build, docker pull)",
+    "zh_tw": "**在背景執行**（`run_in_background: true`）：\n- 套件安裝（npm install, pip install, cargo build）\n- 建置流程（make, project build commands）\n- 測試套件\n- Docker 操作（docker build, docker pull）"
+  },
+  {
+    "original": "**Run blocking** (foreground):\n- Quick status checks (git status, ls, pwd)\n- File reads and edits\n- Simple commands\n</Advanced>",
+    "zh_tw": "**阻塞執行**（前景）：\n- 快速狀態檢查（git status, ls, pwd）\n- 檔案讀取與編輯\n- 簡單指令\n</Advanced>"
+  },
+  {
+    "original": "Original task:\n{{PROMPT}}\n```\n",
+    "zh_tw": "原始任務：\n{{PROMPT}}\n```\n"
+  }
+]

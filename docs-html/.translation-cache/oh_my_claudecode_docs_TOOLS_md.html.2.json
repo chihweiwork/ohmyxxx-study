@@ -1,0 +1,310 @@
+[
+  {
+    "original": "```\npython_repl(code=\"import json; data = json.loads('{\\\"key\\\": \\\"value\\\"}'); print(data)\")\n```",
+    "zh_tw": "```\npython_repl(code=\"import json; data = json.loads('{\\\"key\\\": \\\"value\\\"}'); print(data)\")\n```"
+  },
+  {
+    "original": "### Features",
+    "zh_tw": "### 功能"
+  },
+  {
+    "original": "**Persistent state:** Variables, functions, and imports defined in one call remain available in subsequent calls.",
+    "zh_tw": "**持久狀態：** 在一次呼叫中定義的變數、函式與匯入，在後續呼叫中仍可使用。"
+  },
+  {
+    "original": "```python\n# First call\npython_repl(code=\"import pandas as pd; df = pd.read_csv('data.csv')\")\n\n# Second call (df is still available)\npython_repl(code=\"print(df.describe())\")\n```",
+    "zh_tw": "```python\n# 第一次呼叫\npython_repl(code=\"import pandas as pd; df = pd.read_csv('data.csv')\")\n\n# 第二次呼叫（df 仍可使用）\npython_repl(code=\"print(df.describe())\")\n```"
+  },
+  {
+    "original": "**Data analysis:**",
+    "zh_tw": "**資料分析：**"
+  },
+  {
+    "original": "```python\npython_repl(code=\"\"\"\nimport json\nwith open('.omc/research/session-1/state.json') as f:\n    state = json.load(f)\nprint(f\"Stages: {len(state['stages'])}\")\nprint(f\"Status: {state['status']}\")\n\"\"\")\n```",
+    "zh_tw": "```python\npython_repl(code=\"\"\"\nimport json\nwith open('.omc/research/session-1/state.json') as f:\n    state = json.load(f)\nprint(f\"Stages: {len(state['stages'])}\")\nprint(f\"Status: {state['status']}\")\n\"\"\")\n```"
+  },
+  {
+    "original": "**Computation and transformation:**",
+    "zh_tw": "**計算與轉換：**"
+  },
+  {
+    "original": "```python\npython_repl(code=\"\"\"\n# Token cost estimation\ninput_tokens = 150000\noutput_tokens = 50000\ncost = (input_tokens * 0.003 + output_tokens * 0.015) / 1000\nprint(f\"Estimated cost: ${cost:.4f}\")\n\"\"\")\n```",
+    "zh_tw": "```python\npython_repl(code=\"\"\"\n# Token 成本估算\ninput_tokens = 150000\noutput_tokens = 50000\ncost = (input_tokens * 0.003 + output_tokens * 0.015) / 1000\nprint(f\"估計成本：${cost:.4f}\")\n\"\"\")\n```"
+  },
+  {
+    "original": "**File processing:**",
+    "zh_tw": "**檔案處理：**"
+  },
+  {
+    "original": "```python\npython_repl(code=\"\"\"\nimport os\n\n# Project file statistics\nextensions = {}\nfor root, dirs, files in os.walk('src'):\n    for f in files:\n        ext = os.path.splitext(f)[1]\n        extensions[ext] = extensions.get(ext, 0) + 1\n\nfor ext, count in sorted(extensions.items(), key=lambda x: -x[1]):\n    print(f\"{ext}: {count} files\")\n\"\"\")\n```",
+    "zh_tw": "```python\npython_repl(code=\"\"\"\nimport os\n\n# 專案檔案統計\nextensions = {}\nfor root, dirs, files in os.walk('src'):\n    for f in files:\n        ext = os.path.splitext(f)[1]\n        extensions[ext] = extensions.get(ext, 0) + 1\n\nfor ext, count in sorted(extensions.items(), key=lambda x: -x[1]):\n    print(f\"{ext}: {count} 個檔案\")\n\"\"\")\n```"
+  },
+  {
+    "original": "### Use Cases",
+    "zh_tw": "### 使用情境"
+  },
+  {
+    "original": "| Use Case | Description |\n|----------|-------------|\n| Data analysis | Analyze CSV/JSON files, compute statistics |\n| Prototyping | Validate algorithms, test logic |\n| File processing | File transformation, batch processing |\n| Visualization | Generate charts with matplotlib or plotly |\n| Computation | Math calculations, cost estimation |",
+    "zh_tw": "| 使用情境 | 說明 |\n|----------|-------------|\n| 資料分析 | 分析 CSV/JSON 檔案，計算統計資料 |\n| 原型開發 | 驗證演算法，測試邏輯 |\n| 檔案處理 | 檔案轉換，批次處理 |\n| 視覺化 | 使用 matplotlib 或 plotly 產生圖表 |\n| 計算 | 數學計算，成本估算 |"
+  },
+  {
+    "original": "### Integration with scientist Agent",
+    "zh_tw": "### 與 scientist Agent 的整合"
+  },
+  {
+    "original": "The `scientist` agent uses `python_repl` for data analysis tasks.",
+    "zh_tw": "The `scientist` agent 會使用 `python_repl` 進行資料分析工作。"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Session Search",
+    "zh_tw": "## 工作階段搜尋"
+  },
+  {
+    "original": "Search previous local session history and transcript artifacts.",
+    "zh_tw": "搜尋先前的本機工作階段歷史與轉錄產物。"
+  },
+  {
+    "original": "### Tool",
+    "zh_tw": "### 工具"
+  },
+  {
+    "original": "#### `session_search`",
+    "zh_tw": "#### `session_search`"
+  },
+  {
+    "original": "Searches session history and returns matching excerpts.",
+    "zh_tw": "搜尋工作階段歷史並回傳符合的摘錄。"
+  },
+  {
+    "original": "```\nsession_search(query=\"authentication refactor\")\n```",
+    "zh_tw": "```\nsession_search(query=\"authentication refactor\")\n```"
+  },
+  {
+    "original": "Returns session IDs, timestamps, source paths, and matching excerpts as structured JSON.",
+    "zh_tw": "以結構化 JSON 回傳工作階段 ID、時間戳記、來源路徑與符合的摘錄。"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Trace",
+    "zh_tw": "## 追蹤"
+  },
+  {
+    "original": "Analyze agent flow trace data for debugging and performance analysis.",
+    "zh_tw": "分析 agent 流程追蹤資料，以進行除錯與效能分析。"
+  },
+  {
+    "original": "### Tools",
+    "zh_tw": "### 工具"
+  },
+  {
+    "original": "#### `trace_timeline`",
+    "zh_tw": "#### `trace_timeline`"
+  },
+  {
+    "original": "Displays hooks, keywords, skills, agents, and tools in chronological order.",
+    "zh_tw": "按時間順序顯示 hooks、keywords、skills、agents 與 tools。"
+  },
+  {
+    "original": "```\ntrace_timeline()\n```",
+    "zh_tw": "```\ntrace_timeline()\n```"
+  },
+  {
+    "original": "#### `trace_summary`",
+    "zh_tw": "#### `trace_summary`"
+  },
+  {
+    "original": "Aggregates hook statistics, keyword frequency, skill activations, mode transitions, and tool bottlenecks.",
+    "zh_tw": "彙總 hook 統計、關鍵字頻率、技能啟用、模式切換與工具瓶頸。"
+  },
+  {
+    "original": "```\ntrace_summary()\n```",
+    "zh_tw": "```\ntrace_summary()\n```"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Shared Memory",
+    "zh_tw": "## 共享記憶體"
+  },
+  {
+    "original": "Cross-agent shared memory for team coordination. Enables agents to share data across team boundaries during coordinated workflows.",
+    "zh_tw": "跨 agent 的共享記憶體，用於團隊協作。讓 agents 在協調式工作流程中跨越團隊邊界共享資料。"
+  },
+  {
+    "original": "### Tools",
+    "zh_tw": "### 工具"
+  },
+  {
+    "original": "#### `shared_memory_write`",
+    "zh_tw": "#### `shared_memory_write`"
+  },
+  {
+    "original": "Writes a value to shared memory.",
+    "zh_tw": "將值寫入共享記憶體。"
+  },
+  {
+    "original": "```\nshared_memory_write(key=\"auth-spec\", value=\"JWT with refresh tokens\")\n```",
+    "zh_tw": "```\nshared_memory_write(key=\"auth-spec\", value=\"JWT with refresh tokens\")\n```"
+  },
+  {
+    "original": "#### `shared_memory_read`",
+    "zh_tw": "#### `shared_memory_read`"
+  },
+  {
+    "original": "Reads a value from shared memory.",
+    "zh_tw": "從共享記憶體讀取值。"
+  },
+  {
+    "original": "```\nshared_memory_read(key=\"auth-spec\")\n```",
+    "zh_tw": "```\nshared_memory_read(key=\"auth-spec\")\n```"
+  },
+  {
+    "original": "#### `shared_memory_list`",
+    "zh_tw": "#### `shared_memory_list`"
+  },
+  {
+    "original": "Lists all keys in shared memory.",
+    "zh_tw": "列出共享記憶體中的所有鍵。"
+  },
+  {
+    "original": "```\nshared_memory_list()\n```",
+    "zh_tw": "```\nshared_memory_list()\n```"
+  },
+  {
+    "original": "#### `shared_memory_delete`",
+    "zh_tw": "#### `shared_memory_delete`"
+  },
+  {
+    "original": "Deletes a key from shared memory.",
+    "zh_tw": "從共享記憶體刪除一個鍵。"
+  },
+  {
+    "original": "```\nshared_memory_delete(key=\"auth-spec\")\n```",
+    "zh_tw": "```\nshared_memory_delete(key=\"auth-spec\")\n```"
+  },
+  {
+    "original": "#### `shared_memory_cleanup`",
+    "zh_tw": "#### `shared_memory_cleanup`"
+  },
+  {
+    "original": "Removes all entries from shared memory.",
+    "zh_tw": "移除共享記憶體中的所有項目。"
+  },
+  {
+    "original": "```\nshared_memory_cleanup()\n```",
+    "zh_tw": "```\nshared_memory_cleanup()\n```"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Skills",
+    "zh_tw": "## 技能"
+  },
+  {
+    "original": "Internal skill management tools used by the runtime to load and list available skills.",
+    "zh_tw": "執行階段用來載入並列出可用技能的內部技能管理工具。"
+  },
+  {
+    "original": "### Tools",
+    "zh_tw": "### 工具"
+  },
+  {
+    "original": "#### `load_omc_skills_local`",
+    "zh_tw": "#### `load_omc_skills_local`"
+  },
+  {
+    "original": "Loads skills from the local project directory (`.omc/skills/`).",
+    "zh_tw": "從本機專案目錄（`.omc/skills/`）載入技能。"
+  },
+  {
+    "original": "```\nload_omc_skills_local()\n```",
+    "zh_tw": "```\nload_omc_skills_local()\n```"
+  },
+  {
+    "original": "#### `load_omc_skills_global`",
+    "zh_tw": "#### `load_omc_skills_global`"
+  },
+  {
+    "original": "Loads skills from the global user directory (`~/.claude/skills/`).",
+    "zh_tw": "從全域使用者目錄（`~/.claude/skills/`）載入技能。"
+  },
+  {
+    "original": "```\nload_omc_skills_global()\n```",
+    "zh_tw": "```\nload_omc_skills_global()\n```"
+  },
+  {
+    "original": "#### `list_omc_skills`",
+    "zh_tw": "#### `list_omc_skills`"
+  },
+  {
+    "original": "Lists all available OMC skills (built-in + local + global).",
+    "zh_tw": "列出所有可用的 OMC 技能（內建 + 本機 + 全域）。"
+  },
+  {
+    "original": "```\nlist_omc_skills()\n```",
+    "zh_tw": "```\nlist_omc_skills()\n```"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Deepinit Manifest",
+    "zh_tw": "## Deepinit Manifest"
+  },
+  {
+    "original": "Manages the manifest for incremental AGENTS.md regeneration. Compares directory file lists to detect structural changes, enabling the `deepinit` skill to only regenerate documentation for directories that have changed.",
+    "zh_tw": "管理用於增量式 AGENTS.md 重新生成的 manifest。比較目錄檔案清單以偵測結構變更，讓 `deepinit` skill 只針對已變更的目錄重新生成文件。"
+  },
+  {
+    "original": "### Tool",
+    "zh_tw": "### 工具"
+  },
+  {
+    "original": "#### `deepinit_manifest`",
+    "zh_tw": "#### `deepinit_manifest`"
+  },
+  {
+    "original": "Manages the deepinit manifest with three actions.",
+    "zh_tw": "以三個動作管理 deepinit manifest。"
+  },
+  {
+    "original": "**diff** — Find directories with structural changes since last generation:",
+    "zh_tw": "**diff** — 找出自上次生成以來具有結構變更的目錄："
+  },
+  {
+    "original": "```\ndeepinit_manifest(action=\"diff\")\n```",
+    "zh_tw": "```\ndeepinit_manifest(action=\"diff\")\n```"
+  },
+  {
+    "original": "**save** — Persist the current directory structure as the new baseline:",
+    "zh_tw": "**save** — 將目前的目錄結構保存為新的基準："
+  },
+  {
+    "original": "```\ndeepinit_manifest(action=\"save\")\n```",
+    "zh_tw": "```\ndeepinit_manifest(action=\"save\")\n```"
+  },
+  {
+    "original": "**check** — Validate the existing manifest:",
+    "zh_tw": "**check** — 驗證現有的 manifest："
+  },
+  {
+    "original": "```\ndeepinit_manifest(action=\"check\")\n```",
+    "zh_tw": "```\ndeepinit_manifest(action=\"check\")\n```"
+  },
+  {
+    "original": "Used internally by the `deepinit` skill (`/oh-my-claudecode:deepinit`) to enable incremental AGENTS.md regeneration instead of full re-scans.",
+    "zh_tw": "由 `deepinit` skill（`/oh-my-claudecode:deepinit`）在內部使用，以啟用增量式 AGENTS.md 重新生成，而非完整重新掃描。"
+  }
+]

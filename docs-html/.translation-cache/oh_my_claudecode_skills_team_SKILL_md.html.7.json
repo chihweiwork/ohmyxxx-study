@@ -1,0 +1,142 @@
+[
+  {
+    "original": "- **scale_up**: Add workers to a running team (respects max_workers limit)\n- **scale_down**: Remove idle workers with graceful drain (workers finish current task before removal)\n- File-based scaling lock prevents concurrent scale operations\n- Monotonic worker index counter ensures unique worker names across scale events",
+    "zh_tw": "- **scale_up**：向正在執行的團隊新增工作者（遵守 `max_workers` 上限）\n- **scale_down**：以優雅排空的方式移除閒置工作者（工作者會在移除前完成目前的任務）\n- 基於檔案的擴縮鎖可防止並行的擴縮操作\n- 單調遞增的工作者索引計數器可確保跨擴縮事件時工作者名稱唯一"
+  },
+  {
+    "original": "## Configuration",
+    "zh_tw": "## 設定"
+  },
+  {
+    "original": "Optional settings live in `.claude/omc.jsonc` (project) or `~/.config/claude-omc/config.jsonc` (user). Project values override user values; `OMC_TEAM_ROLE_OVERRIDES` (env JSON) supersedes both.",
+    "zh_tw": "選用設定位於 `.claude/omc.jsonc`（專案）或 `~/.config/claude-omc/config.jsonc`（使用者）。專案值會覆蓋使用者值；`OMC_TEAM_ROLE_OVERRIDES`（環境變數 JSON）會優先於兩者。"
+  },
+  {
+    "original": "```jsonc\n{\n  \"team\": {\n    \"ops\": {\n      \"maxAgents\": 20,\n      \"defaultAgentType\": \"claude\",\n      \"monitorIntervalMs\": 30000,\n      \"shutdownTimeoutMs\": 15000,\n    },\n  },\n}\n```",
+    "zh_tw": "```jsonc\n{\n  \"team\": {\n    \"ops\": {\n      \"maxAgents\": 20,\n      \"defaultAgentType\": \"claude\",\n      \"monitorIntervalMs\": 30000,\n      \"shutdownTimeoutMs\": 15000,\n    },\n  },\n}\n```"
+  },
+  {
+    "original": "- **ops.maxAgents** - Maximum teammates (default: 20)\n- **ops.defaultAgentType** - CLI provider when a `/team` invocation does not specify one (`claude` | `codex` | `gemini`, default: `claude`)\n- **ops.monitorIntervalMs** - How often to poll `TaskList` (default: 30s)\n- **ops.shutdownTimeoutMs** - How long to wait for shutdown responses (default: 15s)",
+    "zh_tw": "- **ops.maxAgents** - 最大隊友數（預設：20）\n- **ops.defaultAgentType** - 當 `/team` 呼叫未指定時使用的 CLI 提供者（`claude` | `codex` | `gemini`，預設：`claude`）\n- **ops.monitorIntervalMs** - `TaskList` 的輪詢頻率（預設：30 秒）\n- **ops.shutdownTimeoutMs** - 等待關機回應的時間長度（預設：15 秒）"
+  },
+  {
+    "original": "> **Note:** Team members do not have a hardcoded model default. Each teammate is a separate Claude Code session that inherits the user's configured model. Since teammates can spawn their own subagents, the session model acts as the orchestration layer while subagents can use any model tier.",
+    "zh_tw": "> **注意：** 團隊成員沒有硬編碼的模型預設值。每個隊友都是一個獨立的 Claude Code 工作階段，會繼承使用者設定的模型。由於隊友可以自行生成子代理，工作階段模型扮演編排層，而子代理可以使用任何模型階級。"
+  },
+  {
+    "original": "## Per-Role Provider & Model Routing",
+    "zh_tw": "## 每個角色的提供者與模型路由"
+  },
+  {
+    "original": "> **Scope:** Applies to `/team` only. Task-based delegation uses `delegationRouting` (see separate docs). The two systems coexist by design.",
+    "zh_tw": "> **範圍：** 僅適用於 `/team`。以任務為基礎的委派使用 `delegationRouting`（請參見其他文件）。這兩個系統是刻意共存的。"
+  },
+  {
+    "original": "Declare which provider (`claude`, `codex`, `gemini`) and which model tier should back each canonical role. Routing is resolved **once** at team creation and persisted in `TeamConfig.resolved_routing` — spawn, scale-up, and restart all read from the snapshot, so a role's worker CLI and model are stable for the lifetime of the team.",
+    "zh_tw": "宣告每個標準角色應由哪個提供者（`claude`、`codex`、`gemini`）以及哪個模型階級支援。路由會在團隊建立時**只解析一次**，並持久化到 `TeamConfig.resolved_routing` 中——spawn、scale-up 與 restart 都會從這個快照讀取，因此某個角色的工作者 CLI 與模型在整個團隊生命週期內都是穩定的。"
+  },
+  {
+    "original": "### Example — user target mapping",
+    "zh_tw": "### 範例 — 使用者目標對應"
+  },
+  {
+    "original": "```jsonc\n// .claude/omc.jsonc\n{\n  \"team\": {\n    \"roleRouting\": {\n      \"orchestrator\": { \"model\": \"inherit\" },\n      \"planner\": { \"provider\": \"claude\", \"model\": \"HIGH\" },\n      \"analyst\": { \"provider\": \"claude\", \"model\": \"HIGH\" },\n      \"executor\": { \"provider\": \"claude\", \"model\": \"MEDIUM\" },\n      \"critic\": { \"provider\": \"codex\" },\n      \"code-reviewer\": { \"provider\": \"gemini\" },\n      \"test-engineer\": { \"provider\": \"gemini\", \"model\": \"MEDIUM\" },\n    },\n  },\n}\n```",
+    "zh_tw": "```jsonc\n// .claude/omc.jsonc\n{\n  \"team\": {\n    \"roleRouting\": {\n      \"orchestrator\": { \"model\": \"inherit\" },\n      \"planner\": { \"provider\": \"claude\", \"model\": \"HIGH\" },\n      \"analyst\": { \"provider\": \"claude\", \"model\": \"HIGH\" },\n      \"executor\": { \"provider\": \"claude\", \"model\": \"MEDIUM\" },\n      \"critic\": { \"provider\": \"codex\" },\n      \"code-reviewer\": { \"provider\": \"gemini\" },\n      \"test-engineer\": { \"provider\": \"gemini\", \"model\": \"MEDIUM\" },\n    },\n  },\n}\n```"
+  },
+  {
+    "original": "| Role            | Provider        | Model                     |\n| --------------- | --------------- | ------------------------- |\n| `orchestrator`  | claude (pinned) | inherits invoking session |\n| `planner`       | claude          | `HIGH` (opus)             |\n| `analyst`       | claude          | `HIGH` (opus)             |\n| `executor`      | claude          | `MEDIUM` (sonnet)         |\n| `critic`        | codex           | codex default             |\n| `code-reviewer` | gemini          | gemini default            |\n| `test-engineer` | gemini          | `MEDIUM` (sonnet)         |",
+    "zh_tw": "| 角色            | 提供者          | 模型                      |\n| --------------- | --------------- | ------------------------- |\n| `orchestrator`  | claude（鎖定）  | 繼承呼叫中的工作階段        |\n| `planner`       | claude          | `HIGH`（opus）            |\n| `analyst`       | claude          | `HIGH`（opus）            |\n| `executor`      | claude          | `MEDIUM`（sonnet）        |\n| `critic`        | codex           | codex 預設值              |\n| `code-reviewer` | gemini          | gemini 預設值             |\n| `test-engineer` | gemini          | `MEDIUM`（sonnet）        |"
+  },
+  {
+    "original": "### Canonical roles",
+    "zh_tw": "### 標準角色"
+  },
+  {
+    "original": "`orchestrator`, `planner`, `analyst`, `architect`, `executor`, `debugger`, `critic`, `code-reviewer`, `security-reviewer`, `test-engineer`, `designer`, `writer`, `code-simplifier`, `explore`, `document-specialist`.",
+    "zh_tw": "`orchestrator`、`planner`、`analyst`、`architect`、`executor`、`debugger`、`critic`、`code-reviewer`、`security-reviewer`、`test-engineer`、`designer`、`writer`、`code-simplifier`、`explore`、`document-specialist`。"
+  },
+  {
+    "original": "User-friendly aliases normalize via `normalizeDelegationRole()` — e.g. `reviewer` → `code-reviewer`, `quality-reviewer` → `code-reviewer`, `harsh-critic` → `critic`, `build-fixer` → `debugger`. Accepted alias keys are honored during resolved snapshot creation and later stage routing, not just validation. Unknown roles fail validation at parse time.",
+    "zh_tw": "使用者友善的別名會透過 `normalizeDelegationRole()` 正規化，例如 `reviewer` → `code-reviewer`、`quality-reviewer` → `code-reviewer`、`harsh-critic` → `critic`、`build-fixer` → `debugger`。接受的別名鍵不只在驗證時生效，在建立已解析快照與後續階段路由時也會被採用。未知角色會在解析時驗證失敗。"
+  },
+  {
+    "original": "### Spec fields (`TeamRoleAssignmentSpec`)",
+    "zh_tw": "### 規格欄位（`TeamRoleAssignmentSpec`）"
+  },
+  {
+    "original": "- **provider** — `\"claude\" | \"codex\" | \"gemini\"`. Omitted → defaults to `claude`.\n- **model** — tier name (`\"HIGH\" | \"MEDIUM\" | \"LOW\"`) or an explicit model ID. Tiers resolve through `routing.tierModels`.\n- **agent** — optional Claude agent name (e.g. `\"critic\"`, `\"executor\"`). Only honored when the resolved provider is `claude`.",
+    "zh_tw": "- **provider** — `\"claude\" | \"codex\" | \"gemini\"`。省略時 → 預設為 `claude`。\n- **model** — 階級名稱（`\"HIGH\" | \"MEDIUM\" | \"LOW\"`）或明確的模型 ID。階級會透過 `routing.tierModels` 解析。\n- **agent** — 可選的 Claude agent 名稱（例如 `\"critic\"`、`\"executor\"`）。只有在解析後的提供者為 `claude` 時才會生效。"
+  },
+  {
+    "original": "`orchestrator` is pinned to `claude`; only `model` is user-configurable. Any other key on `orchestrator` is rejected by the validator.",
+    "zh_tw": "`orchestrator` 被鎖定為 `claude`；只有 `model` 可由使用者設定。`orchestrator` 上的任何其他鍵都會被驗證器拒絕。"
+  },
+  {
+    "original": "### Env override",
+    "zh_tw": "### 環境變數覆寫"
+  },
+  {
+    "original": "```bash\nOMC_TEAM_ROLE_OVERRIDES='{\"critic\":{\"provider\":\"codex\"},\"code-reviewer\":{\"provider\":\"gemini\"}}'\n```",
+    "zh_tw": "```bash\nOMC_TEAM_ROLE_OVERRIDES='{\"critic\":{\"provider\":\"codex\"},\"code-reviewer\":{\"provider\":\"gemini\"}}'\n```"
+  },
+  {
+    "original": "Precedence: `OMC_TEAM_ROLE_OVERRIDES` > `.claude/omc.jsonc` (project) > `~/.config/claude-omc/config.jsonc` (user) > built-in defaults. Invalid JSON logs a warning and is ignored — env overrides are best-effort and never abort the run.",
+    "zh_tw": "優先順序：`OMC_TEAM_ROLE_OVERRIDES` > `.claude/omc.jsonc`（專案）> `~/.config/claude-omc/config.jsonc`（使用者）> 內建預設值。無效的 JSON 會記錄警告並被忽略——環境變數覆寫屬於盡力而為，且絕不會中止執行。"
+  },
+  {
+    "original": "### Fallback when a CLI is missing",
+    "zh_tw": "### 當 CLI 缺失時的回退"
+  },
+  {
+    "original": "If the CLI for a configured provider is absent from `PATH` at spawn time, `buildLaunchArgs()` throws, the team lead emits a visible `SendMessage` warning, and the runtime falls back to a deterministic Claude assignment pre-computed by `buildResolvedRoutingSnapshot` (same tier + same agent, `provider: \"claude\"`). Fallback is loud by design — silent fallback is a test failure. Probe provider availability with `omc doctor --team-routing`.",
+    "zh_tw": "如果在 spawn 時，已設定提供者的 CLI 不在 `PATH` 中，`buildLaunchArgs()` 會擲出例外，團隊領導者會發出可見的 `SendMessage` 警告，而執行階段會回退到由 `buildResolvedRoutingSnapshot` 預先計算出的確定性 Claude 指派（相同階級 + 相同 agent，`provider: \"claude\"`）。這種回退是刻意設計成會大聲顯示的——靜默回退會被視為測試失敗。可使用 `omc doctor --team-routing` 探測提供者可用性。"
+  },
+  {
+    "original": "### Stickiness — resolved once, reused everywhere",
+    "zh_tw": "### 黏著性 — 只解析一次，處處重用"
+  },
+  {
+    "original": "Resolved routing is immutable per team. Editing config mid-team-lifetime does not affect running teams; a new `/team` invocation picks up the new mapping. This guarantees that spawn, scale-up, and worker-restart all see identical routing, including across worktree detaches (the snapshot travels with `TeamConfig`).",
+    "zh_tw": "已解析的路由對每個團隊而言是不可變的。在團隊生命週期中途編輯設定不會影響正在執行的團隊；新的 `/team` 呼叫會套用新的對應。這可保證 spawn、scale-up 與 worker-restart 都會看到相同的路由，包含跨越 worktree detach 的情況（快照會隨著 `TeamConfig` 一起移動）。"
+  },
+  {
+    "original": "### Zero-config behavior",
+    "zh_tw": "### 零設定行為"
+  },
+  {
+    "original": "An empty `team.roleRouting` preserves pre-patch behavior: every worker is Claude, model tiers follow `routing.tierModels`, and `/team 3:executor ...` still spawns three Claude Sonnet executors.",
+    "zh_tw": "空的 `team.roleRouting` 會保留修補前的行為：每個工作者都是 Claude，模型階級遵循 `routing.tierModels`，而 `/team 3:executor ...` 仍然會產生三個 Claude Sonnet 執行器。"
+  },
+  {
+    "original": "## State Cleanup",
+    "zh_tw": "## 狀態清理"
+  },
+  {
+    "original": "On successful completion:",
+    "zh_tw": "在成功完成時："
+  },
+  {
+    "original": "1. `TeamDelete` handles all Claude Code state:\n   - Removes `~/.claude/teams/{team_name}/` (config)\n   - Removes `~/.claude/tasks/{team_name}/` (all task files + lock)\n2. OMC state cleanup via MCP tools:\n   ```\n   state_clear(mode=\"team\")\n   ```\n   If linked to Ralph:\n   ```\n   state_clear(mode=\"ralph\")\n   ```\n3. Or run `/oh-my-claudecode:cancel` which handles all cleanup automatically.",
+    "zh_tw": "1. `TeamDelete` 會處理所有 Claude Code 狀態：\n   - 移除 `~/.claude/teams/{team_name}/`（設定）\n   - 移除 `~/.claude/tasks/{team_name}/`（所有任務檔案 + 鎖）\n2. 透過 MCP 工具進行 OMC 狀態清理：\n   ```\n   state_clear(mode=\"team\")\n   ```\n   如果已連結到 Ralph：\n   ```\n   state_clear(mode=\"ralph\")\n   ```\n3. 或執行 `/oh-my-claudecode:cancel`，它會自動處理所有清理作業。"
+  },
+  {
+    "original": "**IMPORTANT:** Call `TeamDelete` only AFTER all teammates have been shut down. `TeamDelete` will fail if active members (besides the lead) still exist in the config.",
+    "zh_tw": "**重要：** 只有在所有隊友都已關閉之後，才呼叫 `TeamDelete`。如果設定中仍存在活躍成員（領導者除外），`TeamDelete` 會失敗。"
+  },
+  {
+    "original": "## Git Worktree Integration",
+    "zh_tw": "## Git Worktree 整合"
+  },
+  {
+    "original": "MCP workers can operate in isolated git worktrees to prevent file conflicts between concurrent workers.",
+    "zh_tw": "MCP 工作者可以在彼此隔離的 git worktree 中運作，以避免並行工作者之間的檔案衝突。"
+  },
+  {
+    "original": "### How It Works",
+    "zh_tw": "### 運作方式"
+  },
+  {
+    "original": "1. **Worktree creation**: Before spawning a worker, call `createWorkerWorktree(teamName, workerName, repoRoot)` to create an isolated worktree at `.omc/worktrees/{team}/{worker}` with branch `omc-team/{teamName}/{workerName}`.",
+    "zh_tw": "1. **Worktree 建立**：在產生工作者之前，呼叫 `createWorkerWorktree(teamName, workerName, repoRoot)`，以在 `.omc/worktrees/{team}/{worker}` 建立一個隔離的 worktree，分支為 `omc-team/{teamName}/{workerName}`。"
+  }
+]

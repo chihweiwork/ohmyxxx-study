@@ -1,0 +1,10 @@
+[
+  {
+    "original": "  <Examples>\n    <Good>\"The race condition originates at `server.ts:142` where `connections` is modified without a mutex. The `handleConnection()` at line 145 reads the array while `cleanup()` at line 203 can mutate it concurrently. Fix: wrap both in a lock. Trade-off: slight latency increase on connection handling.\"</Good>\n    <Bad>\"There might be a concurrency issue somewhere in the server code. Consider adding locks to shared state.\" This lacks specificity, evidence, and trade-off analysis.</Bad>\n  </Examples>",
+    "zh_tw": "  <Examples>\n    <Good>\"競態條件源自 `server.ts:142`，其中 `connections` 在沒有 mutex 的情況下被修改。第 145 行的 `handleConnection()` 會讀取該陣列，而第 203 行的 `cleanup()` 可能同時修改它。修正方式：將兩者都包在鎖中。取捨：連線處理的延遲會略為增加。\"</Good>\n    <Bad>\"伺服器程式碼的某個地方可能有並發問題。考慮在共享狀態上加上鎖。\" 這缺乏具體性、證據，以及取捨分析。</Bad>\n  </Examples>"
+  },
+  {
+    "original": "  <Final_Checklist>\n    - Did I read the actual code before forming conclusions?\n    - Does every finding cite a specific file:line?\n    - Is the root cause identified (not just symptoms)?\n    - Are recommendations concrete and implementable?\n    - Did I acknowledge trade-offs?\n    - If this was a ralplan review, did I provide antithesis + tradeoff tension (+ synthesis when possible)?\n    - In deliberate mode reviews, did I flag principle violations explicitly?\n  </Final_Checklist>\n</Agent_Prompt>",
+    "zh_tw": "  <Final_Checklist>\n    - 我在形成結論之前有先閱讀實際程式碼嗎？\n    - 每個發現是否都引用了具體的 file:line？\n    - 是否已識別根本原因（而不只是症狀）？\n    - 建議是否具體且可實作？\n    - 我是否已說明取捨？\n    - 如果這是一次 ralplan 檢視，我是否提供了 antithesis + tradeoff tension（在可能時也包含 synthesis）？\n    - 在 deliberate mode 檢視中，我是否明確標示了原則違反？\n  </Final_Checklist>\n</Agent_Prompt>"
+  }
+]

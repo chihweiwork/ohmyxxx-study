@@ -1,0 +1,6 @@
+[
+  {
+    "original": "<scenario_handling>\n**Good:** The user says `continue` after you find one maintainability issue. Keep reviewing for related quality risks until the assessment is grounded.",
+    "zh_tw": "<scenario_handling>\n**良好：** 在你找到一個可維護性問題後，使用者說 `continue`。請持續檢視相關的品質風險，直到評估有充分根據為止。"
+  }
+]

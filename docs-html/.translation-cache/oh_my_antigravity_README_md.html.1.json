@@ -1,0 +1,98 @@
+[
+  {
+    "original": "| Problem in raw single-session flow | OmA response |\n| --- | --- |\n| Context gets mixed across planning and execution | Role-separated agents with focused responsibilities |\n| Hard to keep progress visible in long tasks | Explicit workflow stages and command-driven status checks |\n| Parallel lanes or worktrees drift out of sync | `workspace` + `taskboard` keep lane ownership, task IDs, and verification state compact and explicit |\n| Permission-denied tool calls keep looping with no recovery path | Denied actions become explicit approval/fallback events with blocker tracking |\n| Deep interview sessions get interrupted by automated nudges | Learn-signal hook suppresses nudges while deep-interview lock is active and resumes only after lock release |\n| Repetitive prompt engineering for common jobs | Slash commands for operational control plus retained deep-work skills (`$plan`, `$oma-plan`, `$execute`, `$research`) |\n| Drift between \"what was decided\" and \"what was changed\" | Review and debugging roles inside the same orchestration loop |",
+    "zh_tw": "| 原始單一工作階段流程中的問題 | OmA 的回應 |\n| --- | --- |\n| 規劃與執行之間的上下文會混在一起 | 依角色分離、職責明確的代理人 |\n| 在長任務中很難持續讓進度可見 | 明確的工作流程階段與以命令驅動的狀態檢查 |\n| 平行 lane 或 worktree 會偏離同步 | `workspace` + `taskboard` 讓 lane 擁有權、任務 ID 與驗證狀態保持精簡且明確 |\n| 被拒絕權限的工具呼叫會不斷重試，卻沒有恢復路徑 | 被拒絕的動作會成為明確的核准/回退事件，並附帶阻塞追蹤 |\n| 深度訪談工作階段會被自動提醒打斷 | 在 deep-interview lock 啟用期間，Learn-signal hook 會抑制提醒，並只在鎖定解除後恢復 |\n| 常見工作反覆進行提示工程 | 用於操作控制的斜線命令，加上保留的深度工作技能（`$plan`、`$oma-plan`、`$execute`、`$research`） |\n| 「已決定的內容」與「已變更的內容」之間出現偏移 | 在同一個協調迴圈中的審查與除錯角色 |"
+  },
+  {
+    "original": "## Dynamic Team Assembly",
+    "zh_tw": "## 動態團隊組建"
+  },
+  {
+    "original": "Use `team-assemble` when a fixed engineering roster is not enough.",
+    "zh_tw": "當固定的工程人員編制不夠時，使用 `team-assemble`。"
+  },
+  {
+    "original": "- Split selection into:\n  - domain specialists (problem expertise)\n  - format specialists (report/content/output quality)\n- Spawn parallel exploration lanes (`oma-researcher` xN) for broad discovery tasks.\n- Route decisions through a judgment lane (`oma-consultant` or `oma-architect`).\n- Assign reasoning effort per lane from global profile + teammate overrides.\n- Keep verify/fix loops explicit (`oma-reviewer` -> `oma-verifier` -> `oma-debugger`).\n- Run anti-slop check before final delivery.\n- Require explicit approval before autonomous execution starts.",
+    "zh_tw": "- 將選擇拆分為：\n  - 領域專家（問題專業能力）\n  - 格式專家（報告／內容／輸出品質）\n- 為廣泛的探索任務建立平行探索 lane（`oma-researcher` xN）。\n- 透過判斷 lane（`oma-consultant` 或 `oma-architect`）來傳遞決策。\n- 依據全域設定檔 + 團隊成員覆寫，為每個 lane 指派推理強度。\n- 保持 verify/fix 迴圈明確（`oma-reviewer` -> `oma-verifier` -> `oma-debugger`）。\n- 在最終交付前執行 anti-slop 檢查。\n- 在自動執行開始前要求明確核准。"
+  },
+  {
+    "original": "Example flow:",
+    "zh_tw": "範例流程："
+  },
+  {
+    "original": "```text\n/oma:team-assemble \"Compare 3 competitors and produce an exec report\"\n-> proposes: researcher x3 + consultant + editor + director\n-> asks: Proceed with this team? (yes/no)\n-> after approval: team-plan -> team-prd -> taskboard -> team-exec -> team-verify -> team-fix\n```",
+    "zh_tw": "```text\n/oma:team-assemble \"Compare 3 competitors and produce an exec report\"\n-> 提議：researcher x3 + consultant + editor + director\n-> 詢問：是否使用這個團隊繼續？（yes/no）\n-> 核准後：team-plan -> team-prd -> taskboard -> team-exec -> team-verify -> team-fix\n```"
+  },
+  {
+    "original": "Activation note:\n- No separate research-preview setting is required in OmA.\n- If the extension is loaded, `/oma:team-assemble` is immediately available.",
+    "zh_tw": "啟用說明：\n- OmA 不需要獨立的 research-preview 設定。\n- 若已載入擴充功能，`/oma:team-assemble` 會立即可用。"
+  },
+  {
+    "original": "## Workspace and Taskboard Control",
+    "zh_tw": "## Workspace 與 Taskboard 控制"
+  },
+  {
+    "original": "Use `workspace` and `taskboard` when work spans multiple roots, multiple implementation lanes, or long verify/fix loops.",
+    "zh_tw": "當工作跨越多個根目錄、多條實作 lane，或長時間的 verify/fix 迴圈時，使用 `workspace` 和 `taskboard`。"
+  },
+  {
+    "original": "- `/oma:workspace` keeps the primary root plus optional worktree/path lanes in `.omg/state/workspace.json`.\n- Each lane can also carry a compact baseline branch/HEAD anchor so handoffs and resume flows can detect unexpected branch drift before implementation or review.\n- `/oma:workspace audit` checks lane cleanliness, trust status, and handoff readiness before parallel execution, review, or automation.\n- `/oma:taskboard` keeps stable task IDs, owners, dependencies, statuses (`todo`, `ready`, `in-progress`, `blocked`, `done`, `verified`), baseline anchors, lane-health notes, and evidence pointers in `.omg/state/taskboard.md`.\n- `team-plan` seeds stable task IDs plus lane assumptions and baseline anchors, `team-exec` pulls the smallest ready slice with explicit lane/subagent context and baseline checks, and `team-verify` marks tasks verified only with evidence plus safe lane state.\n- `checkpoint` and `status` can reference these files instead of replaying the whole chat, which improves cache stability and reduces token waste.\n- `/oma:recall \"<query>\"` performs state-first recall and bounded fallback search, so you can recover prior rationale without replaying full transcripts.",
+    "zh_tw": "- `/oma:workspace` 會在 `.omg/state/workspace.json` 中保留主根目錄，以及可選的 worktree/path lanes。\n- 每個 lane 也可以帶有精簡的基準 branch/HEAD 錨點，讓交接與恢復流程能在實作或審查前偵測到非預期的分支偏移。\n- `/oma:workspace audit` 會在平行執行、審查或自動化之前，檢查 lane 的整潔度、信任狀態，以及交接就緒狀態。\n- `/oma:taskboard` 會在 `.omg/state/taskboard.md` 中保留穩定的任務 ID、擁有者、相依性、狀態（`todo`、`ready`、`in-progress`、`blocked`、`done`、`verified`）、基準錨點、lane 健康註記，以及證據指標。\n- `team-plan` 會建立穩定的任務 ID、lane 假設與基準錨點，`team-exec` 會依據明確的 lane/subagent 上下文與基準檢查取出最小的可執行切片，而 `team-verify` 只會在有證據且 lane 狀態安全時將任務標記為 verified。\n- `checkpoint` 和 `status` 可以引用這些檔案，而不是重播整個聊天，這可提升快取穩定性並減少 token 浪費。\n- `/oma:recall \"<query>\"` 會先進行以狀態為主的回想，再做有界的備援搜尋，因此你可以在不重播完整逐字稿的情況下找回先前的理由。"
+  },
+  {
+    "original": "Example flow:",
+    "zh_tw": "範例流程："
+  },
+  {
+    "original": "```text\n/oma:workspace set .\n/oma:workspace audit\n/oma:workspace add ../feature-auth oma-executor\n/oma:taskboard sync\n/oma:taskboard next\n/oma:recall \"why was auth lane blocked\" scope=state\n```",
+    "zh_tw": "```text\n/oma:workspace set .\n/oma:workspace audit\n/oma:workspace add ../feature-auth oma-executor\n/oma:taskboard sync\n/oma:taskboard next\n/oma:recall \"why was auth lane blocked\" scope=state\n```"
+  },
+  {
+    "original": "## Workspace Hygiene and Hook Symmetry",
+    "zh_tw": "## Workspace 衛生與 Hook 對稱性"
+  },
+  {
+    "original": "Use these controls when long sessions start drifting because lane ownership, delegated execution, or hook continuation behavior is no longer obvious.",
+    "zh_tw": "當長時間的工作階段因為 lane 擁有權、委派執行，或 hook 延續行為變得不再明確而開始偏移時，請使用這些控制。"
+  },
+  {
+    "original": "- `/oma:workspace audit` surfaces dirty shared worktrees, untrusted review paths, and handoff-ready vs handoff-blocked lanes.\n- `/oma:hooks` and `/oma:hooks-validate` now model paired agent lifecycle outcomes (`completed`, `blocked`, `stopped`) so blocked continuations re-enter the safety lane once before downstream hooks resume.\n- `team-exec`, `team`, `team-verify`, `stop`, and `cancel` keep delegated lane/subagent context compact and explicit, expanding details only when execution stops early or hits a blocker.",
+    "zh_tw": "- `/oma:workspace audit` 會顯示髒汙的共享 worktree、不受信任的審查路徑，以及可交接與受阻交接的 lanes。\n- `/oma:hooks` 和 `/oma:hooks-validate` 現在會以成對的 agent 生命週期結果（`completed`、`blocked`、`stopped`）建模，因此受阻的延續會先重新進入安全 lane 一次，然後下游 hooks 才會恢復。\n- `team-exec`、`team`、`team-verify`、`stop` 和 `cancel` 會讓委派的 lane/subagent 上下文保持精簡且明確，只有在執行提早停止或遇到阻塞時才展開細節。"
+  },
+  {
+    "original": "## Notification Routing",
+    "zh_tw": "## 通知路由"
+  },
+  {
+    "original": "Use `notify` when a long-running OmA session needs explicit signals for approvals, verification outcomes, blockers, or idle drift.",
+    "zh_tw": "當長時間執行的 OmA 工作階段需要針對核准、驗證結果、阻塞或閒置偏移提供明確訊號時，請使用 `notify`。"
+  },
+  {
+    "original": "- Supported profiles:\n  - `quiet`: only urgent interruptions (`approval-needed`, `verify-failed`, `blocker-raised`, `session-stop`)\n  - `balanced`: quiet + checkpoint and team-approval updates\n  - `watchdog`: balanced + idle-watchdog alerts for unattended loops\n- Supported channels:\n  - `desktop` (host notification adapter)\n  - `terminal-bell`\n  - `file`\n  - `webhook` (external bridge)\n- Safety boundary:\n  - OmA manages event routing, templates, and persisted policy\n  - actual delivery must be implemented by Gemini host hooks, shell adapters, or project-specific webhook bridges\n  - delegated worker sessions keep external dispatch disabled unless the user explicitly opts in",
+    "zh_tw": "- 支援的設定檔：\n  - `quiet`：只處理緊急中斷（`approval-needed`、`verify-failed`、`blocker-raised`、`session-stop`）\n  - `balanced`：quiet 加上 checkpoint 與 team-approval 更新\n  - `watchdog`：balanced 加上針對未受監看迴圈的 idle-watchdog 警示\n- 支援的通道：\n  - `desktop`（主機通知適配器）\n  - `terminal-bell`\n  - `file`\n  - `webhook`（外部橋接）\n- 安全邊界：\n  - OmA 管理事件路由、模板與已保存的政策\n  - 實際送達必須由 Gemini host hooks、shell adapters，或專案特定的 webhook 橋接實作\n  - 除非使用者明確選擇啟用，否則委派的 worker 工作階段會維持外部派送停用"
+  },
+  {
+    "original": "Example flow:",
+    "zh_tw": "範例流程："
+  },
+  {
+    "original": "```text\n/oma:notify profile watchdog\n-> enables: approval-needed, verify-failed, blocker-raised, checkpoint-saved, idle-watchdog, session-stop\n-> suggests channels: terminal-bell + file by default\n-> persists policy: .omg/state/notify.json\n```",
+    "zh_tw": "```text\n/oma:notify profile watchdog\n-> 啟用：approval-needed、verify-failed、blocker-raised、checkpoint-saved、idle-watchdog、session-stop\n-> 預設建議通道：terminal-bell + file\n-> 保存政策：.omg/state/notify.json\n```"
+  },
+  {
+    "original": "## Model Router (BeforeModel Hook)",
+    "zh_tw": "## 模型路由器（BeforeModel Hook）"
+  },
+  {
+    "original": "OmA ships a quiet model-routing hook. The previous `AfterAgent` quota-watch usage monitor was removed in `v0.8.4` because Gemini CLI can report usage as unavailable, which created noisy low-value output.",
+    "zh_tw": "OmA 附帶一個安靜的模型路由 hook。先前的 `AfterAgent` quota-watch 使用量監控器已在 `v0.8.4` 中移除，因為 Gemini CLI 可能會回報 usage 為 unavailable，這會產生噪音多且價值低的輸出。"
+  },
+  {
+    "original": "- Hook entrypoint: `hooks/hooks.json` (`BeforeModel` -> `oma-model-router`)\n- Script: `hooks/scripts/before-model-banner.js`\n- Behavior: silently maps outgoing model requests to the active OmA strategy (`balanced`, `auto`, or `custom`) without printing a model banner\n- Default balanced routing: planning/review -> `gemini-3.1-pro-preview`, execution -> `gemini-3-flash-preview`, quick edits -> `gemini-3.1-flash-lite-preview`\n- Optional disable: `OMG_DISABLED_HOOKS=model-routing` or `OMG_MODEL_ROUTING=off`",
+    "zh_tw": "- Hook 進入點：`hooks/hooks.json`（`BeforeModel` -> `oma-model-router`）\n- Script：`hooks/scripts/before-model-banner.js`\n- 行為：將傳出的模型請求靜默對應到目前啟用的 OmA 策略（`balanced`、`auto` 或 `custom`），而不印出模型橫幅\n- 預設的 balanced 路由：規劃/審查 -> `gemini-3.1-pro-preview`，執行 -> `gemini-3-flash-preview`，快速編輯 -> `gemini-3.1-flash-lite-preview`\n- 可選停用：`OMG_DISABLED_HOOKS=model-routing` 或 `OMG_MODEL_ROUTING=off`"
+  },
+  {
+    "original": "Usage/quota visibility:",
+    "zh_tw": "使用量/quota 可見性："
+  }
+]

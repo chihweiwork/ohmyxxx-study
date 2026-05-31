@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Architecture Map</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1120px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}h2{margin-top:2.2rem;border-top:1px solid #e5e7eb;padding-top:1.2rem}table{border-collapse:collapse;width:100%;margin:1rem 0;display:block;overflow-x:auto}th,td{border:1px solid #d1d5db;padding:8px 10px;vertical-align:top}th{background:#f3f4f6;text-align:left}code{background:#f3f4f6;padding:0.1em 0.3em;border-radius:4px}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto}pre code{background:transparent;padding:0;color:inherit}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden}.source-original,.source-translation{padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#fff7ed;border-top:1px solid #fed7aa}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.warn{background:#fff7ed;border:1px solid #fed7aa;padding:12px 14px;border-radius:8px}.path{word-break:break-all}</style>
+</head>
+<body>
+<main>
+<nav><a href="index.html">Docs Home</a><a href="sources/index.html">Sources</a></nav>
+<h1 id="architecture-map">Architecture Map</h1>
+<p>這章的目標是建立全局心智模型：四個 <code>oh-my-*</code> 專案都在改善 AI coding assistant，但它們選擇的控制點不同。<code>oh-my-openagent</code> 把重心放在 runtime；<code>oh-my-claudecode</code> 把重心放在 Claude Code 的工作生命週期；<code>oh-my-codex</code> 把重心放在 prompt/schema/state 約束；<code>oh-my-antigravity</code> 把重心放在共識決策和 session 後學習。</p>
+<p>主要依據：</p>
+<ul>
+<li><code>graphify-out/GRAPH_REPORT.md</code></li>
+<li><code>graphify-out/graph.json</code></li>
+<li><code>graphify-out/FOUR_PROJECTS_DEEP_DIVE.md</code></li>
+<li>四個專案的 <code>README.md</code>、<code>AGENTS.md</code>、<code>agents/</code>、<code>skills/</code>、<code>prompts/</code>、<code>tools/</code>、<code>hooks/</code></li>
+</ul>
+<h2 id="如何讀-graphify">如何讀 Graphify</h2>
+<p>graphify 在這個工作區抽出 352 個節點、1229 條邊、27 個 communities。你可以把它當成「文件與 prompt 的知識地圖」，但不要把每一條 inferred edge 都直接視為作者明示的設計意圖。</p>
+<p>讀 graphify 時建議分三層：</p>
+<table>
+<thead><tr><th>層級</th><th>看什麼</th><th>用途</th></tr></thead>
+<tbody>
+<tr><td>Community</td><td>一群高度相關的文件/角色</td><td>找出系統模組邊界</td></tr>
+<tr><td>God node</td><td>邊數很多的節點</td><td>找到最值得先讀的核心抽象</td></tr>
+<tr><td>Surprising connection</td><td>跨 community 的邊</td><td>找出跨專案共用概念或設計 lineage</td></tr>
+</tbody>
+</table>
+<p>判讀原則：</p>
+<ul>
+<li><code>EXTRACTED</code> 關係通常來自明確引用或內容抽取，可信度較高。</li>
+<li><code>INFERRED</code> 關係是語意推論，適合當研究線索，仍要回原始檔確認。</li>
+<li>弱連接節點不一定不重要，有可能只是文件引用少或 graphify 沒抽到足夠上下文。</li>
+</ul>
+<h2 id="四種架構風格">四種架構風格</h2>
+<table>
+<thead><tr><th>專案</th><th>架構風格</th><th>核心問題</th><th>主要構件</th><th>先讀入口</th></tr></thead>
+<tbody>
+<tr><td>OMO</td><td>Runtime orchestration</td><td>如何讓多個 agent、工具、hook 長時間協作</td><td><code>src/agents</code>、<code>src/tools</code>、<code>src/hooks</code>、<code>features/tmux-subagent</code></td><td><a href="sources/oh_my_openagent_src_agents_AGENTS_md.html"><code>oh-my-openagent/src/agents/AGENTS.md</code></a></td></tr>
+<tr><td>OMC</td><td>Developer lifecycle OS</td><td>如何把常見開發任務變成可重複的 command/skill 工作流</td><td><code>commands</code>、<code>skills</code>、<code>agents</code>、<code>src/tools</code></td><td><a href="sources/oh_my_claudecode_docs_ARCHITECTURE_md.html"><code>oh-my-claudecode/docs/ARCHITECTURE.md</code></a></td></tr>
+<tr><td>OMX</td><td>Schema-constrained agent system</td><td>如何用 prompt、schema、state model 限制 agent drift</td><td><code>prompts</code>、plugin skills、<code>src/state</code>、<code>src/team</code></td><td><a href="sources/oh_my_codex_docs_STATE_MODEL_md.html"><code>oh-my-codex/docs/STATE_MODEL.md</code></a></td></tr>
+<tr><td>OmA</td><td>Consensus and learning extension</td><td>如何用共識 agent 與 session hook 累積本地規則</td><td><code>agents</code>、<code>skills</code>、<code>commands/oma</code>、<code>hooks</code></td><td><a href="sources/oh_my_antigravity_context_oma_core_md.html"><code>oh-my-antigravity/context/oma-core.md</code></a></td></tr>
+</tbody>
+</table>
+<h2 id="omo-runtime-orchestration">OMO: Runtime Orchestration</h2>
+<p>OMO 的核心不是單一 prompt，而是一個可運行的 agent runtime。你可以把它想成一個小型作業系統：agent 是工作角色，tool 是系統呼叫，hook 是事件攔截器，features 是 runtime 能力。</p>
+<p>閱讀 OMO 時，先問三個問題：</p>
+<ul>
+<li>任務如何被路由？看 Atlas、Prometheus、Sisyphus。</li>
+<li>任務如何被執行？看 <code>delegate-task</code>、<code>call-omo-agent</code>、<code>background-task</code>。</li>
+<li>任務如何被修正或保護？看 context recovery、rules injector、runtime fallback。</li>
+</ul>
+<p>OMO 在 graphify 中主要落在：</p>
+<ul>
+<li>Community 1: OpenCode OpenAgent Orchestration</li>
+<li>Community 2: OpenAgent Specialized Personas</li>
+<li>Community 6: OpenCode Hooks and Tools</li>
+</ul>
+<p>這表示 OMO 的知識圖分成三塊：orchestrator、specialist personas、runtime tools/hooks。</p>
+<h2 id="omc-developer-lifecycle-os">OMC: Developer Lifecycle OS</h2>
+<p>OMC 的核心是把 Claude Code 的日常工作變成明確 lifecycle。command 是入口，skill 是流程，agent 是專家角色，tool 是支援性能力。</p>
+<p>你可以用這條線理解 OMC：</p>
+<pre><code>user intent -&gt; command -&gt; skill workflow -&gt; specialist agent/tool -&gt; verification/release</code></pre>
+<p>例如 <code>visual-verdict</code> 不是單純「看圖片」，而是一個 UI 驗證 workflow；<code>self-improve</code> 不是一般 agent，而是把目標、研究、benchmark builder 串成自我改善流程。</p>
+<p>OMC 在 graphify 中主要落在：</p>
+<ul>
+<li>Community 3: Claude Code Specialized Agents</li>
+<li>Community 5: Claude Code Compatibility Commands</li>
+<li>Community 8: Claude Code Core Skills &amp; Design</li>
+<li>Community 9: Claude Code Self-Improvement Workflow</li>
+</ul>
+<p>這表示 OMC 的結構很適合用「任務生命週期」來讀，而不是只看檔案類型。</p>
+<h2 id="omx-structured-prompt-system">OMX: Structured Prompt System</h2>
+<p>OMX 的核心是把 agent 行為結構化。它大量使用 specialist prompts，但這些 prompt 不只是角色描述，而是搭配 plugin skills、state model、team runtime 形成控制面。</p>
+<p>OMX 的閱讀順序應該是：</p>
+<ol>
+<li>先讀 <code>docs/STATE_MODEL.md</code>，理解狀態和流程約束。</li>
+<li>再讀 <code>prompts/prometheus-strict-*.md</code>，理解 strict oracle / metis / momus 如何分工。</li>
+<li>再讀 plugin skills，例如 <code>plan</code>、<code>team</code>、<code>analyze</code>，看使用者如何進入這些流程。</li>
+</ol>
+<p>OMX 在 graphify 中主要落在：</p>
+<ul>
+<li>Community 4: Codex Specialized Prompts</li>
+<li>Community 7: Codex Local Advisor Skills</li>
+<li>Community 25: Codex Explore Prompt</li>
+<li>Community 26: Codex SparkShell Prompt</li>
+</ul>
+<p>這表示 OMX 的重點在 prompt library 和 skill entrypoint 的組合，而不是只靠 runtime hooks。</p>
+<h2 id="oma-consensus-and-learning">OmA: Consensus and Learning</h2>
+<p>OmA 的核心是「不要讓單一 agent 直接決策」。它用多個 specialist agent 產生提案，再由 Consensus 合併，由 Director 做最終 gatekeeping，最後透過 learn hook 把 session 中的有效經驗保存成規則。</p>
+<p>一個簡化流程是：</p>
+<pre><code>task -&gt; specialist proposals -&gt; consensus merge -&gt; director gate -&gt; execute/verify -&gt; learn rules</code></pre>
+<p>OmA 在 graphify 中主要落在：</p>
+<ul>
+<li>Community 0: Antigravity CLI Framework</li>
+<li>Community 10: Agent Autoresearch Showcase &amp; Missions</li>
+</ul>
+<p>這表示 OmA 的文件高度集中在 CLI framework、agents、skills 和 learned-rules style 的工作流。</p>
+<h2 id="graphify-community-對照">Graphify Community 對照</h2>
+<table>
+<thead><tr><th>Community</th><th>名稱</th><th>主要對應</th><th>建議用途</th></tr></thead>
+<tbody>
+<tr><td>0</td><td>Antigravity CLI Framework</td><td>OmA agents、skills、commands</td><td>研究共識決策與本地學習</td></tr>
+<tr><td>1</td><td>OpenCode OpenAgent Orchestration</td><td>OMO Atlas、Prometheus、agent orchestration</td><td>研究 runtime routing</td></tr>
+<tr><td>2</td><td>OpenAgent Specialized Personas</td><td>OMO Hephaestus、Oracle、Librarian、Metis、Momus</td><td>研究 specialist role design</td></tr>
+<tr><td>3</td><td>Claude Code Specialized Agents</td><td>OMC <code>agents/*.md</code></td><td>研究 Claude Code agent persona</td></tr>
+<tr><td>4</td><td>Codex Specialized Prompts</td><td>OMX <code>prompts/*.md</code> 與部分 skills</td><td>研究 prompt library</td></tr>
+<tr><td>5</td><td>Claude Code Compatibility Commands</td><td>OMC <code>commands/*.md</code></td><td>研究 command shim</td></tr>
+<tr><td>6</td><td>OpenCode Hooks and Tools</td><td>OMO <code>src/tools</code> 與 <code>src/hooks</code></td><td>研究 runtime tool/hook</td></tr>
+<tr><td>7</td><td>Codex Local Advisor Skills</td><td>OMX ask/analyze/design/wiki 等 skills</td><td>研究本地 advisor 工作流</td></tr>
+<tr><td>8</td><td>Claude Code Core Skills &amp; Design</td><td>OMC core skills 與架構文件</td><td>研究 skill lifecycle</td></tr>
+<tr><td>9</td><td>Claude Code Self-Improvement Workflow</td><td>OMC <code>self-improve</code> skill family</td><td>研究 benchmark-driven improvement</td></tr>
+</tbody>
+</table>
+<h2 id="核心節點怎麼讀">核心節點怎麼讀</h2>
+<p>graphify 的 god nodes 不是「最重要功能」的絕對排名，而是「連接最多概念」的文件或抽象。它們適合作為閱讀入口。</p>
+<table>
+<thead><tr><th>核心節點</th><th>讀法</th></tr></thead>
+<tbody>
+<tr><td><code>Skill Management CLI</code></td><td>觀察 OMC/OMX 如何把 skills 管理成可探索、可調用的能力</td></tr>
+<tr><td><code>[oh-my-codex] Plan SKILL</code></td><td>觀察 OMX 如何把 planning 變成 Codex-oriented workflow</td></tr>
+<tr><td><code>Team Skill</code></td><td>比較 OMC/OMX/OmA 的 team 概念差異</td></tr>
+<tr><td><code>Ralplan</code></td><td>追蹤 consensus planning 在不同專案的變體</td></tr>
+<tr><td><code>oh-my-antigravity (OmA)</code></td><td>從 README/context 讀 OmA 的整體設計哲學</td></tr>
+</tbody>
+</table>
+<h2 id="跨專案概念表">跨專案概念表</h2>
+<table>
+<thead><tr><th>概念</th><th>OMO</th><th>OMC</th><th>OMX</th><th>OmA</th></tr></thead>
+<tbody>
+<tr><td><code>plan</code></td><td>orchestrator 分解任務</td><td>skill/command lifecycle 中的計畫</td><td>strict/state-aware planning skill</td><td>consensus 或 oma-plan 流程</td></tr>
+<tr><td><code>team</code></td><td>runtime coordination / team mode</td><td>coordinated execution skill</td><td>Codex team workflow</td><td>specialist team + consensus</td></tr>
+<tr><td><code>ralplan</code></td><td>被 graphify 連到 OMC skill</td><td>consensus planning entrypoint</td><td>部分技能與規劃概念相近</td><td>consensus planning skill</td></tr>
+<tr><td><code>ralph</code> / loop</td><td>長任務或 persistence 線索</td><td>persistence loop skill</td><td>Ralph skill / runtime persistence</td><td>loop/recall 類 command</td></tr>
+<tr><td><code>prometheus</code></td><td>strategic planner agent/prompt</td><td>不是主軸</td><td>strict oracle/metis/momus family</td><td>概念上接近高階規劃，但非主軸</td></tr>
+</tbody>
+</table>
+<h2 id="自測問題">自測問題</h2>
+<ul>
+<li>如果你只想研究「多 agent runtime」，為什麼應該先讀 OMO 而不是 OMC？</li>
+<li>為什麼 OMX 的 <code>prompts/*.md</code> 不應直接等同於 OMO 的 runtime agent？</li>
+<li>OmA 的 Director 和 OMC/OMX 的 Reviewer 類角色有什麼差異？</li>
+<li>graphify 的 inferred edge 可以怎麼用？什麼情況下不能直接採信？</li>
+</ul>
+</main>
+</body>
+</html>

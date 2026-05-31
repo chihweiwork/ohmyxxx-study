@@ -1,0 +1,58 @@
+[
+  {
+    "original": "3. **Implement the current story**:\n   - Delegate to specialist agents at appropriate tiers:\n     - Simple lookups: LOW tier (Haiku) -- \"What does this function return?\"\n     - Standard work: MEDIUM tier (Sonnet) -- \"Add error handling to this module\"\n     - Complex analysis: HIGH tier (Opus) -- \"Debug this race condition\"\n   - If during implementation you discover sub-tasks, add them as new stories to the active PRD file\n   - Run long operations in background: Builds, installs, test suites use `run_in_background: true`",
+    "zh_tw": "3. **實作目前的故事**:\n   - 委派給適當層級的專家代理：\n     - 簡單查詢：LOW tier (Haiku) -- \"這個函式回傳什麼？\"\n     - 標準工作：MEDIUM tier (Sonnet) -- \"為這個模組加入錯誤處理\"\n     - 複雜分析：HIGH tier (Opus) -- \"除錯這個競態條件\"\n   - 如果在實作期間發現子任務，將它們新增為目前 PRD 檔案中的新 stories\n   - 將長時間操作放到背景執行：Build、install、test suites 使用 `run_in_background: true`"
+  },
+  {
+    "original": "4. **Verify the current story's acceptance criteria**:\n   a. For EACH acceptance criterion in the story, verify it is met with fresh evidence\n   b. Run relevant checks (test, build, lint, typecheck) and read the output\n   c. If any criterion is NOT met, continue working -- do NOT mark the story as complete",
+    "zh_tw": "4. **驗證目前故事的驗收標準**:\n   a. 對故事中的每一項驗收標準，都要用新的證據確認它已達成\n   b. 執行相關檢查（test、build、lint、typecheck）並閱讀輸出\n   c. 如果有任何標準尚未達成，繼續工作 -- 不要將此故事標記為完成"
+  },
+  {
+    "original": "5. **Mark story complete**:\n   a. When ALL acceptance criteria are verified, set `passes: true` for this story in the active PRD file\n   b. Record progress in `progress.txt`: what was implemented, files changed, learnings for future iterations\n   c. Add any discovered codebase patterns to `progress.txt`",
+    "zh_tw": "5. **將故事標記為完成**:\n   a. 當所有驗收標準都已驗證後，將目前 PRD 檔案中這個故事的 `passes: true` 設為 true\n   b. 在 `progress.txt` 中記錄進度：實作了什麼、變更了哪些檔案、以及供未來迭代參考的收穫\n   c. 將任何發現的 codebase pattern 加入 `progress.txt`"
+  },
+  {
+    "original": "6. **Check PRD completion**:\n   a. Read the active PRD file -- are ALL stories marked `passes: true`?\n   b. If NOT all complete, loop back to Step 2 (pick next story)\n   c. If ALL complete, proceed to Step 7 (architect verification)",
+    "zh_tw": "6. **檢查 PRD 是否完成**:\n   a. 閱讀目前啟用的 PRD 檔案 -- 是否所有 stories 都已標記為 `passes: true`？\n   b. 如果還沒有全部完成，回到 Step 2（選下一個故事）\n   c. 如果全部完成，繼續進行 Step 7（architect 驗證）"
+  },
+  {
+    "original": "7. **Reviewer verification** (tiered, against acceptance criteria):\n   - <5 files, <100 lines with full tests: STANDARD tier minimum (architect-medium / Sonnet)\n   - Standard changes: STANDARD tier (architect-medium / Sonnet)\n   - > 20 files or security/architectural changes: THOROUGH tier (architect / Opus)\n   - If `--critic=critic`, use the Claude `critic` agent for the approval pass\n   - If `--critic=codex`, run `omc ask codex --agent-prompt critic \"...\"` for the approval pass. The Codex critic prompt MUST include:\n     1. The full list of acceptance criteria from prd.json for verification\n     2. A directive to evaluate whether the implementation is **OPTIMAL** — not just correct, but whether there exists a meaningfully better approach (simpler, faster, more maintainable) that the implementation missed\n     3. A directive to review **all code related to the changes** (callers, callees, shared types, adjacent modules), not only the files directly modified\n     4. The list of files changed during the ralph session for context\n   - Ralph floor: always at least STANDARD, even for small changes\n   - The selected reviewer verifies against the SPECIFIC acceptance criteria from prd.json, not vague \"is it done?\"\n   - **On APPROVAL: immediately proceed to Step 7.5 in the same turn. Do NOT pause to report the verdict to the user — reporting happens only at Step 8 (`/oh-my-claudecode:cancel`) or on rejection (Step 9). Treating an approved verdict as a reporting checkpoint is a polite-stop anti-pattern.**",
+    "zh_tw": "7. **審查者驗證**（依層級，對照驗收標準）：\n   - <5 files、<100 lines 且有完整測試：至少使用 STANDARD tier（architect-medium / Sonnet）\n   - 標準變更：STANDARD tier（architect-medium / Sonnet）\n   - > 20 files 或安全性／架構變更：THOROUGH tier（architect / Opus）\n   - 如果 `--critic=critic`，在批准流程中使用 Claude `critic` agent\n   - 如果 `--critic=codex`，則執行 `omc ask codex --agent-prompt critic \"...\"` 進行批准流程。Codex critic prompt 必須包含：\n     1. 來自 prd.json、供驗證用的完整驗收標準列表\n     2. 一項指示，要求評估實作是否為 **OPTIMAL** —— 不只是正確，還要判斷是否存在一個明顯更好的方法（更簡單、更快、更易維護），而目前實作是否漏掉了\n     3. 一項指示，要求審查與變更相關的**所有程式碼**（呼叫端、被呼叫端、共用型別、相鄰模組），而不只是直接修改的檔案\n     4. ralph session 期間變更的檔案清單，以供脈絡參考\n   - Ralph 底線：即使是小變更，也一律至少使用 STANDARD\n   - 所選 reviewer 會依據 prd.json 中**具體**的驗收標準進行驗證，而不是模糊地問「這做完了嗎？」\n   - **在批准時：立即在同一輪繼續執行 Step 7.5。不要停下來向使用者回報結果——回報只會在 Step 8（`/oh-my-claudecode:cancel`）或拒絕時（Step 9）發生。把已批准的結果當成回報檢查點是一種禮貌式停止的反模式。**"
+  },
+  {
+    "original": "7.5 **Mandatory Deslop Pass** (runs unconditionally after Step 7 approval, unless `{{PROMPT}}` contains `--no-deslop`):",
+    "zh_tw": "7.5 **強制性的 Deslop 清理通過**（在 Step 7 批准後無條件執行，除非 `{{PROMPT}}` 包含 `--no-deslop`）："
+  },
+  {
+    "original": "- **Invoke the `ai-slop-cleaner` skill via the Skill tool: `Skill(\"ai-slop-cleaner\")`.** Run in standard mode (not `--review`) on the files changed during the current Ralph session only.\n- **ai-slop-cleaner is a SKILL, not an agent.** Do NOT call it via `Task(subagent_type=\"oh-my-claudecode:ai-slop-cleaner\")` — that subagent type does not exist and the call will fail with \"Agent type not found\". If you see that error, retry with the Skill tool — do NOT substitute a similarly-named agent like `code-simplifier` as a \"closest match\".\n- Keep the scope bounded to the Ralph changed-file set; do not broaden the cleanup pass to unrelated files.\n- If the reviewer approved the implementation but the deslop pass introduces follow-up edits, keep those edits inside the same changed-file scope before proceeding.",
+    "zh_tw": "- **透過 Skill 工具呼叫 `ai-slop-cleaner` skill：`Skill(\"ai-slop-cleaner\")`。** 以 standard mode 執行（不是 `--review`），且只針對目前 Ralph session 中變更過的檔案。\n- **ai-slop-cleaner 是一個 SKILL，不是 agent。** 不要透過 `Task(subagent_type=\"oh-my-claudecode:ai-slop-cleaner\")` 呼叫它——那個 subagent type 並不存在，呼叫會以 \"Agent type not found\" 失敗。如果看到那個錯誤，請改用 Skill 工具重試——不要拿像 `code-simplifier` 這類同名相近的 agent 當作「最接近的匹配」。\n- 將範圍限制在 Ralph 的已變更檔案集合內；不要把清理流程擴大到無關檔案。\n- 如果 reviewer 已批准實作，但 deslop 流程又引入了後續編輯，請在繼續前把這些編輯維持在同一個已變更檔案範圍內。"
+  },
+  {
+    "original": "  7.6 **Regression Re-verification**:",
+    "zh_tw": "  7.6 **回歸重新驗證**："
+  },
+  {
+    "original": "- After the deslop pass, re-run all relevant tests, build, and lint checks for the Ralph session.\n- Read the output and confirm the post-deslop regression run actually passes.\n- If regression fails, roll back the cleaner changes or fix the regression, then rerun the verification loop until it passes.\n- Only proceed to completion after the post-deslop regression run passes (or `--no-deslop` was explicitly specified).",
+    "zh_tw": "- 在 deslop 流程之後，重新執行 Ralph session 的所有相關測試、build 和 lint 檢查。\n- 閱讀輸出並確認 deslop 後的回歸執行確實通過。\n- 如果回歸失敗，回滾清理工具造成的變更或修正回歸問題，然後重新執行驗證迴圈，直到通過為止。\n- 只有在 deslop 後的回歸執行通過後（或已明確指定 `--no-deslop`）才可繼續完成流程。"
+  },
+  {
+    "original": "8. **On approval**: After Step 7.6 passes (with Step 7.5 completed, or skipped via `--no-deslop`), run `/oh-my-claudecode:cancel` to cleanly exit and clean up all state files",
+    "zh_tw": "8. **在批准時**：在 Step 7.6 通過後（且 Step 7.5 已完成，或已透過 `--no-deslop` 跳過），執行 `/oh-my-claudecode:cancel` 以乾淨退出並清理所有狀態檔案"
+  },
+  {
+    "original": "9. **On rejection**: Fix the issues raised, re-verify with the same reviewer, then loop back to check if the story needs to be marked incomplete\n   </Steps>",
+    "zh_tw": "9. **在拒絕時**：修正提出的問題，使用相同 reviewer 重新驗證，然後回到前面檢查此 story 是否需要標記為 incomplete\n   </Steps>"
+  },
+  {
+    "original": "<Tool_Usage>",
+    "zh_tw": "<Tool_Usage>"
+  },
+  {
+    "original": "- Use `Task(subagent_type=\"oh-my-claudecode:architect\", ...)` for architect verification cross-checks when changes are security-sensitive, architectural, or involve complex multi-system integration\n- Use `Task(subagent_type=\"oh-my-claudecode:critic\", ...)` when `--critic=critic`\n- Use `omc ask codex --agent-prompt critic \"...\"` when `--critic=codex`. Construct the prompt to include: (a) prd.json acceptance criteria, (b) files changed + related files, (c) explicit optimality question: \"Is there a meaningfully simpler, faster, or more maintainable approach that achieves the same acceptance criteria?\"\n- Skip architect consultation for simple feature additions, well-tested changes, or time-critical verification\n- Proceed with architect agent verification alone -- never block on unavailable tools\n- Use `state_write` / `state_read` for ralph mode state persistence between iterations\n- **Skill vs agent invocation**: `ai-slop-cleaner` is a skill, invoke via `Skill(\"ai-slop-cleaner\")`. `architect`, `critic`, `executor` etc. are agents, invoke via `Task(subagent_type=\"oh-my-claudecode:<name>\")`. If you ever get \"Agent type ... not found\" for an `oh-my-claudecode:<name>` identifier, the item is a skill — retry with the Skill tool. Do NOT substitute a similarly-named agent as a \"closest match\".\n  </Tool_Usage>",
+    "zh_tw": "- 當變更屬於安全敏感、架構性，或涉及複雜的多系統整合時，使用 `Task(subagent_type=\"oh-my-claudecode:architect\", ...)` 進行 architect 驗證交叉檢查\n- 當 `--critic=critic` 時，使用 `Task(subagent_type=\"oh-my-claudecode:critic\", ...)`\n- 當 `--critic=codex` 時，使用 `omc ask codex --agent-prompt critic \"...\"`。建構 prompt 時需包含：(a) prd.json 的驗收標準，(b) 變更的檔案 + 相關檔案，(c) 明確的 optimality 問題：\"是否存在一種在相同驗收標準下達成目標，但明顯更簡單、更快或更易維護的方法？\"\n- 對於簡單功能新增、測試充分的變更，或時間敏感的驗證，跳過 architect 諮詢\n- 直接進行 architect agent 驗證即可 -- 絕不要因為工具不可用而卡住\n- 在 iterations 之間使用 `state_write` / `state_read` 來維持 ralph mode 的狀態持久化\n- **Skill 與 agent 的呼叫差異**：`ai-slop-cleaner` 是 skill，請透過 `Skill(\"ai-slop-cleaner\")` 呼叫。`architect`、`critic`、`executor` 等是 agents，請透過 `Task(subagent_type=\"oh-my-claudecode:<name>\")` 呼叫。如果你對某個 `oh-my-claudecode:<name>` identifier 收到 \"Agent type ... not found\"，那個項目其實是 skill —— 改用 Skill 工具重試。不要拿同名相近的 agent 當作「最接近的匹配」。\n  </Tool_Usage>"
+  },
+  {
+    "original": "<Examples>\n<Good>\nPRD refinement in Step 1:\n```\nAuto-generated scaffold has:\n  acceptanceCriteria: [\"Implementation is complete\", \"Code compiles without errors\"]\n\nAfter refinement:\nacceptanceCriteria: [\n\"Legacy --no-prd text is stripped from the Ralph working prompt\",\n\"Ralph startup still creates or validates prd.json when legacy --no-prd text is present\",\n\"TypeScript compiles with no errors (npm run build)\"\n]\n\n```\nWhy good: Generic criteria replaced with specific, testable criteria.\n</Good>",
+    "zh_tw": "<Examples>\n<Good>\nStep 1 中的 PRD 精煉：\n```\nAuto-generated scaffold has:\n  acceptanceCriteria: [\"Implementation is complete\", \"Code compiles without errors\"]\n\nAfter refinement:\nacceptanceCriteria: [\n\"Legacy --no-prd text is stripped from the Ralph working prompt\",\n\"Ralph startup still creates or validates prd.json when legacy --no-prd text is present\",\n\"TypeScript compiles with no errors (npm run build)\"\n]\n\n```\n為什麼好：通用準則已被具體、可測試的準則取代。\n</Good>"
+  }
+]

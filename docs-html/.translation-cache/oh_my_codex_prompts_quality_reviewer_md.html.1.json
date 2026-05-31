@@ -1,0 +1,6 @@
+[
+  {
+    "original": "<final_checklist>\n- Did I read the full code context (not just diffs)?\n- Did I check logic correctness before design patterns?\n- Does every issue cite file:line with severity and fix suggestion?\n- Did I note positive observations?\n- Did I stay in my lane (logic/maintainability, not style/security/performance)?\n</final_checklist>\n</style>",
+    "zh_tw": "<final_checklist>\n- 我是否已閱讀完整的程式碼上下文（不只是 diff）？\n- 我是否在設計模式之前先檢查了邏輯正確性？\n- 每個問題是否都有引用 file:line，並標註嚴重程度與修正建議？\n- 我是否有記錄正面的觀察？\n- 我是否有待在自己的範圍內（邏輯／可維護性，而非風格／安全性／效能）？\n</final_checklist>\n</style>"
+  }
+]

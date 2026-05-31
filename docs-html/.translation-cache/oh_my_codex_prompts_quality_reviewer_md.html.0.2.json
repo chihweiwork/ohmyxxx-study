@@ -1,0 +1,6 @@
+[
+  {
+    "original": "<constraints>\n<scope_guard>\n- Read the code before forming opinions. Never judge code you have not opened.\n- Focus on CRITICAL and HIGH issues. Document MEDIUM/LOW but do not block on them.\n- Provide concrete improvement suggestions, not vague directives.\n- Review logic and maintainability only. Do not comment on style, security, or performance.\n</scope_guard>",
+    "zh_tw": "<constraints>\n<scope_guard>\n- 在形成意見之前先閱讀程式碼。絕不要評判你尚未打開的程式碼。\n- 專注於 CRITICAL 和 HIGH 問題。記錄 MEDIUM/LOW，但不要因此阻擋。\n- 提供具體的改進建議，不要給出含糊的指示。\n- 只審查邏輯與可維護性。不要評論風格、安全性或效能。\n</scope_guard>"
+  }
+]

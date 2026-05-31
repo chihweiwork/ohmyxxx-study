@@ -1,0 +1,122 @@
+[
+  {
+    "original": "---\nname: team\ndescription: N coordinated agents on shared task list using tmux-based orchestration\n---",
+    "zh_tw": "---\nname: team\ndescription: 以 tmux 為基礎、在共享任務清單上協調 N 個代理\n---"
+  },
+  {
+    "original": "# Team Skill",
+    "zh_tw": "# 團隊技能"
+  },
+  {
+    "original": "`$team` is the tmux-based parallel execution mode for OMX. It starts real worker Codex and/or Claude CLI sessions in split panes and coordinates them through `.omx/state/team/...` files plus CLI team interop (`omx team api ...`) and state files.",
+    "zh_tw": "`$team` 是 OMX 的以 tmux 為基礎的平行執行模式。它會在分割窗格中啟動真正的 worker Codex 和/或 Claude CLI 工作階段，並透過 `.omx/state/team/...` 檔案，以及 CLI team 互通 (`omx team api ...`) 和狀態檔來協調它們。"
+  },
+  {
+    "original": "This skill is operationally sensitive. Treat it as an operator workflow, not a generic prompt pattern. In Codex App or plain outside-tmux sessions, do not present `$team` / `omx team` as directly available; launch OMX CLI from shell first, or stay on the nearest app-safe surface until the user explicitly wants the tmux runtime.",
+    "zh_tw": "此技能在操作上很敏感。請將它視為操作員工作流程，而不是通用的提示模式。在 Codex App 或一般的非 tmux 工作階段中，不要將 `$team` / `omx team` 描述為可直接使用；請先從 shell 啟動 OMX CLI，或停留在最接近且安全的應用層介面，直到使用者明確想要使用 tmux 執行環境。"
+  },
+  {
+    "original": "## Team vs Native Subagents",
+    "zh_tw": "## Team 與原生 Subagents"
+  },
+  {
+    "original": "- Use **Codex native subagents** for bounded, in-session parallelism where one leader thread can fan out a few independent subtasks and wait for them directly.\n- Use **`omx team`** when you need durable tmux workers, shared task state, mailbox/dispatch coordination, worktrees, explicit lifecycle control, or long-running parallel execution that must survive beyond one local reasoning burst.\n- Native subagents can complement team/ralph execution, but they do **not** replace the tmux team runtime's stateful coordination contract.",
+    "zh_tw": "- 在範圍明確、同一工作階段內的平行處理中，使用 **Codex 原生 subagents**，由一個 leader 執行緒展開少數獨立子任務並直接等待它們完成。\n- 當你需要可持久化的 tmux workers、共享任務狀態、mailbox/dispatch 協調、worktree、明確的生命週期控制，或必須超越單次本地推理回合的長時間平行執行時，使用 **`omx team`**。\n- 原生 subagents 可以補充 team/ralph 執行，但它們**不能**取代 tmux team runtime 的有狀態協調契約。"
+  },
+  {
+    "original": "## What This Skill Must Do",
+    "zh_tw": "## 此技能必須執行的事項"
+  },
+  {
+    "original": "## GPT-5.5 Guidance Alignment",
+    "zh_tw": "## GPT-5.5 指引對齊"
+  },
+  {
+    "original": "Use the shared workflow guidance pattern: outcome-first framing, concise visible updates for multi-step work, local overrides for the active workflow branch, validation proportional to risk, explicit stop rules, and automatic continuation for safe reversible steps. Ask only for material, destructive, credentialed, external-production, or preference-dependent branches.",
+    "zh_tw": "使用共享的工作流程指引模式：以結果優先的 framing、多步工作時提供簡潔且可見的更新、對目前工作流程分支進行本地覆寫、依風險比例安排驗證、明確的停止規則，以及對安全且可逆步驟的自動續行。只在涉及實質性、破壞性、需憑證、外部正式環境，或依偏好而定的分支時才提問。"
+  },
+  {
+    "original": "When user triggers `$team`, the agent must:",
+    "zh_tw": "當使用者觸發 `$team` 時，代理必須："
+  },
+  {
+    "original": "1. Invoke OMX runtime directly with `omx team ...`\n2. Avoid replacing the flow with in-process `spawn_agent` fanout\n3. Verify startup and surface concrete state/pane evidence\n4. If active team mode state is missing, initialize/sync it from canonical team runtime state before proceeding\n5. Keep team state alive until workers are terminal (unless explicit abort)\n6. Handle cleanup and stale-pane recovery when needed",
+    "zh_tw": "1. 直接以 `omx team ...` 呼叫 OMX runtime\n2. 避免用程序內的 `spawn_agent` 擴散取代此流程\n3. 驗證啟動，並呈現具體的 state/pane 證據\n4. 如果缺少目前的 team mode 狀態，請先從 canonical team runtime state 初始化/同步後再繼續\n5. 讓 team state 保持存活，直到 workers 結束為止（除非明確中止）\n6. 視需要處理清理與 stale-pane 復原"
+  },
+  {
+    "original": "If `omx team` is unavailable, stop with a hard error.",
+    "zh_tw": "如果 `omx team` 不可用，請以硬性錯誤停止。"
+  },
+  {
+    "original": "## Invocation Contract",
+    "zh_tw": "## 呼叫契約"
+  },
+  {
+    "original": "```bash\nomx team [N:agent-type] \"<task description>\"\n```",
+    "zh_tw": "```bash\nomx team [N:agent-type] \"<task description>\"\n```"
+  },
+  {
+    "original": "Examples:",
+    "zh_tw": "範例："
+  },
+  {
+    "original": "```bash\nomx team 3:executor \"analyze feature X and report flaws\"\nomx team \"debug flaky integration tests\"\nomx team \"ship end-to-end fix with verification\"\n```",
+    "zh_tw": "```bash\nomx team 3:executor \"analyze feature X and report flaws\"\nomx team \"debug flaky integration tests\"\nomx team \"ship end-to-end fix with verification\"\n```"
+  },
+  {
+    "original": "### Team-first launch contract",
+    "zh_tw": "### 以 Team 為優先的啟動契約"
+  },
+  {
+    "original": "`omx team ...` is now the canonical launch path for coordinated execution.\nTeam mode should carry its own parallel delivery + verification lanes without\nrequiring a separate linked Ralph launch up front.",
+    "zh_tw": "`omx team ...` 現在是協調執行的 canonical 啟動路徑。\nTeam mode 應自行承擔平行交付與驗證通道，而不需要\n一開始就另外啟動一個連結的 Ralph。"
+  },
+  {
+    "original": "- **Canonical launch:** use plain `omx team ...` / `$team ...` for coordinated workers.\n- **Verification ownership:** keep one lane focused on tests, regression coverage, and evidence before shutdown.\n- **Escalation:** start a separate `omx ralph ...` / `$ralph ...` only when a later manual follow-up still needs a persistent single-owner fix/verification loop.\n- **Deprecation:** `omx team ralph ...` has been removed. Use plain `omx team ...` for team execution or run `omx ralph ...` separately when you explicitly want a later Ralph loop.",
+    "zh_tw": "- **Canonical launch：** 對協調 workers 使用純 `omx team ...` / `$team ...`。\n- **Verification ownership：** 保留一條通道專注於測試、回歸覆蓋與關閉前的證據。\n- **Escalation：** 只有在後續的人工跟進仍需要一個持續存在的單一負責人修復/驗證迴圈時，才啟動獨立的 `omx ralph ...` / `$ralph ...`。\n- **Deprecation：** `omx team ralph ...` 已移除。請使用純 `omx team ...` 進行 team 執行，或在你明確想要之後的 Ralph 迴圈時另外執行 `omx ralph ...`。"
+  },
+  {
+    "original": "### Team Big Five / ATEM coordination gate",
+    "zh_tw": "### Team Big Five / ATEM 協調閘門"
+  },
+  {
+    "original": "`$team` keeps simple independent fan-out lightweight. For isolated tasks (for example per-file sweeps, typo/copy edits, or explicitly independent lanes with no shared files/dependencies), workers use the normal concise protocol: startup ACK, claim-safe task lifecycle, status, verification, and completion evidence.",
+    "zh_tw": "`$team` 會讓簡單、彼此獨立的 fan-out 保持輕量。對於孤立任務（例如逐檔掃描、typo/copy 編輯，或明確彼此獨立且沒有共享檔案/依賴的通道），workers 使用一般的精簡協議：啟動 ACK、可認領的任務生命週期、狀態、驗證，以及完成證據。"
+  },
+  {
+    "original": "Activate the lightweight Team Big Five + ATEM-inspired coordination layer when the task or task graph has dependencies, shared files/surfaces/contracts, cross-boundary ownership, handoffs, integration/merge work, blocked lanes, or changed assumptions. The protocol is not a separate ceremony; it is a concise boundary checklist:",
+    "zh_tw": "當任務或任務圖存在依賴、共享檔案/介面/契約、跨邊界所有權、交接、整合/合併工作、受阻通道，或假設變更時，請啟用輕量的 Team Big Five + ATEM 啟發式協調層。這個協議不是額外的儀式；它是一份精簡的邊界檢查清單："
+  },
+  {
+    "original": "- **Shared mental model / single source of truth:** task JSON, inbox, mailbox, approved handoff, and leader updates are canonical.\n- **Closed-loop communication / ACK-readback handoffs:** acknowledge handoffs with understood scope, affected artifact/path, owner, and next action.\n- **Mutual performance monitoring at boundaries:** check upstream/downstream contracts, shared files, and verification evidence before completion.\n- **Backup/reassignment behavior:** blocked workers report the smallest needed help/reassignment request and continue safe unblocked slices.\n- **Adaptability checkpoints:** changed assumptions, dependencies, or verification results trigger a brief leader-facing update before widening scope.\n- **Team orientation:** workers optimize for the integrated team outcome, not local-optimum-only task summaries; report integration risks, missing tests, and peer impacts.",
+    "zh_tw": "- **共享心智模型 / 單一事實來源：** task JSON、inbox、mailbox、已核准的 handoff，以及 leader 更新都是 canonical。\n- **閉環溝通 / ACK-readback handoffs：** 在接手時確認已理解的範圍、受影響的產物/路徑、負責人，以及下一步動作。\n- **邊界上的相互效能監控：** 完成前檢查上游/下游契約、共享檔案與驗證證據。\n- **備援/重新分配行為：** 受阻的 workers 回報最小必要的協助/重新分配請求，並持續處理安全且未受阻的片段。\n- **適應性檢查點：** 當假設、依賴或驗證結果改變時，先向 leader 簡短更新，再擴大範圍。\n- **Team 取向：** workers 以整體團隊結果為最佳化目標，而非只追求局部最佳的任務摘要；回報整合風險、缺少的測試，以及對同儕的影響。"
+  },
+  {
+    "original": "ATEM fit: treat this as agile teamwork support for transition/action/interpersonal moments around boundaries, not as a heavyweight process model. Do not copy provider-specific plugin implementations; keep the protocol in OMX/Codex prompts, inboxes, state, and tests.",
+    "zh_tw": "ATEM 的適用方式：將這視為在邊界周圍支援 transition/action/interpersonal moments 的敏捷團隊協作，而不是重量級流程模型。不要複製供應商特定的外掛實作；請將協議維持在 OMX/Codex prompts、inboxes、state 與 tests 中。"
+  },
+  {
+    "original": "### Team + Ultragoal bridge",
+    "zh_tw": "### Team + Ultragoal 橋接"
+  },
+  {
+    "original": "Use `$ultragoal` for durable leader-owned goal/ledger tracking and `$team` for parallel execution lanes. When Team is launched with an active `.omx/ultragoal/goals.json`, worker inboxes/status may include leader-owned Ultragoal context: `.omx/ultragoal/goals.json`, `.omx/ultragoal/ledger.jsonl`, the active goal id, Codex goal mode, and the `fresh_leader_get_goal_required` checkpoint policy.",
+    "zh_tw": "使用 `$ultragoal` 進行可持久化、由 leader 擁有的 goal/ledger 追蹤，並使用 `$team` 處理平行執行通道。當 Team 在啟用中的 `.omx/ultragoal/goals.json` 下啟動時，worker 的 inbox/status 可能包含由 leader 擁有的 Ultragoal context：`.omx/ultragoal/goals.json`、`.omx/ultragoal/ledger.jsonl`、目前的 goal id、Codex goal mode，以及 `fresh_leader_get_goal_required` checkpoint policy。"
+  },
+  {
+    "original": "Workers provide task status and verification evidence only. They do not own Ultragoal goal state, create worker ledgers, mutate `.omx/ultragoal`, auto-launch Team from Ultragoal, or perform hidden Codex goal mutation. The leader uses terminal Team evidence plus a fresh `get_goal` snapshot to run `omx ultragoal checkpoint --goal-id <id> --status complete --evidence \"<team evidence mentioning .omx/ultragoal and <id>>\" --codex-goal-json <fresh-get_goal-json-or-path>`.",
+    "zh_tw": "Workers 只提供任務狀態與驗證證據。它們不擁有 Ultragoal goal state、不建立 worker ledgers、不變更 `.omx/ultragoal`、不會從 Ultragoal 自動啟動 Team，也不會執行隱藏的 Codex goal 變更。leader 會使用終端的 Team 證據加上新的 `get_goal` 快照來執行 `omx ultragoal checkpoint --goal-id <id> --status complete --evidence \"<team evidence mentioning .omx/ultragoal and <id>>\" --codex-goal-json <fresh-get_goal-json-or-path>`。"
+  },
+  {
+    "original": "### Claude teammates (v0.6.0+)",
+    "zh_tw": "### Claude teammates（v0.6.0+）"
+  },
+  {
+    "original": "Important: `N:agent-type` (for example `2:executor`) selects the **worker role prompt**, not the worker CLI (`codex` vs `claude`).",
+    "zh_tw": "重要：`N:agent-type`（例如 `2:executor`）選擇的是 **worker role prompt**，不是 worker CLI（`codex` vs `claude`）。"
+  },
+  {
+    "original": "To launch Claude teammates, use the team worker CLI env vars:",
+    "zh_tw": "要啟動 Claude teammates，請使用 team worker CLI env vars："
+  }
+]

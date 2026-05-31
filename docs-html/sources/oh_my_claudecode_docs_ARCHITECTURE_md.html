@@ -1,0 +1,811 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oh-my-claudecode/docs/ARCHITECTURE.md</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+</head>
+<body>
+<main>
+<nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
+<h1 class="path">oh-my-claudecode/docs/ARCHITECTURE.md</h1><p>被引用於：<code>01-architecture-map.md</code>、<code>02-project-guides.md</code>、<code>05-study-plan.md</code></p><p><a href="../../oh-my-claudecode/docs/ARCHITECTURE.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code># Architecture</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code># 架構</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&gt; How oh-my-claudecode orchestrates multi-agent workflows.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&gt; oh-my-claudecode 如何協調多代理工作流程。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Overview</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 概覽</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>oh-my-claudecode enables Claude Code to orchestrate specialized agents through a skill-based routing system. It is built on four interlocking systems: **Hooks** detect lifecycle events, **Skills** inject behaviors, **Agents** execute specialized work, and **State** tracks progress across context resets.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>oh-my-claudecode 讓 Claude Code 能透過以技能為基礎的路由系統來協調專門化代理。它建立在四個相互連結的系統之上：**Hooks** 偵測生命週期事件，**Skills** 注入行為，**Agents** 執行專門化工作，而 **State** 會在上下文重置之間追蹤進度。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         OH-MY-CLAUDECODE                                 │
+│                     Intelligent Skill Activation                         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+  User Input                      Skill Detection                 Execution
+  ──────────                      ───────────────                 ─────────
+       │                                │                              │
+       ▼                                ▼                              ▼
+┌─────────────┐              ┌──────────────────┐           ┌─────────────────┐
+│  &quot;ultrawork │              │   CLAUDE.md      │           │ SKILL ACTIVATED │
+│   refactor  │─────────────▶│   Auto-Routing   │──────────▶│                 │
+│   the API&quot;  │              │                  │           │ ultrawork +     │
+└─────────────┘              │ Task Type:       │           │ default +       │
+                             │  - Implementation│           │ git-master      │
+                             │  - Multi-file    │           │                 │
+                             │  - Parallel OK   │           │ ┌─────────────┐ │
+                             │                  │           │ │ Parallel    │ │
+                             │ Skills:          │           │ │ agents      │ │
+                             │  - ultrawork ✓   │           │ │ launched    │ │
+                             │  - default ✓     │           │ └─────────────┘ │
+                             │  - git-master ✓  │           │                 │
+                             └──────────────────┘           │ ┌─────────────┐ │
+                                                            │ │ Atomic      │ │
+                                                            │ │ commits     │ │
+                                                            │ └─────────────┘ │
+                                                            └─────────────────┘
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         OH-MY-CLAUDECODE                                 │
+│                         智慧技能啟用                                     │
+└─────────────────────────────────────────────────────────────────────────┘
+
+  使用者輸入                    技能偵測                     執行
+  ──────────                    ───────────────             ─────────
+       │                                │                          │
+       ▼                                ▼                          ▼
+┌─────────────┐              ┌──────────────────┐         ┌─────────────────┐
+│  &quot;ultrawork │              │   CLAUDE.md      │         │ 技能已啟用        │
+│   重構 API  │─────────────▶│   自動路由       │──────────▶│                 │
+│   &quot;         │              │                  │         │ ultrawork +     │
+└─────────────┘              │ 任務類型：       │         │ default +       │
+                             │  - 實作          │         │ git-master      │
+                             │  - 多檔案        │         │                 │
+                             │  - 可並行        │         │ ┌─────────────┐ │
+                             │                  │         │ │ 平行        │ │
+                             │ 技能：           │         │ │ 代理        │ │
+                             │  - ultrawork ✓   │         │ │ 已啟動      │ │
+                             │  - default ✓     │         │ └─────────────┘ │
+                             │  - git-master ✓  │         │                 │
+                             └──────────────────┘         │ ┌─────────────┐ │
+                                                          │ │ 原子        │ │
+                                                          │ │ 提交        │ │
+                                                          │ └─────────────┘ │
+                                                          └─────────────────┘
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>The four systems flow in sequence:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>這四個系統依序運作：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+User Input --&gt; Hooks (event detection) --&gt; Skills (behavior injection)
+           --&gt; Agents (task execution) --&gt; State (progress tracking)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+使用者輸入 --&gt; Hooks（事件偵測） --&gt; Skills（行為注入）
+           --&gt; Agents（任務執行） --&gt; State（進度追蹤）
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Agent System</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 代理系統</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Overview</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 概覽</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>OMC provides 19 specialized agents organized into 4 lanes. Each agent is invoked as `oh-my-claudecode:&lt;agent-name&gt;` and runs on the appropriate model tier.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>OMC 提供 19 個專門化代理，組織成 4 條通道。每個代理都以 `oh-my-claudecode:&lt;agent-name&gt;` 的形式呼叫，並在適當的模型層級上執行。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Build/Analysis Lane</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 建置/分析通道</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Covers the full development lifecycle from exploration to verification.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>涵蓋從探索到驗證的完整開發生命週期。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Agent | Default Model | Role |
+|-------|---------------|------|
+| `explore` | haiku | Codebase discovery, file/symbol mapping |
+| `analyst` | opus | Requirements analysis, hidden constraint discovery |
+| `planner` | opus | Task sequencing, execution plan creation |
+| `architect` | opus | System design, interface definition, trade-off analysis |
+| `debugger` | sonnet | Root-cause analysis, build error resolution |
+| `executor` | sonnet | Code implementation, refactoring |
+| `verifier` | sonnet | Completion verification, test adequacy confirmation |
+| `tracer` | sonnet | Evidence-driven causal tracing, competing hypothesis analysis |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 代理 | 預設模型 | 角色 |
+|-------|---------------|------|
+| `explore` | haiku | 程式碼庫探索、檔案/符號對應 |
+| `analyst` | opus | 需求分析、隱藏限制發現 |
+| `planner` | opus | 任務排序、執行計畫建立 |
+| `architect` | opus | 系統設計、介面定義、取捨分析 |
+| `debugger` | sonnet | 根因分析、建置錯誤解決 |
+| `executor` | sonnet | 程式碼實作、重構 |
+| `verifier` | sonnet | 完成驗證、測試充分性確認 |
+| `tracer` | sonnet | 以證據為導向的因果追蹤、競爭假設分析 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Review Lane</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 審查通道</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Quality gates before handoff. Catches correctness and security issues.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>交接前的品質關卡。捕捉正確性與安全性問題。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Agent | Default Model | Role |
+|-------|---------------|------|
+| `security-reviewer` | sonnet | Security vulnerabilities, trust boundaries, authn/authz review |
+| `code-reviewer` | opus | Comprehensive code review, API contracts, backward compatibility |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 代理 | 預設模型 | 角色 |
+|-------|---------------|------|
+| `security-reviewer` | sonnet | 安全漏洞、信任邊界、驗證/授權審查 |
+| `code-reviewer` | opus | 全面程式碼審查、API 契約、向後相容性 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Domain Lane</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 領域通道</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Domain experts called in when needed.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在需要時召入領域專家。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Agent | Default Model | Role |
+|-------|---------------|------|
+| `test-engineer` | sonnet | Test strategy, coverage, flaky-test hardening |
+| `designer` | sonnet | UI/UX architecture, interaction design |
+| `writer` | haiku | Documentation, migration notes |
+| `qa-tester` | sonnet | Interactive CLI/service runtime validation via tmux |
+| `scientist` | sonnet | Data analysis, statistical research |
+| `git-master` | sonnet | Git operations, commits, rebase, history management |
+| `document-specialist` | sonnet | External documentation, API/SDK reference lookup |
+| `code-simplifier` | opus | Code clarity, simplification, maintainability improvement |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 代理 | 預設模型 | 角色 |
+|-------|---------------|------|
+| `test-engineer` | sonnet | 測試策略、覆蓋率、脆弱測試強化 |
+| `designer` | sonnet | UI/UX 架構、互動設計 |
+| `writer` | haiku | 文件、遷移說明 |
+| `qa-tester` | sonnet | 透過 tmux 進行互動式 CLI/服務執行期驗證 |
+| `scientist` | sonnet | 資料分析、統計研究 |
+| `git-master` | sonnet | Git 操作、提交、rebase、歷史管理 |
+| `document-specialist` | sonnet | 外部文件、API/SDK 參考查找 |
+| `code-simplifier` | opus | 程式碼清晰度、簡化、可維護性改進 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Coordination Lane</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 協調通道</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Challenges plans and designs made by other agents. A plan passes only when no gaps can be found.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>挑戰其他代理所提出的計畫與設計。只有在找不到任何缺口時，計畫才算通過。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Agent | Default Model | Role |
+|-------|---------------|------|
+| `critic` | opus | Gap analysis of plans and designs, multi-angle review |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 代理 | 預設模型 | 角色 |
+|-------|---------------|------|
+| `critic` | opus | 計畫與設計的缺口分析、多角度審查 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Model Routing</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 模型路由</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>OMC uses three model tiers:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>OMC 使用三個模型層級：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Tier | Model | Characteristics | Cost |
+|------|-------|-----------------|------|
+| LOW | haiku | Fast and inexpensive | Low |
+| MEDIUM | sonnet | Balanced performance and cost | Medium |
+| HIGH | opus | Highest-quality reasoning | High |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 層級 | 模型 | 特性 | 成本 |
+|------|-------|-----------------|------|
+| LOW | haiku | 快速且低成本 | 低 |
+| MEDIUM | sonnet | 性能與成本平衡 | 中 |
+| HIGH | opus | 最高品質推理 | 高 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Default assignments by role:
+- **haiku**: Fast lookups and simple tasks (`explore`, `writer`)
+- **sonnet**: Code implementation, debugging, testing (`executor`, `debugger`, `test-engineer`)
+- **opus**: Architecture, strategic analysis, review (`architect`, `planner`, `critic`, `code-reviewer`)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>依角色的預設分配：
+- **haiku**：快速查找與簡單任務（`explore`、`writer`）
+- **sonnet**：程式碼實作、除錯、測試（`executor`、`debugger`、`test-engineer`）
+- **opus**：架構、策略分析、審查（`architect`、`planner`、`critic`、`code-reviewer`）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Delegation</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 委派</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Work is delegated through the Task tool with intelligent model routing:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>工作會透過 Task 工具與智慧模型路由來委派：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```typescript
+Task(
+  subagent_type=&quot;oh-my-claudecode:executor&quot;,
+  model=&quot;sonnet&quot;,
+  prompt=&quot;Implement feature...&quot;
+)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```typescript
+Task(
+  subagent_type=&quot;oh-my-claudecode:executor&quot;,
+  model=&quot;sonnet&quot;,
+  prompt=&quot;實作功能...&quot;
+)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Delegate to agents when:**
+- Multiple files need to change
+- Refactoring is required
+- Debugging or root-cause analysis is needed
+- Code review or security review is needed
+- Planning or research is required</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**在以下情況委派給代理：**
+- 需要修改多個檔案
+- 需要重構
+- 需要除錯或根因分析
+- 需要程式碼審查或安全審查
+- 需要規劃或研究</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Handle directly when:**
+- Simple file lookups
+- Straightforward question answering
+- Single-command operations</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**在以下情況直接處理：**
+- 簡單的檔案查找
+- 直接的問題回答
+- 單一指令操作</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Agent Selection Guide</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 代理選擇指南</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Task Type | Recommended Agent | Model |
+|-----------|-------------------|-------|
+| Quick code lookup | `explore` | haiku |
+| Feature implementation | `executor` | sonnet |
+| Complex refactoring | `executor` (model=opus) | opus |
+| Simple bug fix | `debugger` | sonnet |
+| Complex debugging | `architect` | opus |
+| UI component | `designer` | sonnet |
+| Documentation | `writer` | haiku |
+| Test strategy | `test-engineer` | sonnet |
+| Security review | `security-reviewer` | sonnet |
+| Code review | `code-reviewer` | opus |
+| Data analysis | `scientist` | sonnet |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 任務類型 | 建議代理程式 | 模型 |
+|-----------|-------------------|-------|
+| 快速程式碼查找 | `explore` | haiku |
+| 功能實作 | `executor` | sonnet |
+| 複雜重構 | `executor` (model=opus) | opus |
+| 簡單錯誤修正 | `debugger` | sonnet |
+| 複雜除錯 | `architect` | opus |
+| UI 元件 | `designer` | sonnet |
+| 文件撰寫 | `writer` | haiku |
+| 測試策略 | `test-engineer` | sonnet |
+| 安全性審查 | `security-reviewer` | sonnet |
+| 程式碼審查 | `code-reviewer` | opus |
+| 資料分析 | `scientist` | sonnet |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Typical Agent Workflow</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 典型代理工作流程</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+explore --&gt; analyst --&gt; planner --&gt; critic --&gt; executor --&gt; verifier
+(discover)  (analyze)   (sequence)  (review)   (implement)  (confirm)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+explore --&gt; analyst --&gt; planner --&gt; critic --&gt; executor --&gt; verifier
+(探索)      (分析)      (排序)      (審查)     (實作)      (確認)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Agent Role Boundaries</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 代理角色邊界</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Agent | Does | Does Not |
+|-------|------|----------|
+| `architect` | Code analysis, debugging, verification | Requirements gathering, planning |
+| `analyst` | Find requirements gaps | Code analysis, planning |
+| `planner` | Create task plans | Requirements analysis, plan review |
+| `critic` | Review plan quality | Requirements analysis, code analysis |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 代理程式 | 會做什麼 | 不會做什麼 |
+|-------|------|----------|
+| `architect` | 程式碼分析、除錯、驗證 | 需求蒐集、規劃 |
+| `analyst` | 找出需求缺口 | 程式碼分析、規劃 |
+| `planner` | 建立任務計畫 | 需求分析、計畫審查 |
+| `critic` | 審查計畫品質 | 需求分析、程式碼分析 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Skills System</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 技能系統</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Overview</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 總覽</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Skills are **behavior injections** that modify how the orchestrator operates. Instead of swapping agents, skills add capabilities on top of existing agents. OMC provides 31 skills total (28 user-invocable + 3 internal/pipeline).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>技能是會修改協調器運作方式的 **行為注入**。技能不是替換代理程式，而是在既有代理程式之上新增能力。OMC 共提供 31 個技能（28 個可由使用者呼叫 + 3 個內部／管線）。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Skill Layers</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 技能層</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Skills compose in three layers:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>技能由三個層次組成：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+┌─────────────────────────────────────────────────────────────┐
+│  GUARANTEE LAYER (optional)                                  │
+│  ralph: &quot;Cannot stop until verified done&quot;                   │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  ENHANCEMENT LAYER (0-N skills)                              │
+│  ultrawork (parallel) | git-master (commits) | frontend-ui-ux│
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  EXECUTION LAYER (primary skill)                             │
+│  default (build) | orchestrate (coordinate) | planner (plan) │
+└─────────────────────────────────────────────────────────────┘
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+┌─────────────────────────────────────────────────────────────┐
+│  保證層（可選）                                               │
+│  ralph: &quot;未經驗證完成前不可停止&quot;                              │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  增強層（0-N 個技能）                                         │
+│  ultrawork (parallel) | git-master (commits) | frontend-ui-ux│
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  執行層（主要技能）                                           │
+│  default (build) | orchestrate (coordinate) | planner (plan) │
+└─────────────────────────────────────────────────────────────┘
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Formula:** `[Execution Skill] + [0-N Enhancements] + [Optional Guarantee]`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**公式：** `[執行技能] + [0-N 個增強] + [可選保證]`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Example:
+```
+Task: &quot;ultrawork: refactor API with proper commits&quot;
+Active skills: ultrawork + default + git-master
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>範例：
+```
+任務：&quot;ultrawork：以正確的 commits 重構 API&quot;
+啟用中的技能：ultrawork + default + git-master
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### How to Invoke Skills</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 如何呼叫技能</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Slash commands:**
+```bash
+/oh-my-claudecode:autopilot build me a todo app
+/oh-my-claudecode:ralph refactor the auth module
+/oh-my-claudecode:team 3:executor &quot;implement fullstack app&quot;
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**斜線命令：**
+```bash
+/oh-my-claudecode:autopilot 幫我建立一個待辦事項應用程式
+/oh-my-claudecode:ralph 重構驗證模組
+/oh-my-claudecode:team 3:executor &quot;實作全端應用程式&quot;
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Magic keywords** — include a keyword in natural language and the skill activates automatically:
+```bash
+autopilot build me a todo app      # activates autopilot
+ralph: refactor the auth module    # activates ralph
+ultrawork implement OAuth          # activates ultrawork
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**魔法關鍵字** — 在自然語言中包含關鍵字，技能就會自動啟用：
+```bash
+autopilot build me a todo app      # 啟用 autopilot
+ralph: refactor the auth module    # 啟用 ralph
+ultrawork implement OAuth          # 啟用 ultrawork
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Core Workflow Skills</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 核心工作流程技能</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### autopilot
+Full autonomous 5-stage pipeline from idea to working code.
+- Trigger: `autopilot`, `build me`, `I want a`
+```bash
+autopilot build me a REST API with authentication
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### autopilot
+從構想到可運作程式碼的完整 5 階段自動化管線。
+- 觸發條件：`autopilot`、`build me`、`I want a`
+```bash
+autopilot 幫我建立一個具驗證的 REST API
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### ralph
+Repeating loop that does not stop until work is verified complete. The `verifier` agent confirms completion before the loop exits.
+- Trigger: `ralph`, `don't stop`, `must complete`
+```bash
+ralph: refactor the authentication module
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### ralph
+會重複執行，直到工作被驗證完成才會停止的迴圈。`verifier` 代理程式會在迴圈結束前確認完成狀態。
+- 觸發條件：`ralph`、`don't stop`、`must complete`
+```bash
+ralph：重構驗證模組
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### ultrawork
+Maximum parallelism — launches multiple agents simultaneously.
+- Trigger: `ultrawork`, `ulw`
+```bash
+ultrawork implement user authentication with OAuth
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### ultrawork
+最大程度的平行化——同時啟動多個代理程式。
+- 觸發條件：`ultrawork`、`ulw`
+```bash
+ultrawork 實作使用 OAuth 的使用者驗證
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### team
+Coordinates N Claude agents with a 5-stage pipeline: `plan → prd → exec → verify → fix`
+```bash
+/oh-my-claudecode:team 3:executor &quot;implement fullstack todo app&quot;
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### team
+以 5 階段管線協調 N 個 Claude 代理程式：`plan → prd → exec → verify → fix`
+```bash
+/oh-my-claudecode:team 3:executor &quot;實作全端待辦事項應用程式&quot;
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### ccg (Claude-Codex-Gemini)
+Fans out to Codex and Gemini simultaneously; Claude synthesizes the results.
+- Trigger: `ccg`, `claude-codex-gemini`
+```bash
+ccg: review this authentication implementation
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### ccg (Claude-Codex-Gemini)
+同時分派給 Codex 和 Gemini；Claude 會整合結果。
+- 觸發條件：`ccg`、`claude-codex-gemini`
+```bash
+ccg：審查這個驗證實作
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>#### ralplan
+Iterative planning: Planner, Architect, and Critic loop until they reach consensus.
+- Trigger: `ralplan`
+```bash
+ralplan this feature
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>#### ralplan
+迭代式規劃：Planner、Architect 與 Critic 反覆循環，直到達成共識。
+- 觸發條件：`ralplan`
+```bash
+ralplan 這個功能
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Utility Skills</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 工具型技能</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Skill | Description | Command |
+|-------|-------------|---------|
+| `cancel` | Cancel active execution mode | `/oh-my-claudecode:cancel` |
+| `hud` | Status bar configuration | `/oh-my-claudecode:hud` |
+| `omc-setup` | Initial setup wizard | `/oh-my-claudecode:omc-setup` |
+| `omc-doctor` | Diagnose installation | `/oh-my-claudecode:omc-doctor` |
+| `skillify` | Extract reusable skills from session | `/oh-my-claudecode:skillify` (`learner` deprecated alias) |
+| `skill` | Manage local skills (list/add/remove) | `/oh-my-claudecode:skill` |
+| `trace` | Evidence-driven causal tracing | `/oh-my-claudecode:trace` |
+| `release` | Automated release workflow | `/oh-my-claudecode:release` |
+| `deepinit` | Generate hierarchical AGENTS.md | `/oh-my-claudecode:deepinit` |
+| `deep-interview` | Socratic deep interview | `/deep-interview` |
+| `sciomc` | Parallel scientist agent orchestration | `/oh-my-claudecode:sciomc` |
+| `external-context` | Parallel document-specialist research | `/oh-my-claudecode:external-context` |
+| `ai-slop-cleaner` | Clean AI expression patterns | `/oh-my-claudecode:ai-slop-cleaner` |
+| `writer-memory` | Memory system for writing projects | `/oh-my-claudecode:writer-memory` |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 技能 | 說明 | 指令 |
+|-------|-------------|---------|
+| `cancel` | 取消目前的執行模式 | `/oh-my-claudecode:cancel` |
+| `hud` | 狀態列設定 | `/oh-my-claudecode:hud` |
+| `omc-setup` | 初始設定精靈 | `/oh-my-claudecode:omc-setup` |
+| `omc-doctor` | 診斷安裝狀態 | `/oh-my-claudecode:omc-doctor` |
+| `skillify` | 從工作階段中萃取可重用技能 | `/oh-my-claudecode:skillify`（`learner` 已棄用別名） |
+| `skill` | 管理本地技能（列出／新增／移除） | `/oh-my-claudecode:skill` |
+| `trace` | 以證據為導向的因果追蹤 | `/oh-my-claudecode:trace` |
+| `release` | 自動化發佈工作流程 | `/oh-my-claudecode:release` |
+| `deepinit` | 產生階層式 AGENTS.md | `/oh-my-claudecode:deepinit` |
+| `deep-interview` | 蘇格拉底式深度訪談 | `/deep-interview` |
+| `sciomc` | 平行科學家代理程式協調 | `/oh-my-claudecode:sciomc` |
+| `external-context` | 平行文件專家研究 | `/oh-my-claudecode:external-context` |
+| `ai-slop-cleaner` | 清理 AI 表達模式 | `/oh-my-claudecode:ai-slop-cleaner` |
+| `writer-memory` | 寫作專案的記憶系統 | `/oh-my-claudecode:writer-memory` |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Magic Keyword Reference</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 魔法關鍵字參考</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Keyword | Effect |
+|---------|--------|
+| `ultrawork`, `ulw`, `uw` | Parallel agent orchestration |
+| `autopilot`, `build me`, `I want a`, `handle it all`, `end to end`, `e2e this` | Autonomous execution pipeline |
+| `ralph`, `don't stop`, `must complete`, `until done` | Loop until verified complete |
+| `ccg`, `claude-codex-gemini` | 3-model orchestration |
+| `ralplan` | Consensus-based planning |
+| `deep interview`, `ouroboros` | Socratic deep interview |
+| `code review`, `review code` | Comprehensive code review mode |
+| `security review`, `review security` | Security-focused review mode |
+| `deepsearch`, `search the codebase`, `find in codebase` | Codebase search mode |
+| `deepanalyze`, `deep-analyze` | Deep analysis mode |
+| `ultrathink`, `think hard`, `think deeply` | Deep reasoning mode |
+| `tdd`, `test first`, `red green` | TDD workflow |
+| `deslop`, `anti-slop` | AI expression cleanup |
+| `cancelomc`, `stopomc` | Cancel active execution mode |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 關鍵字 | 效果 |
+|---------|--------|
+| `ultrawork`、`ulw`、`uw` | 平行代理程式協調 |
+| `autopilot`、`build me`、`I want a`、`handle it all`、`end to end`、`e2e this` | 自動化執行管線 |
+| `ralph`、`don't stop`、`must complete`、`until done` | 持續迴圈直到驗證完成 |
+| `ccg`、`claude-codex-gemini` | 3 模型協調 |
+| `ralplan` | 基於共識的規劃 |
+| `deep interview`、`ouroboros` | 蘇格拉底式深度訪談 |
+| `code review`、`review code` | 全面式程式碼審查模式 |
+| `security review`、`review security` | 以安全性為重點的審查模式 |
+| `deepsearch`、`search the codebase`、`find in codebase` | 程式碼庫搜尋模式 |
+| `deepanalyze`、`deep-analyze` | 深度分析模式 |
+| `ultrathink`、`think hard`、`think deeply` | 深度推理模式 |
+| `tdd`、`test first`、`red green` | TDD 工作流程 |
+| `deslop`、`anti-slop` | AI 表達清理 |
+| `cancelomc`、`stopomc` | 取消目前的執行模式 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Keyword Detection Sources</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 關鍵字偵測來源</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Keywords are processed in two places:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>關鍵字會在兩個地方處理：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Source | Role | Customizable |
+|--------|------|--------------|
+| `config.jsonc` `magicKeywords` | 4 categories (ultrawork, search, analyze, ultrathink) | Yes |
+| `keyword-detector` hook | 11+ triggers (autopilot, ralph, ccg, etc.) | No |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 來源 | 角色 | 可自訂 |
+|--------|------|--------------|
+| `config.jsonc` `magicKeywords` | 4 類（ultrawork、search、analyze、ultrathink） | 是 |
+| `keyword-detector` hook | 11+ 個觸發器（autopilot、ralph、ccg 等） | 否 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>The `autopilot`, `ralph`, and `ccg` triggers are hardcoded in the hook and cannot be changed through config.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>`autopilot`、`ralph` 和 `ccg` 觸發器是硬編碼在 hook 中的，無法透過設定變更。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Hooks</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## Hooks</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Overview</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 概覽</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Hooks are code that reacts to Claude Code lifecycle events. They run automatically when a user submits a prompt, uses a tool, or starts/ends a session. OMC implements agent delegation, keyword detection, and state persistence through this hook system.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Hooks 是對 Claude Code 生命週期事件做出反應的程式碼。當使用者提交提示、使用工具或開始/結束工作階段時，它們會自動執行。OMC 透過這個 hook 系統實作 agent 委派、關鍵字偵測與狀態持久化。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Lifecycle Events</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 生命週期事件</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Claude Code provides 11 lifecycle events. OMC registers hooks on these events:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Claude Code 提供 11 個生命週期事件。OMC 會在這些事件上註冊 hooks：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Event | When It Fires | OMC Usage |
+|-------|---------------|-----------|
+| `UserPromptSubmit` | User submits a prompt | Magic keyword detection, skill injection |
+| `SessionStart` | Session begins | Initial setup, project memory load |
+| `PreToolUse` | Before a tool is used | Permission validation, parallel execution hints |
+| `PermissionRequest` | Permission requested | Bash command permission handling |
+| `PostToolUse` | After a tool is used | Result validation, project memory update |
+| `PostToolUseFailure` | After a tool fails | Error recovery handling |
+| `SubagentStart` | Subagent starts | Agent tracking |
+| `SubagentStop` | Subagent stops | Agent tracking, output verification |
+| `PreCompact` | Before context compaction | Preserve critical information, save project memory |
+| `Stop` | Claude is about to stop | Persistent mode enforcement, code simplification |
+| `SessionEnd` | Session ends | Session data cleanup |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 事件 | 何時觸發 | OMC 用途 |
+|-------|---------------|-----------|
+| `UserPromptSubmit` | 使用者提交提示 | 魔法關鍵字偵測、技能注入 |
+| `SessionStart` | 工作階段開始 | 初始設定、載入專案記憶 |
+| `PreToolUse` | 使用工具之前 | 權限驗證、平行執行提示 |
+| `PermissionRequest` | 請求權限時 | Bash 指令權限處理 |
+| `PostToolUse` | 使用工具之後 | 結果驗證、專案記憶更新 |
+| `PostToolUseFailure` | 工具失敗之後 | 錯誤復原處理 |
+| `SubagentStart` | Subagent 啟動時 | agent 追蹤 |
+| `SubagentStop` | Subagent 停止時 | agent 追蹤、輸出驗證 |
+| `PreCompact` | 在上下文壓縮之前 | 保留關鍵資訊、儲存專案記憶 |
+| `Stop` | Claude 即將停止時 | 持續模式強制、程式碼簡化 |
+| `SessionEnd` | 工作階段結束 | 工作階段資料清理 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### system-reminder Injection</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### system-reminder 注入</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Hooks inject additional context to Claude via `&lt;system-reminder&gt;` tags:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Hooks 會透過 `&lt;system-reminder&gt;` 標籤向 Claude 注入額外上下文：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```xml
+&lt;system-reminder&gt;
+hook success: Success
+&lt;/system-reminder&gt;
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```xml
+&lt;system-reminder&gt;
+hook success: Success
+&lt;/system-reminder&gt;
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Injected pattern meanings:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>注入的模式含義：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Pattern | Meaning |
+|---------|---------|
+| `hook success: Success` | Hook ran normally, continue as planned |
+| `hook additional context: ...` | Additional context information, take note |
+| `[MAGIC KEYWORD: ...]` | Magic keyword detected, execute indicated skill |
+| `The boulder never stops` | ralph/ultrawork mode is active |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 模式 | 含義 |
+|---------|---------|
+| `hook success: Success` | Hook 正常執行，依計畫繼續 |
+| `hook additional context: ...` | 額外的上下文資訊，請留意 |
+| `[MAGIC KEYWORD: ...]` | 偵測到魔法關鍵字，執行指定技能 |
+| `The boulder never stops` | ralph/ultrawork 模式已啟用 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Key Hooks</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 主要 Hooks</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**keyword-detector** — fires on `UserPromptSubmit`. Detects magic keywords in user input and activates the corresponding skill.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**keyword-detector** — 在 `UserPromptSubmit` 時觸發。偵測使用者輸入中的魔法關鍵字，並啟用對應的技能。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**persistent-mode** — fires on `Stop`. When a persistent mode (ralph, ultrawork) is active, prevents Claude from stopping until work is verified complete.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**persistent-mode** — 在 `Stop` 時觸發。當持續模式（ralph、ultrawork）啟用時，會阻止 Claude 停止，直到確認工作已完成。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**pre-compact** — fires on `PreCompact`. Saves critical information to the notepad before the context window is compressed.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**pre-compact** — 在 `PreCompact` 時觸發。會在上下文視窗壓縮前將關鍵資訊儲存到 notepad。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**subagent-tracker** — fires on `SubagentStart` and `SubagentStop`. Tracks currently running agents; validates output on stop.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**subagent-tracker** — 在 `SubagentStart` 和 `SubagentStop` 時觸發。追蹤目前執行中的 agents；在停止時驗證輸出。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**context-guard-stop** — fires on `Stop`. Monitors context usage and warns when approaching the limit.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**context-guard-stop** — 在 `Stop` 時觸發。監控上下文使用量，並在接近上限時發出警告。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**code-simplifier** — fires on `Stop`. Disabled by default. When enabled, automatically simplifies modified files when Claude stops.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**code-simplifier** — 在 `Stop` 時觸發。預設停用。啟用後，當 Claude 停止時會自動簡化已修改的檔案。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Enable via config:
+```json
+{
+  &quot;codeSimplifier&quot;: {
+    &quot;enabled&quot;: true,
+    &quot;extensions&quot;: [&quot;.ts&quot;, &quot;.tsx&quot;, &quot;.js&quot;, &quot;.jsx&quot;, &quot;.py&quot;, &quot;.go&quot;, &quot;.rs&quot;],
+    &quot;maxFiles&quot;: 10
+  }
+}
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>透過設定啟用：
+```json
+{
+  &quot;codeSimplifier&quot;: {
+    &quot;enabled&quot;: true,
+    &quot;extensions&quot;: [&quot;.ts&quot;, &quot;.tsx&quot;, &quot;.js&quot;, &quot;.jsx&quot;, &quot;.py&quot;, &quot;.go&quot;, &quot;.rs&quot;],
+    &quot;maxFiles&quot;: 10
+  }
+}
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Hook Registration Structure</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### Hook 註冊結構</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>OMC hooks are declared in `hooks.json`. Each hook is a Node.js script with a timeout:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>OMC hooks 都宣告在 `hooks.json` 中。每個 hook 都是一個帶有逾時設定的 Node.js 腳本：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```json
+{
+  &quot;UserPromptSubmit&quot;: [
+    {
+      &quot;matcher&quot;: &quot;*&quot;,
+      &quot;hooks&quot;: [
+        {
+          &quot;type&quot;: &quot;command&quot;,
+          &quot;command&quot;: &quot;node scripts/keyword-detector.mjs&quot;,
+          &quot;timeout&quot;: 5
+        }
+      ]
+    }
+  ]
+}
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```json
+{
+  &quot;UserPromptSubmit&quot;: [
+    {
+      &quot;matcher&quot;: &quot;*&quot;,
+      &quot;hooks&quot;: [
+        {
+          &quot;type&quot;: &quot;command&quot;,
+          &quot;command&quot;: &quot;node scripts/keyword-detector.mjs&quot;,
+          &quot;timeout&quot;: 5
+        }
+      ]
+    }
+  ]
+}
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- `matcher`: Pattern the hook responds to (`*` matches all input)
+- `timeout`: Timeout in seconds
+- `type`: Always `&quot;command&quot;` (runs an external command)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- `matcher`：hook 回應的模式（`*` 匹配所有輸入）
+- `timeout`：逾時秒數
+- `type`：一律為 `&quot;command&quot;`（執行外部指令）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Disabling Hooks</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 停用 Hooks</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Disable all hooks:
+```bash
+export DISABLE_OMC=1
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>停用所有 hooks：
+```bash
+export DISABLE_OMC=1
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Skip specific hooks (comma-separated):
+```bash
+export OMC_SKIP_HOOKS=&quot;keyword-detector,persistent-mode&quot;
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>略過特定 hooks（以逗號分隔）：
+```bash
+export OMC_SKIP_HOOKS=&quot;keyword-detector,persistent-mode&quot;
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## State Management</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 狀態管理</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Overview</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 概覽</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>OMC stores task progress and project knowledge in the `.omc/` directory. The state system preserves critical information even when context compaction resets the context window.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>OMC 會將任務進度與專案知識儲存在 `.omc/` 目錄中。即使上下文壓縮重設了上下文視窗，狀態系統仍會保留關鍵資訊。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Directory Structure</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 目錄結構</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+.omc/
+├── state/                    # Per-mode state files
+│   ├── autopilot-state.json  # autopilot progress
+│   ├── ralph-state.json      # ralph loop state
+│   ├── team/                 # team task state
+│   ├── interop/              # cross-tool task/message envelopes
+│   └── sessions/             # per-session state
+│       └── {sessionId}/
+├── notepad.md                # Compaction-resistant memo pad
+├── project-memory.json       # Project knowledge store
+├── plans/                    # Execution plans
+├── notepads/                 # Per-plan knowledge capture
+│   └── {plan-name}/
+│       ├── learnings.md
+│       ├── decisions.md
+│       ├── issues.md
+│       └── problems.md
+├── prompts/                  # persisted prompt/response artifacts
+├── autopilot/                # autopilot artifacts
+│   └── spec.md
+├── research/                 # Research results
+└── logs/                     # Execution logs
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+.omc/
+├── state/                    # 各模式的狀態檔案
+│   ├── autopilot-state.json  # autopilot 進度
+│   ├── ralph-state.json      # ralph 迴圈狀態
+│   ├── team/                 # 團隊任務狀態
+│   ├── interop/              # 跨工具任務/訊息封裝
+│   └── sessions/             # 每個 session 的狀態
+│       └── {sessionId}/
+├── notepad.md                # 抗壓縮備忘錄
+├── project-memory.json       # 專案知識儲存庫
+├── plans/                    # 執行計畫
+├── notepads/                 # 每個 plan 的知識擷取
+│   └── {plan-name}/
+│       ├── learnings.md
+│       ├── decisions.md
+│       ├── issues.md
+│       └── problems.md
+├── prompts/                  # 持久化的提示/回應產物
+├── autopilot/                # autopilot 產物
+│   └── spec.md
+├── research/                 # 研究結果
+└── logs/                     # 執行日誌
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Control Plane vs Data Plane</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 控制平面與資料平面</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>OMC keeps orchestration metadata separate from large durable artifacts:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>OMC 會將協調中繼資料與大型持久化產物分開存放：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **Control plane**: queue state, worker assignment, session state, and cross-tool task/message envelopes under `.omc/state/**`.
+- **Data plane**: plans, specs, prompts, results, traces, and other durable artifacts under paths such as `.omc/plans/`, `.omc/notepads/`, `.omc/prompts/`, and `.omc/state/interop/artifacts/**`.
+- **Concrete handoff examples**:
+  - shared interop state keeps task/message metadata inline while storing oversized task descriptions, task results, and message bodies under `.omc/state/interop/artifacts/**`
+  - prompt persistence stores durable prompt/response files under `.omc/prompts/**` and records descriptor metadata alongside job status</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **控制平面**：佇列狀態、worker 指派、session 狀態，以及 `.omc/state/**` 下的跨工具任務/訊息封裝。
+- **資料平面**：計畫、規格、提示、結果、追蹤資訊，以及其他持久化產物，存放於 `.omc/plans/`、`.omc/notepads/`、`.omc/prompts/` 和 `.omc/state/interop/artifacts/**` 等路徑下。
+- **具體交接範例**：
+  - 共用的 interop 狀態會就地保存任務/訊息中繼資料，同時將過大的任務描述、任務結果與訊息內容儲存在 `.omc/state/interop/artifacts/**` 下
+  - 提示持久化會將持久化的 prompt/response 檔案存放於 `.omc/prompts/**` 下，並在 job 狀態旁記錄 descriptor 中繼資料</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Global State:**
+- `~/.omc/state/{name}.json` — user preferences and global config</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**全域狀態：**
+- `~/.omc/state/{name}.json` — 使用者偏好與全域設定</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Legacy locations are auto-migrated on read.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>讀取時會自動遷移舊版位置。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>This separation keeps schedulers and status checks small while allowing richer artifacts to remain durable and inspectable.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>這種分離讓排程器與狀態檢查維持精簡，同時讓更豐富的產物保持持久且可檢視。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Artifact Descriptors and Bounded Handoffs</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 產物描述子與受限交接</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>When a handoff needs to reference a large artifact, prefer a descriptor/handle over pasting the full payload inline. The canonical descriptor shape is:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當交接需要參照大型產物時，請優先使用 descriptor/handle，而不是直接貼上完整 payload。標準的 descriptor 形式如下：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Field | Purpose |
+|------|---------|
+| `kind` | Artifact category (plan, prompt, result, trace, etc.) |
+| `path` | Durable path to the artifact |
+| `contentHash?` | Optional integrity/checksum hint when available |
+| `createdAt` | Creation timestamp |
+| `producer` | Owning tool, skill, or worker |
+| `sizeBytes?` | Optional payload size for threshold decisions |
+| `retention` | Lifecycle hint for cleanup/ownership |
+| `expiresAt?` | Optional expiry for short-lived artifacts |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 欄位 | 目的 |
+|------|---------|
+| `kind` | 成品類別（plan、prompt、result、trace 等） |
+| `path` | 成品的持久化路徑 |
+| `contentHash?` | 可用時提供的可選完整性/校驗和提示 |
+| `createdAt` | 建立時間戳記 |
+| `producer` | 所屬工具、技能或 worker |
+| `sizeBytes?` | 用於門檻判斷的可選負載大小 |
+| `retention` | 用於清理/擁有權的生命週期提示 |
+| `expiresAt?` | 短期成品的可選到期時間 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Bounded handoff rule:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**受限交接規則：**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Keep small payloads inline when the call site's explicit threshold allows it.
+2. Switch to a descriptor + short human-readable summary when the payload would bloat control-plane state.
+3. Preserve ownership/retention metadata with the descriptor so later cleanup and audits remain deterministic.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 當呼叫端的明確門檻允許時，將小型負載內嵌保留。
+2. 當負載會使控制平面狀態膨脹時，改用描述符 + 簡短的人類可讀摘要。
+3. 在描述符中保留擁有權/保留中繼資料，讓後續清理與稽核保持可預測。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Notepad</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 筆記本</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**File:** `.omc/notepad.md`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**檔案：** `.omc/notepad.md`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>The notepad survives context compaction. Content written to it persists even after the context window is reset.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>筆記本會在上下文壓縮後仍然存在。寫入其中的內容即使在上下文視窗重設後也會保留。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Notes can be saved using the `notepad_write_manual` MCP tool or the `notepad_write_priority` tool for persistent notes.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>可使用 `notepad_write_manual` MCP 工具或 `notepad_write_priority` 工具來儲存持久筆記。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**MCP Tools:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**MCP 工具：**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Tool | Description |
+|------|-------------|
+| `notepad_read` | Read notepad contents |
+| `notepad_write_priority` | Write high-priority memo (permanent retention) |
+| `notepad_write_working` | Write working memo |
+| `notepad_write_manual` | Write manual memo |
+| `notepad_prune` | Clean up old memos |
+| `notepad_stats` | View notepad statistics |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 工具 | 說明 |
+|------|-------------|
+| `notepad_read` | 讀取筆記本內容 |
+| `notepad_write_priority` | 寫入高優先級備忘錄（永久保留） |
+| `notepad_write_working` | 寫入工作備忘錄 |
+| `notepad_write_manual` | 寫入手動備忘錄 |
+| `notepad_prune` | 清理舊備忘錄 |
+| `notepad_stats` | 檢視筆記本統計資訊 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**How it works:**
+1. On `PreCompact` event, important information is saved to the notepad
+2. After compaction, notepad contents are re-injected into context
+3. Agents use the notepad to recover previous context</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**運作方式：**
+1. 在 `PreCompact` 事件發生時，重要資訊會儲存到筆記本
+2. 壓縮後，筆記本內容會重新注入到上下文中
+3. 代理使用筆記本來恢復先前的上下文</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Project Memory</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 專案記憶</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**File:** `.omc/project-memory.json`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**檔案：** `.omc/project-memory.json`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Project memory is a persistent store for project-level knowledge. It survives across sessions.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>專案記憶是用來保存專案層級知識的持久化儲存。它會跨工作階段保留。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**MCP Tools:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**MCP 工具：**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Tool | Description |
+|------|-------------|
+| `project_memory_read` | Read project memory |
+| `project_memory_write` | Overwrite entire project memory |
+| `project_memory_add_note` | Add a note |
+| `project_memory_add_directive` | Add a directive |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 工具 | 說明 |
+|------|-------------|
+| `project_memory_read` | 讀取專案記憶 |
+| `project_memory_write` | 覆寫整個專案記憶 |
+| `project_memory_add_note` | 新增一則筆記 |
+| `project_memory_add_directive` | 新增一條指令 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Lifecycle integration:**
+- `SessionStart`: Load project memory and inject into context
+- `PostToolUse`: Extract project knowledge from tool results and save
+- `PreCompact`: Save project memory before context compaction</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**生命週期整合：**
+- `SessionStart`：載入專案記憶並注入到上下文
+- `PostToolUse`：從工具結果中擷取專案知識並儲存
+- `PreCompact`：在上下文壓縮前儲存專案記憶</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Session Scope</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 工作階段範圍</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Path:** `.omc/state/sessions/{sessionId}/`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**路徑：** `.omc/state/sessions/{sessionId}/`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Stores state isolated per session. Multiple sessions on the same project run simultaneously without state conflicts.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>以每個工作階段獨立儲存狀態。同一專案上的多個工作階段可同時執行而不會產生狀態衝突。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Plan Notepad (Per-Plan Knowledge Capture)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 計畫筆記本（每個計畫的知識擷取）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Path:** `.omc/notepads/{plan-name}/`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**路徑：** `.omc/notepads/{plan-name}/`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Stores learnings from each execution plan separately.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>分別儲存每個執行計畫的學習內容。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| File | Contents |
+|------|----------|
+| `learnings.md` | Discovered patterns, successful approaches |
+| `decisions.md` | Architecture decisions and rationale |
+| `issues.md` | Problems and blockers |
+| `problems.md` | Technical debt and cautions |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 檔案 | 內容 |
+|------|----------|
+| `learnings.md` | 發現的模式、成功的方法 |
+| `decisions.md` | 架構決策與理由 |
+| `issues.md` | 問題與阻礙 |
+| `problems.md` | 技術債與注意事項 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>All entries are timestamped automatically.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>所有條目都會自動加上時間戳記。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Centralized State (Optional)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 集中式狀態（可選）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>By default, state is stored in the project's `.omc/` directory and is deleted when the worktree is removed.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>預設情況下，狀態會儲存在專案的 `.omc/` 目錄中，並在工作樹移除時刪除。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>To preserve state across worktree deletions, set the `OMC_STATE_DIR` environment variable:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>若要在刪除工作樹後仍保留狀態，請設定 `OMC_STATE_DIR` 環境變數：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```bash
+# Add to ~/.bashrc or ~/.zshrc
+export OMC_STATE_DIR=&quot;$HOME/.claude/omc&quot;
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```bash
+# 加到 ~/.bashrc 或 ~/.zshrc
+export OMC_STATE_DIR=&quot;$HOME/.claude/omc&quot;
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>State is then stored at `~/.claude/omc/{project-identifier}/`. The project identifier is a hash of the Git remote URL, so the same repository shares state across different worktrees.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>狀態之後會儲存在 `~/.claude/omc/{project-identifier}/`。專案識別碼是 Git 遠端 URL 的雜湊，因此同一個儲存庫會在不同工作樹之間共用狀態。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Persistent Memory Tags</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 持久記憶標籤</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>For critical information, use `&lt;remember&gt;` tags:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>對於關鍵資訊，請使用 `&lt;remember&gt;` 標籤：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```xml
+&lt;!-- Retained for 7 days --&gt;
+&lt;remember&gt;API endpoint changed to /v2&lt;/remember&gt;
+
+&lt;!-- Retained permanently --&gt;
+&lt;remember priority&gt;Never access production DB directly&lt;/remember&gt;
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```xml
+&lt;!-- 保留 7 天 --&gt;
+&lt;remember&gt;API endpoint changed to /v2&lt;/remember&gt;
+
+&lt;!-- 永久保留 --&gt;
+&lt;remember priority&gt;Never access production DB directly&lt;/remember&gt;
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Tag | Retention |
+|-----|-----------|
+| `&lt;remember&gt;` | 7 days |
+| `&lt;remember priority&gt;` | Permanent |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 標籤 | 保留期限 |
+|-----|-----------|
+| `&lt;remember&gt;` | 7 天 |
+| `&lt;remember priority&gt;` | 永久 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Verification Protocol</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 驗證協定</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>The verification module ensures work completion with evidence:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>驗證模組會以證據確保工作完成：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Standard Checks:**
+- BUILD: Compilation passes
+- TEST: All tests pass
+- LINT: No linting errors
+- FUNCTIONALITY: Feature works as expected
+- ARCHITECT: Opus-tier review approval
+- TODO: All tasks completed
+- ERROR_FREE: No unresolved errors</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**標準檢查：**
+- BUILD：編譯通過
+- TEST：所有測試通過
+- LINT：沒有 lint 錯誤
+- FUNCTIONALITY：功能如預期運作
+- ARCHITECT：Opus 層級審查核准
+- TODO：所有任務已完成
+- ERROR_FREE：沒有未解決的錯誤</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Evidence must be fresh (within 5 minutes) and include actual command output.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>證據必須是最新的（5 分鐘內），並包含實際的命令輸出。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## For More Details</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 更多詳細資訊</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **Complete Reference**: See [REFERENCE.md](./REFERENCE.md)
+- **Internal API**: See [FEATURES.md](./FEATURES.md)
+- **User Guide**: See [README.md](../README.md)
+- **Skills Reference**: See CLAUDE.md in your project</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **完整參考**：請見 [REFERENCE.md](./REFERENCE.md)
+- **內部 API**：請見 [FEATURES.md](./FEATURES.md)
+- **使用指南**：請見 [README.md](../README.md)
+- **技能參考**：請見專案中的 CLAUDE.md</code></pre></div></section>
+</main>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oh-my-openagent/src/hooks/AGENTS.md</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+</head>
+<body>
+<main>
+<nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
+<h1 class="path">oh-my-openagent/src/hooks/AGENTS.md</h1><p>被引用於：<code>02-project-guides.md</code>、<code>05-study-plan.md</code></p><p><a href="../../oh-my-openagent/src/hooks/AGENTS.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code># src/hooks/ — ~52 Lifecycle Hooks Across 57 Dirs</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code># src/hooks/ — 57 個目錄中的約 52 個生命週期 Hooks</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Generated:** 2026-05-20</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**生成日期：** 2026-05-20</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## OVERVIEW</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 概覽</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>52 registered hooks. The 57 directories break down as: 48 registered hook dirs (with `index.ts`) + 6 standalone hook `.ts` files (bash-file-read-guard, context-window-monitor, empty-task-response-detector, preemptive-compaction, session-notification, tool-output-truncator) + support dirs (`shared/`, `team-session-events/`, 5 `zauc-mocks-*`/`zauc-sync-mocks`, `.sisyphus/` legacy state). 5-tier composition wired in `src/plugin/hooks/`. All hooks follow `createXXXHook(deps) → HookFunction` factory pattern.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>52 個已註冊的 hooks。這 57 個目錄可分為：48 個已註冊的 hook 目錄（含 `index.ts`）+ 6 個獨立的 hook `.ts` 檔案（bash-file-read-guard、context-window-monitor、empty-task-response-detector、preemptive-compaction、session-notification、tool-output-truncator）+ 支援目錄（`shared/`、`team-session-events/`、5 個 `zauc-mocks-*`/`zauc-sync-mocks`、`.sisyphus/` 舊版狀態）。5 層組合在 `src/plugin/hooks/` 中串接。所有 hooks 都遵循 `createXXXHook(deps) → HookFunction` 的工廠模式。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Unwired WIP (do not modify casually):** `task-reminder/` (has `index.ts` + `createTaskReminderHook` but NOT exported from barrel, NOT imported by any composer) and `hashline-edit-diff-enhancer/` (has only `hook.ts`, NOT registered). Treat as orphaned until wired in.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**尚未接線的 WIP（請勿隨意修改）：** `task-reminder/`（有 `index.ts` + `createTaskReminderHook`，但未從 barrel 匯出，也未被任何 composer 匯入）以及 `hashline-edit-diff-enhancer/`（只有 `hook.ts`，尚未註冊）。在接線完成前，請視為孤兒。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## TIER COMPOSITION</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 分層組合</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Tier | Composer | Base | With team-mode | Where |
+|------|----------|------|----------------|-------|
+| **Session** | `create-session-hooks.ts` | 24 | 24 | OpenCode session lifecycle + chat.params + chat.message |
+| **Tool Guard** | `create-tool-guard-hooks.ts` | 16 | 17 | Pre/post tool execution (+1: `team-tool-gating`) |
+| **Transform** | `create-transform-hooks.ts` | 5 | 7 | `experimental.chat.messages.transform` (+2: `team-mode-status-injector`, `team-mailbox-injector`) |
+| **Continuation** | `create-continuation-hooks.ts` | 7 | 7 | Boulder/atlas/compaction/notification |
+| **Skill** | `create-skill-hooks.ts` | 2 | 2 | Skill awareness (categorySkillReminder, autoSlashCommand) |
+| **Direct event handlers** | `src/plugin/event.ts` | 0 | +4 | `team-session-events/` sub-files: `team-idle-wake-hint`, `team-lead-orphan-handler`, `team-member-error-handler`, `team-member-status-handler` |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 層級 | Composer | 基礎數 | team-mode 下 | 位置 |
+|------|----------|------|----------------|-------|
+| **Session** | `create-session-hooks.ts` | 24 | 24 | OpenCode session 生命週期 + chat.params + chat.message |
+| **Tool Guard** | `create-tool-guard-hooks.ts` | 16 | 17 | 工具執行前/後（+1：`team-tool-gating`） |
+| **Transform** | `create-transform-hooks.ts` | 5 | 7 | `experimental.chat.messages.transform`（+2：`team-mode-status-injector`、`team-mailbox-injector`） |
+| **Continuation** | `create-continuation-hooks.ts` | 7 | 7 | Boulder/atlas/compaction/notification |
+| **Skill** | `create-skill-hooks.ts` | 2 | 2 | Skill 感知（categorySkillReminder、autoSlashCommand） |
+| **Direct event handlers** | `src/plugin/event.ts` | 0 | +4 | `team-session-events/` 子檔案：`team-idle-wake-hint`、`team-lead-orphan-handler`、`team-member-error-handler`、`team-member-status-handler` |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Total exposed hooks: **54 base, 61 with team-mode** (counts the 4 team-session-events handlers individually).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>對外暴露的 hooks 總數：**基礎 54 個，team-mode 下 61 個**（將 4 個 team-session-events handler 分別計算）。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Hook name allowlist for `disabled_hooks`: all configurable hook names enumerated in [`src/config/schema/hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/config/schema/hooks.ts) `HookNameSchema`. Team-session-event sub-hooks are not individually listed in the schema — they activate together with `team_mode.enabled`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>`disabled_hooks` 的 hook 名稱允許清單：所有可設定的 hook 名稱都列在 [`src/config/schema/hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/config/schema/hooks.ts) 的 `HookNameSchema` 中。Team-session-event 的子 hooks 不會在 schema 中逐一列出——它們會隨 `team_mode.enabled` 一起啟用。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Tier 1: Session Hooks (24)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 第 1 層：Session Hooks（24）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Hook | Event | Purpose |
+|------|-------|---------|
+| `contextWindowMonitor` | session.idle | Track context usage |
+| `preemptiveCompaction` | session.idle | Trigger compaction before limit |
+| `sessionRecovery` | session.error | Recover from structural errors (tool_result_missing, thinking_block_order) |
+| `sessionNotification` | session.idle | OS notifications on completion |
+| `thinkMode` | chat.params | Model variant switching for extended thinking |
+| `anthropicContextWindowLimitRecovery` | session.error | Multi-strategy context recovery (truncation, compaction, dedup) |
+| `autoUpdateChecker` | session.created | Check npm for plugin updates |
+| `agentUsageReminder` | chat.message | Remind about available agents |
+| `nonInteractiveEnv` | chat.message | Adjust behavior for `run` command |
+| `interactiveBashSession` | tool.execute | Tmux session lifecycle for interactive_bash tool |
+| `ralphLoop` | event | Self-referential dev loop (boulder continuation) |
+| `editErrorRecovery` | tool.execute.after | Retry failed file edits |
+| `delegateTaskRetry` | tool.execute.after | Retry failed task delegations |
+| `startWork` | chat.message | `/start-work` command handler |
+| `prometheusMdOnly` | tool.execute.before | Enforce .md-only writes for Prometheus |
+| `sisyphusJuniorNotepad` | chat.message | Notepad injection for subagents |
+| `questionLabelTruncator` | tool.execute.before | Truncate long Question tool labels |
+| `taskResumeInfo` | chat.message | Inject task context on resume |
+| `anthropicEffort` | chat.params | Adjust reasoning effort level |
+| `modelFallback` | chat.params | Provider-level proactive model fallback |
+| `noSisyphusGpt` | chat.message | Block Sisyphus from non-GPT providers (with warning toast) |
+| `noHephaestusNonGpt` | chat.message | Block Hephaestus from non-GPT models |
+| `runtimeFallback` | event | Reactive auto-switch on API provider errors |
+| `legacyPluginToast` | chat.message | Show toast when legacy plugin name detected |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| Hook | Event | 用途 |
+|------|-------|---------|
+| `contextWindowMonitor` | session.idle | 追蹤 context 使用量 |
+| `preemptiveCompaction` | session.idle | 在達到上限前觸發 compaction |
+| `sessionRecovery` | session.error | 從結構性錯誤中復原（tool_result_missing、thinking_block_order） |
+| `sessionNotification` | session.idle | 完成時發送作業系統通知 |
+| `thinkMode` | chat.params | 為延伸思考切換模型變體 |
+| `anthropicContextWindowLimitRecovery` | session.error | 多策略 context 復原（截斷、compaction、去重） |
+| `autoUpdateChecker` | session.created | 檢查 npm 是否有外掛更新 |
+| `agentUsageReminder` | chat.message | 提醒可用的 agents |
+| `nonInteractiveEnv` | chat.message | 為 `run` 指令調整行為 |
+| `interactiveBashSession` | tool.execute | `interactive_bash` 工具的 Tmux session 生命週期 |
+| `ralphLoop` | event | 自我指涉的開發迴圈（boulder continuation） |
+| `editErrorRecovery` | tool.execute.after | 重新嘗試失敗的檔案編輯 |
+| `delegateTaskRetry` | tool.execute.after | 重新嘗試失敗的任務委派 |
+| `startWork` | chat.message | `/start-work` 指令處理器 |
+| `prometheusMdOnly` | tool.execute.before | 強制 Prometheus 只能寫入 .md |
+| `sisyphusJuniorNotepad` | chat.message | 為 subagents 注入記事本 |
+| `questionLabelTruncator` | tool.execute.before | 截斷過長的 Question 工具標籤 |
+| `taskResumeInfo` | chat.message | 在恢復時注入任務 context |
+| `anthropicEffort` | chat.params | 調整推理努力等級 |
+| `modelFallback` | chat.params | 在 provider 層級主動進行模型降級切換 |
+| `noSisyphusGpt` | chat.message | 阻止 Sisyphus 使用非 GPT provider（並顯示警告 toast） |
+| `noHephaestusNonGpt` | chat.message | 阻止 Hephaestus 使用非 GPT 模型 |
+| `runtimeFallback` | event | 在 API provider 錯誤時反應式自動切換 |
+| `legacyPluginToast` | chat.message | 偵測到舊版外掛名稱時顯示 toast |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Tier 2: Tool Guard Hooks (16)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 第 2 層：Tool Guard Hooks（16）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Hook | Event | Purpose |
+|------|-------|---------|
+| `commentChecker` | tool.execute.after | Block AI-slop comment patterns (binary: `@code-yeongyu/comment-checker`) |
+| `toolOutputTruncator` | tool.execute.after | Truncate oversized tool output |
+| `directoryAgentsInjector` | tool.execute.before | Inject dir-local AGENTS.md into context |
+| `directoryReadmeInjector` | tool.execute.before | Inject dir-local README.md into context |
+| `emptyTaskResponseDetector` | tool.execute.after | Detect empty task results |
+| `rulesInjector` | tool.execute.before | Conditional rules injection (AGENTS.md, .rules) |
+| `tasksTodowriteDisabler` | tool.execute.before | Disable TodoWrite when Sisyphus task system active |
+| `writeExistingFileGuard` | tool.execute.before | Require Read before Write/Edit on existing files |
+| `bashFileReadGuard` | tool.execute.before | Guard bash commands that read files (cat/head/tail) |
+| `readImageResizer` | tool.execute.after | Resize large images for context efficiency |
+| `todoDescriptionOverride` | tool.execute.before | Override todo item descriptions |
+| `webfetchRedirectGuard` | tool.execute.before | Guard webfetch redirect behavior |
+| `hashlineReadEnhancer` | tool.execute.after | Tag every Read output with `LINE#ID` content hashes |
+| `jsonErrorRecovery` | tool.execute.after | Detect JSON parse errors, inject correction reminder |
+| `fsyncSkipWarning` | tool.execute.after | Warn when fsync is skipped for atomic writes |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| Hook | Event | 用途 |
+|------|-------|---------|
+| `commentChecker` | tool.execute.after | 阻擋 AI-slop 註解模式（二進位：`@code-yeongyu/comment-checker`） |
+| `toolOutputTruncator` | tool.execute.after | 截斷過大的工具輸出 |
+| `directoryAgentsInjector` | tool.execute.before | 將目錄本地的 AGENTS.md 注入 context |
+| `directoryReadmeInjector` | tool.execute.before | 將目錄本地的 README.md 注入 context |
+| `emptyTaskResponseDetector` | tool.execute.after | 偵測空白的任務結果 |
+| `rulesInjector` | tool.execute.before | 條件式規則注入（AGENTS.md、.rules） |
+| `tasksTodowriteDisabler` | tool.execute.before | 當 Sisyphus 任務系統啟用時停用 TodoWrite |
+| `writeExistingFileGuard` | tool.execute.before | 對既有檔案要求先 Read 再 Write/Edit |
+| `bashFileReadGuard` | tool.execute.before | 保護讀取檔案的 bash 指令（cat/head/tail） |
+| `readImageResizer` | tool.execute.after | 為提升 context 效率而縮放大型圖片 |
+| `todoDescriptionOverride` | tool.execute.before | 覆寫待辦事項描述 |
+| `webfetchRedirectGuard` | tool.execute.before | 保護 webfetch 重新導向行為 |
+| `hashlineReadEnhancer` | tool.execute.after | 為每個 Read 輸出標註 `LINE#ID` 內容雜湊 |
+| `jsonErrorRecovery` | tool.execute.after | 偵測 JSON 解析錯誤，注入修正提醒 |
+| `fsyncSkipWarning` | tool.execute.after | 在 atomic writes 略過 fsync 時發出警告 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Tier 3: Transform Hooks (5)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 第 3 層：Transform Hooks（5）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Hook | Event | Purpose |
+|------|-------|---------|
+| `claudeCodeHooks` | messages.transform | Claude Code settings.json compatibility |
+| `keywordDetector` | messages.transform | Detect ultrawork/search/analyze/team modes; inject mode-specific prompt |
+| `contextInjectorMessagesTransform` | messages.transform | Inject AGENTS.md/README.md into context |
+| `thinkingBlockValidator` | messages.transform | Validate thinking block structure |
+| `toolPairValidator` | messages.transform | Validate tool call/result pairing |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| Hook | Event | 用途 |
+|------|-------|---------|
+| `claudeCodeHooks` | messages.transform | Claude Code settings.json 相容性 |
+| `keywordDetector` | messages.transform | 偵測 ultrawork/search/analyze/team 模式；注入對應模式的提示詞 |
+| `contextInjectorMessagesTransform` | messages.transform | 將 AGENTS.md/README.md 注入 context |
+| `thinkingBlockValidator` | messages.transform | 驗證 thinking block 結構 |
+| `toolPairValidator` | messages.transform | 驗證工具呼叫/結果配對 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Tier 4: Continuation Hooks (7)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 第 4 層：Continuation Hooks（7）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Hook | Event | Purpose |
+|------|-------|---------|
+| `stopContinuationGuard` | chat.message | `/stop-continuation` command handler |
+| `compactionContextInjector` | session.compacted | Re-inject context after compaction |
+| `compactionTodoPreserver` | session.compacted | Preserve todos through compaction |
+| `todoContinuationEnforcer` | session.idle | **Boulder** — force continuation on incomplete todos |
+| `unstableAgentBabysitter` | session.idle | Monitor unstable agent behavior |
+| `backgroundNotificationHook` | event | Background task completion notifications |
+| `atlasHook` | event | Master orchestrator for boulder/background sessions |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| Hook | 事件 | 用途 |
+|------|-------|---------|
+| `stopContinuationGuard` | chat.message | `/stop-continuation` 指令處理器 |
+| `compactionContextInjector` | session.compacted | 壓縮後重新注入上下文 |
+| `compactionTodoPreserver` | session.compacted | 在壓縮過程中保留待辦事項 |
+| `todoContinuationEnforcer` | session.idle | **Boulder** — 在未完成的待辦事項上強制繼續 |
+| `unstableAgentBabysitter` | session.idle | 監控不穩定的 agent 行為 |
+| `backgroundNotificationHook` | event | 背景任務完成通知 |
+| `atlasHook` | event | boulder/background 工作階段的主協調器 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Tier 5: Skill Hooks (2)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 第 5 層：技能 Hook（2）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Hook | Event | Purpose |
+|------|-------|---------|
+| `categorySkillReminder` | chat.message | Hint to load skills before invoking categories |
+| `autoSlashCommand` | chat.message | Auto-execute matching `/command` from user message |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| Hook | 事件 | 用途 |
+|------|-------|---------|
+| `categorySkillReminder` | chat.message | 在呼叫 categories 前提示載入 skills |
+| `autoSlashCommand` | chat.message | 自動執行使用者訊息中相符的 `/command` |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Team-mode Hooks (conditional, only when `team_mode.enabled: true`)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### Team-mode Hooks（條件式，僅在 `team_mode.enabled: true` 時）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Hook | Tier | Registered In | Purpose |
+|------|------|---------------|---------|
+| `team-mode-status-injector` | Transform | [`create-transform-hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/hooks/create-transform-hooks.ts) | Inject `&lt;team_mode_status&gt;` block into messages |
+| `team-mailbox-injector` | Transform | [`create-transform-hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/hooks/create-transform-hooks.ts) | Pull pending team mailbox messages into agent context |
+| `team-tool-gating` | Tool Guard | [`create-tool-guard-hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/hooks/create-tool-guard-hooks.ts) | Restrict `team_*` tools based on member role + permissions |
+| `team-idle-wake-hint` | event handler | [`src/plugin/event.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/event.ts) | Nudge idle team members back to work |
+| `team-lead-orphan-handler` | event handler | [`src/plugin/event.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/event.ts) | Detect lead departure → orphan members |
+| `team-member-error-handler` | event handler | [`src/plugin/event.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/event.ts) | React to member session errors |
+| `team-member-status-handler` | event handler | [`src/plugin/event.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/event.ts) | Track member status transitions |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| Hook | 層級 | 註冊於 | 用途 |
+|------|------|---------------|---------|
+| `team-mode-status-injector` | Transform | [`create-transform-hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/hooks/create-transform-hooks.ts) | 將 `&lt;team_mode_status&gt;` 區塊注入訊息中 |
+| `team-mailbox-injector` | Transform | [`create-transform-hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/hooks/create-transform-hooks.ts) | 將待處理的 team mailbox 訊息拉入 agent 上下文 |
+| `team-tool-gating` | Tool Guard | [`create-tool-guard-hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/hooks/create-tool-guard-hooks.ts) | 根據成員角色與權限限制 `team_*` 工具 |
+| `team-idle-wake-hint` | event handler | [`src/plugin/event.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/event.ts) | 提醒閒置的 team 成員回到工作 |
+| `team-lead-orphan-handler` | event handler | [`src/plugin/event.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/event.ts) | 偵測 lead 離開 → 將成員 orphan 化 |
+| `team-member-error-handler` | event handler | [`src/plugin/event.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/event.ts) | 回應成員 session 錯誤 |
+| `team-member-status-handler` | event handler | [`src/plugin/event.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/event.ts) | 追蹤成員狀態轉換 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>The 4 `team-session-events/` handlers live in `src/hooks/team-session-events/` (separate files: `team-idle-wake-hint.ts`, `team-lead-orphan-handler.ts`, `team-member-error-handler.ts`, `team-member-status-handler.ts`) and are wired into `src/plugin/event.ts` directly, not through a tier composer.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>這 4 個 `team-session-events/` handlers 位於 `src/hooks/team-session-events/`（獨立檔案：`team-idle-wake-hint.ts`、`team-lead-orphan-handler.ts`、`team-member-error-handler.ts`、`team-member-status-handler.ts`），並直接接到 `src/plugin/event.ts`，不是透過 tier composer。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## STRUCTURE</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 結構</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+hooks/
+├── shared/                                  # Cross-hook helpers (timing, prompt builders, etc.)
+├── (52 hook directories — see tier tables above)
+├── zauc-mocks-{bg,cache,hook,ws}, zauc-sync-mocks  # 5 test mocks (NOT hooks; named for sort-order isolation)
+└── (each hook dir)/
+    ├── index.ts        # createXXXHook factory + barrel
+    ├── *.ts            # implementation
+    └── *.test.ts       # bun:test
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+hooks/
+├── shared/                                  # 跨 hook 輔助工具（時間控制、prompt 建構器等）
+├── (52 個 hook 目錄 — 請見上方的層級表)
+├── zauc-mocks-{bg,cache,hook,ws}, zauc-sync-mocks  # 5 個測試 mock（不是 hooks；命名是為了排序順序隔離）
+└── （每個 hook 目錄）/
+    ├── index.ts        # createXXXHook factory + barrel
+    ├── *.ts            # 實作
+    └── *.test.ts       # bun:test
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## ADDING A NEW HOOK</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 新增 Hook</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. `mkdir src/hooks/{name}` + `index.ts` exporting `createXXXHook(deps)`
+2. Pick the right tier:
+   - Session lifecycle? → `create-session-hooks.ts`
+   - Pre/post tool? → `create-tool-guard-hooks.ts`
+   - Message transform? → `create-transform-hooks.ts`
+   - Continuation/idle? → `create-continuation-hooks.ts`
+   - Skill awareness? → `create-skill-hooks.ts`
+   - Team-mode-only? → register inside the team-mode conditional block
+3. Add hook name to [`config/schema/hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/config/schema/hooks.ts) `HookNameSchema`
+4. Cover with co-located `*.test.ts` (given/when/then style)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. `mkdir src/hooks/{name}` + `index.ts` 匯出 `createXXXHook(deps)`
+2. 選擇正確的層級：
+   - Session lifecycle? → `create-session-hooks.ts`
+   - Pre/post tool? → `create-tool-guard-hooks.ts`
+   - Message transform? → `create-transform-hooks.ts`
+   - Continuation/idle? → `create-continuation-hooks.ts`
+   - Skill awareness? → `create-skill-hooks.ts`
+   - Team-mode-only? → 註冊在 team-mode 條件區塊內
+3. 將 hook 名稱加入 [`config/schema/hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/config/schema/hooks.ts) 的 `HookNameSchema`
+4. 使用同目錄的 `*.test.ts` 覆蓋（given/when/then 風格）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## NOTES</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 備註</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **Tier order matters within a phase:** within Session tier the registration order in `create-session-hooks.ts` determines invocation order — earlier hooks see un-mutated input, later hooks see accumulated output.
+- **Mock files** (`zauc-mocks-*`, `zauc-sync-mocks`) are NOT hooks. They are placed inside `src/hooks/` purely so `bun:test` discovers them with the hook test fixtures.
+- **`atlasHook` vs `todoContinuationEnforcer`:** atlas handles boulder/ralph/subagent sessions, todoContinuationEnforcer handles the main Sisyphus session. Both fire on `session.idle` but check session type first.
+- **`runtime-fallback` vs `model-fallback`:** runtime-fallback is reactive (after error); model-fallback is proactive (chat.params). They operate independently.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **層級順序在同一階段內很重要：** 在 Session 層級中，`create-session-hooks.ts` 的註冊順序決定呼叫順序——較早的 hooks 會看到未變更的輸入，較晚的 hooks 會看到累積後的輸出。
+- **Mock 檔案**（`zauc-mocks-*`、`zauc-sync-mocks`）不是 hooks。它們被放在 `src/hooks/` 內純粹是為了讓 `bun:test` 能以 hook 測試 fixtures 發現它們。
+- **`atlasHook` 與 `todoContinuationEnforcer`：** atlas 處理 boulder/ralph/subagent sessions，`todoContinuationEnforcer` 處理主要的 Sisyphus session。兩者都會在 `session.idle` 觸發，但會先檢查 session 類型。
+- **`runtime-fallback` 與 `model-fallback`：** runtime-fallback 是反應式（在錯誤之後）；model-fallback 是前瞻式（chat.params）。它們彼此獨立運作。</code></pre></div></section>
+</main>
+</body>
+</html>

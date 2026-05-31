@@ -1,0 +1,138 @@
+[
+  {
+    "original": "English | [한국어](README.ko.md) | [中文](README.zh.md) | [日本語](README.ja.md) | [Español](README.es.md) | [Tiếng Việt](README.vi.md) | [Português](README.pt.md)",
+    "zh_tw": "English | [한국어](README.ko.md) | [中文](README.zh.md) | [日本語](README.ja.md) | [Español](README.es.md) | [Tiếng Việt](README.vi.md) | [Português](README.pt.md)"
+  },
+  {
+    "original": "# oh-my-claudecode",
+    "zh_tw": "# oh-my-claudecode"
+  },
+  {
+    "original": "[![npm version](https://img.shields.io/npm/v/oh-my-claude-sisyphus?color=cb3837)](https://www.npmjs.com/package/oh-my-claude-sisyphus)\n[![npm downloads](https://img.shields.io/npm/dm/oh-my-claude-sisyphus?color=blue)](https://www.npmjs.com/package/oh-my-claude-sisyphus)\n[![GitHub stars](https://img.shields.io/github/stars/Yeachan-Heo/oh-my-claudecode?style=flat&color=yellow)](https://github.com/Yeachan-Heo/oh-my-claudecode/stargazers)\n[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)\n[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=flat&logo=github)](https://github.com/sponsors/Yeachan-Heo)\n[![Discord](https://img.shields.io/discord/1452487457085063218?color=5865F2&logo=discord&logoColor=white&label=Discord)](https://discord.gg/sj4exxQ9v)",
+    "zh_tw": "[![npm version](https://img.shields.io/npm/v/oh-my-claude-sisyphus?color=cb3837)](https://www.npmjs.com/package/oh-my-claude-sisyphus)\n[![npm downloads](https://img.shields.io/npm/dm/oh-my-claude-sisyphus?color=blue)](https://www.npmjs.com/package/oh-my-claude-sisyphus)\n[![GitHub stars](https://img.shields.io/github/stars/Yeachan-Heo/oh-my-claudecode?style=flat&color=yellow)](https://github.com/Yeachan-Heo/oh-my-claudecode/stargazers)\n[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)\n[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=flat&logo=github)](https://github.com/sponsors/Yeachan-Heo)\n[![Discord](https://img.shields.io/discord/1452487457085063218?color=5865F2&logo=discord&logoColor=white&label=Discord)](https://discord.gg/sj4exxQ9v)"
+  },
+  {
+    "original": "> **For Codex users:** Check out [oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) — the same orchestration experience for OpenAI Codex CLI.",
+    "zh_tw": "> **給 Codex 使用者：** 請查看 [oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) —— 為 OpenAI Codex CLI 提供相同的協調體驗。"
+  },
+  {
+    "original": "**Multi-agent orchestration for Claude Code. Zero learning curve.**",
+    "zh_tw": "**為 Claude Code 提供多代理協調。零學習曲線。**"
+  },
+  {
+    "original": "_Don't learn Claude Code. Just use OMC._",
+    "zh_tw": "_不要學 Claude Code。直接使用 OMC。_"
+  },
+  {
+    "original": "[Get Started](#quick-start) • [Documentation](https://yeachan-heo.github.io/oh-my-claudecode-website) • [CLI Reference](https://yeachan-heo.github.io/oh-my-claudecode-website/docs/#cli-reference) • [Workflows](https://yeachan-heo.github.io/oh-my-claudecode-website/docs/#workflows) • [Migration Guide](docs/MIGRATION.md) • [Discord](https://discord.gg/sj4exxQ9v)",
+    "zh_tw": "[開始使用](#quick-start) • [文件](https://yeachan-heo.github.io/oh-my-claudecode-website) • [CLI 參考](https://yeachan-heo.github.io/oh-my-claudecode-website/docs/#cli-reference) • [工作流程](https://yeachan-heo.github.io/oh-my-claudecode-website/docs/#workflows) • [遷移指南](docs/MIGRATION.md) • [Discord](https://discord.gg/sj4exxQ9v)"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Core Maintainers",
+    "zh_tw": "## 核心維護者"
+  },
+  {
+    "original": "| Role           | Name        | GitHub                                         |\n| -------------- | ----------- | ---------------------------------------------- |\n| Creator & Lead | Yeachan Heo | [@Yeachan-Heo](https://github.com/Yeachan-Heo) |",
+    "zh_tw": "| 角色           | 姓名        | GitHub                                         |\n| -------------- | ----------- | ---------------------------------------------- |\n| 創建者與負責人 | Yeachan Heo | [@Yeachan-Heo](https://github.com/Yeachan-Heo) |"
+  },
+  {
+    "original": "## Ambassadors",
+    "zh_tw": "## 大使"
+  },
+  {
+    "original": "| Name       | GitHub                                           |\n| ---------- | ------------------------------------------------ |\n| Sigrid Jin | [@sigridjineth](https://github.com/sigridjineth) |",
+    "zh_tw": "| 姓名       | GitHub                                           |\n| ---------- | ------------------------------------------------ |\n| Sigrid Jin | [@sigridjineth](https://github.com/sigridjineth) |"
+  },
+  {
+    "original": "## Document Specialists",
+    "zh_tw": "## 文件專家"
+  },
+  {
+    "original": "| Name    | GitHub                                 |\n| ------- | -------------------------------------- |\n| devswha | [@devswha](https://github.com/devswha) |",
+    "zh_tw": "| 姓名    | GitHub                                 |\n| ------- | -------------------------------------- |\n| devswha | [@devswha](https://github.com/devswha) |"
+  },
+  {
+    "original": "## Top Collaborators",
+    "zh_tw": "## 頂尖貢獻者"
+  },
+  {
+    "original": "| Name           | GitHub                                         | Commits |\n| -------------- | ---------------------------------------------- | ------- |\n| JunghwanNA     | [@shaun0927](https://github.com/shaun0927)     | 65      |\n| riftzen-bit    | [@riftzen-bit](https://github.com/riftzen-bit) | 52      |\n| Seunggwan Song | [@Nathan-Song](https://github.com/Nathan-Song) | 20      |\n| BLUE           | [@blue-int](https://github.com/blue-int)       | 20      |\n| Junho Yeo      | [@junhoyeo](https://github.com/junhoyeo)       | 15      |",
+    "zh_tw": "| 姓名           | GitHub                                         | 提交數 |\n| -------------- | ---------------------------------------------- | ------- |\n| JunghwanNA     | [@shaun0927](https://github.com/shaun0927)     | 65      |\n| riftzen-bit    | [@riftzen-bit](https://github.com/riftzen-bit) | 52      |\n| Seunggwan Song | [@Nathan-Song](https://github.com/Nathan-Song) | 20      |\n| BLUE           | [@blue-int](https://github.com/blue-int)       | 20      |\n| Junho Yeo      | [@junhoyeo](https://github.com/junhoyeo)       | 15      |"
+  },
+  {
+    "original": "## Quick Start",
+    "zh_tw": "## 快速開始"
+  },
+  {
+    "original": "**Step 1: Install**",
+    "zh_tw": "**步驟 1：安裝**"
+  },
+  {
+    "original": "Marketplace/plugin install (recommended for most Claude Code users).\nThese are Claude Code slash commands — enter them **one at a time** (pasting both lines at once will fail):",
+    "zh_tw": "Marketplace/plugin 安裝（建議大多數 Claude Code 使用者使用）。\n這些是 Claude Code 的斜線指令 —— 請**一次輸入一個**（一次貼上兩行會失敗）："
+  },
+  {
+    "original": "```bash\n/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode\n```",
+    "zh_tw": "```bash\n/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode\n```"
+  },
+  {
+    "original": "Then:",
+    "zh_tw": "然後："
+  },
+  {
+    "original": "```bash\n/plugin install oh-my-claudecode\n```",
+    "zh_tw": "```bash\n/plugin install oh-my-claudecode\n```"
+  },
+  {
+    "original": "If you prefer the npm CLI/runtime path instead of the marketplace flow:",
+    "zh_tw": "如果你偏好使用 npm CLI/runtime 路徑，而不是 marketplace 流程："
+  },
+  {
+    "original": "```bash\nnpm i -g oh-my-claude-sisyphus@latest\n```",
+    "zh_tw": "```bash\nnpm i -g oh-my-claude-sisyphus@latest\n```"
+  },
+  {
+    "original": "> **Known npm warning:** npm may print `deprecated prebuild-install@7.1.3` during the CLI install.\n> This currently comes from the upstream `better-sqlite3` native-addon dependency\n> (`better-sqlite3 -> prebuild-install`); `prebuild-install@7.1.3` is still the latest\n> published version, so there is no safe repo-side dependency bump or override to remove\n> the warning yet. The warning is tracked in [#2913](https://github.com/Yeachan-Heo/oh-my-claudecode/issues/2913)\n> and does not by itself mean the OMC CLI install failed.",
+    "zh_tw": "> **已知的 npm 警告：** npm 在 CLI 安裝期間可能會輸出 `deprecated prebuild-install@7.1.3`。\n> 這目前來自上游 `better-sqlite3` native-addon 依賴\n> (`better-sqlite3 -> prebuild-install`)；`prebuild-install@7.1.3` 仍然是最新\n> 發布版本，因此目前沒有安全的 repo 端依賴升級或覆寫可以移除此警告。\n> 這個警告記錄於 [#2913](https://github.com/Yeachan-Heo/oh-my-claudecode/issues/2913)\n>，單憑它本身並不代表 OMC CLI 安裝失敗。"
+  },
+  {
+    "original": "**Step 2: Setup**",
+    "zh_tw": "**步驟 2：設定**"
+  },
+  {
+    "original": "```bash\n# Inside a Claude Code / OMC session\n/setup\n/omc-setup\n\n# From your terminal\nomc setup\n```",
+    "zh_tw": "```bash\n# 在 Claude Code / OMC session 內\n/setup\n/omc-setup\n\n# 從你的終端機執行\nomc setup\n```"
+  },
+  {
+    "original": "If you run OMC via `omc --plugin-dir <path>` or `claude --plugin-dir <path>`, add `--plugin-dir-mode` to `omc setup` (or export `OMC_PLUGIN_ROOT` before running it) so the installer doesn't duplicate skills/agents that the plugin already provides at runtime. See the [Plugin directory flags section in REFERENCE.md](./docs/REFERENCE.md#plugin-directory-flags) for a complete decision matrix and all available flags.",
+    "zh_tw": "如果你透過 `omc --plugin-dir <path>` 或 `claude --plugin-dir <path>` 執行 OMC，請在 `omc setup` 加上 `--plugin-dir-mode`（或在執行前匯出 `OMC_PLUGIN_ROOT`），這樣安裝程式就不會重複建立插件在執行時已經提供的 skills/agents。請參閱 [REFERENCE.md 中的 Plugin directory flags 區段](./docs/REFERENCE.md#plugin-directory-flags) 以取得完整的決策矩陣與所有可用旗標。"
+  },
+  {
+    "original": "**Step 3: Build something**",
+    "zh_tw": "**步驟 3：打造點東西**"
+  },
+  {
+    "original": "```bash\n# Inside a Claude Code / OMC session\n/autopilot \"build a REST API for managing tasks\"\n\n# Natural-language in-session shortcut\nautopilot: build a REST API for managing tasks\n```",
+    "zh_tw": "```bash\n# 在 Claude Code / OMC session 內\n/autopilot \"build a REST API for managing tasks\"\n\n# 以自然語言在 session 內的捷徑\nautopilot: build a REST API for managing tasks\n```"
+  },
+  {
+    "original": "That's it. Everything else is automatic.",
+    "zh_tw": "就這樣。其他一切都會自動處理。"
+  },
+  {
+    "original": "### CLI Commands vs In-Session Skills",
+    "zh_tw": "### CLI 指令 vs Session 內技能"
+  },
+  {
+    "original": "OMC exposes two different surfaces:",
+    "zh_tw": "OMC 提供兩種不同的操作介面："
+  },
+  {
+    "original": "- **Terminal CLI commands**: run `omc ...` from your shell after installing the npm/runtime path (`npm i -g oh-my-claude-sisyphus@latest`) or from a local checkout.\n- **In-session skills**: run `/...` inside a Claude Code session after installing the plugin/setup flow.",
+    "zh_tw": "- **終端機 CLI 指令**：在安裝 npm/runtime 路徑（`npm i -g oh-my-claude-sisyphus@latest`）之後，或從本機 checkout 後，在你的 shell 中執行 `omc ...`。\n- **Session 內技能**：在安裝 plugin/setup 流程之後，於 Claude Code session 內執行 `/...`。"
+  }
+]

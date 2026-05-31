@@ -1,0 +1,46 @@
+[
+  {
+    "original": "---\nname = \"plan\"\ndescription = \"Create a phased implementation plan with risks, dependencies, and validation checkpoints.\"\n---",
+    "zh_tw": "---\nname = \"plan\"\ndescription = \"建立一份分階段的實作計畫，包含風險、相依性與驗證檢查點。\"\n---"
+  },
+  {
+    "original": "## Purpose",
+    "zh_tw": "## 目的"
+  },
+  {
+    "original": "Use this skill when the request is non-trivial and should be planned before editing code.",
+    "zh_tw": "當請求並非簡單任務，且應在編輯程式碼之前先規劃時，使用此技能。"
+  },
+  {
+    "original": "## Trigger",
+    "zh_tw": "## 觸發條件"
+  },
+  {
+    "original": "- User asks for strategy, roadmap, or migration plan\n- Scope touches multiple files or subsystems\n- Work needs sequencing or parallelization decisions",
+    "zh_tw": "- 使用者要求策略、路線圖或遷移計畫\n- 範圍涉及多個檔案或子系統\n- 工作需要決定順序或平行化安排"
+  },
+  {
+    "original": "## Workflow",
+    "zh_tw": "## 工作流程"
+  },
+  {
+    "original": "1. Restate goals, constraints, and acceptance criteria.\n2. Inspect only the repository areas required for planning.\n3. Keep this stage read-only (no edits).\n4. Break work into phases and atomic tasks.\n5. Mark dependencies, critical path tasks, and parallelizable sidecars.\n6. Add validation checkpoints and rollback notes.\n7. List 3-5 critical files for implementation focus.",
+    "zh_tw": "1. 重新陳述目標、限制與驗收標準。\n2. 只檢查規劃所需的儲存庫區域。\n3. 維持此階段為唯讀（不做任何編輯）。\n4. 將工作拆分為各個階段與原子任務。\n5. 標示相依性、關鍵路徑任務，以及可平行處理的側邊工作。\n6. 加入驗證檢查點與回滾說明。\n7. 列出 3-5 個實作重點的關鍵檔案。"
+  },
+  {
+    "original": "## Output Template",
+    "zh_tw": "## 輸出範本"
+  },
+  {
+    "original": "```markdown\n## Goal\n- ...\n\n## Phase Plan\n1. Phase 1 - ...\n2. Phase 2 - ...\n\n## Task Breakdown\n1. ...\n2. ...\n\n## Critical Files\n- ...\n\n## Risks\n- ...\n\n## Validation\n- ...\n```",
+    "zh_tw": "```markdown\n## 目標\n- ...\n\n## 階段計畫\n1. 第 1 階段 - ...\n2. 第 2 階段 - ...\n\n## 任務拆解\n1. ...\n2. ...\n\n## 關鍵檔案\n- ...\n\n## 風險\n- ...\n\n## 驗證\n- ...\n```"
+  },
+  {
+    "original": "## Notes",
+    "zh_tw": "## 備註"
+  },
+  {
+    "original": "- Delegate architecture tradeoffs to `oma-architect` when needed.\n- Keep plans executable and testable, not abstract.",
+    "zh_tw": "- 在需要時，將架構取捨委派給 `oma-architect`。\n- 讓計畫保持可執行且可測試，而不是抽象化。"
+  }
+]

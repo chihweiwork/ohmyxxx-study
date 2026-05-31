@@ -1,0 +1,154 @@
+[
+  {
+    "original": "```yaml\n# .omc/skills/fix-proxy-crash.md\n---\nname: Fix Proxy Crash\ndescription: aiohttp proxy crashes on ClientDisconnectedError\ntriggers: [\"proxy\", \"aiohttp\", \"disconnected\"]\nsource: extracted\n---\nWrap handler at server.py:42 in try/except ClientDisconnectedError...\n```",
+    "zh_tw": "```yaml\n# .omc/skills/fix-proxy-crash.md\n---\nname: Fix Proxy Crash\ndescription: aiohttp proxy 在 ClientDisconnectedError 時發生崩潰\ntriggers: [\"proxy\", \"aiohttp\", \"disconnected\"]\nsource: extracted\n---\n在 server.py:42 的 handler 外層包上 try/except ClientDisconnectedError...\n```"
+  },
+  {
+    "original": "**Manage skills:** `/skill list | add | remove | edit | search`\n**Skillify:** `/skillify` extracts reusable patterns with strict quality gates\n**Auto-inject:** Matching skills load into context automatically — no manual recall needed",
+    "zh_tw": "**管理技能:** `/skill list | add | remove | edit | search`\n**Skillify:** `/skillify` 會以嚴格品質門檻抽取可重用模式\n**自動注入:** 相符的技能會自動載入到上下文中，無需手動召回"
+  },
+  {
+    "original": "Project-scoped skills are stored in `.omc/skills/` and are intended to be committed when you want them shared. If you create them inside a linked git worktree and do not commit them, they disappear when that worktree is removed.",
+    "zh_tw": "專案範圍的技能會儲存在 `.omc/skills/` 中，且在你希望共享它們時，應將其提交。若你在連結的 git worktree 中建立它們但未提交，當該 worktree 被移除時，它們就會消失。"
+  },
+  {
+    "original": "[Full feature list →](docs/REFERENCE.md)",
+    "zh_tw": "[完整功能清單 →](docs/REFERENCE.md)"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## In-session shortcuts",
+    "zh_tw": "## 會話內捷徑"
+  },
+  {
+    "original": "These shortcuts run **inside a Claude Code / OMC session**, not as terminal CLI commands. For shell commands, use the `omc ...` forms shown above. Team mode is explicit: use `/team ...` in-session or `omc team ...` from your shell rather than expecting a bare `team` keyword trigger.",
+    "zh_tw": "這些捷徑是在 **Claude Code / OMC session** 內執行，不是終端機 CLI 指令。若要執行 shell 指令，請使用上方顯示的 `omc ...` 形式。Team mode 需要明確指定：請在 session 內使用 `/team ...`，或從 shell 使用 `omc team ...`，不要期待裸露的 `team` 關鍵字會觸發。"
+  },
+  {
+    "original": "| In-session form            | Kind                   | Effect                                 | Example                                        |\n| -------------------------- | ---------------------- | -------------------------------------- | ---------------------------------------------- |\n| `/team`                    | Slash skill            | Canonical Team orchestration           | `/team 3:executor \"fix all TypeScript errors\"` |\n| `/ccg`                     | Slash skill            | `/ask codex` + `/ask gemini` synthesis | `/ccg review this PR`                          |\n| `/autopilot` / `autopilot` | Skill / prompt trigger | Full autonomous execution              | `/autopilot \"build a todo app\"`                |\n| `/ralph` / `ralph`         | Skill / prompt trigger | Persistence mode                       | `/ralph \"refactor auth\"`                       |\n| `/ultrawork` / `ulw`       | Skill / prompt trigger | Maximum parallelism                    | `/ultrawork \"fix all errors\"`                  |\n| `/ralplan` / `ralplan`     | Skill / prompt trigger | Iterative planning consensus           | `/ralplan \"plan this feature\"`                 |\n| `/deep-interview`          | Slash skill            | Socratic requirements clarification    | `/deep-interview \"vague idea\"`                 |\n| `deepsearch`               | Prompt trigger         | Codebase-focused search routing        | `deepsearch for auth middleware`               |\n| `ultrathink`               | Prompt trigger         | Deep reasoning mode                    | `ultrathink about this architecture`           |\n| `cancelomc`, `stopomc`     | Prompt trigger         | Stop active OMC modes                  | `stopomc`                                      |",
+    "zh_tw": "| 會話內形式                 | 類型                   | 效果                                 | 範例                                        |\n| -------------------------- | ---------------------- | -------------------------------------- | ---------------------------------------------- |\n| `/team`                    | 斜線技能               | Team 的標準編排                       | `/team 3:executor \"fix all TypeScript errors\"` |\n| `/ccg`                     | 斜線技能               | `/ask codex` + `/ask gemini` 的整合結果 | `/ccg review this PR`                          |\n| `/autopilot` / `autopilot` | 技能 / 提示觸發器       | 完全自動執行                          | `/autopilot \"build a todo app\"`                |\n| `/ralph` / `ralph`         | 技能 / 提示觸發器       | 持續執行模式                          | `/ralph \"refactor auth\"`                       |\n| `/ultrawork` / `ulw`       | 技能 / 提示觸發器       | 最大平行度                            | `/ultrawork \"fix all errors\"`                  |\n| `/ralplan` / `ralplan`     | 技能 / 提示觸發器       | 迭代規劃共識                          | `/ralplan \"plan this feature\"`                 |\n| `/deep-interview`          | 斜線技能               | 蘇格拉底式需求釐清                    | `/deep-interview \"vague idea\"`                 |\n| `deepsearch`               | 提示觸發器             | 以程式碼庫為中心的搜尋路由            | `deepsearch for auth middleware`               |\n| `ultrathink`               | 提示觸發器             | 深度推理模式                          | `ultrathink about this architecture`           |\n| `cancelomc`, `stopomc`     | 提示觸發器             | 停止作用中的 OMC 模式                 | `stopomc`                                      |"
+  },
+  {
+    "original": "**Notes:**",
+    "zh_tw": "**注意：**"
+  },
+  {
+    "original": "- **ralph includes ultrawork**: when you activate ralph mode, it automatically includes ultrawork's parallel execution.\n- `swarm` compatibility alias has been removed; migrate existing prompts to `/team` syntax.\n- `plan this` / `plan the` keyword triggers were removed; use `ralplan` or explicit `/oh-my-claudecode:plan`.",
+    "zh_tw": "- **ralph 包含 ultrawork**：當你啟用 ralph 模式時，它會自動包含 ultrawork 的平行執行。\n- `swarm` 相容別名已移除；請將既有提示詞遷移到 `/team` 語法。\n- `plan this` / `plan the` 關鍵字觸發器已移除；請改用 `ralplan` 或明確的 `/oh-my-claudecode:plan`。"
+  },
+  {
+    "original": "## Utilities",
+    "zh_tw": "## 工具"
+  },
+  {
+    "original": "### Provider Advisor (`omc ask` / `/ask`)",
+    "zh_tw": "### 提供者顧問 (`omc ask` / `/ask`)"
+  },
+  {
+    "original": "Run local provider CLIs and save a markdown artifact under `.omc/artifacts/ask/`.",
+    "zh_tw": "執行本機 provider CLI，並將 markdown 成品儲存在 `.omc/artifacts/ask/` 下。"
+  },
+  {
+    "original": "```bash\n# Terminal CLI\nomc ask claude \"review this migration plan\"\nomc ask codex --prompt \"identify architecture risks\"\nomc ask gemini --prompt \"propose UI polish ideas\"\nomc ask claude --agent-prompt executor --prompt \"draft implementation steps\"\n\n# Inside a Claude Code / OMC session\n/ask claude \"review this migration plan\"\n/ask codex \"identify architecture risks\"\n```",
+    "zh_tw": "```bash\n# 終端機 CLI\nomc ask claude \"review this migration plan\"\nomc ask codex --prompt \"identify architecture risks\"\nomc ask gemini --prompt \"propose UI polish ideas\"\nomc ask claude --agent-prompt executor --prompt \"draft implementation steps\"\n\n# 在 Claude Code / OMC session 內\n/ask claude \"review this migration plan\"\n/ask codex \"identify architecture risks\"\n```"
+  },
+  {
+    "original": "Canonical env vars:",
+    "zh_tw": "標準環境變數："
+  },
+  {
+    "original": "- `OMC_ASK_ADVISOR_SCRIPT`\n- `OMC_ASK_ORIGINAL_TASK`",
+    "zh_tw": "- `OMC_ASK_ADVISOR_SCRIPT`\n- `OMC_ASK_ORIGINAL_TASK`"
+  },
+  {
+    "original": "Phase-1 aliases `OMX_ASK_ADVISOR_SCRIPT` and `OMX_ASK_ORIGINAL_TASK` are accepted with deprecation warnings.",
+    "zh_tw": "第一階段別名 `OMX_ASK_ADVISOR_SCRIPT` 與 `OMX_ASK_ORIGINAL_TASK` 會被接受，但會顯示棄用警告。"
+  },
+  {
+    "original": "### Autoresearch (stateful skill)",
+    "zh_tw": "### Autoresearch（具狀態技能）"
+  },
+  {
+    "original": "`omc autoresearch` is now a **hard-deprecated shim**. The authoritative workflow is:",
+    "zh_tw": "`omc autoresearch` 現在是 **硬性棄用的轉接層**。權威工作流程如下："
+  },
+  {
+    "original": "```bash\n/deep-interview --autoresearch improve startup performance\n/oh-my-claudecode:autoresearch\n```",
+    "zh_tw": "```bash\n/deep-interview --autoresearch improve startup performance\n/oh-my-claudecode:autoresearch\n```"
+  },
+  {
+    "original": "- `deep-interview --autoresearch` generates/sets up the mission and evaluator\n- `autoresearch` runs the bounded, single-mission stateful loop\n- each iteration records evaluation JSON plus markdown decision logs\n- non-passing iterations continue\n- strict stopping is controlled by an explicit max-runtime ceiling",
+    "zh_tw": "- `deep-interview --autoresearch` 會產生/設定任務與評估器\n- `autoresearch` 會執行受限的、單一任務的具狀態迴圈\n- 每次迭代都會記錄 evaluation JSON 與 markdown 決策日誌\n- 未通過的迭代會持續進行\n- 嚴格停止由明確的最長執行時間上限控制"
+  },
+  {
+    "original": "### Rate Limit Wait",
+    "zh_tw": "### 速率限制等待"
+  },
+  {
+    "original": "Auto-resume Claude Code sessions when rate limits reset.",
+    "zh_tw": "在速率限制重置時，自動恢復 Claude Code 會話。"
+  },
+  {
+    "original": "```bash\nomc wait          # Check status, get guidance\nomc wait --start  # Enable auto-resume daemon\nomc wait --stop   # Disable daemon\n```",
+    "zh_tw": "```bash\nomc wait          # 檢查狀態，取得指引\nomc wait --start  # 啟用自動恢復 daemon\nomc wait --stop   # 停用 daemon\n```"
+  },
+  {
+    "original": "**Requires:** tmux (for session detection)",
+    "zh_tw": "**需要：** tmux（用於 session 偵測）"
+  },
+  {
+    "original": "### Monitoring & Observability",
+    "zh_tw": "### 監控與可觀測性"
+  },
+  {
+    "original": "Use the HUD for live observability and the current session/replay artifacts for post-session inspection:",
+    "zh_tw": "使用 HUD 進行即時可觀測性，並使用目前的 session/replay 成品進行 session 後檢查："
+  },
+  {
+    "original": "- HUD preset: `/oh-my-claudecode:hud setup` then use a supported preset such as `\"omcHud\": { \"preset\": \"focused\" }`\n- Session summaries: `.omc/sessions/*.json`\n- Replay logs: `.omc/state/agent-replay-*.jsonl`\n- Live HUD rendering: `omc hud`",
+    "zh_tw": "- HUD 預設：`/oh-my-claudecode:hud setup` 然後使用支援的 preset，例如 `\"omcHud\": { \"preset\": \"focused\" }`\n- Session 摘要：`.omc/sessions/*.json`\n- Replay 日誌：`.omc/state/agent-replay-*.jsonl`\n- 即時 HUD 渲染：`omc hud`"
+  },
+  {
+    "original": "### Notification Tags (Telegram/Discord/Slack)",
+    "zh_tw": "### 通知標籤（Telegram/Discord/Slack）"
+  },
+  {
+    "original": "You can configure who gets tagged when stop callbacks send session summaries.",
+    "zh_tw": "你可以設定在 stop callback 傳送 session 摘要時，要標記到哪些人。"
+  },
+  {
+    "original": "```bash\n# Set/replace tag list\nomc config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list \"@alice,bob\"\nomc config-stop-callback discord --enable --webhook <url> --tag-list \"@here,123456789012345678,role:987654321098765432\"\nomc config-stop-callback slack --enable --webhook <url> --tag-list \"<!here>,<@U1234567890>\"\n\n# Incremental updates\nomc config-stop-callback telegram --add-tag charlie\nomc config-stop-callback discord --remove-tag @here\nomc config-stop-callback discord --clear-tags\n```",
+    "zh_tw": "```bash\n# 設定/取代標籤清單\nomc config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list \"@alice,bob\"\nomc config-stop-callback discord --enable --webhook <url> --tag-list \"@here,123456789012345678,role:987654321098765432\"\nomc config-stop-callback slack --enable --webhook <url> --tag-list \"<!here>,<@U1234567890>\"\n\n# 增量更新\nomc config-stop-callback telegram --add-tag charlie\nomc config-stop-callback discord --remove-tag @here\nomc config-stop-callback discord --clear-tags\n```"
+  },
+  {
+    "original": "Tag behavior:",
+    "zh_tw": "標籤行為："
+  },
+  {
+    "original": "- Telegram: `alice` becomes `@alice`\n- Discord: supports `@here`, `@everyone`, numeric user IDs, and `role:<id>`\n- Slack: supports `<@MEMBER_ID>`, `<!channel>`, `<!here>`, `<!everyone>`, `<!subteam^GROUP_ID>`\n- `file` callbacks ignore tag options",
+    "zh_tw": "- Telegram: `alice` 會變成 `@alice`\n- Discord: 支援 `@here`、`@everyone`、數字使用者 ID，以及 `role:<id>`\n- Slack: 支援 `<@MEMBER_ID>`、`<!channel>`、`<!here>`、`<!everyone>`、`<!subteam^GROUP_ID>`\n- `file` callbacks 會忽略標籤選項"
+  },
+  {
+    "original": "### OpenClaw Integration",
+    "zh_tw": "### OpenClaw 整合"
+  },
+  {
+    "original": "Forward Claude Code session events to an [OpenClaw](https://openclaw.ai/) gateway to enable automated responses and workflows via your OpenClaw agent.",
+    "zh_tw": "將 Claude Code 的 session events 轉送到 [OpenClaw](https://openclaw.ai/) gateway，以便透過你的 OpenClaw agent 啟用自動回應與工作流程。"
+  },
+  {
+    "original": "**Quick setup (recommended):**",
+    "zh_tw": "**快速設定（建議）：**"
+  },
+  {
+    "original": "```bash\n/oh-my-claudecode:configure-notifications\n# → When prompted, type \"openclaw\" → choose \"OpenClaw Gateway\"\n```",
+    "zh_tw": "```bash\n/oh-my-claudecode:configure-notifications\n# → 當系統提示時，輸入 \"openclaw\" → 選擇 \"OpenClaw Gateway\"\n```"
+  },
+  {
+    "original": "**Manual setup:** create `~/.claude/omc_config.openclaw.json`:",
+    "zh_tw": "**手動設定：**建立 `~/.claude/omc_config.openclaw.json`："
+  }
+]

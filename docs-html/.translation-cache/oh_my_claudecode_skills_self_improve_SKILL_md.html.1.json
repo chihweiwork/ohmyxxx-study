@@ -1,0 +1,110 @@
+[
+  {
+    "original": "1. Check if target repo path exists. If not configured, ask user for the path to the repository to improve.\n2. Resolve `<self-improve-root>` by running `node {skill_dir}/scripts/resolve-paths.mjs --project-root {repo_path} [--topic \"...\"] [--slug \"...\"] --ensure-dirs`.\n3. Create the `<self-improve-root>/` directory structure by copying from `templates/` in this skill directory into the resolved `config/` root.\n4. Read `<self-improve-root>/state/agent-settings.json`. Check `si_setting_goal`, `si_setting_benchmark`, `si_setting_harness`.\n4. **Trust confirmation** (mandatory, cannot be skipped):\n   a. If `trust_confirmed` is already `true` in agent-settings.json, skip to step 5 (resume path).\n   b. Display the target repo path and ask user to confirm:\n      `\"Self-improve will run benchmark commands inside {repo_path}. This executes arbitrary code in that repository. Confirm? [yes/no]\"`\n   c. If user declines: abort setup and exit. Do NOT proceed.\n   d. Record consent: set `trust_confirmed: true` in agent-settings.json.\n5. Persist `topic_slug` into `config/settings.json` when the resolved root is topic-scoped so future resumes stay on the same track.\n6. If goal not set → read `si-goal-clarifier.md` from this skill directory and run the 4-dimension Socratic interview directly in this context (Objective, Metric, Target, Scope). Write result to `<self-improve-root>/config/goal.md`.\n6. If benchmark not set → read `si-benchmark-builder.md` from this skill directory, spawn a custom Agent(model=opus) with its content as prompt. The agent surveys the repo, creates or wraps a benchmark, validates 3x, and records baseline.\n   After benchmark is set, confirm the benchmark command with user:\n      `\"Benchmark command: {benchmark_command}. This will be run repeatedly during the loop. Confirm? [yes/no]\"`\n   If user declines: abort setup and exit.\n7. If harness not set → confirm default harness rules (H001/H002/H003) with user or customize.\n8. **Gate**: All of `si_setting_goal`, `si_setting_benchmark`, `si_setting_harness`, `trust_confirmed` must be true.\n9. **Create improvement branch** (if it does not exist):\n   ```\n   git -C {repo_path} checkout -b improve/{goal_slug} {target_branch}\n   git -C {repo_path} checkout {target_branch}\n   ```\n   Where `{goal_slug}` is derived from the goal objective (lowercase, underscored). If the branch already exists, skip creation. Persist `goal_slug` in agent-settings.json.\n10. **Mode exclusivity**: Call `state_list_active`. If autopilot, ralph, or ultrawork is active, refuse to start.\n11. Write initial state: `state_write(mode='self-improve', active=true, iteration=0, started_at=<now>)`",
+    "zh_tw": "1. 檢查目標 repo 路徑是否存在。若尚未設定，請使用者提供要改進的 repository 路徑。\n2. 透過執行 `node {skill_dir}/scripts/resolve-paths.mjs --project-root {repo_path} [--topic \"...\"] [--slug \"...\"] --ensure-dirs` 來解析 `<self-improve-root>`。\n3. 透過將此 skill 目錄中的 `templates/` 複製到解析後的 `config/` 根目錄，建立 `<self-improve-root>/` 目錄結構。\n4. 讀取 `<self-improve-root>/state/agent-settings.json`。檢查 `si_setting_goal`、`si_setting_benchmark`、`si_setting_harness`。\n4. **信任確認**（強制，不可略過）：\n   a. 如果 `agent-settings.json` 中的 `trust_confirmed` 已經是 `true`，則跳到步驟 5（續接路徑）。\n   b. 顯示目標 repo 路徑並請使用者確認：\n      `\"Self-improve 將在 {repo_path} 內執行 benchmark 指令。這會在該 repository 中執行任意程式碼。是否確認？ [yes/no]\"`\n   c. 如果使用者拒絕：中止設定並結束。不要繼續。\n   d. 記錄同意：在 `agent-settings.json` 中將 `trust_confirmed` 設為 `true`。\n5. 當解析後的 root 是以 topic 為範圍時，將 `topic_slug` 持久化到 `config/settings.json`，讓未來的續接都能維持在同一條軌道上。\n6. 如果尚未設定目標 → 從此 skill 目錄讀取 `si-goal-clarifier.md`，並在此上下文中直接執行 4 維度 Socratic 訪談（Objective、Metric、Target、Scope）。將結果寫入 `<self-improve-root>/config/goal.md`。\n6. 如果尚未設定 benchmark → 從此 skill 目錄讀取 `si-benchmark-builder.md`，以其內容作為 prompt 來啟動一個自訂 Agent(model=opus)。該 agent 會檢視 repo、建立或包裝一個 benchmark、驗證 3 次，並記錄 baseline。\n   在 benchmark 設定完成後，向使用者確認 benchmark 指令：\n      `\"Benchmark command: {benchmark_command}. 這會在迴圈中反覆執行。是否確認？ [yes/no]\"`\n   如果使用者拒絕：中止設定並結束。\n7. 如果尚未設定 harness → 與使用者確認預設 harness 規則（H001/H002/H003）或自訂。\n8. **門檻**：`si_setting_goal`、`si_setting_benchmark`、`si_setting_harness`、`trust_confirmed` 都必須為 true。\n9. **建立改進分支**（如果不存在）：\n   ```\n   git -C {repo_path} checkout -b improve/{goal_slug} {target_branch}\n   git -C {repo_path} checkout {target_branch}\n   ```\n   其中 `{goal_slug}` 是從目標 objective 派生而來（小寫、以底線分隔）。如果分支已存在，則略過建立。將 `goal_slug` 持久化到 `agent-settings.json`。\n10. **模式互斥**：呼叫 `state_list_active`。如果 autopilot、ralph 或 ultrawork 正在啟用，則拒絕開始。\n11. 寫入初始狀態：`state_write(mode='self-improve', active=true, iteration=0, started_at=<now>)`"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Git Strategy",
+    "zh_tw": "## Git 策略"
+  },
+  {
+    "original": "All git operations happen inside the target repo, NOT in the OMC project root.",
+    "zh_tw": "所有 git 操作都在目標 repo 內進行，而不是在 OMC 專案根目錄。"
+  },
+  {
+    "original": "- **Improvement branch**: `improve/{goal_slug}` — accumulates winning changes only.\n- **Experiment branches**: `experiment/round_{n}_executor_{id}` — short-lived, per executor.\n- **Archive tags**: `archive/round_{n}_executor_{id}` — losing branches tagged before deletion.\n- **Worktree setup** (SKILL.md creates before each executor):\n  ```\n  git -C {repo_path} worktree add worktrees/round_{n}_executor_{id} -b experiment/round_{n}_executor_{id} improve/{goal_slug}\n  ```\n- **Winner merges** via `oh-my-claudecode:git-master`:\n  ```\n  Merge experiment/round_{n}_executor_{winner_id} into improve/{goal_slug} with --no-ff\n  Message: \"Iteration {n}: {hypothesis} (score: {before} → {after})\"\n  ```\n- **Push after merge**: `git -C {repo_path} push origin improve/{goal_slug}` (backup, non-blocking)\n- **Losers archived**: Tag + delete via git-master.",
+    "zh_tw": "- **改進分支**：`improve/{goal_slug}` — 只累積勝出的變更。\n- **實驗分支**：`experiment/round_{n}_executor_{id}` — 短期存在，每個 executor 各自一個。\n- **封存標籤**：`archive/round_{n}_executor_{id}` — 在刪除前先為失敗分支加上標籤。\n- **工作樹設定**（SKILL.md 會在每個 executor 之前建立）：\n  ```\n  git -C {repo_path} worktree add worktrees/round_{n}_executor_{id} -b experiment/round_{n}_executor_{id} improve/{goal_slug}\n  ```\n- **勝出者合併** 透過 `oh-my-claudecode:git-master`：\n  ```\n  Merge experiment/round_{n}_executor_{winner_id} into improve/{goal_slug} with --no-ff\n  Message: \"Iteration {n}: {hypothesis} (score: {before} → {after})\"\n  ```\n- **合併後推送**：`git -C {repo_path} push origin improve/{goal_slug}`（備份用，非阻塞）\n- **失敗者封存**：透過 git-master 先加標籤再刪除。"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Improvement Loop",
+    "zh_tw": "## 改進迴圈"
+  },
+  {
+    "original": "**Gate**: All settings must be true. Once the gate passes, execute continuously without stopping.",
+    "zh_tw": "**門檻**：所有設定都必須為 true。只要通過門檻，就持續執行，不要停下來。"
+  },
+  {
+    "original": "Update `state_write(mode='self-improve', active=true, status=\"running\")`.",
+    "zh_tw": "更新 `state_write(mode='self-improve', active=true, status=\"running\")`。"
+  },
+  {
+    "original": "### Step 0 — Stale Worktree Cleanup (mandatory, runs every iteration)",
+    "zh_tw": "### 步驟 0 — 過期工作樹清理（強制，每次迭代都會執行）"
+  },
+  {
+    "original": "**PREREQUISITE**: This step MUST run to completion before any other step, including resume logic. It is idempotent and safe to run multiple times.",
+    "zh_tw": "**前提條件**：此步驟在任何其他步驟之前都必須完整執行，包括續接邏輯。它是冪等的，可安全重複執行多次。"
+  },
+  {
+    "original": "1. List all worktrees in the target repo: `git -C {repo_path} worktree list`\n2. For any worktree matching `worktrees/round_*` that does NOT belong to the current iteration: remove it with `git -C {repo_path} worktree remove {path} --force`\n3. Run `git -C {repo_path} worktree prune` to clean up stale references\n4. This handles crash recovery — orphaned worktrees from interrupted iterations are cleaned before the new iteration starts",
+    "zh_tw": "1. 列出目標 repo 中所有 worktree：`git -C {repo_path} worktree list`\n2. 對於任何符合 `worktrees/round_*` 且**不**屬於目前迭代的 worktree：使用 `git -C {repo_path} worktree remove {path} --force` 將其移除\n3. 執行 `git -C {repo_path} worktree prune` 以清理過期參照\n4. 這可處理當機復原——在新迭代開始之前，會先清理中斷迭代遺留的孤兒 worktree"
+  },
+  {
+    "original": "### Step 1 — Refresh State",
+    "zh_tw": "### 步驟 1 — 更新狀態"
+  },
+  {
+    "original": "`state_write(mode='self-improve', active=true, iteration=N)` to reset 30min TTL.",
+    "zh_tw": "使用 `state_write(mode='self-improve', active=true, iteration=N)` 來重設 30 分鐘的 TTL。"
+  },
+  {
+    "original": "### Step 2 — Check Stop Request",
+    "zh_tw": "### 步驟 2 — 檢查停止請求"
+  },
+  {
+    "original": "Read state via `state_read(mode='self-improve')`.",
+    "zh_tw": "透過 `state_read(mode='self-improve')` 讀取狀態。"
+  },
+  {
+    "original": "If state is cleared (cancel was invoked) OR status is `user_stopped`:\n  a. Set `status: \"user_stopped\"` in `<self-improve-root>/state/agent-settings.json`\n  b. Update `iteration_state.json`: set `status: \"interrupted\"`, record `current_step`\n  c. Clean up any active worktrees for the current round (Step 0 logic)\n  d. Log: `\"Self-improve stopped by user at iteration {N}, step {current_step}\"`\n  e. Exit gracefully — do NOT invoke /cancel again (already cancelled)",
+    "zh_tw": "如果狀態已清除（已呼叫 cancel）或狀態是 `user_stopped`：\n  a. 在 `<self-improve-root>/state/agent-settings.json` 中將 `status` 設為 `\"user_stopped\"`\n  b. 更新 `iteration_state.json`：將 `status` 設為 `\"interrupted\"`，記錄 `current_step`\n  c. 清理目前輪次任何啟用中的 worktree（步驟 0 邏輯）\n  d. 記錄：`\"Self-improve stopped by user at iteration {N}, step {current_step}\"`\n  e. 正常結束退出——不要再次呼叫 /cancel（已經取消過了）"
+  },
+  {
+    "original": "### Step 3 — Check User Ideas",
+    "zh_tw": "### 步驟 3 — 檢查使用者想法"
+  },
+  {
+    "original": "Read `<self-improve-root>/config/idea.md`. If non-empty, snapshot contents for planners. Clear after planners consume.",
+    "zh_tw": "讀取 `<self-improve-root>/config/idea.md`。如果非空，則為 planners 快照其內容。待 planners 消化後清空。"
+  },
+  {
+    "original": "### Step 4 — Research",
+    "zh_tw": "### 步驟 4 — 研究"
+  },
+  {
+    "original": "Spawn 1 general-purpose Agent(model=opus) with the content of `si-researcher.md` as prompt.",
+    "zh_tw": "以 `si-researcher.md` 的內容作為 prompt，啟動 1 個通用 Agent(model=opus)。"
+  },
+  {
+    "original": "Pass in the prompt:\n- Current iteration number\n- Path to target repo\n- Path to `<self-improve-root>/config/goal.md`\n- Path to `<self-improve-root>/state/iteration_history/` (all prior records)\n- Path to `<self-improve-root>/state/research_briefs/` (prior briefs)\n- Content of `data_contracts.md` Section 3 (Research Brief schema)",
+    "zh_tw": "在 prompt 中傳入：\n- 目前迭代編號\n- 目標 repo 的路徑\n- `<self-improve-root>/config/goal.md` 的路徑\n- `<self-improve-root>/state/iteration_history/` 的路徑（所有先前記錄）\n- `<self-improve-root>/state/research_briefs/` 的路徑（先前的 brief）\n- `data_contracts.md` 第 3 節（Research Brief schema）的內容"
+  },
+  {
+    "original": "Expected output: research brief JSON → `<self-improve-root>/state/research_briefs/round_{n}.json`",
+    "zh_tw": "預期輸出：research brief JSON → `<self-improve-root>/state/research_briefs/round_{n}.json`"
+  },
+  {
+    "original": "If researcher fails, proceed with history only.",
+    "zh_tw": "如果 researcher 失敗，則只使用歷史資訊繼續進行。"
+  },
+  {
+    "original": "### Step 5 — Plan",
+    "zh_tw": "### 步驟 5 — 規劃"
+  },
+  {
+    "original": "Spawn N `oh-my-claudecode:planner`(model=opus) agents in parallel (N = `number_of_agents` from settings).",
+    "zh_tw": "並行啟動 N 個 `oh-my-claudecode:planner`(model=opus) agents（N = 設定中的 `number_of_agents`）。"
+  },
+  {
+    "original": "Pass in each planner's prompt:\n- Planner identity (planner_a, planner_b, planner_c...)\n- Research brief path\n- Iteration history path\n- Harness rules from `<self-improve-root>/config/harness.md`\n- Data contract schema for Plan Document\n- **Override instructions**: Output JSON (not markdown), skip interview mode, generate exactly ONE testable hypothesis per plan, include approach_family tag and history_reference.\n- User ideas (if any, planner_a gets priority)",
+    "zh_tw": "在每個 planner 的 prompt 中傳入：\n- Planner 身分（planner_a、planner_b、planner_c...）\n- Research brief 路徑\n- 迭代歷史路徑\n- 來自 `<self-improve-root>/config/harness.md` 的 harness 規則\n- Plan Document 的資料合約 schema\n- **覆寫指示**：輸出 JSON（不是 markdown）、跳過 interview 模式、每個 plan 恰好產生 ONE 個可測試的假設、包含 `approach_family` 標籤與 `history_reference`。\n- 使用者想法（若有，planner_a 優先）"
+  }
+]

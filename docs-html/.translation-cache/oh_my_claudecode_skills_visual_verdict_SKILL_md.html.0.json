@@ -1,0 +1,46 @@
+[
+  {
+    "original": "---\nname: visual-verdict\ndescription: Structured visual QA verdict for screenshot-to-reference comparisons\nlevel: 2\n---",
+    "zh_tw": "---\nname: visual-verdict\ndescription: 用於截圖與參考圖比較的結構化視覺 QA 判定\nlevel: 2\n---"
+  },
+  {
+    "original": "<Purpose>\nUse this skill to compare generated UI screenshots against one or more reference images and return a strict JSON verdict that can drive the next edit iteration.\n</Purpose>",
+    "zh_tw": "<Purpose>\n使用此技能將生成的 UI 截圖與一張或多張參考圖片進行比較，並回傳嚴格的 JSON 判定，以驅動下一輪編輯。\n</Purpose>"
+  },
+  {
+    "original": "<Use_When>\n- The task includes visual fidelity requirements (layout, spacing, typography, component styling)\n- You have a generated screenshot and at least one reference image\n- You need deterministic pass/fail guidance before continuing edits\n</Use_When>",
+    "zh_tw": "<Use_When>\n- 任務包含視覺保真需求（版面、間距、排版、元件樣式）\n- 你有一張生成的截圖和至少一張參考圖片\n- 在繼續編輯前，你需要可決定性的通過／失敗指引\n</Use_When>"
+  },
+  {
+    "original": "<Inputs>\n- `reference_images[]` (one or more image paths)\n- `generated_screenshot` (current output image)\n- Optional: `category_hint` (e.g., `hackernews`, `sns-feed`, `dashboard`)\n</Inputs>",
+    "zh_tw": "<Inputs>\n- `reference_images[]`（一個或多個圖片路徑）\n- `generated_screenshot`（目前輸出圖片）\n- Optional: `category_hint`（例如 `hackernews`、`sns-feed`、`dashboard`）\n</Inputs>"
+  },
+  {
+    "original": "<Output_Contract>\nReturn **JSON only** with this exact shape:",
+    "zh_tw": "<Output_Contract>\n僅回傳 **JSON**，且必須使用這個精確結構："
+  },
+  {
+    "original": "```json\n{\n  \"score\": 0,\n  \"verdict\": \"revise\",\n  \"category_match\": false,\n  \"differences\": [\"...\"],\n  \"suggestions\": [\"...\"],\n  \"reasoning\": \"short explanation\"\n}\n```",
+    "zh_tw": "```json\n{\n  \"score\": 0,\n  \"verdict\": \"revise\",\n  \"category_match\": false,\n  \"differences\": [\"...\"],\n  \"suggestions\": [\"...\"],\n  \"reasoning\": \"簡短說明\"\n}\n```"
+  },
+  {
+    "original": "Rules:\n- `score`: integer 0-100\n- `verdict`: short status (`pass`, `revise`, or `fail`)\n- `category_match`: `true` when the generated screenshot matches the intended UI category/style\n- `differences[]`: concrete visual mismatches (layout, spacing, typography, colors, hierarchy)\n- `suggestions[]`: actionable next edits tied to the differences\n- `reasoning`: 1-2 sentence summary",
+    "zh_tw": "規則：\n- `score`：0-100 的整數\n- `verdict`：簡短狀態（`pass`、`revise` 或 `fail`）\n- `category_match`：當生成的截圖符合預期的 UI 類別／風格時為 `true`\n- `differences[]`：具體的視覺不一致之處（版面、間距、排版、色彩、層級）\n- `suggestions[]`：針對差異提出可執行的下一步編輯\n- `reasoning`：1-2 句摘要"
+  },
+  {
+    "original": "<Threshold_And_Loop>\n- Target pass threshold is **90+**.\n- If `score < 90`, continue editing and rerun `/oh-my-claudecode:visual-verdict` before any further visual review pass.\n- Do **not** treat the visual task as complete until the next screenshot clears the threshold.\n</Threshold_And_Loop>",
+    "zh_tw": "<Threshold_And_Loop>\n- 目標通過門檻是 **90+**。\n- 如果 `score < 90`，請繼續編輯，並在進行任何進一步的視覺審查前重新執行 `/oh-my-claudecode:visual-verdict`。\n- 在下一張截圖達到門檻之前，**不要**將此視覺任務視為完成。\n</Threshold_And_Loop>"
+  },
+  {
+    "original": "<Debug_Visualization>\nWhen mismatch diagnosis is hard:\n1. Keep `$visual-verdict` as the authoritative decision.\n2. Use pixel-level diff tooling (pixel diff / pixelmatch overlay) as a **secondary debug aid** to localize hotspots.\n3. Convert pixel diff hotspots into concrete `differences[]` and `suggestions[]` updates.\n</Debug_Visualization>",
+    "zh_tw": "<Debug_Visualization>\n當難以診斷不一致時：\n1. 讓 `$visual-verdict` 作為權威判定。\n2. 使用像素層級 diff 工具（pixel diff / pixelmatch overlay）作為**次要除錯輔助**來定位熱點。\n3. 將像素 diff 的熱點轉換為具體的 `differences[]` 與 `suggestions[]` 更新。\n</Debug_Visualization>"
+  },
+  {
+    "original": "<Example>\n```json\n{\n  \"score\": 87,\n  \"verdict\": \"revise\",\n  \"category_match\": true,\n  \"differences\": [\n    \"Top nav spacing is tighter than reference\",\n    \"Primary button uses smaller font weight\"\n  ],\n  \"suggestions\": [\n    \"Increase nav item horizontal padding by 4px\",\n    \"Set primary button font-weight to 600\"\n  ],\n  \"reasoning\": \"Core layout matches, but style details still diverge.\"\n}\n```\n</Example>",
+    "zh_tw": "<Example>\n```json\n{\n  \"score\": 87,\n  \"verdict\": \"revise\",\n  \"category_match\": true,\n  \"differences\": [\n    \"頂部導覽列的間距比參考圖更緊湊\",\n    \"主要按鈕使用了較小的字重\"\n  ],\n  \"suggestions\": [\n    \"將導覽項目的水平內距增加 4px\",\n    \"將主要按鈕的 font-weight 設為 600\"\n  ],\n  \"reasoning\": \"核心版面相符，但樣式細節仍有差異。\"\n}\n```\n</Example>"
+  },
+  {
+    "original": "Task: {{ARGUMENTS}}",
+    "zh_tw": "Task: {{ARGUMENTS}}"
+  }
+]

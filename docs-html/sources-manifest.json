@@ -1,0 +1,584 @@
+[
+  {
+    "file": "oh-my-antigravity/agents/architect.md",
+    "docs": [
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 23
+  },
+  {
+    "file": "oh-my-antigravity/agents/consensus.md",
+    "docs": [
+      "02-project-guides.md",
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 25
+  },
+  {
+    "file": "oh-my-antigravity/agents/director.md",
+    "docs": [
+      "02-project-guides.md",
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 29
+  },
+  {
+    "file": "oh-my-antigravity/agents/editor.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 26
+  },
+  {
+    "file": "oh-my-antigravity/agents/executor.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 28
+  },
+  {
+    "file": "oh-my-antigravity/agents/researcher.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 21
+  },
+  {
+    "file": "oh-my-antigravity/agents/reviewer.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 28
+  },
+  {
+    "file": "oh-my-antigravity/agents/verifier.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 27
+  },
+  {
+    "file": "oh-my-antigravity/context/oma-core.md",
+    "docs": [
+      "01-architecture-map.md",
+      "02-project-guides.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 87
+  },
+  {
+    "file": "oh-my-antigravity/README.md",
+    "docs": [
+      "02-project-guides.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 470
+  },
+  {
+    "file": "oh-my-antigravity/skills/context-optimize/SKILL.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 45
+  },
+  {
+    "file": "oh-my-antigravity/skills/execute/SKILL.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 49
+  },
+  {
+    "file": "oh-my-antigravity/skills/learn/SKILL.md",
+    "docs": [
+      "02-project-guides.md",
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 74
+  },
+  {
+    "file": "oh-my-antigravity/skills/plan/SKILL.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 54
+  },
+  {
+    "file": "oh-my-antigravity/skills/ralplan/SKILL.md",
+    "docs": [
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 40
+  },
+  {
+    "file": "oh-my-claudecode/agents/architect.md",
+    "docs": [
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 124
+  },
+  {
+    "file": "oh-my-claudecode/agents/code-reviewer.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 237
+  },
+  {
+    "file": "oh-my-claudecode/agents/debugger.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 145
+  },
+  {
+    "file": "oh-my-claudecode/agents/executor.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 122
+  },
+  {
+    "file": "oh-my-claudecode/agents/planner.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 141
+  },
+  {
+    "file": "oh-my-claudecode/agents/scientist.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 97
+  },
+  {
+    "file": "oh-my-claudecode/agents/tracer.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 163
+  },
+  {
+    "file": "oh-my-claudecode/agents/verifier.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 108
+  },
+  {
+    "file": "oh-my-claudecode/commands/project-session-manager.md",
+    "docs": [
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 19
+  },
+  {
+    "file": "oh-my-claudecode/commands/self-improve.md",
+    "docs": [
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 19
+  },
+  {
+    "file": "oh-my-claudecode/commands/verify.md",
+    "docs": [
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 19
+  },
+  {
+    "file": "oh-my-claudecode/docs/ARCHITECTURE.md",
+    "docs": [
+      "01-architecture-map.md",
+      "02-project-guides.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 619
+  },
+  {
+    "file": "oh-my-claudecode/docs/TOOLS.md",
+    "docs": [
+      "02-project-guides.md"
+    ],
+    "exists": true,
+    "lines": 782
+  },
+  {
+    "file": "oh-my-claudecode/README.md",
+    "docs": [
+      "02-project-guides.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 599
+  },
+  {
+    "file": "oh-my-claudecode/skills/autoresearch/SKILL.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 91
+  },
+  {
+    "file": "oh-my-claudecode/skills/plan/SKILL.md",
+    "docs": [
+      "02-project-guides.md",
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 291
+  },
+  {
+    "file": "oh-my-claudecode/skills/ralph/SKILL.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 256
+  },
+  {
+    "file": "oh-my-claudecode/skills/ralplan/SKILL.md",
+    "docs": [
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 141
+  },
+  {
+    "file": "oh-my-claudecode/skills/sciomc/SKILL.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 512
+  },
+  {
+    "file": "oh-my-claudecode/skills/self-improve/SKILL.md",
+    "docs": [
+      "02-project-guides.md",
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 392
+  },
+  {
+    "file": "oh-my-claudecode/skills/team/SKILL.md",
+    "docs": [
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 1065
+  },
+  {
+    "file": "oh-my-claudecode/skills/visual-verdict/SKILL.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 78
+  },
+  {
+    "file": "oh-my-codex/docs/STATE_MODEL.md",
+    "docs": [
+      "01-architecture-map.md",
+      "02-project-guides.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 277
+  },
+  {
+    "file": "oh-my-codex/plugins/oh-my-codex/skills/analyze/SKILL.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 147
+  },
+  {
+    "file": "oh-my-codex/plugins/oh-my-codex/skills/pipeline/SKILL.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 98
+  },
+  {
+    "file": "oh-my-codex/plugins/oh-my-codex/skills/plan/SKILL.md",
+    "docs": [
+      "02-project-guides.md",
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 278
+  },
+  {
+    "file": "oh-my-codex/plugins/oh-my-codex/skills/prometheus-strict/SKILL.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 220
+  },
+  {
+    "file": "oh-my-codex/plugins/oh-my-codex/skills/ralph/SKILL.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 295
+  },
+  {
+    "file": "oh-my-codex/plugins/oh-my-codex/skills/team/SKILL.md",
+    "docs": [
+      "02-project-guides.md",
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 537
+  },
+  {
+    "file": "oh-my-codex/prompts/architect.md",
+    "docs": [
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 112
+  },
+  {
+    "file": "oh-my-codex/prompts/code-simplifier.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 135
+  },
+  {
+    "file": "oh-my-codex/prompts/executor.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 109
+  },
+  {
+    "file": "oh-my-codex/prompts/planner.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 111
+  },
+  {
+    "file": "oh-my-codex/prompts/prometheus-strict-metis.md",
+    "docs": [
+      "02-project-guides.md",
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 275
+  },
+  {
+    "file": "oh-my-codex/prompts/prometheus-strict-momus.md",
+    "docs": [
+      "02-project-guides.md",
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 83
+  },
+  {
+    "file": "oh-my-codex/prompts/prometheus-strict-oracle.md",
+    "docs": [
+      "02-project-guides.md",
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 108
+  },
+  {
+    "file": "oh-my-codex/prompts/quality-reviewer.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 124
+  },
+  {
+    "file": "oh-my-codex/prompts/security-reviewer.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 144
+  },
+  {
+    "file": "oh-my-codex/prompts/team-orchestrator.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 9
+  },
+  {
+    "file": "oh-my-codex/README.md",
+    "docs": [
+      "02-project-guides.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 445
+  },
+  {
+    "file": "oh-my-openagent/packages/prompts-core/prompts/atlas/default.md",
+    "docs": [
+      "02-project-guides.md"
+    ],
+    "exists": true,
+    "lines": 501
+  },
+  {
+    "file": "oh-my-openagent/packages/prompts-core/prompts/prometheus/default.md",
+    "docs": [
+      "02-project-guides.md"
+    ],
+    "exists": true,
+    "lines": 1558
+  },
+  {
+    "file": "oh-my-openagent/src/agents/AGENTS.md",
+    "docs": [
+      "01-architecture-map.md",
+      "02-project-guides.md",
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 126
+  },
+  {
+    "file": "oh-my-openagent/src/agents/atlas/AGENTS.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 65
+  },
+  {
+    "file": "oh-my-openagent/src/agents/hephaestus/AGENTS.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 42
+  },
+  {
+    "file": "oh-my-openagent/src/agents/prometheus/AGENTS.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 62
+  },
+  {
+    "file": "oh-my-openagent/src/agents/sisyphus-junior/AGENTS.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 51
+  },
+  {
+    "file": "oh-my-openagent/src/agents/sisyphus/AGENTS.md",
+    "docs": [
+      "03-agent-skill-tool-map.md"
+    ],
+    "exists": true,
+    "lines": 37
+  },
+  {
+    "file": "oh-my-openagent/src/hooks/AGENTS.md",
+    "docs": [
+      "02-project-guides.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 150
+  },
+  {
+    "file": "oh-my-openagent/src/hooks/compaction-context-injector/AGENTS.md",
+    "docs": [
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 46
+  },
+  {
+    "file": "oh-my-openagent/src/tools/AGENTS.md",
+    "docs": [
+      "02-project-guides.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 97
+  },
+  {
+    "file": "oh-my-openagent/src/tools/background-task/AGENTS.md",
+    "docs": [
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 54
+  },
+  {
+    "file": "oh-my-openagent/src/tools/delegate-task/AGENTS.md",
+    "docs": [
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 59
+  }
+]

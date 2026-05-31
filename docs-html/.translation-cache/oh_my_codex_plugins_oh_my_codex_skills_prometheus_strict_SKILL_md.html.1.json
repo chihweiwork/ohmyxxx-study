@@ -1,0 +1,74 @@
+[
+  {
+    "original": "The interview is governed by deterministic checklist clearance, not by subjective \"feels enough\" judgement. Exit the Metis interview loop when the 6-item checklist is fully YES: objective / scope IN+OUT / acceptance / test strategy / handoff target / no outstanding CRITICAL. Each item is evaluated with the tri-state defined in `<Turn_Termination_Rules>`.",
+    "zh_tw": "這場訪談由可決定性的檢查清單通過機制所約束，而不是由主觀的「感覺差不多了」判斷。當 6 項檢查清單全部為 YES 時，退出 Metis 訪談迴圈：objective / scope IN+OUT / acceptance / test strategy / handoff target / no outstanding CRITICAL。每一項都依照 `<Turn_Termination_Rules>` 中定義的三態進行評估。"
+  },
+  {
+    "original": "Cap interview rounds at **5** to prevent runaway. If checklist clearance is not reached by round 5, hand the remaining UNKNOWN items to Oracle as explicitly carried-forward `<unresolved_blocker>` entries.",
+    "zh_tw": "將訪談輪次上限設為 **5**，以防止失控。如果到第 5 輪仍未達到檢查清單通過，則將剩餘的 UNKNOWN 項目以明確延續的 `<unresolved_blocker>` 條目交給 Oracle。"
+  },
+  {
+    "original": "**Hostility / non-answer exit**: if the user's responses for a round contain refusal signals (1-2 character non-answers, dismissive `알아서` / \"you decide\" / \"whatever\" patterns, profanity-laden responses, or a `<turn_aborted>` on the prior turn), the round invalidates the answers — it does NOT advance any checklist item to YES, exits the interview loop immediately, and routes the unresolved gaps either to `<silent_absorption>` (for dismissive delegation) or back to the user via `hostility_exit` (for anger / aborted turns). See `prometheus-strict-metis` `<hostility_detection>` for the full pattern list and routing rules.\n</Execution_Policy>",
+    "zh_tw": "**敵意 / 不作答退出**：如果使用者在某一輪的回應包含拒答訊號（1 到 2 個字元的不作答、輕蔑的 `알아서` / \"you decide\" / \"whatever\" 模式、帶有髒話的回應，或前一輪出現 `<turn_aborted>`），則該輪會使答案失效——它不會將任何檢查清單項目推進為 YES，會立即退出訪談迴圈，並將未解決的缺口導向 `<silent_absorption>`（用於輕蔑式委派）或透過 `hostility_exit` 返回給使用者（用於憤怒 / 中止的輪次）。完整模式清單與路由規則請參見 `prometheus-strict-metis` 的 `<hostility_detection>`。\n</Execution_Policy>"
+  },
+  {
+    "original": "<Turn_Termination_Rules>\nEvery Prometheus Strict turn ends with EXACTLY ONE of the following terminations. Bare summaries and \"I think we're done\" are forbidden.",
+    "zh_tw": "<Turn_Termination_Rules>\n每個 Prometheus Strict 輪次都必須且僅能以以下其中一種終止方式結束。禁止只給摘要或說「I think we're done」。"
+  },
+  {
+    "original": "The 6-item checklist is: objective / scope IN+OUT / acceptance / test strategy / handoff target / no outstanding CRITICAL. A checklist item is YES when it is USER_ANSWERED ∪ ABSORBED_WITH_CITATION ∪ INFERRED_FROM_SPEC. Only UNKNOWN (no answer, no citation, no spec inference) counts as NO.",
+    "zh_tw": "6 項檢查清單為：objective / scope IN+OUT / acceptance / test strategy / handoff target / no outstanding CRITICAL。當某一項屬於 USER_ANSWERED ∪ ABSORBED_WITH_CITATION ∪ INFERRED_FROM_SPEC 時，該檢查項目即為 YES。只有 UNKNOWN（沒有答案、沒有引用、也無法從規格推論）才算 NO。"
+  },
+  {
+    "original": "- (a) `omx question` batch: use when at least one CRITICAL question survives `<gap_triage>` and `<self_review>`. The batch is the round; the turn waits for `answers[]` before continuing.\n- (b) explicit handoff: use when the 6-item checklist is fully YES. Hand off Metis → Momus after clearance, Momus → Oracle after critique, and Oracle → user or `<unresolved_blocker>` carry-forward after Pass 2 synthesis.\n- (c) stop-blocker: use when hostility/`<turn_aborted>` is detected via `<hostility_detection>` with subtype `hostility_exit`, or when the next action is destructive, credential-gated, external-production, and cannot be defaulted safely.",
+    "zh_tw": "- (a) `omx question` 批次：當至少有一個 CRITICAL 問題在 `<gap_triage>` 和 `<self_review>` 之後仍然存在時使用。此批次即為該輪；在繼續之前，該輪會等待 `answers[]`。\n- (b) 明確交接：當 6 項檢查清單全部為 YES 時使用。在通過檢查後，將 Metis 交給 Momus；在批判後，將 Momus 交給 Oracle；在 Pass 2 綜合後，將 Oracle 交給使用者，或以 `<unresolved_blocker>` 延續。\n- (c) stop-blocker：當透過 `<hostility_detection>` 偵測到敵意/`<turn_aborted>` 且子類型為 `hostility_exit` 時使用，或當下一步操作具有破壞性、需要憑證、屬於外部生產環境，且無法安全地預設時使用。"
+  },
+  {
+    "original": "Edge cases:\n1. Zero-questions-but-complete-checklist → option (b) explicit handoff. Do not emit an empty `omx question` form.\n2. Round-5-cap with incomplete checklist → option (a) emit one more question batch with surviving UNKNOWN items annotated, OR option (b) handoff with UNKNOWN items carried forward to Oracle as `<unresolved_blocker>` entries.\n3. Hostility/`<turn_aborted>` → option (c) for anger, profanity, or aborted-turn via `hostility_exit`; option (b) for dismissive-delegation (`알아서` / \"you decide\") with absorbed gaps annotated.\n</Turn_Termination_Rules>",
+    "zh_tw": "邊界情況：\n1. 零問題但檢查清單完整 → 選項 (b) 明確交接。不要輸出空的 `omx question` 表單。\n2. 第 5 輪上限且檢查清單不完整 → 選項 (a) 再發出一批問題，並標註仍然存在的 UNKNOWN 項目，或選項 (b) 以 `<unresolved_blocker>` 條目將 UNKNOWN 項目延續給 Oracle。\n3. 敵意/`<turn_aborted>` → 若為憤怒、髒話或透過 `hostility_exit` 的中止輪次，使用選項 (c)；若為輕蔑式委派（`알아서` / \"you decide\"）且已吸收缺口，則使用選項 (b)。\n</Turn_Termination_Rules>"
+  },
+  {
+    "original": "<Steps>\n### 1. Intake and Safety Bounds",
+    "zh_tw": "<Steps>\n### 1. 輸入與安全邊界"
+  },
+  {
+    "original": "Restate the target result, known constraints, deliverables, validation expectations, and stop condition. Identify whether this turn is planning-only or whether the user also requested downstream execution.",
+    "zh_tw": "重新陳述目標結果、已知限制、交付物、驗證期望，以及停止條件。確認這一輪是僅限規劃，還是使用者也要求後續執行。"
+  },
+  {
+    "original": "If the prompt contains destructive, credential-gated, external-production, or materially scope-changing decisions, hold those decisions for explicit user confirmation. Otherwise, continue through the planning loop.",
+    "zh_tw": "如果提示包含具破壞性、需要憑證、外部生產環境，或會實質改變範圍的決策，則將這些決策保留給使用者明確確認。否則，繼續進行規劃迴圈。"
+  },
+  {
+    "original": "### 2. Metis Interview (Iterative, Checklist Clearance)",
+    "zh_tw": "### 2. Metis 訪談（迭代式，檢查清單通過）"
+  },
+  {
+    "original": "Use `prometheus-strict-metis` as the interview voice. When native subagents are available, invoke the dedicated agent; otherwise run the same role in-context without editing files.",
+    "zh_tw": "使用 `prometheus-strict-metis` 作為訪談聲音。當可使用原生子代理時，呼叫專用代理；否則在目前情境中執行相同角色，但不要編輯檔案。"
+  },
+  {
+    "original": "Metis discovers success criteria, non-goals, evidence versus assumptions, required artifacts, likely execution lanes, and missing decisions. Before the first user-facing question batch, Metis must actively fan out repo/external research per intent: `explore` maps local surfaces and exact `gpt-5.4-mini` `researcher` lanes gather official/upstream or OSS-reference evidence. Research-heavy intents use more cheap researchers rather than downgrading Metis/Momus/Oracle judgment.",
+    "zh_tw": "Metis 會探索成功標準、非目標、證據與假設之間的差異、所需產物、可能的執行路徑，以及缺失的決策。在第一批面向使用者的問題之前，Metis 必須依照意圖主動展開 repo/外部研究：`explore` 會對應本地表面，精確的 `gpt-5.4-mini` `researcher` 路線會蒐集官方/上游或 OSS 參考證據。研究量大的意圖應使用更多廉價 researcher，而不是降低 Metis/Momus/Oracle 的判斷層級。"
+  },
+  {
+    "original": "Run the interview as a bounded loop:",
+    "zh_tw": "將訪談作為有界迴圈執行："
+  },
+  {
+    "original": "1. Identify every currently-UNKNOWN checklist item and every CRITICAL question whose answers would materially change scope, safety, or validation.\n2. Batch the round's independent questions into a single Structured Question Surface call (`questions[]` array, or numbered prose fallback outside tmux).\n3. Collect the structured `answers[]`, then run **Gap-fill Pass 1 — answer assimilation**: update evidence vs. assumption and mark checklist items YES only when USER_ANSWERED, ABSORBED_WITH_CITATION, or INFERRED_FROM_SPEC.\n4. Run **Gap-fill Pass 2 — residual adversarial scan**: re-check every remaining UNKNOWN against repo context, prior turns, research fan-out evidence, framework/industry defaults, and conservative reversible defaults; absorb non-CRITICAL gaps with citations/assumptions and leave only CRITICAL blockers.\n5. Run **between-round planning** after Round 1: refresh or reuse `<research_fan_out>` explore/researcher evidence, re-run spec prefill, and prepare Round 2 from residual CRITICAL gaps only.\n6. Evaluate the 6-item checklist (`<Turn_Termination_Rules>` tri-state) only after BOTH gap-fill passes and the minimum two emitted question rounds gate; exit when ALL YES and either no questions were emitted or Round 2 has been emitted and processed.\n7. If checklist clearance is not reached, or only Round 1 has been processed, return to step 1 with the next round. Cap at 5 rounds; on cap, carry remaining UNKNOWN items forward to Oracle as explicit `<unresolved_blocker>` entries.",
+    "zh_tw": "1. 識別所有目前仍為 UNKNOWN 的檢查清單項目，以及所有其答案會實質改變範圍、安全性或驗證的 CRITICAL 問題。\n2. 將該輪的獨立問題批次化為單一 Structured Question Surface 呼叫（`questions[]` 陣列，或在 tmux 之外使用帶編號的文字備援）。\n3. 收集結構化的 `answers[]`，然後執行 **Gap-fill Pass 1 — answer assimilation**：更新證據與假設的狀態，並且只有在 USER_ANSWERED、ABSORBED_WITH_CITATION 或 INFERRED_FROM_SPEC 時才將檢查清單項目標記為 YES。\n4. 執行 **Gap-fill Pass 2 — residual adversarial scan**：將所有剩餘的 UNKNOWN 與 repo 情境、前幾輪內容、研究展開證據、框架/業界預設，以及保守且可回復的預設值重新比對；以引用/假設吸收非 CRITICAL 的缺口，並且只保留 CRITICAL blocker。\n5. 在第 1 輪之後執行 **between-round planning**：更新或重用 `<research_fan_out>` explore/researcher 證據，重新執行 spec prefill，並且只根據剩餘的 CRITICAL 缺口準備第 2 輪。\n6. 只有在完成兩次 gap-fill passes，且至少已發出兩輪問題之後，才評估 6 項檢查清單（`<Turn_Termination_Rules>` 三態）；當全部為 YES，且不是沒有發出任何問題，就是已發出並處理完第 2 輪時，則退出。\n7. 如果尚未達到檢查清單通過，或只處理了第 1 輪，就回到步驟 1 進行下一輪。最多 5 輪；達到上限時，將剩餘的 UNKNOWN 項目以明確的 `<unresolved_blocker>` 條目延續給 Oracle。"
+  },
+  {
+    "original": "### 3. Momus Challenge (Bounded Retry)",
+    "zh_tw": "### 3. Momus 挑戰（有界重試）"
+  },
+  {
+    "original": "Use `prometheus-strict-momus` as the adversarial critique voice. When native subagents are available, invoke the dedicated agent; otherwise run the same role in-context without editing files.",
+    "zh_tw": "使用 `prometheus-strict-momus` 作為對抗式批判聲音。當可使用原生子代理時，呼叫專用代理；否則在目前情境中執行相同角色，但不要編輯檔案。"
+  },
+  {
+    "original": "Momus challenges underspecified acceptance criteria, unsafe assumptions, hidden destructive steps, overbroad scope, missing verification, ownership conflicts, and `$ultragoal`/`$team` handoff ambiguity.",
+    "zh_tw": "Momus 會挑戰定義不足的接受標準、不安全的假設、隱藏的破壞性步驟、過於寬泛的範圍、缺失的驗證、所有權衝突，以及 `$ultragoal`/`$team` 交接的歧義。"
+  }
+]

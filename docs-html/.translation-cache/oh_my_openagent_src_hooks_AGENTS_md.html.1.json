@@ -1,0 +1,50 @@
+[
+  {
+    "original": "| Hook | Event | Purpose |\n|------|-------|---------|\n| `stopContinuationGuard` | chat.message | `/stop-continuation` command handler |\n| `compactionContextInjector` | session.compacted | Re-inject context after compaction |\n| `compactionTodoPreserver` | session.compacted | Preserve todos through compaction |\n| `todoContinuationEnforcer` | session.idle | **Boulder** — force continuation on incomplete todos |\n| `unstableAgentBabysitter` | session.idle | Monitor unstable agent behavior |\n| `backgroundNotificationHook` | event | Background task completion notifications |\n| `atlasHook` | event | Master orchestrator for boulder/background sessions |",
+    "zh_tw": "| Hook | 事件 | 用途 |\n|------|-------|---------|\n| `stopContinuationGuard` | chat.message | `/stop-continuation` 指令處理器 |\n| `compactionContextInjector` | session.compacted | 壓縮後重新注入上下文 |\n| `compactionTodoPreserver` | session.compacted | 在壓縮過程中保留待辦事項 |\n| `todoContinuationEnforcer` | session.idle | **Boulder** — 在未完成的待辦事項上強制繼續 |\n| `unstableAgentBabysitter` | session.idle | 監控不穩定的 agent 行為 |\n| `backgroundNotificationHook` | event | 背景任務完成通知 |\n| `atlasHook` | event | boulder/background 工作階段的主協調器 |"
+  },
+  {
+    "original": "### Tier 5: Skill Hooks (2)",
+    "zh_tw": "### 第 5 層：技能 Hook（2）"
+  },
+  {
+    "original": "| Hook | Event | Purpose |\n|------|-------|---------|\n| `categorySkillReminder` | chat.message | Hint to load skills before invoking categories |\n| `autoSlashCommand` | chat.message | Auto-execute matching `/command` from user message |",
+    "zh_tw": "| Hook | 事件 | 用途 |\n|------|-------|---------|\n| `categorySkillReminder` | chat.message | 在呼叫 categories 前提示載入 skills |\n| `autoSlashCommand` | chat.message | 自動執行使用者訊息中相符的 `/command` |"
+  },
+  {
+    "original": "### Team-mode Hooks (conditional, only when `team_mode.enabled: true`)",
+    "zh_tw": "### Team-mode Hooks（條件式，僅在 `team_mode.enabled: true` 時）"
+  },
+  {
+    "original": "| Hook | Tier | Registered In | Purpose |\n|------|------|---------------|---------|\n| `team-mode-status-injector` | Transform | [`create-transform-hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/hooks/create-transform-hooks.ts) | Inject `<team_mode_status>` block into messages |\n| `team-mailbox-injector` | Transform | [`create-transform-hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/hooks/create-transform-hooks.ts) | Pull pending team mailbox messages into agent context |\n| `team-tool-gating` | Tool Guard | [`create-tool-guard-hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/hooks/create-tool-guard-hooks.ts) | Restrict `team_*` tools based on member role + permissions |\n| `team-idle-wake-hint` | event handler | [`src/plugin/event.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/event.ts) | Nudge idle team members back to work |\n| `team-lead-orphan-handler` | event handler | [`src/plugin/event.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/event.ts) | Detect lead departure → orphan members |\n| `team-member-error-handler` | event handler | [`src/plugin/event.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/event.ts) | React to member session errors |\n| `team-member-status-handler` | event handler | [`src/plugin/event.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/event.ts) | Track member status transitions |",
+    "zh_tw": "| Hook | 層級 | 註冊於 | 用途 |\n|------|------|---------------|---------|\n| `team-mode-status-injector` | Transform | [`create-transform-hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/hooks/create-transform-hooks.ts) | 將 `<team_mode_status>` 區塊注入訊息中 |\n| `team-mailbox-injector` | Transform | [`create-transform-hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/hooks/create-transform-hooks.ts) | 將待處理的 team mailbox 訊息拉入 agent 上下文 |\n| `team-tool-gating` | Tool Guard | [`create-tool-guard-hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/hooks/create-tool-guard-hooks.ts) | 根據成員角色與權限限制 `team_*` 工具 |\n| `team-idle-wake-hint` | event handler | [`src/plugin/event.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/event.ts) | 提醒閒置的 team 成員回到工作 |\n| `team-lead-orphan-handler` | event handler | [`src/plugin/event.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/event.ts) | 偵測 lead 離開 → 將成員 orphan 化 |\n| `team-member-error-handler` | event handler | [`src/plugin/event.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/event.ts) | 回應成員 session 錯誤 |\n| `team-member-status-handler` | event handler | [`src/plugin/event.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/event.ts) | 追蹤成員狀態轉換 |"
+  },
+  {
+    "original": "The 4 `team-session-events/` handlers live in `src/hooks/team-session-events/` (separate files: `team-idle-wake-hint.ts`, `team-lead-orphan-handler.ts`, `team-member-error-handler.ts`, `team-member-status-handler.ts`) and are wired into `src/plugin/event.ts` directly, not through a tier composer.",
+    "zh_tw": "這 4 個 `team-session-events/` handlers 位於 `src/hooks/team-session-events/`（獨立檔案：`team-idle-wake-hint.ts`、`team-lead-orphan-handler.ts`、`team-member-error-handler.ts`、`team-member-status-handler.ts`），並直接接到 `src/plugin/event.ts`，不是透過 tier composer。"
+  },
+  {
+    "original": "## STRUCTURE",
+    "zh_tw": "## 結構"
+  },
+  {
+    "original": "```\nhooks/\n├── shared/                                  # Cross-hook helpers (timing, prompt builders, etc.)\n├── (52 hook directories — see tier tables above)\n├── zauc-mocks-{bg,cache,hook,ws}, zauc-sync-mocks  # 5 test mocks (NOT hooks; named for sort-order isolation)\n└── (each hook dir)/\n    ├── index.ts        # createXXXHook factory + barrel\n    ├── *.ts            # implementation\n    └── *.test.ts       # bun:test\n```",
+    "zh_tw": "```\nhooks/\n├── shared/                                  # 跨 hook 輔助工具（時間控制、prompt 建構器等）\n├── (52 個 hook 目錄 — 請見上方的層級表)\n├── zauc-mocks-{bg,cache,hook,ws}, zauc-sync-mocks  # 5 個測試 mock（不是 hooks；命名是為了排序順序隔離）\n└── （每個 hook 目錄）/\n    ├── index.ts        # createXXXHook factory + barrel\n    ├── *.ts            # 實作\n    └── *.test.ts       # bun:test\n```"
+  },
+  {
+    "original": "## ADDING A NEW HOOK",
+    "zh_tw": "## 新增 Hook"
+  },
+  {
+    "original": "1. `mkdir src/hooks/{name}` + `index.ts` exporting `createXXXHook(deps)`\n2. Pick the right tier:\n   - Session lifecycle? → `create-session-hooks.ts`\n   - Pre/post tool? → `create-tool-guard-hooks.ts`\n   - Message transform? → `create-transform-hooks.ts`\n   - Continuation/idle? → `create-continuation-hooks.ts`\n   - Skill awareness? → `create-skill-hooks.ts`\n   - Team-mode-only? → register inside the team-mode conditional block\n3. Add hook name to [`config/schema/hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/config/schema/hooks.ts) `HookNameSchema`\n4. Cover with co-located `*.test.ts` (given/when/then style)",
+    "zh_tw": "1. `mkdir src/hooks/{name}` + `index.ts` 匯出 `createXXXHook(deps)`\n2. 選擇正確的層級：\n   - Session lifecycle? → `create-session-hooks.ts`\n   - Pre/post tool? → `create-tool-guard-hooks.ts`\n   - Message transform? → `create-transform-hooks.ts`\n   - Continuation/idle? → `create-continuation-hooks.ts`\n   - Skill awareness? → `create-skill-hooks.ts`\n   - Team-mode-only? → 註冊在 team-mode 條件區塊內\n3. 將 hook 名稱加入 [`config/schema/hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/config/schema/hooks.ts) 的 `HookNameSchema`\n4. 使用同目錄的 `*.test.ts` 覆蓋（given/when/then 風格）"
+  },
+  {
+    "original": "## NOTES",
+    "zh_tw": "## 備註"
+  },
+  {
+    "original": "- **Tier order matters within a phase:** within Session tier the registration order in `create-session-hooks.ts` determines invocation order — earlier hooks see un-mutated input, later hooks see accumulated output.\n- **Mock files** (`zauc-mocks-*`, `zauc-sync-mocks`) are NOT hooks. They are placed inside `src/hooks/` purely so `bun:test` discovers them with the hook test fixtures.\n- **`atlasHook` vs `todoContinuationEnforcer`:** atlas handles boulder/ralph/subagent sessions, todoContinuationEnforcer handles the main Sisyphus session. Both fire on `session.idle` but check session type first.\n- **`runtime-fallback` vs `model-fallback`:** runtime-fallback is reactive (after error); model-fallback is proactive (chat.params). They operate independently.",
+    "zh_tw": "- **層級順序在同一階段內很重要：** 在 Session 層級中，`create-session-hooks.ts` 的註冊順序決定呼叫順序——較早的 hooks 會看到未變更的輸入，較晚的 hooks 會看到累積後的輸出。\n- **Mock 檔案**（`zauc-mocks-*`、`zauc-sync-mocks`）不是 hooks。它們被放在 `src/hooks/` 內純粹是為了讓 `bun:test` 能以 hook 測試 fixtures 發現它們。\n- **`atlasHook` 與 `todoContinuationEnforcer`：** atlas 處理 boulder/ralph/subagent sessions，`todoContinuationEnforcer` 處理主要的 Sisyphus session。兩者都會在 `session.idle` 觸發，但會先檢查 session 類型。\n- **`runtime-fallback` 與 `model-fallback`：** runtime-fallback 是反應式（在錯誤之後）；model-fallback 是前瞻式（chat.params）。它們彼此獨立運作。"
+  }
+]

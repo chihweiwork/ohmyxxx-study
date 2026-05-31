@@ -1,0 +1,150 @@
+[
+  {
+    "original": "```\n/team 3:executor \"refactor auth module with security review\"\n\nTask decomposition:\n#1 [codex_worker] Security review of current auth code -> output to .omc/research/auth-security.md\n#2 [codex_worker] Refactor auth/login.ts and auth/session.ts (uses #1 findings)\n#3 [claude_worker:designer] Redesign auth UI components (login form, session indicator)\n#4 [claude_worker] Update auth tests + fix integration issues\n#5 [gemini_worker] Final code review of all changes\n```",
+    "zh_tw": "```\n/team 3:executor \"重構 auth 模組並進行安全審查\"\n\n任務拆解：\n#1 [codex_worker] 目前 auth 程式碼的安全審查 -> output to .omc/research/auth-security.md\n#2 [codex_worker] 重構 auth/login.ts 和 auth/session.ts（使用 #1 的發現）\n#3 [claude_worker:designer] 重新設計 auth UI 元件（登入表單、session 指示器）\n#4 [claude_worker] 更新 auth 測試 + 修正整合問題\n#5 [gemini_worker] 最終程式碼審查所有變更\n```"
+  },
+  {
+    "original": "The lead runs #1 (Codex security analysis), then #2 and #3 in parallel (Codex refactors backend, designer agent redesigns frontend), then #4 (Claude teammate handles test iteration), then #5 (Gemini final review).",
+    "zh_tw": "領導者先執行 #1（Codex 安全分析），再平行執行 #2 和 #3（Codex 重構後端，designer 代理重新設計前端），接著執行 #4（Claude 隊友負責測試迭代），最後執行 #5（Gemini 最終審查）。"
+  },
+  {
+    "original": "### Pre-flight Analysis (Optional)",
+    "zh_tw": "### 起飛前分析（選填）"
+  },
+  {
+    "original": "For large ambiguous tasks, run analysis before team creation:",
+    "zh_tw": "對於大型且含糊的任務，請在建立團隊前先進行分析："
+  },
+  {
+    "original": "1. Spawn `Task(subagent_type=\"oh-my-claudecode:planner\", ...)` with task description + codebase context\n2. Use the analysis to produce better task decomposition\n3. Create team and tasks with enriched context",
+    "zh_tw": "1. 以任務描述 + 程式碼庫背景，啟動 `Task(subagent_type=\"oh-my-claudecode:planner\", ...)`\n2. 利用分析結果產生更好的任務拆解\n3. 以更豐富的背景資訊建立團隊與任務"
+  },
+  {
+    "original": "This is especially useful when the task scope is unclear and benefits from external reasoning before committing to a specific decomposition.",
+    "zh_tw": "這在任務範圍不明確，且在決定具體拆解之前能受益於外部推理時，特別有用。"
+  },
+  {
+    "original": "## Monitor Enhancement: Outbox Auto-Ingestion",
+    "zh_tw": "## 監控增強：Outbox 自動擷取"
+  },
+  {
+    "original": "The lead can proactively ingest outbox messages from CLI workers using the outbox reader utilities, enabling event-driven monitoring without relying solely on `SendMessage` delivery.",
+    "zh_tw": "lead 可以使用 outbox reader 工具主動擷取 CLI worker 的 outbox 訊息，實現事件驅動監控，而不必完全依賴 `SendMessage` 傳遞。"
+  },
+  {
+    "original": "### Outbox Reader Functions",
+    "zh_tw": "### Outbox Reader 函式"
+  },
+  {
+    "original": "**`readNewOutboxMessages(teamName, workerName)`** -- Read new outbox messages for a single worker using a byte-offset cursor. Each call advances the cursor, so subsequent calls only return messages written since the last read. Mirrors the inbox cursor pattern from `readNewInboxMessages()`.",
+    "zh_tw": "**`readNewOutboxMessages(teamName, workerName)`** -- 使用位元組偏移游標讀取單一 worker 的新 outbox 訊息。每次呼叫都會前進游標，因此後續呼叫只會回傳自上次讀取以來寫入的訊息。與 `readNewInboxMessages()` 的 inbox 游標模式相同。"
+  },
+  {
+    "original": "**`readAllTeamOutboxMessages(teamName)`** -- Read new outbox messages from ALL workers in a team. Returns an array of `{ workerName, messages }` entries, skipping workers with no new messages. Useful for batch polling in the monitor loop.",
+    "zh_tw": "**`readAllTeamOutboxMessages(teamName)`** -- 讀取團隊中所有 worker 的新 outbox 訊息。回傳一個由 `{ workerName, messages }` 項目組成的陣列，會略過沒有新訊息的 worker。適合在監控迴圈中進行批次輪詢。"
+  },
+  {
+    "original": "**`resetOutboxCursor(teamName, workerName)`** -- Reset the outbox cursor for a worker back to byte 0. Useful when re-reading historical messages after a lead restart or for debugging.",
+    "zh_tw": "**`resetOutboxCursor(teamName, workerName)`** -- 將某個 worker 的 outbox 游標重設回位元組 0。適合在 lead 重新啟動後重新讀取歷史訊息，或用於除錯。"
+  },
+  {
+    "original": "### Using `getTeamStatus()` in the Monitor Phase",
+    "zh_tw": "### 在監控階段使用 `getTeamStatus()`"
+  },
+  {
+    "original": "The `getTeamStatus(teamName, workingDirectory, heartbeatMaxAgeMs?)` function provides a unified snapshot combining:",
+    "zh_tw": "`getTeamStatus(teamName, workingDirectory, heartbeatMaxAgeMs?)` 函式提供一個統一快照，整合："
+  },
+  {
+    "original": "- **Worker registration** -- Which MCP workers are registered (from shadow registry / config.json)\n- **Heartbeat freshness** -- Whether each worker is alive based on heartbeat age\n- **Task progress** -- Per-worker and team-wide task counts (pending, in_progress, completed)\n- **Current task** -- Which task each worker is actively executing\n- **Recent outbox messages** -- New messages since the last status check",
+    "zh_tw": "- **Worker 註冊** -- 哪些 MCP worker 已註冊（來自 shadow registry / config.json）\n- **Heartbeat 新鮮度** -- 依據 heartbeat 的時間判斷每個 worker 是否存活\n- **任務進度** -- 每個 worker 與整個團隊的任務數量（pending、in_progress、completed）\n- **目前任務** -- 每個 worker 正在執行哪個任務\n- **最近的 outbox 訊息** -- 自上次狀態檢查以來的新訊息"
+  },
+  {
+    "original": "Example usage in the monitor loop:",
+    "zh_tw": "監控迴圈中的範例用法："
+  },
+  {
+    "original": "```typescript\nconst status = getTeamStatus(\"fix-ts-errors\", workingDirectory);\n\nfor (const worker of status.workers) {\n  if (!worker.isAlive) {\n    // Worker is dead -- reassign its in-progress tasks\n  }\n  for (const msg of worker.recentMessages) {\n    if (msg.type === \"task_complete\") {\n      // Mark task complete, unblock dependents\n    } else if (msg.type === \"task_failed\") {\n      // Handle failure, possibly retry or reassign\n    } else if (msg.type === \"error\") {\n      // Log error, check if worker needs intervention\n    }\n  }\n}\n\nif (status.taskSummary.pending === 0 && status.taskSummary.inProgress === 0) {\n  // All work done -- proceed to shutdown\n}\n```",
+    "zh_tw": "```typescript\nconst status = getTeamStatus(\"fix-ts-errors\", workingDirectory);\n\nfor (const worker of status.workers) {\n  if (!worker.isAlive) {\n    // Worker 已死亡 -- 重新指派其進行中的任務\n  }\n  for (const msg of worker.recentMessages) {\n    if (msg.type === \"task_complete\") {\n      // 將任務標記為完成，解除依賴者的阻塞\n    } else if (msg.type === \"task_failed\") {\n      // 處理失敗，可能重試或重新指派\n    } else if (msg.type === \"error\") {\n      // 記錄錯誤，檢查 worker 是否需要介入\n    }\n  }\n}\n\nif (status.taskSummary.pending === 0 && status.taskSummary.inProgress === 0) {\n  // 所有工作已完成 -- 進入關閉程序\n}\n```"
+  },
+  {
+    "original": "### Event-Based Actions from Outbox Messages",
+    "zh_tw": "### 由 Outbox 訊息觸發的事件式動作"
+  },
+  {
+    "original": "| Message Type    | Action                                                                                      |\n| --------------- | ------------------------------------------------------------------------------------------- |\n| `task_complete` | Mark task completed, check if blocked tasks are now unblocked, notify dependent workers     |\n| `task_failed`   | Increment failure sidecar, decide retry vs reassign vs skip                                 |\n| `idle`          | Worker has no assigned tasks -- assign pending work or begin shutdown                       |\n| `error`         | Log the error, check `consecutiveErrors` in heartbeat for quarantine threshold              |\n| `shutdown_ack`  | Worker acknowledged shutdown -- safe to remove from team                                    |\n| `heartbeat`     | Update liveness tracking (redundant with heartbeat files but useful for latency monitoring) |",
+    "zh_tw": "| 訊息類型        | 動作                                                                                      |\n| --------------- | ------------------------------------------------------------------------------------------- |\n| `task_complete` | 將任務標記為已完成，檢查被阻塞的任務是否已解除阻塞，通知相依的 worker     |\n| `task_failed`   | 增加失敗計數器，決定重試、重新指派或略過                                 |\n| `idle`          | Worker 沒有被指派的任務 -- 指派待處理工作或開始關閉程序                       |\n| `error`         | 記錄錯誤，檢查 heartbeat 中的 `consecutiveErrors` 是否達到隔離門檻              |\n| `shutdown_ack`  | Worker 已確認關閉 -- 可安全地從團隊移除                                    |\n| `heartbeat`     | 更新存活追蹤（與 heartbeat 檔案重複，但對延遲監控有用） |"
+  },
+  {
+    "original": "This approach complements the existing `SendMessage`-based communication by providing a pull-based mechanism for MCP workers that cannot use Claude Code's team messaging tools.",
+    "zh_tw": "這種方法為無法使用 Claude Code 團隊訊息工具的 MCP worker 提供一種 pull-based 機制，從而補強現有的、基於 `SendMessage` 的通訊。"
+  },
+  {
+    "original": "## Error Handling",
+    "zh_tw": "## 錯誤處理"
+  },
+  {
+    "original": "### Teammate Fails a Task",
+    "zh_tw": "### 隊友任務失敗"
+  },
+  {
+    "original": "1. Teammate sends `SendMessage` to lead reporting the failure\n2. Lead decides: retry (reassign same task to same or different worker) or skip\n3. To reassign: `TaskUpdate` to set new owner, then `SendMessage` to the new owner",
+    "zh_tw": "1. 隊友透過 `SendMessage` 向 lead 回報失敗\n2. lead 決定：重試（將相同任務重新指派給同一個或不同的 worker）或略過\n3. 若要重新指派：先用 `TaskUpdate` 設定新的擁有者，再用 `SendMessage` 通知新的擁有者"
+  },
+  {
+    "original": "### Teammate Gets Stuck (No Messages)",
+    "zh_tw": "### 隊友卡住了（沒有訊息）"
+  },
+  {
+    "original": "1. Lead detects via `TaskList` -- task stuck in `in_progress` for too long\n2. Lead sends `SendMessage` to the teammate asking for status\n3. If no response, consider the teammate dead\n4. Reassign the task to another worker via `TaskUpdate`",
+    "zh_tw": "1. lead 透過 `TaskList` 偵測到 -- 任務在 `in_progress` 狀態停留太久\n2. lead 向隊友傳送 `SendMessage` 詢問狀態\n3. 如果沒有回應，就將該隊友視為已死亡\n4. 透過 `TaskUpdate` 將任務重新指派給另一個 worker"
+  },
+  {
+    "original": "### Dependency Blocked",
+    "zh_tw": "### 依賴被阻塞"
+  },
+  {
+    "original": "1. If a blocking task fails, the lead must decide whether to:\n   - Retry the blocker\n   - Remove the dependency (`TaskUpdate` with modified blockedBy)\n   - Skip the blocked task entirely\n2. Communicate decisions to affected teammates via `SendMessage`",
+    "zh_tw": "1. 如果某個阻塞任務失敗，lead 必須決定是否要：\n   - 重試阻塞者\n   - 移除該依賴（使用修改過 `blockedBy` 的 `TaskUpdate`）\n   - 直接略過被阻塞的任務\n2. 透過 `SendMessage` 將決策通知受影響的隊友"
+  },
+  {
+    "original": "### Teammate Crashes",
+    "zh_tw": "### 隊友當機"
+  },
+  {
+    "original": "1. Internal task for that teammate will show unexpected status\n2. Teammate disappears from `config.json` members\n3. Lead reassigns orphaned tasks to remaining workers\n4. If needed, spawn a replacement teammate with `Task(team_name, name)`",
+    "zh_tw": "1. 該隊友的內部任務會顯示非預期的狀態\n2. 隊友會從 `config.json` 的 members 中消失\n3. lead 將孤兒任務重新指派給剩餘的 worker\n4. 如有需要，使用 `Task(team_name, name)` 啟動一個替代隊友"
+  },
+  {
+    "original": "## Team + Ralph Composition",
+    "zh_tw": "## Team + Ralph 組合"
+  },
+  {
+    "original": "When the user invokes `/team ralph`, says \"team ralph\", or combines both keywords, team mode wraps itself in Ralph's persistence loop. This provides:",
+    "zh_tw": "當使用者呼叫 `/team ralph`、說出「team ralph」，或同時組合這兩個關鍵字時，team 模式會包裹在 Ralph 的持續執行迴圈中。這會提供："
+  },
+  {
+    "original": "- **Team orchestration** -- multi-agent staged pipeline with specialized agents per stage\n- **Ralph persistence** -- retry on failure, architect verification before completion, iteration tracking",
+    "zh_tw": "- **Team 協調** -- 具備每個階段專門代理的多代理分階段 pipeline\n- **Ralph 持續性** -- 失敗時重試、完成前進行架構驗證、迭代追蹤"
+  },
+  {
+    "original": "### Activation",
+    "zh_tw": "### 啟用"
+  },
+  {
+    "original": "Team+Ralph activates when:",
+    "zh_tw": "Team+Ralph 會在以下情況啟用："
+  },
+  {
+    "original": "1. User invokes `/team ralph \"task\"` or `/oh-my-claudecode:team ralph \"task\"`\n2. Keyword detector finds both `team` and `ralph` in the prompt\n3. Hook detects `MAGIC KEYWORD: RALPH` alongside team context",
+    "zh_tw": "1. 使用者呼叫 `/team ralph \"task\"` 或 `/oh-my-claudecode:team ralph \"task\"`\n2. 關鍵字偵測器在提示中同時找到 `team` 與 `ralph`\n3. hook 在團隊上下文中偵測到 `MAGIC KEYWORD: RALPH`"
+  },
+  {
+    "original": "### State Linkage",
+    "zh_tw": "### 狀態連結"
+  },
+  {
+    "original": "Both modes write their own state files with cross-references:",
+    "zh_tw": "兩種模式都會寫入各自的狀態檔案，並互相交叉引用："
+  }
+]

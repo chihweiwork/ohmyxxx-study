@@ -1,0 +1,62 @@
+[
+  {
+    "original": "### Review Mode (`--review`)",
+    "zh_tw": "### 審查模式 (`--review`)"
+  },
+  {
+    "original": "0. Treat review as a reviewer-only pass. The context that wrote the plan, cleanup proposal, or diff MUST NOT be the context that approves it.\n1. Read plan file from `.omx/plans/`\n2. Evaluate via Critic using `ask_codex` with `agent_role: \"critic\"`\n3. For cleanup/refactor/anti-slop work, verify that the artifact includes a cleanup plan, regression tests or an explicit test gap, smell-by-smell passes, and quality gates.\n4. Return verdict: APPROVED, REVISE (with specific feedback), or REJECT (replanning required)\n5. If the current context authored the artifact, hand the review to `$code-review`, `critic`, `quality-reviewer`, or `verifier` as appropriate.",
+    "zh_tw": "0. 將審查視為僅供審查者執行的流程。撰寫計畫、清理提案或 diff 的上下文，MUST NOT 是核准它的上下文。\n1. 從 `.omx/plans/` 讀取計畫檔案\n2. 使用 `ask_codex` 搭配 `agent_role: \"critic\"` 透過 Critic 進行評估\n3. 對於清理／重構／anti-slop 工作，確認產物包含清理計畫、回歸測試或明確的測試缺口、逐項 smell 的通過，以及品質閘門。\n4. 回傳判定：APPROVED、REVISE（附具體回饋），或 REJECT（需要重新規劃）\n5. 如果目前上下文撰寫了該產物，則視情況將審查交給 `$code-review`、`critic`、`quality-reviewer` 或 `verifier`。"
+  },
+  {
+    "original": "### Plan Output Format",
+    "zh_tw": "### 計畫輸出格式"
+  },
+  {
+    "original": "Every plan includes:\n- Requirements Summary\n- Acceptance Criteria (testable)\n- Implementation Steps (with file references)\n- Adaptive step count sized to the actual scope (not a fixed five-step template)\n- Risks and Mitigations\n- Verification Steps\n- For consensus/ralplan: **RALPLAN-DR summary** (Principles, Decision Drivers, Options)\n- For consensus/ralplan final output: **ADR** (Decision, Drivers, Alternatives considered, Why chosen, Consequences, Follow-ups)\n- For consensus/ralplan execution handoff: **Available-Agent-Types Roster**, **Follow-up Staffing Guidance** (including suggested reasoning levels by lane), product-facing **Goal-Mode Follow-up Suggestions** (`$ultragoal`, `$autoresearch-goal`, `$performance-goal` when contextually appropriate), explicit `omx team` / `$team` **Launch Hints**, and **Team Verification Path**\n- For deliberate consensus mode: **Pre-mortem (3 scenarios)** and **Expanded Test Plan** (unit/integration/e2e/observability)",
+    "zh_tw": "每個計畫都包含：\n- 需求摘要\n- 驗收標準（可測試）\n- 實作步驟（附檔案參考）\n- 依實際範圍調整的自適應步數（不是固定的五步模板）\n- 風險與緩解措施\n- 驗證步驟\n- 針對 consensus/ralplan：**RALPLAN-DR summary**（Principles、Decision Drivers、Options）\n- 針對 consensus/ralplan 最終輸出：**ADR**（Decision、Drivers、Alternatives considered、Why chosen、Consequences、Follow-ups）\n- 針對 consensus/ralplan 執行交接：**Available-Agent-Types Roster**、**Follow-up Staffing Guidance**（包含各 lane 建議的推理等級）、面向產品的 **Goal-Mode Follow-up Suggestions**（在情境適合時使用 `$ultragoal`、`$autoresearch-goal`、`$performance-goal`）、明確的 `omx team` / `$team` **Launch Hints**，以及 **Team Verification Path**\n- 針對 deliberate consensus mode：**Pre-mortem（3 個情境）** 與 **Expanded Test Plan**（unit/integration/e2e/observability）"
+  },
+  {
+    "original": "Plans are saved to `.omx/plans/`. Drafts go to `.omx/drafts/`.\n</Steps>",
+    "zh_tw": "計畫會儲存到 `.omx/plans/`。草稿會儲存到 `.omx/drafts/`。\n</Steps>"
+  },
+  {
+    "original": "<Tool_Usage>\n- Use `AskUserQuestion` for preference questions (scope, priority, timeline, risk tolerance) -- provides clickable UI\n- Use plain text for questions needing specific values (port numbers, names, follow-up clarifications)\n- Use the `explore` agent (LOW tier, bounded quick pass) to gather codebase facts before asking the user\n- Use `ask_codex` with `agent_role: \"planner\"` for planning validation on large-scope plans\n- Use `ask_codex` with `agent_role: \"analyst\"` for requirements analysis\n- Use `ask_codex` with `agent_role: \"critic\"` for standalone review mode. In consensus mode, use the dedicated sequential role-specific `Architect` and `Critic` subagents described in steps 3-4 instead of a single critic-only review call.\n- If optional MCP compatibility tools or Codex consultation are unavailable, fall back to equivalent OMX prompt/native agents -- never block on external tools\n- **CRITICAL — Consensus mode agent calls MUST be sequential, never parallel.** Always await the subsequent role-specific `Architect` result before issuing the subsequent role-specific `Critic` call.\n- In consensus mode, default to RALPLAN-DR short mode; enable deliberate mode on `--deliberate` or explicit high-risk signals (auth/security, migrations, destructive changes, production incidents, compliance/PII, public API breakage)\n- In consensus mode with `--interactive`: use `AskUserQuestion` / the structured question UI for the user feedback step (step 2) and the final approval step (step 7) -- never ask for approval in plain text when a structured surface is available. Without `--interactive`, auto-proceed through planning steps without pausing. Output the final plan without execution.\n- In consensus mode with `--interactive`, on user approval **MUST** invoke the selected follow-up lane from step 9 (`$ultragoal`, `$team`, `$autoresearch-goal`, `$performance-goal`, or explicit `$ralph` fallback) -- never implement directly in the planning agent\n- In consensus mode, execution follow-up handoff **MUST** include an explicit available-agent-types roster plus concrete staffing / role-allocation guidance grounded in that roster, suggested reasoning levels by lane, product-facing goal-mode follow-up suggestions (`$ultragoal` by default, `$autoresearch-goal` for research projects, `$performance-goal` for optimization/performance projects), explicit `omx team` / `$team` launch hints, and a team verification path. For parallelizable durable-goal plans, recommend Team + Ultragoal with leader-owned checkpointing from Team evidence; reserve Ralph for persistent sequential single-owner verification/fix follow-up.\n</Tool_Usage>",
+    "zh_tw": "<Tool_Usage>\n- 使用 `AskUserQuestion` 來詢問偏好類問題（範圍、優先順序、時間表、風險承受度）-- 提供可點擊的 UI\n- 對於需要特定值的問題（連接埠號、名稱、後續釐清），使用純文字\n- 在詢問使用者之前，先使用 `explore` agent（LOW tier，界定明確的快速瀏覽）蒐集程式碼庫事實\n- 對大型範圍的計畫驗證，使用 `ask_codex` 搭配 `agent_role: \"planner\"`\n- 進行需求分析時，使用 `ask_codex` 搭配 `agent_role: \"analyst\"`\n- 在獨立審查模式下，使用 `ask_codex` 搭配 `agent_role: \"critic\"`。在 consensus 模式中，請使用步驟 3-4 所述、專用且依序執行的角色型 `Architect` 與 `Critic` 子代理，而不是單一的 critic-only 審查呼叫。\n- 如果可選的 MCP 相容工具或 Codex 諮詢無法使用，則退回到等效的 OMX prompt／原生代理 -- 絕不要因外部工具而阻塞\n- **CRITICAL — Consensus mode agent calls MUST be sequential, never parallel.** 務必先等待後續角色的 `Architect` 結果，再發出後續角色的 `Critic` 呼叫。\n- 在 consensus 模式下，預設使用 RALPLAN-DR short mode；在 `--deliberate` 或明確高風險訊號出現時啟用 deliberate mode（auth/security、migrations、destructive changes、production incidents、compliance/PII、public API breakage）\n- 在帶有 `--interactive` 的 consensus 模式中：在使用者回饋步驟（step 2）與最終核准步驟（step 7）使用 `AskUserQuestion`／結構化問題 UI -- 當有結構化介面可用時，絕不要以純文字詢問核准。沒有 `--interactive` 時，則自動通過規劃步驟，不暫停。輸出最終計畫，但不執行。\n- 在帶有 `--interactive` 的 consensus 模式中，當使用者核准後 **MUST** 叫用 step 9 中選定的後續 lane（`$ultragoal`、`$team`、`$autoresearch-goal`、`$performance-goal`，或明確的 `$ralph` fallback）-- 絕不要在 planning agent 中直接實作\n- 在 consensus 模式中，執行交接 **MUST** 包含明確的 available-agent-types roster，以及以該 roster 為基礎的具體 staffing／role-allocation 指引、各 lane 建議的推理等級、面向產品的 goal-mode 後續建議（預設 `$ultragoal`，研究專案使用 `$autoresearch-goal`，最佳化／效能專案使用 `$performance-goal`）、明確的 `omx team` / `$team` launch hints，以及 team verification path。對於可平行執行的 durable-goal 計畫，建議使用 Team + Ultragoal，並以 Team 證據進行 leader-owned checkpointing；將 Ralph 保留給持續性的、單一擁有者的依序驗證／修正後續工作。\n</Tool_Usage>"
+  },
+  {
+    "original": "## Scenario Examples",
+    "zh_tw": "## 情境範例"
+  },
+  {
+    "original": "**Good:** The user says `continue` after the workflow already has a clear next step. Continue the current branch of work instead of restarting or re-asking the same question.",
+    "zh_tw": "**Good:** 使用者在工作流程已經有明確下一步之後說了 `continue`。請繼續目前的工作分支，而不是重新開始或再次詢問同一個問題。"
+  },
+  {
+    "original": "**Good:** The user changes only the output shape or downstream delivery step (for example `make a PR`). Preserve earlier non-conflicting workflow constraints and apply the update locally.",
+    "zh_tw": "**Good:** 使用者只變更輸出形式或下游交付步驟（例如 `make a PR`）。保留先前不衝突的工作流程限制，並在本地套用更新。"
+  },
+  {
+    "original": "**Bad:** The user says `continue`, and the workflow restarts discovery or stops before the missing verification/evidence is gathered.",
+    "zh_tw": "**Bad:** 使用者說 `continue`，而工作流程卻重新開始探索，或在收集缺失的驗證／證據之前就停止。"
+  },
+  {
+    "original": "<Examples>\n<Good>\nAdaptive interview (gathering facts before asking):\n```\nPlanner: [spawns explore agent: \"find authentication implementation\"]\nPlanner: [receives: \"Auth is in src/auth/ using JWT with passport.js\"]\nPlanner: \"I see you're using JWT authentication with passport.js in src/auth/.\n         For this new feature, should we extend the existing auth or add a separate auth flow?\"\n```\nWhy good: Answers its own codebase question first, then asks an informed preference question.\n</Good>",
+    "zh_tw": "<Examples>\n<Good>\n自適應訪談（先蒐集事實再提問）：\n```\nPlanner: [spawns explore agent: \"find authentication implementation\"]\nPlanner: [receives: \"Auth is in src/auth/ using JWT with passport.js\"]\nPlanner: \"我看到你在 src/auth/ 中使用的是 JWT authentication with passport.js。\n         對於這個新功能，我們應該擴充現有的 auth，還是新增一個獨立的 auth flow？\"\n```\nWhy good: 先回答自己的 codebase 問題，再提出有根據的偏好問題。\n</Good>"
+  },
+  {
+    "original": "<Good>\nSingle question at a time:\n```\nQ1: \"What's the main goal?\"\nA1: \"Improve performance\"\nQ2: \"For performance, what matters more -- latency or throughput?\"\nA2: \"Latency\"\nQ3: \"For latency, are we optimizing for p50 or p99?\"\n```\nWhy good: Each question builds on the previous answer. Focused and progressive.\n</Good>",
+    "zh_tw": "<Good>\n一次只問一個問題：\n```\nQ1: \"主要目標是什麼？\"\nA1: \"提升效能\"\nQ2: \"就效能而言，哪個更重要 -- latency 還是 throughput？\"\nA2: \"Latency\"\nQ3: \"就 latency 而言，我們是要優化 p50 還是 p99？\"\n```\nWhy good: 每個問題都建立在前一個答案之上。聚焦且循序漸進。\n</Good>"
+  },
+  {
+    "original": "<Bad>\nAsking about things you could look up:\n```\nPlanner: \"Where is authentication implemented in your codebase?\"\nUser: \"Uh, somewhere in src/auth I think?\"\n```\nWhy bad: The planner should spawn an explore agent to find this, not ask the user.\n</Bad>",
+    "zh_tw": "<Bad>\n詢問你可以查到的事情：\n```\nPlanner: \"你的 codebase 中的 authentication 是實作在哪裡？\"\nUser: \"呃，我想是在 src/auth 的某處？\"\n```\nWhy bad: Planner 應該派出 explore agent 來找這個資訊，而不是問使用者。\n</Bad>"
+  },
+  {
+    "original": "<Bad>\nBatching multiple questions:\n```\n\"What's the scope? And the timeline? And who's the audience?\"\n```\nWhy bad: Three questions at once causes shallow answers. Ask one at a time.\n</Bad>",
+    "zh_tw": "<Bad>\n一次打包多個問題：\n```\n\"範圍是什麼？時程是什麼？受眾是誰？\"\n```\nWhy bad: 一次問三個問題只會得到淺薄的答案。請一次只問一個。\n</Bad>"
+  },
+  {
+    "original": "<Bad>\nPresenting all design options at once:\n```\n\"Here are 4 approaches: Option A... Option B... Option C... Option D... Which do you prefer?\"\n```\nWhy bad: Decision fatigue. Present one option with trade-offs, get reaction, then present the next.\n</Bad>\n</Examples>",
+    "zh_tw": "<Bad>\n一次 प्रस्तुत所有設計選項：\n```\n\"這裡有 4 種做法：Option A... Option B... Option C... Option D... 你偏好哪一個？\"\n```\nWhy bad: 會造成決策疲勞。先提出一個有取捨的選項，取得回應後，再提出下一個。\n</Bad>\n</Examples>"
+  }
+]

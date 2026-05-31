@@ -1,0 +1,178 @@
+[
+  {
+    "original": "```\n// Test hypotheses simultaneously\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"sonnet\", prompt=\"[HYPOTHESIS:A] Test if caching improves...\")\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"sonnet\", prompt=\"[HYPOTHESIS:B] Test if batching reduces...\")\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"sonnet\", prompt=\"[HYPOTHESIS:C] Test if lazy loading helps...\")\n```",
+    "zh_tw": "```\n// Test hypotheses simultaneously\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"sonnet\", prompt=\"[HYPOTHESIS:A] Test if caching improves...\")\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"sonnet\", prompt=\"[HYPOTHESIS:B] Test if batching reduces...\")\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"sonnet\", prompt=\"[HYPOTHESIS:C] Test if lazy loading helps...\")\n```"
+  },
+  {
+    "original": "### Cross-Validation (Sequential)",
+    "zh_tw": "### 交叉驗證（順序）"
+  },
+  {
+    "original": "When verification depends on all findings:",
+    "zh_tw": "當驗證取決於所有發現時："
+  },
+  {
+    "original": "```\n// Wait for all parallel stages\n[stages complete]\n\n// Then sequential verification\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"opus\", prompt=\"\n[CROSS_VALIDATION]\nValidate consistency across all findings:\n- Finding 1: ...\n- Finding 2: ...\n- Finding 3: ...\n\")\n```",
+    "zh_tw": "```\n// Wait for all parallel stages\n[stages complete]\n\n// Then sequential verification\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"opus\", prompt=\"\n[CROSS_VALIDATION]\nValidate consistency across all findings:\n- Finding 1: ...\n- Finding 2: ...\n- Finding 3: ...\n\")\n```"
+  },
+  {
+    "original": "### Concurrency Limit",
+    "zh_tw": "### 併發限制"
+  },
+  {
+    "original": "**Maximum 20 concurrent scientist agents** to prevent resource exhaustion.",
+    "zh_tw": "**最多 20 個並行 scientist 代理程式**，以防止資源耗盡。"
+  },
+  {
+    "original": "If more than 20 stages, batch them:\n```\nBatch 1: Stages 1-5 (parallel)\n[wait for completion]\nBatch 2: Stages 6-7 (parallel)\n```",
+    "zh_tw": "如果超過 20 個階段，請分批處理：\n```\nBatch 1: Stages 1-5 (parallel)\n[wait for completion]\nBatch 2: Stages 6-7 (parallel)\n```"
+  },
+  {
+    "original": "## Session Management",
+    "zh_tw": "## 工作階段管理"
+  },
+  {
+    "original": "### Directory Structure",
+    "zh_tw": "### 目錄結構"
+  },
+  {
+    "original": "```\n.omc/research/{session-id}/\n  state.json              # Session state and progress\n  stages/\n    stage-1.md            # Stage 1 findings\n    stage-2.md            # Stage 2 findings\n    ...\n  findings/\n    raw/                  # Raw findings from scientists\n    verified/             # Post-verification findings\n  figures/\n    figure-1.png          # Generated visualizations\n    ...\n  report.md               # Final synthesized report\n```",
+    "zh_tw": "```\n.omc/research/{session-id}/\n  state.json              # Session state and progress\n  stages/\n    stage-1.md            # Stage 1 findings\n    stage-2.md            # Stage 2 findings\n    ...\n  findings/\n    raw/                  # Raw findings from scientists\n    verified/             # Post-verification findings\n  figures/\n    figure-1.png          # Generated visualizations\n    ...\n  report.md               # Final synthesized report\n```"
+  },
+  {
+    "original": "### State File Format",
+    "zh_tw": "### 狀態檔案格式"
+  },
+  {
+    "original": "```json\n{\n  \"id\": \"research-20240115-abc123\",\n  \"goal\": \"Original research goal\",\n  \"status\": \"in_progress | complete | blocked | cancelled\",\n  \"mode\": \"standard | auto\",\n  \"iteration\": 3,\n  \"maxIterations\": 10,\n  \"stages\": [\n    {\n      \"id\": 1,\n      \"name\": \"Stage name\",\n      \"tier\": \"LOW | MEDIUM | HIGH\",\n      \"status\": \"pending | running | complete | failed\",\n      \"startedAt\": \"ISO timestamp\",\n      \"completedAt\": \"ISO timestamp\",\n      \"findingsFile\": \"stages/stage-1.md\"\n    }\n  ],\n  \"verification\": {\n    \"status\": \"pending | passed | failed\",\n    \"conflicts\": [],\n    \"completedAt\": \"ISO timestamp\"\n  },\n  \"createdAt\": \"ISO timestamp\",\n  \"updatedAt\": \"ISO timestamp\"\n}\n```",
+    "zh_tw": "```json\n{\n  \"id\": \"research-20240115-abc123\",\n  \"goal\": \"Original research goal\",\n  \"status\": \"in_progress | complete | blocked | cancelled\",\n  \"mode\": \"standard | auto\",\n  \"iteration\": 3,\n  \"maxIterations\": 10,\n  \"stages\": [\n    {\n      \"id\": 1,\n      \"name\": \"Stage name\",\n      \"tier\": \"LOW | MEDIUM | HIGH\",\n      \"status\": \"pending | running | complete | failed\",\n      \"startedAt\": \"ISO timestamp\",\n      \"completedAt\": \"ISO timestamp\",\n      \"findingsFile\": \"stages/stage-1.md\"\n    }\n  ],\n  \"verification\": {\n    \"status\": \"pending | passed | failed\",\n    \"conflicts\": [],\n    \"completedAt\": \"ISO timestamp\"\n  },\n  \"createdAt\": \"ISO timestamp\",\n  \"updatedAt\": \"ISO timestamp\"\n}\n```"
+  },
+  {
+    "original": "### Session Commands",
+    "zh_tw": "### 工作階段指令"
+  },
+  {
+    "original": "| Command | Action |\n|---------|--------|\n| `/oh-my-claudecode:sciomc status` | Show current session progress |\n| `/oh-my-claudecode:sciomc resume` | Resume most recent interrupted session |\n| `/oh-my-claudecode:sciomc resume <session-id>` | Resume specific session |\n| `/oh-my-claudecode:sciomc list` | List all sessions with status |\n| `/oh-my-claudecode:sciomc report <session-id>` | Generate/regenerate report |\n| `/oh-my-claudecode:sciomc cancel` | Cancel current session (preserves state) |",
+    "zh_tw": "| 指令 | 動作 |\n|---------|--------|\n| `/oh-my-claudecode:sciomc status` | 顯示目前工作階段進度 |\n| `/oh-my-claudecode:sciomc resume` | 續接最近中斷的工作階段 |\n| `/oh-my-claudecode:sciomc resume <session-id>` | 續接指定工作階段 |\n| `/oh-my-claudecode:sciomc list` | 列出所有工作階段及其狀態 |\n| `/oh-my-claudecode:sciomc report <session-id>` | 產生／重新產生報告 |\n| `/oh-my-claudecode:sciomc cancel` | 取消目前工作階段（保留狀態） |"
+  },
+  {
+    "original": "## Tag Extraction",
+    "zh_tw": "## 標籤擷取"
+  },
+  {
+    "original": "Scientists use structured tags for findings. Extract them with these patterns:",
+    "zh_tw": "Scientists 會為發現使用結構化標籤。請使用以下模式擷取它們："
+  },
+  {
+    "original": "### Finding Tags",
+    "zh_tw": "### 發現標籤"
+  },
+  {
+    "original": "```\n[FINDING:<id>] <title>\n<evidence and analysis>\n[/FINDING]\n\n[EVIDENCE:<finding-id>]\n- File: <path>\n- Lines: <range>\n- Content: <relevant code/text>\n[/EVIDENCE]\n\n[CONFIDENCE:<level>] # HIGH | MEDIUM | LOW\n<reasoning for confidence level>\n```",
+    "zh_tw": "```\n[FINDING:<id>] <title>\n<evidence and analysis>\n[/FINDING]\n\n[EVIDENCE:<finding-id>]\n- File: <path>\n- Lines: <range>\n- Content: <relevant code/text>\n[/EVIDENCE]\n\n[CONFIDENCE:<level>] # HIGH | MEDIUM | LOW\n<reasoning for confidence level>\n```"
+  },
+  {
+    "original": "### Extraction Regex Patterns",
+    "zh_tw": "### 擷取正則表達式模式"
+  },
+  {
+    "original": "```javascript\n// Finding extraction\nconst findingPattern = /\\[FINDING:(\\w+)\\]\\s*(.*?)\\n([\\s\\S]*?)\\[\\/FINDING\\]/g;\n\n// Evidence extraction\nconst evidencePattern = /\\[EVIDENCE:(\\w+)\\]([\\s\\S]*?)\\[\\/EVIDENCE\\]/g;\n\n// Confidence extraction\nconst confidencePattern = /\\[CONFIDENCE:(HIGH|MEDIUM|LOW)\\]\\s*(.*)/g;\n\n// Stage completion\nconst stageCompletePattern = /\\[STAGE_COMPLETE:(\\d+)\\]/;\n\n// Verification result\nconst verificationPattern = /\\[(VERIFIED|CONFLICTS):?(.*?)\\]/;\n```",
+    "zh_tw": "```javascript\n// Finding extraction\nconst findingPattern = /\\[FINDING:(\\w+)\\]\\s*(.*?)\\n([\\s\\S]*?)\\[\\/FINDING\\]/g;\n\n// Evidence extraction\nconst evidencePattern = /\\[EVIDENCE:(\\w+)\\]([\\s\\S]*?)\\[\\/EVIDENCE\\]/g;\n\n// Confidence extraction\nconst confidencePattern = /\\[CONFIDENCE:(HIGH|MEDIUM|LOW)\\]\\s*(.*)/g;\n\n// Stage completion\nconst stageCompletePattern = /\\[STAGE_COMPLETE:(\\d+)\\]/;\n\n// Verification result\nconst verificationPattern = /\\[(VERIFIED|CONFLICTS):?(.*?)\\]/;\n```"
+  },
+  {
+    "original": "### Evidence Window",
+    "zh_tw": "### 證據視窗"
+  },
+  {
+    "original": "When extracting evidence, include context window:",
+    "zh_tw": "擷取證據時，請包含上下文視窗："
+  },
+  {
+    "original": "```\n[EVIDENCE:F1]\n- File: /src/auth/login.ts\n- Lines: 45-52 (context: 40-57)\n- Content:\n  ```typescript\n  // Lines 45-52 with 5 lines context above/below\n  ```\n[/EVIDENCE]\n```",
+    "zh_tw": "```\n[EVIDENCE:F1]\n- File: /src/auth/login.ts\n- Lines: 45-52 (context: 40-57)\n- Content:\n  ```typescript\n  // Lines 45-52 with 5 lines context above/below\n  ```\n[/EVIDENCE]\n```"
+  },
+  {
+    "original": "### Quality Validation",
+    "zh_tw": "### 品質驗證"
+  },
+  {
+    "original": "Findings must meet quality threshold:",
+    "zh_tw": "發現必須符合品質門檻："
+  },
+  {
+    "original": "| Quality Check | Requirement |\n|---------------|-------------|\n| Evidence present | At least 1 [EVIDENCE] per [FINDING] |\n| Confidence stated | Each finding has [CONFIDENCE] |\n| Source cited | File paths are absolute and valid |\n| Reproducible | Another agent could verify |",
+    "zh_tw": "| 品質檢查 | 要求 |\n|---------------|-------------|\n| 具備證據 | 每個 [FINDING] 至少有 1 個 [EVIDENCE] |\n| 已註明信心等級 | 每個發現都有 [CONFIDENCE] |\n| 已引用來源 | 檔案路徑為絕對路徑且有效 |\n| 可重現 | 其他 agent 可以驗證 |"
+  },
+  {
+    "original": "## Report Generation",
+    "zh_tw": "## 報告產生"
+  },
+  {
+    "original": "### Report Template",
+    "zh_tw": "### 報告範本"
+  },
+  {
+    "original": "```markdown\n# Research Report: {{GOAL}}\n\n**Session ID:** {{SESSION_ID}}\n**Date:** {{DATE}}\n**Status:** {{STATUS}}\n\n## Executive Summary\n\n{{2-3 paragraph summary of key findings}}\n\n## Methodology\n\n### Research Stages\n\n| Stage | Focus | Tier | Status |\n|-------|-------|------|--------|\n{{STAGES_TABLE}}\n\n### Approach\n\n{{Description of decomposition rationale and execution strategy}}\n\n## Key Findings\n\n### Finding 1: {{TITLE}}\n\n**Confidence:** {{HIGH|MEDIUM|LOW}}\n\n{{Detailed finding with evidence}}\n\n#### Evidence\n\n{{Embedded evidence blocks}}\n\n### Finding 2: {{TITLE}}\n...\n\n## Visualizations\n\n{{FIGURES}}\n\n## Cross-Validation Results\n\n{{Verification summary, any conflicts resolved}}\n\n## Limitations\n\n- {{Limitation 1}}\n- {{Limitation 2}}\n- {{Areas not covered and why}}\n\n## Recommendations\n\n1. {{Actionable recommendation}}\n2. {{Actionable recommendation}}\n\n## Appendix\n\n### Raw Data\n\n{{Links to raw findings files}}\n\n### Session State\n\n{{Link to state.json}}\n```",
+    "zh_tw": "```markdown\n# Research Report: {{GOAL}}\n\n**Session ID:** {{SESSION_ID}}\n**Date:** {{DATE}}\n**Status:** {{STATUS}}\n\n## Executive Summary\n\n{{2-3 paragraph summary of key findings}}\n\n## Methodology\n\n### Research Stages\n\n| Stage | Focus | Tier | Status |\n|-------|-------|------|--------|\n{{STAGES_TABLE}}\n\n### Approach\n\n{{Description of decomposition rationale and execution strategy}}\n\n## Key Findings\n\n### Finding 1: {{TITLE}}\n\n**Confidence:** {{HIGH|MEDIUM|LOW}}\n\n{{Detailed finding with evidence}}\n\n#### Evidence\n\n{{Embedded evidence blocks}}\n\n### Finding 2: {{TITLE}}\n...\n\n## Visualizations\n\n{{FIGURES}}\n\n## Cross-Validation Results\n\n{{Verification summary, any conflicts resolved}}\n\n## Limitations\n\n- {{Limitation 1}}\n- {{Limitation 2}}\n- {{Areas not covered and why}}\n\n## Recommendations\n\n1. {{Actionable recommendation}}\n2. {{Actionable recommendation}}\n\n## Appendix\n\n### Raw Data\n\n{{Links to raw findings files}}\n\n### Session State\n\n{{Link to state.json}}\n```"
+  },
+  {
+    "original": "### Figure Embedding Protocol",
+    "zh_tw": "### 圖表嵌入協定"
+  },
+  {
+    "original": "Scientists generate visualizations using this marker:",
+    "zh_tw": "Scientists 使用此標記產生視覺化："
+  },
+  {
+    "original": "```\n[FIGURE:path/to/figure.png]\nCaption: Description of what the figure shows\nAlt: Accessibility description\n[/FIGURE]\n```",
+    "zh_tw": "```\n[FIGURE:path/to/figure.png]\nCaption: Description of what the figure shows\nAlt: Accessibility description\n[/FIGURE]\n```"
+  },
+  {
+    "original": "Report generator embeds figures:",
+    "zh_tw": "報告產生器會嵌入圖表："
+  },
+  {
+    "original": "```markdown\n## Visualizations\n\n![Figure 1: Description](figures/figure-1.png)\n*Caption: Description of what the figure shows*\n\n![Figure 2: Description](figures/figure-2.png)\n*Caption: Description of what the figure shows*\n```",
+    "zh_tw": "```markdown\n## Visualizations\n\n![Figure 1: Description](figures/figure-1.png)\n*Caption: Description of what the figure shows*\n\n![Figure 2: Description](figures/figure-2.png)\n*Caption: Description of what the figure shows*\n```"
+  },
+  {
+    "original": "### Figure Types",
+    "zh_tw": "### 圖表類型"
+  },
+  {
+    "original": "| Type | Use For | Generated By |\n|------|---------|--------------|\n| Architecture diagram | System structure | scientist |\n| Flow chart | Process flows | scientist |\n| Dependency graph | Module relationships | scientist |\n| Timeline | Sequence of events | scientist |\n| Comparison table | A vs B analysis | scientist |",
+    "zh_tw": "| 類型 | 用途 | 產生者 |\n|------|---------|--------------|\n| 架構圖 | 系統結構 | scientist |\n| 流程圖 | 流程流向 | scientist |\n| 相依圖 | 模組關係 | scientist |\n| 時間軸 | 事件順序 | scientist |\n| 比較表 | A 與 B 分析 | scientist |"
+  },
+  {
+    "original": "## Configuration",
+    "zh_tw": "## 設定"
+  },
+  {
+    "original": "Optional settings in `.claude/settings.json`:",
+    "zh_tw": "`.claude/settings.json` 中的選用設定："
+  },
+  {
+    "original": "```json\n{\n  \"omc\": {\n    \"research\": {\n      \"maxIterations\": 10,\n      \"maxConcurrentScientists\": 5,\n      \"defaultTier\": \"MEDIUM\",\n      \"autoVerify\": true,\n      \"generateFigures\": true,\n      \"evidenceContextLines\": 5\n    }\n  }\n}\n```",
+    "zh_tw": "```json\n{\n  \"omc\": {\n    \"research\": {\n      \"maxIterations\": 10,\n      \"maxConcurrentScientists\": 5,\n      \"defaultTier\": \"MEDIUM\",\n      \"autoVerify\": true,\n      \"generateFigures\": true,\n      \"evidenceContextLines\": 5\n    }\n  }\n}\n```"
+  },
+  {
+    "original": "## Cancellation",
+    "zh_tw": "## 取消"
+  },
+  {
+    "original": "```\n/oh-my-claudecode:cancel\n```",
+    "zh_tw": "```\n/oh-my-claudecode:cancel\n```"
+  },
+  {
+    "original": "Or say: \"stop research\", \"cancel research\", \"abort\"",
+    "zh_tw": "或者說：\"stop research\"、\"cancel research\"、\"abort\""
+  },
+  {
+    "original": "Progress is preserved in `.omc/research/{session-id}/` for resume.",
+    "zh_tw": "進度會保留在 `.omc/research/{session-id}/` 中，方便續作。"
+  },
+  {
+    "original": "## Troubleshooting",
+    "zh_tw": "## 疑難排解"
+  }
+]

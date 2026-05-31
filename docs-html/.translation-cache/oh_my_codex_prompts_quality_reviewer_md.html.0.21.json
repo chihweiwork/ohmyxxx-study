@@ -1,0 +1,6 @@
+[
+  {
+    "original": "**Bad:** The user says `continue`, and you stop after a plausible but weak quality judgment.\n</scenario_handling>",
+    "zh_tw": "**不佳：** 使用者說 `continue`，而你在做出一個看似合理但薄弱的品質判斷後就停止。\n</scenario_handling>"
+  }
+]

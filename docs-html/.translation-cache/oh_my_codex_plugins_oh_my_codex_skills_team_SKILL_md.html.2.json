@@ -1,0 +1,182 @@
+[
+  {
+    "original": "Thinking-level rule (critical):\n- **No model-name heuristic mapping.**\n- Team runtime must **not** infer `model_reasoning_effort` from model-name substrings (e.g., `spark`, `high-capability`, `mini`).\n- When the leader assigns teammate roles/tasks, OMX allocates **per-worker reasoning effort dynamically** from the resolved worker role and `agentReasoning` overrides (`low`, `medium`, `high`, `xhigh`).\n- Explicit launch args still win: if `OMX_TEAM_WORKER_LAUNCH_ARGS` already includes `-c model_reasoning_effort=...`, that explicit value overrides dynamic allocation for every worker.",
+    "zh_tw": "思考層級規則（重要）：\n- **不使用模型名稱的啟發式映射。**\n- Team runtime **不得**從模型名稱子字串推斷 `model_reasoning_effort`（例如 `spark`、`high-capability`、`mini`）。\n- 當 leader 指派隊友角色/任務時，OMX 會根據解析後的 worker 角色與 `agentReasoning` 覆寫（`low`、`medium`、`high`、`xhigh`）**動態地為每個 worker 分配推理等級**。\n- 明確的啟動參數仍然優先：如果 `OMX_TEAM_WORKER_LAUNCH_ARGS` 已經包含 `-c model_reasoning_effort=...`，那個明確值會覆蓋每個 worker 的動態分配。"
+  },
+  {
+    "original": "Normalization requirements:\n- Parse both `--model <value>` and `--model=<value>`\n- Remove duplicate/conflicting model flags\n- Emit exactly one final canonical flag: `--model <value>`\n- Preserve unrelated args in worker launch config\n- If explicit reasoning exists, preserve canonical `-c model_reasoning_effort=\"<level>\"`; otherwise inject the worker role's default or `agentReasoning`-overridden reasoning level",
+    "zh_tw": "正規化需求：\n- 同時解析 `--model <value>` 與 `--model=<value>`\n- 移除重複／衝突的 model 旗標\n- 最終只輸出一個標準化旗標：`--model <value>`\n- 保留 worker 啟動設定中的無關參數\n- 如果存在明確的推理設定，保留標準化的 `-c model_reasoning_effort=\"<level>\"`；否則注入 worker 角色的預設推理等級或經 `agentReasoning` 覆寫的推理等級"
+  },
+  {
+    "original": "## Required Lifecycle (Operator Contract)",
+    "zh_tw": "## 必要生命週期（操作契約）"
+  },
+  {
+    "original": "Follow this exact lifecycle when running `$team`:",
+    "zh_tw": "執行 `$team` 時，請遵循以下精確生命週期："
+  },
+  {
+    "original": "1. Start team and verify startup evidence (team line, tmux target, panes, ACK mailbox)\n2. Monitor task and worker progress with runtime/state tools first (`omx team status <team>`, `omx team resume <team>`, mailbox/state files)\n3. Wait for terminal task state before shutdown:\n   - `pending=0`\n   - `in_progress=0`\n   - `failed=0` (or explicitly acknowledged failure path)\n4. Only then run `omx team shutdown <team>`\n5. Verify shutdown evidence and state cleanup",
+    "zh_tw": "1. 啟動 team 並驗證啟動證據（team line、tmux target、panes、ACK mailbox）\n2. 先使用 runtime/state 工具監控任務與 worker 進度（`omx team status <team>`、`omx team resume <team>`、mailbox/state 檔案）\n3. 在關閉前等待任務進入終態：\n   - `pending=0`\n   - `in_progress=0`\n   - `failed=0`（或已明確確認的失敗路徑）\n4. 只有在這之後才執行 `omx team shutdown <team>`\n5. 驗證關閉證據與狀態清理"
+  },
+  {
+    "original": "Do not run `shutdown` while workers are actively writing updates unless user explicitly requested abort/cancel.\nDo not treat ad-hoc pane typing as primary control flow when runtime/state evidence is available.",
+    "zh_tw": "除非使用者明確要求中止／取消，否則不要在 worker 正在主動寫入更新時執行 `shutdown`。\n當已可取得 runtime/state 證據時，不要把臨時的 pane 輸入視為主要控制流程。"
+  },
+  {
+    "original": "### Active leader monitoring rule",
+    "zh_tw": "### leader 主動監控規則"
+  },
+  {
+    "original": "While a team is **ON/running**, the leader must not go blind. Keep checking live team state until terminal completion.",
+    "zh_tw": "當 team 處於 **ON/執行中** 時，leader 不能失明。請持續檢查即時 team 狀態，直到完成終態。"
+  },
+  {
+    "original": "Minimum acceptable loop:",
+    "zh_tw": "最低可接受的迴圈："
+  },
+  {
+    "original": "```bash\nsleep 30 && omx team status <team-name>\n```",
+    "zh_tw": "```bash\nsleep 30 && omx team status <team-name>\n```"
+  },
+  {
+    "original": "Repeat that check while the team stays active, or use `omx team await <team-name> --timeout-ms 30000 --json` when event-driven waiting is a better fit.",
+    "zh_tw": "只要 team 仍然活躍，就重複該檢查；或者在事件驅動等待更合適時，使用 `omx team await <team-name> --timeout-ms 30000 --json`。"
+  },
+  {
+    "original": "If the leader gets a stale, lifecycle, or all-idle nudge, immediately run `omx team status <team-name>` before taking any manual intervention. Deprecated worker stall/progress nudges should not be treated as an active runtime contract.",
+    "zh_tw": "如果 leader 收到過期、生命週期或全閒置提示，請在採取任何人工介入前立即執行 `omx team status <team-name>`。已棄用的 worker stall/progress 提示不應被視為有效的 runtime 契約。"
+  },
+  {
+    "original": "### Deprecated worker stall/progress knobs",
+    "zh_tw": "### 已棄用的 worker stall/progress 旋鈕"
+  },
+  {
+    "original": "`OMX_TEAM_PROGRESS_STALL_MS` and `OMX_TEAM_WORKER_TURN_STALL_MS` are legacy compatibility/test-only names for the retired worker stall/progress nudge path. Do not recommend them as operator tuning knobs for active team runs; resolved native worker Stop, all-idle, mailbox, and stale-leader evidence are the supported leader wakeup signals.",
+    "zh_tw": "`OMX_TEAM_PROGRESS_STALL_MS` 和 `OMX_TEAM_WORKER_TURN_STALL_MS` 是已退役 worker stall/progress nudge 路徑的舊版相容性／僅供測試名稱。不要將它們建議為 active team 執行時的操作調校旋鈕；已解析的 native worker Stop、全閒置、mailbox 與 stale-leader 證據才是支援的 leader 喚醒訊號。"
+  },
+  {
+    "original": "## Message Dispatch Policy (CLI-first, state-first)",
+    "zh_tw": "## 訊息派送政策（CLI 優先、state 優先）"
+  },
+  {
+    "original": "To avoid brittle behavior, **message/task delivery must not be driven by ad-hoc tmux typing**.",
+    "zh_tw": "為了避免脆弱行為，**訊息／任務的傳遞不得由臨時的 tmux 輸入驅動**。"
+  },
+  {
+    "original": "Required default path:",
+    "zh_tw": "必要的預設路徑："
+  },
+  {
+    "original": "1. Use `omx team ...` runtime lifecycle commands for orchestration.\n2. Use `omx team api ... --json` for mailbox/task mutations.\n3. Verify delivery via mailbox/state evidence (`mailbox/*.json`, task status, `omx team status`).",
+    "zh_tw": "1. 使用 `omx team ...` runtime 生命週期指令進行編排。\n2. 使用 `omx team api ... --json` 進行 mailbox／task 變更。\n3. 透過 mailbox/state 證據（`mailbox/*.json`、task 狀態、`omx team status`）驗證傳遞。"
+  },
+  {
+    "original": "Strict rules:",
+    "zh_tw": "嚴格規則："
+  },
+  {
+    "original": "- **MUST NOT** use direct `tmux send-keys` as the primary mechanism to deliver instructions/messages.\n- **MUST NOT** spam Enter/trigger keys without first checking runtime/state evidence.\n- **MUST** prefer durable state writes + runtime dispatch (`dispatch/requests.json`, mailbox, inbox).\n- Direct tmux interaction is **fallback-only** and only after failure checks (for example `worker_notify_failed:<worker>`) or explicit user request (for example “press enter”).",
+    "zh_tw": "- **MUST NOT** 直接使用 `tmux send-keys` 作為傳遞指示／訊息的主要機制。\n- **MUST NOT** 在未先檢查 runtime/state 證據前就狂送 Enter／觸發鍵。\n- **MUST** 優先使用持久化 state 寫入 + runtime 派送（`dispatch/requests.json`、mailbox、inbox）。\n- 直接的 tmux 互動僅能作為 **fallback**，且只能在失敗檢查之後（例如 `worker_notify_failed:<worker>`）或使用者明確要求時（例如「按 Enter」）。"
+  },
+  {
+    "original": "## Operational Commands",
+    "zh_tw": "## 操作指令"
+  },
+  {
+    "original": "```bash\nomx team status <team-name>\nomx team resume <team-name>\nomx team shutdown <team-name>\n```",
+    "zh_tw": "```bash\nomx team status <team-name>\nomx team resume <team-name>\nomx team shutdown <team-name>\n```"
+  },
+  {
+    "original": "Semantics:",
+    "zh_tw": "語意："
+  },
+  {
+    "original": "- `status`: reads team snapshot (task counts, dead/non-reporting workers)\n- `resume`: reconnects to live team session if present\n- `shutdown`: graceful shutdown request, then cleanup (deletes `.omx/state/team/<team>`)",
+    "zh_tw": "- `status`：讀取 team 快照（任務計數、死亡／未回報的 worker）\n- `resume`：如果存在，重新連接到 live team session\n- `shutdown`：提出優雅關閉請求，然後進行清理（刪除 `.omx/state/team/<team>`）"
+  },
+  {
+    "original": "## Data Plane and Control Plane",
+    "zh_tw": "## 資料平面與控制平面"
+  },
+  {
+    "original": "### Control Plane",
+    "zh_tw": "### 控制平面"
+  },
+  {
+    "original": "- tmux panes/processes (`OMX_TEAM_WORKER` per worker)\n- leader notifications via `tmux display-message`",
+    "zh_tw": "- tmux panes／processes（每個 worker 一個 `OMX_TEAM_WORKER`）\n- 透過 `tmux display-message` 傳送的 leader 通知"
+  },
+  {
+    "original": "### Data Plane",
+    "zh_tw": "### 資料平面"
+  },
+  {
+    "original": "- `.omx/state/team/<team>/...` files\n- Team mailbox files:\n- `.omx/state/team/<team>/mailbox/leader-fixed.json`\n- `.omx/state/team/<team>/mailbox/worker-<n>.json`\n- `.omx/state/team/<team>/dispatch/requests.json` (durable dispatch queue; hook-preferred, fallback-aware)",
+    "zh_tw": "- `.omx/state/team/<team>/...` 檔案\n- Team mailbox 檔案：\n- `.omx/state/team/<team>/mailbox/leader-fixed.json`\n- `.omx/state/team/<team>/mailbox/worker-<n>.json`\n- `.omx/state/team/<team>/dispatch/requests.json`（持久化派送佇列；優先使用 hook，並考慮 fallback）"
+  },
+  {
+    "original": "### Key Files",
+    "zh_tw": "### 關鍵檔案"
+  },
+  {
+    "original": "- `.omx/state/team/<team>/config.json`\n- `.omx/state/team/<team>/manifest.v2.json`\n- `.omx/state/team/<team>/tasks/task-<id>.json`\n- `.omx/state/team/<team>/workers/worker-<n>/identity.json`\n- `.omx/state/team/<team>/workers/worker-<n>/inbox.md`\n- `.omx/state/team/<team>/workers/worker-<n>/heartbeat.json`\n- `.omx/state/team/<team>/workers/worker-<n>/status.json`\n- `.omx/state/team-leader-nudge.json`",
+    "zh_tw": "- `.omx/state/team/<team>/config.json`\n- `.omx/state/team/<team>/manifest.v2.json`\n- `.omx/state/team/<team>/tasks/task-<id>.json`\n- `.omx/state/team/<team>/workers/worker-<n>/identity.json`\n- `.omx/state/team/<team>/workers/worker-<n>/inbox.md`\n- `.omx/state/team/<team>/workers/worker-<n>/heartbeat.json`\n- `.omx/state/team/<team>/workers/worker-<n>/status.json`\n- `.omx/state/team-leader-nudge.json`"
+  },
+  {
+    "original": "## Team Mutation Interop (CLI-first)",
+    "zh_tw": "## Team 變更互通（CLI 優先）"
+  },
+  {
+    "original": "Use `omx team api` for machine-readable mutation/reads instead of legacy `team_*` MCP tools.",
+    "zh_tw": "請使用 `omx team api` 進行機器可讀的變更／讀取，而不是使用舊版 `team_*` MCP 工具。"
+  },
+  {
+    "original": "```bash\nomx team api <operation> --input '{\"team_name\":\"my-team\",...}' --json\n```",
+    "zh_tw": "```bash\nomx team api <operation> --input '{\"team_name\":\"my-team\",...}' --json\n```"
+  },
+  {
+    "original": "Examples:",
+    "zh_tw": "範例："
+  },
+  {
+    "original": "```bash\nomx team api send-message --input '{\"team_name\":\"my-team\",\"from_worker\":\"worker-1\",\"to_worker\":\"leader-fixed\",\"body\":\"ACK\"}' --json\nomx team api claim-task --input '{\"team_name\":\"my-team\",\"task_id\":\"1\",\"worker\":\"worker-1\"}' --json\nomx team api transition-task-status --input '{\"team_name\":\"my-team\",\"task_id\":\"1\",\"from\":\"in_progress\",\"to\":\"completed\",\"claim_token\":\"<token>\"}' --json\n```",
+    "zh_tw": "```bash\nomx team api send-message --input '{\"team_name\":\"my-team\",\"from_worker\":\"worker-1\",\"to_worker\":\"leader-fixed\",\"body\":\"ACK\"}' --json\nomx team api claim-task --input '{\"team_name\":\"my-team\",\"task_id\":\"1\",\"worker\":\"worker-1\"}' --json\nomx team api transition-task-status --input '{\"team_name\":\"my-team\",\"task_id\":\"1\",\"from\":\"in_progress\",\"to\":\"completed\",\"claim_token\":\"<token>\"}' --json\n```"
+  },
+  {
+    "original": "`--json` responses include stable metadata for automation:\n- `schema_version`\n- `timestamp`\n- `command`\n- `ok`\n- `operation`\n- `data` or `error`",
+    "zh_tw": "`--json` 回應包含可供自動化使用的穩定中繼資料：\n- `schema_version`\n- `timestamp`\n- `command`\n- `ok`\n- `operation`\n- `data` 或 `error`"
+  },
+  {
+    "original": "## Team + Worker Protocol Notes",
+    "zh_tw": "## Team + Worker 協定備註"
+  },
+  {
+    "original": "Leader-to-worker:",
+    "zh_tw": "leader 對 worker："
+  },
+  {
+    "original": "- Write full assignment to worker `inbox.md`\n- Send short trigger (<200 chars) with `tmux send-keys`",
+    "zh_tw": "- 將完整指派寫入 worker 的 `inbox.md`\n- 使用 `tmux send-keys` 傳送短觸發字串（<200 字元）"
+  },
+  {
+    "original": "Worker-to-leader:",
+    "zh_tw": "worker 對 leader："
+  },
+  {
+    "original": "- Send ACK to `leader-fixed` mailbox via `omx team api send-message --json`\n- Claim/transition/release task lifecycle via `omx team api <operation> --json`",
+    "zh_tw": "- 透過 `omx team api send-message --json` 將 ACK 傳送到 `leader-fixed` mailbox\n- 透過 `omx team api <operation> --json` 進行 task 生命週期的 claim／transition／release"
+  },
+  {
+    "original": "Worker commit protocol (critical for incremental integration):",
+    "zh_tw": "worker 提交協定（對漸進式整合至關重要）："
+  },
+  {
+    "original": "- After completing task work and before reporting completion, workers MUST commit:\n  `git add -A && git commit -m \"task: <task-subject>\"`\n- This ensures changes are available for incremental integration into the leader branch\n- If a worker forgets to commit, the runtime auto-commits as a fallback, but explicit commits are preferred",
+    "zh_tw": "- 在完成任務工作並回報完成之前，workers MUST 提交：\n  `git add -A && git commit -m \"task: <task-subject>\"`\n- 這可確保變更可供漸進式整合到 leader 分支\n- 如果 worker 忘記提交，runtime 會自動提交作為 fallback，但仍以明確提交為優先"
+  },
+  {
+    "original": "Task ID rule (critical):",
+    "zh_tw": "Task ID 規則（重要）："
+  }
+]

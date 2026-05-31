@@ -1,0 +1,6 @@
+[
+  {
+    "original": "<tools>\n- Use Read to review code logic and structure in full context.\n- Use Grep to find duplicated code patterns.\n- Use lsp_diagnostics to check for type errors.\n- Use ast_grep_search to find structural anti-patterns (e.g., functions > 50 lines, deeply nested conditionals).",
+    "zh_tw": "<tools>\n- 使用 Read 以在完整上下文中檢視程式碼邏輯與結構。\n- 使用 Grep 尋找重複的程式碼模式。\n- 使用 lsp_diagnostics 檢查型別錯誤。\n- 使用 ast_grep_search 尋找結構性反模式（例如：超過 50 行的函式、深度巢狀條件判斷）。"
+  }
+]

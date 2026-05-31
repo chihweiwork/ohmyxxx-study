@@ -1,0 +1,66 @@
+[
+  {
+    "original": "# src/hooks/ — ~52 Lifecycle Hooks Across 57 Dirs",
+    "zh_tw": "# src/hooks/ — 57 個目錄中的約 52 個生命週期 Hooks"
+  },
+  {
+    "original": "**Generated:** 2026-05-20",
+    "zh_tw": "**生成日期：** 2026-05-20"
+  },
+  {
+    "original": "## OVERVIEW",
+    "zh_tw": "## 概覽"
+  },
+  {
+    "original": "52 registered hooks. The 57 directories break down as: 48 registered hook dirs (with `index.ts`) + 6 standalone hook `.ts` files (bash-file-read-guard, context-window-monitor, empty-task-response-detector, preemptive-compaction, session-notification, tool-output-truncator) + support dirs (`shared/`, `team-session-events/`, 5 `zauc-mocks-*`/`zauc-sync-mocks`, `.sisyphus/` legacy state). 5-tier composition wired in `src/plugin/hooks/`. All hooks follow `createXXXHook(deps) → HookFunction` factory pattern.",
+    "zh_tw": "52 個已註冊的 hooks。這 57 個目錄可分為：48 個已註冊的 hook 目錄（含 `index.ts`）+ 6 個獨立的 hook `.ts` 檔案（bash-file-read-guard、context-window-monitor、empty-task-response-detector、preemptive-compaction、session-notification、tool-output-truncator）+ 支援目錄（`shared/`、`team-session-events/`、5 個 `zauc-mocks-*`/`zauc-sync-mocks`、`.sisyphus/` 舊版狀態）。5 層組合在 `src/plugin/hooks/` 中串接。所有 hooks 都遵循 `createXXXHook(deps) → HookFunction` 的工廠模式。"
+  },
+  {
+    "original": "**Unwired WIP (do not modify casually):** `task-reminder/` (has `index.ts` + `createTaskReminderHook` but NOT exported from barrel, NOT imported by any composer) and `hashline-edit-diff-enhancer/` (has only `hook.ts`, NOT registered). Treat as orphaned until wired in.",
+    "zh_tw": "**尚未接線的 WIP（請勿隨意修改）：** `task-reminder/`（有 `index.ts` + `createTaskReminderHook`，但未從 barrel 匯出，也未被任何 composer 匯入）以及 `hashline-edit-diff-enhancer/`（只有 `hook.ts`，尚未註冊）。在接線完成前，請視為孤兒。"
+  },
+  {
+    "original": "## TIER COMPOSITION",
+    "zh_tw": "## 分層組合"
+  },
+  {
+    "original": "| Tier | Composer | Base | With team-mode | Where |\n|------|----------|------|----------------|-------|\n| **Session** | `create-session-hooks.ts` | 24 | 24 | OpenCode session lifecycle + chat.params + chat.message |\n| **Tool Guard** | `create-tool-guard-hooks.ts` | 16 | 17 | Pre/post tool execution (+1: `team-tool-gating`) |\n| **Transform** | `create-transform-hooks.ts` | 5 | 7 | `experimental.chat.messages.transform` (+2: `team-mode-status-injector`, `team-mailbox-injector`) |\n| **Continuation** | `create-continuation-hooks.ts` | 7 | 7 | Boulder/atlas/compaction/notification |\n| **Skill** | `create-skill-hooks.ts` | 2 | 2 | Skill awareness (categorySkillReminder, autoSlashCommand) |\n| **Direct event handlers** | `src/plugin/event.ts` | 0 | +4 | `team-session-events/` sub-files: `team-idle-wake-hint`, `team-lead-orphan-handler`, `team-member-error-handler`, `team-member-status-handler` |",
+    "zh_tw": "| 層級 | Composer | 基礎數 | team-mode 下 | 位置 |\n|------|----------|------|----------------|-------|\n| **Session** | `create-session-hooks.ts` | 24 | 24 | OpenCode session 生命週期 + chat.params + chat.message |\n| **Tool Guard** | `create-tool-guard-hooks.ts` | 16 | 17 | 工具執行前/後（+1：`team-tool-gating`） |\n| **Transform** | `create-transform-hooks.ts` | 5 | 7 | `experimental.chat.messages.transform`（+2：`team-mode-status-injector`、`team-mailbox-injector`） |\n| **Continuation** | `create-continuation-hooks.ts` | 7 | 7 | Boulder/atlas/compaction/notification |\n| **Skill** | `create-skill-hooks.ts` | 2 | 2 | Skill 感知（categorySkillReminder、autoSlashCommand） |\n| **Direct event handlers** | `src/plugin/event.ts` | 0 | +4 | `team-session-events/` 子檔案：`team-idle-wake-hint`、`team-lead-orphan-handler`、`team-member-error-handler`、`team-member-status-handler` |"
+  },
+  {
+    "original": "Total exposed hooks: **54 base, 61 with team-mode** (counts the 4 team-session-events handlers individually).",
+    "zh_tw": "對外暴露的 hooks 總數：**基礎 54 個，team-mode 下 61 個**（將 4 個 team-session-events handler 分別計算）。"
+  },
+  {
+    "original": "Hook name allowlist for `disabled_hooks`: all configurable hook names enumerated in [`src/config/schema/hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/config/schema/hooks.ts) `HookNameSchema`. Team-session-event sub-hooks are not individually listed in the schema — they activate together with `team_mode.enabled`.",
+    "zh_tw": "`disabled_hooks` 的 hook 名稱允許清單：所有可設定的 hook 名稱都列在 [`src/config/schema/hooks.ts`](file:///Users/yeongyu/local-workspaces/omo/src/config/schema/hooks.ts) 的 `HookNameSchema` 中。Team-session-event 的子 hooks 不會在 schema 中逐一列出——它們會隨 `team_mode.enabled` 一起啟用。"
+  },
+  {
+    "original": "### Tier 1: Session Hooks (24)",
+    "zh_tw": "### 第 1 層：Session Hooks（24）"
+  },
+  {
+    "original": "| Hook | Event | Purpose |\n|------|-------|---------|\n| `contextWindowMonitor` | session.idle | Track context usage |\n| `preemptiveCompaction` | session.idle | Trigger compaction before limit |\n| `sessionRecovery` | session.error | Recover from structural errors (tool_result_missing, thinking_block_order) |\n| `sessionNotification` | session.idle | OS notifications on completion |\n| `thinkMode` | chat.params | Model variant switching for extended thinking |\n| `anthropicContextWindowLimitRecovery` | session.error | Multi-strategy context recovery (truncation, compaction, dedup) |\n| `autoUpdateChecker` | session.created | Check npm for plugin updates |\n| `agentUsageReminder` | chat.message | Remind about available agents |\n| `nonInteractiveEnv` | chat.message | Adjust behavior for `run` command |\n| `interactiveBashSession` | tool.execute | Tmux session lifecycle for interactive_bash tool |\n| `ralphLoop` | event | Self-referential dev loop (boulder continuation) |\n| `editErrorRecovery` | tool.execute.after | Retry failed file edits |\n| `delegateTaskRetry` | tool.execute.after | Retry failed task delegations |\n| `startWork` | chat.message | `/start-work` command handler |\n| `prometheusMdOnly` | tool.execute.before | Enforce .md-only writes for Prometheus |\n| `sisyphusJuniorNotepad` | chat.message | Notepad injection for subagents |\n| `questionLabelTruncator` | tool.execute.before | Truncate long Question tool labels |\n| `taskResumeInfo` | chat.message | Inject task context on resume |\n| `anthropicEffort` | chat.params | Adjust reasoning effort level |\n| `modelFallback` | chat.params | Provider-level proactive model fallback |\n| `noSisyphusGpt` | chat.message | Block Sisyphus from non-GPT providers (with warning toast) |\n| `noHephaestusNonGpt` | chat.message | Block Hephaestus from non-GPT models |\n| `runtimeFallback` | event | Reactive auto-switch on API provider errors |\n| `legacyPluginToast` | chat.message | Show toast when legacy plugin name detected |",
+    "zh_tw": "| Hook | Event | 用途 |\n|------|-------|---------|\n| `contextWindowMonitor` | session.idle | 追蹤 context 使用量 |\n| `preemptiveCompaction` | session.idle | 在達到上限前觸發 compaction |\n| `sessionRecovery` | session.error | 從結構性錯誤中復原（tool_result_missing、thinking_block_order） |\n| `sessionNotification` | session.idle | 完成時發送作業系統通知 |\n| `thinkMode` | chat.params | 為延伸思考切換模型變體 |\n| `anthropicContextWindowLimitRecovery` | session.error | 多策略 context 復原（截斷、compaction、去重） |\n| `autoUpdateChecker` | session.created | 檢查 npm 是否有外掛更新 |\n| `agentUsageReminder` | chat.message | 提醒可用的 agents |\n| `nonInteractiveEnv` | chat.message | 為 `run` 指令調整行為 |\n| `interactiveBashSession` | tool.execute | `interactive_bash` 工具的 Tmux session 生命週期 |\n| `ralphLoop` | event | 自我指涉的開發迴圈（boulder continuation） |\n| `editErrorRecovery` | tool.execute.after | 重新嘗試失敗的檔案編輯 |\n| `delegateTaskRetry` | tool.execute.after | 重新嘗試失敗的任務委派 |\n| `startWork` | chat.message | `/start-work` 指令處理器 |\n| `prometheusMdOnly` | tool.execute.before | 強制 Prometheus 只能寫入 .md |\n| `sisyphusJuniorNotepad` | chat.message | 為 subagents 注入記事本 |\n| `questionLabelTruncator` | tool.execute.before | 截斷過長的 Question 工具標籤 |\n| `taskResumeInfo` | chat.message | 在恢復時注入任務 context |\n| `anthropicEffort` | chat.params | 調整推理努力等級 |\n| `modelFallback` | chat.params | 在 provider 層級主動進行模型降級切換 |\n| `noSisyphusGpt` | chat.message | 阻止 Sisyphus 使用非 GPT provider（並顯示警告 toast） |\n| `noHephaestusNonGpt` | chat.message | 阻止 Hephaestus 使用非 GPT 模型 |\n| `runtimeFallback` | event | 在 API provider 錯誤時反應式自動切換 |\n| `legacyPluginToast` | chat.message | 偵測到舊版外掛名稱時顯示 toast |"
+  },
+  {
+    "original": "### Tier 2: Tool Guard Hooks (16)",
+    "zh_tw": "### 第 2 層：Tool Guard Hooks（16）"
+  },
+  {
+    "original": "| Hook | Event | Purpose |\n|------|-------|---------|\n| `commentChecker` | tool.execute.after | Block AI-slop comment patterns (binary: `@code-yeongyu/comment-checker`) |\n| `toolOutputTruncator` | tool.execute.after | Truncate oversized tool output |\n| `directoryAgentsInjector` | tool.execute.before | Inject dir-local AGENTS.md into context |\n| `directoryReadmeInjector` | tool.execute.before | Inject dir-local README.md into context |\n| `emptyTaskResponseDetector` | tool.execute.after | Detect empty task results |\n| `rulesInjector` | tool.execute.before | Conditional rules injection (AGENTS.md, .rules) |\n| `tasksTodowriteDisabler` | tool.execute.before | Disable TodoWrite when Sisyphus task system active |\n| `writeExistingFileGuard` | tool.execute.before | Require Read before Write/Edit on existing files |\n| `bashFileReadGuard` | tool.execute.before | Guard bash commands that read files (cat/head/tail) |\n| `readImageResizer` | tool.execute.after | Resize large images for context efficiency |\n| `todoDescriptionOverride` | tool.execute.before | Override todo item descriptions |\n| `webfetchRedirectGuard` | tool.execute.before | Guard webfetch redirect behavior |\n| `hashlineReadEnhancer` | tool.execute.after | Tag every Read output with `LINE#ID` content hashes |\n| `jsonErrorRecovery` | tool.execute.after | Detect JSON parse errors, inject correction reminder |\n| `fsyncSkipWarning` | tool.execute.after | Warn when fsync is skipped for atomic writes |",
+    "zh_tw": "| Hook | Event | 用途 |\n|------|-------|---------|\n| `commentChecker` | tool.execute.after | 阻擋 AI-slop 註解模式（二進位：`@code-yeongyu/comment-checker`） |\n| `toolOutputTruncator` | tool.execute.after | 截斷過大的工具輸出 |\n| `directoryAgentsInjector` | tool.execute.before | 將目錄本地的 AGENTS.md 注入 context |\n| `directoryReadmeInjector` | tool.execute.before | 將目錄本地的 README.md 注入 context |\n| `emptyTaskResponseDetector` | tool.execute.after | 偵測空白的任務結果 |\n| `rulesInjector` | tool.execute.before | 條件式規則注入（AGENTS.md、.rules） |\n| `tasksTodowriteDisabler` | tool.execute.before | 當 Sisyphus 任務系統啟用時停用 TodoWrite |\n| `writeExistingFileGuard` | tool.execute.before | 對既有檔案要求先 Read 再 Write/Edit |\n| `bashFileReadGuard` | tool.execute.before | 保護讀取檔案的 bash 指令（cat/head/tail） |\n| `readImageResizer` | tool.execute.after | 為提升 context 效率而縮放大型圖片 |\n| `todoDescriptionOverride` | tool.execute.before | 覆寫待辦事項描述 |\n| `webfetchRedirectGuard` | tool.execute.before | 保護 webfetch 重新導向行為 |\n| `hashlineReadEnhancer` | tool.execute.after | 為每個 Read 輸出標註 `LINE#ID` 內容雜湊 |\n| `jsonErrorRecovery` | tool.execute.after | 偵測 JSON 解析錯誤，注入修正提醒 |\n| `fsyncSkipWarning` | tool.execute.after | 在 atomic writes 略過 fsync 時發出警告 |"
+  },
+  {
+    "original": "### Tier 3: Transform Hooks (5)",
+    "zh_tw": "### 第 3 層：Transform Hooks（5）"
+  },
+  {
+    "original": "| Hook | Event | Purpose |\n|------|-------|---------|\n| `claudeCodeHooks` | messages.transform | Claude Code settings.json compatibility |\n| `keywordDetector` | messages.transform | Detect ultrawork/search/analyze/team modes; inject mode-specific prompt |\n| `contextInjectorMessagesTransform` | messages.transform | Inject AGENTS.md/README.md into context |\n| `thinkingBlockValidator` | messages.transform | Validate thinking block structure |\n| `toolPairValidator` | messages.transform | Validate tool call/result pairing |",
+    "zh_tw": "| Hook | Event | 用途 |\n|------|-------|---------|\n| `claudeCodeHooks` | messages.transform | Claude Code settings.json 相容性 |\n| `keywordDetector` | messages.transform | 偵測 ultrawork/search/analyze/team 模式；注入對應模式的提示詞 |\n| `contextInjectorMessagesTransform` | messages.transform | 將 AGENTS.md/README.md 注入 context |\n| `thinkingBlockValidator` | messages.transform | 驗證 thinking block 結構 |\n| `toolPairValidator` | messages.transform | 驗證工具呼叫/結果配對 |"
+  },
+  {
+    "original": "### Tier 4: Continuation Hooks (7)",
+    "zh_tw": "### 第 4 層：Continuation Hooks（7）"
+  }
+]

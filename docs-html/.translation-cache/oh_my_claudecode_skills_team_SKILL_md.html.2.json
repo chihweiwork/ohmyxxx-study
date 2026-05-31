@@ -1,0 +1,162 @@
+[
+  {
+    "original": "```markdown\n## Handoff: team-plan → team-exec\n\n- **Decided**: Microservice architecture with 3 services (auth, api, worker). PostgreSQL for persistence. JWT for auth tokens.\n- **Rejected**: Monolith (scaling concerns), MongoDB (team expertise is SQL), session cookies (API-first design).\n- **Risks**: Worker service needs Redis for job queue — not yet provisioned. Auth service has no rate limiting in initial design.\n- **Files**: DESIGN.md, TEST_STRATEGY.md\n- **Remaining**: Database migration scripts, CI/CD pipeline config, Redis provisioning.\n```",
+    "zh_tw": "```markdown\n## 交接：team-plan → team-exec\n\n- **已決定**：採用包含 3 個服務（auth、api、worker）的微服務架構。使用 PostgreSQL 作為持久化儲存。使用 JWT 作為 auth token。\n- **已拒絕**：單體架構（擴展性疑慮）、MongoDB（團隊專長是 SQL）、session cookies（API-first 設計）。\n- **風險**：Worker 服務需要 Redis 作為 job queue —— 目前尚未配置。Auth 服務在初始設計中沒有 rate limiting。\n- **檔案**：DESIGN.md, TEST_STRATEGY.md\n- **剩餘事項**：資料庫 migration scripts、CI/CD pipeline config、Redis provisioning。\n```"
+  },
+  {
+    "original": "### Resume and Cancel Semantics",
+    "zh_tw": "### 接續與取消語義"
+  },
+  {
+    "original": "- **Resume:** restart from the last non-terminal stage using staged state + live task status. Read `.omc/handoffs/` to recover stage transition context.\n- **Cancel:** `/oh-my-claudecode:cancel` requests teammate shutdown, waits for responses (best effort), marks phase `cancelled` with `active=false`, captures cancellation metadata, then deletes team resources and clears/preserves Team state per policy. Handoff files in `.omc/handoffs/` are preserved for potential resume.\n- Terminal states are `complete`, `failed`, and `cancelled`.",
+    "zh_tw": "- **接續：** 使用分階段狀態 + 即時任務狀態，從最後一個非終止階段重新開始。讀取 `.omc/handoffs/` 以還原階段轉換脈絡。\n- **取消：** `/oh-my-claudecode:cancel` 會請求隊友關閉，等待回應（盡力而為），將階段標記為 `cancelled` 並設為 `active=false`，擷取取消中繼資料，然後刪除團隊資源，並依政策清除/保留 Team 狀態。`.omc/handoffs/` 中的交接檔會保留，以便日後可能接續。\n- 終止狀態是 `complete`、`failed` 與 `cancelled`。"
+  },
+  {
+    "original": "## Workflow",
+    "zh_tw": "## 工作流程"
+  },
+  {
+    "original": "### Phase 1: Parse Input",
+    "zh_tw": "### 階段 1：解析輸入"
+  },
+  {
+    "original": "- Extract **N** (agent count), validate 1-20\n- Extract **agent-type**, validate it maps to a known OMC subagent\n- Extract **task** description",
+    "zh_tw": "- 擷取 **N**（代理數量），驗證範圍為 1-20\n- 擷取 **agent-type**，驗證其可對應到已知的 OMC 子代理\n- 擷取 **task** 描述"
+  },
+  {
+    "original": "### Phase 2: Analyze & Decompose",
+    "zh_tw": "### 階段 2：分析與拆解"
+  },
+  {
+    "original": "Use `explore` or `architect` (via MCP or agent) to analyze the codebase and break the task into N subtasks:",
+    "zh_tw": "使用 `explore` 或 `architect`（透過 MCP 或 agent）分析程式碼庫，並將任務拆分為 N 個子任務："
+  },
+  {
+    "original": "- Each subtask should be **file-scoped** or **module-scoped** to avoid conflicts\n- Subtasks must be independent or have clear dependency ordering\n- Each subtask needs a concise `subject` and detailed `description`\n- Identify dependencies between subtasks (e.g., \"shared types must be fixed before consumers\")",
+    "zh_tw": "- 每個子任務都應該是 **file-scoped** 或 **module-scoped**，以避免衝突\n- 子任務必須彼此獨立，或具備清楚的相依順序\n- 每個子任務都需要簡潔的 `subject` 與詳細的 `description`\n- 識別子任務之間的相依性（例如：\"shared types must be fixed before consumers\"）"
+  },
+  {
+    "original": "### Phase 3: Create Team",
+    "zh_tw": "### 階段 3：建立團隊"
+  },
+  {
+    "original": "Call `TeamCreate` with a slug derived from the task:",
+    "zh_tw": "使用從任務衍生的 slug 呼叫 `TeamCreate`："
+  },
+  {
+    "original": "```json\n{\n  \"team_name\": \"fix-ts-errors\",\n  \"description\": \"Fix all TypeScript errors across the project\"\n}\n```",
+    "zh_tw": "```json\n{\n  \"team_name\": \"fix-ts-errors\",\n  \"description\": \"修正整個專案中的所有 TypeScript 錯誤\"\n}\n```"
+  },
+  {
+    "original": "**Response:**",
+    "zh_tw": "**回應：**"
+  },
+  {
+    "original": "```json\n{\n  \"team_name\": \"fix-ts-errors\",\n  \"team_file_path\": \"~/.claude/teams/fix-ts-errors/config.json\",\n  \"lead_agent_id\": \"team-lead@fix-ts-errors\"\n}\n```",
+    "zh_tw": "```json\n{\n  \"team_name\": \"fix-ts-errors\",\n  \"team_file_path\": \"~/.claude/teams/fix-ts-errors/config.json\",\n  \"lead_agent_id\": \"team-lead@fix-ts-errors\"\n}\n```"
+  },
+  {
+    "original": "The current session becomes the team lead (`team-lead@fix-ts-errors`).",
+    "zh_tw": "目前 session 會成為 team lead（`team-lead@fix-ts-errors`）。"
+  },
+  {
+    "original": "Write OMC state using the `state_write` MCP tool for proper session-scoped persistence:",
+    "zh_tw": "使用 `state_write` MCP 工具寫入 OMC 狀態，以便進行正確的 session 範圍持久化："
+  },
+  {
+    "original": "```\nstate_write(mode=\"team\", active=true, current_phase=\"team-plan\", state={\n  \"team_name\": \"fix-ts-errors\",\n  \"agent_count\": 3,\n  \"agent_types\": \"executor\",\n  \"task\": \"fix all TypeScript errors\",\n  \"fix_loop_count\": 0,\n  \"max_fix_loops\": 3,\n  \"linked_ralph\": false,\n  \"stage_history\": \"team-plan\"\n})\n```",
+    "zh_tw": "```\nstate_write(mode=\"team\", active=true, current_phase=\"team-plan\", state={\n  \"team_name\": \"fix-ts-errors\",\n  \"agent_count\": 3,\n  \"agent_types\": \"executor\",\n  \"task\": \"修正所有 TypeScript 錯誤\",\n  \"fix_loop_count\": 0,\n  \"max_fix_loops\": 3,\n  \"linked_ralph\": false,\n  \"stage_history\": \"team-plan\"\n})\n```"
+  },
+  {
+    "original": "> **Note:** The MCP `state_write` tool transports all values as strings. Consumers must coerce `agent_count`, `fix_loop_count`, `max_fix_loops` to numbers and `linked_ralph` to boolean when reading state.",
+    "zh_tw": "> **注意：** MCP `state_write` 工具會以字串傳遞所有值。讀取狀態時，消費端必須將 `agent_count`、`fix_loop_count`、`max_fix_loops` 轉成數字，並將 `linked_ralph` 轉成布林值。"
+  },
+  {
+    "original": "**State schema fields:**",
+    "zh_tw": "**狀態結構欄位：**"
+  },
+  {
+    "original": "| Field            | Type    | Description                                                                             |\n| ---------------- | ------- | --------------------------------------------------------------------------------------- |\n| `active`         | boolean | Whether team mode is active                                                             |\n| `current_phase`  | string  | Current pipeline stage: `team-plan`, `team-prd`, `team-exec`, `team-verify`, `team-fix` |\n| `team_name`      | string  | Slug name for the team                                                                  |\n| `agent_count`    | number  | Number of worker agents                                                                 |\n| `agent_types`    | string  | Comma-separated agent types used in team-exec                                           |\n| `task`           | string  | Original task description                                                               |\n| `fix_loop_count` | number  | Current fix iteration count                                                             |\n| `max_fix_loops`  | number  | Maximum fix iterations before failing (default: 3)                                      |\n| `linked_ralph`   | boolean | Whether team is linked to a ralph persistence loop                                      |\n| `stage_history`  | string  | Comma-separated list of stage transitions with timestamps                               |",
+    "zh_tw": "| 欄位            | 型別    | 說明                                                                             |\n| ---------------- | ------- | --------------------------------------------------------------------------------------- |\n| `active`         | boolean | 團隊模式是否啟用                                                             |\n| `current_phase`  | string  | 目前流程階段：`team-plan`、`team-prd`、`team-exec`、`team-verify`、`team-fix` |\n| `team_name`      | string  | 團隊的 slug 名稱                                                                  |\n| `agent_count`    | number  | 工作代理的數量                                                                 |\n| `agent_types`    | string  | 在 team-exec 中使用的、以逗號分隔的代理類型                                           |\n| `task`           | string  | 原始任務描述                                                               |\n| `fix_loop_count` | number  | 目前修正迭代次數                                                             |\n| `max_fix_loops`  | number  | 失敗前的最大修正迭代次數（預設：3）                                      |\n| `linked_ralph`   | boolean | 團隊是否連結到 ralph 持久化迴圈                                      |\n| `stage_history`  | string  | 含時間戳記的階段轉換清單，以逗號分隔                               |"
+  },
+  {
+    "original": "**Update state on every stage transition:**",
+    "zh_tw": "**每次階段轉換時都要更新狀態：**"
+  },
+  {
+    "original": "```\nstate_write(mode=\"team\", current_phase=\"team-exec\", state={\n  \"stage_history\": \"team-plan:2026-02-07T12:00:00Z,team-prd:2026-02-07T12:01:00Z,team-exec:2026-02-07T12:02:00Z\"\n})\n```",
+    "zh_tw": "```\nstate_write(mode=\"team\", current_phase=\"team-exec\", state={\n  \"stage_history\": \"team-plan:2026-02-07T12:00:00Z,team-prd:2026-02-07T12:01:00Z,team-exec:2026-02-07T12:02:00Z\"\n})\n```"
+  },
+  {
+    "original": "**Read state for resume detection:**",
+    "zh_tw": "**為了偵測接續而讀取狀態：**"
+  },
+  {
+    "original": "```\nstate_read(mode=\"team\")\n```",
+    "zh_tw": "```\nstate_read(mode=\"team\")\n```"
+  },
+  {
+    "original": "If `active=true` and `current_phase` is non-terminal, resume from the last incomplete stage instead of creating a new team.",
+    "zh_tw": "如果 `active=true` 且 `current_phase` 為非終止狀態，則從最後一個未完成的階段接續，而不是建立新團隊。"
+  },
+  {
+    "original": "### Phase 4: Create Tasks",
+    "zh_tw": "### 階段 4：建立任務"
+  },
+  {
+    "original": "Call `TaskCreate` for each subtask. Set dependencies with `TaskUpdate` using `addBlockedBy`.",
+    "zh_tw": "針對每個子任務呼叫 `TaskCreate`。使用 `TaskUpdate` 並透過 `addBlockedBy` 設定相依性。"
+  },
+  {
+    "original": "```json\n// TaskCreate for subtask 1\n{\n  \"subject\": \"Fix type errors in src/auth/\",\n  \"description\": \"Fix all TypeScript errors in src/auth/login.ts, src/auth/session.ts, and src/auth/types.ts. Run tsc --noEmit to verify.\",\n  \"activeForm\": \"Fixing auth type errors\"\n}\n```",
+    "zh_tw": "```json\n// 子任務 1 的 TaskCreate\n{\n  \"subject\": \"修正 `src/auth/` 中的型別錯誤\",\n  \"description\": \"修正 `src/auth/login.ts`、`src/auth/session.ts` 與 `src/auth/types.ts` 中的所有 TypeScript 錯誤。執行 `tsc --noEmit` 以驗證。\",\n  \"activeForm\": \"正在修正 auth 型別錯誤\"\n}\n```"
+  },
+  {
+    "original": "**Response stores a task file (e.g. `1.json`):**",
+    "zh_tw": "**回應會儲存一個任務檔案（例如 `1.json`）：**"
+  },
+  {
+    "original": "```json\n{\n  \"id\": \"1\",\n  \"subject\": \"Fix type errors in src/auth/\",\n  \"description\": \"Fix all TypeScript errors in src/auth/login.ts...\",\n  \"activeForm\": \"Fixing auth type errors\",\n  \"owner\": \"\",\n  \"status\": \"pending\",\n  \"blocks\": [],\n  \"blockedBy\": []\n}\n```",
+    "zh_tw": "```json\n{\n  \"id\": \"1\",\n  \"subject\": \"修正 `src/auth/` 中的型別錯誤\",\n  \"description\": \"修正 `src/auth/login.ts`、`src/auth/session.ts` 與 `src/auth/types.ts` 中的所有 TypeScript 錯誤。\",\n  \"activeForm\": \"正在修正 auth 型別錯誤\",\n  \"owner\": \"\",\n  \"status\": \"pending\",\n  \"blocks\": [],\n  \"blockedBy\": []\n}\n```"
+  },
+  {
+    "original": "For tasks with dependencies, use `TaskUpdate` after creation:",
+    "zh_tw": "對於有相依性的任務，請在建立後使用 `TaskUpdate`："
+  },
+  {
+    "original": "```json\n// Task #3 depends on task #1 (shared types must be fixed first)\n{\n  \"taskId\": \"3\",\n  \"addBlockedBy\": [\"1\"]\n}\n```",
+    "zh_tw": "```json\n// 任務 #3 依賴任務 #1（共用型別必須先修正）\n{\n  \"taskId\": \"3\",\n  \"addBlockedBy\": [\"1\"]\n}\n```"
+  },
+  {
+    "original": "**Pre-assign owners from the lead** to avoid race conditions (there is no atomic claiming):",
+    "zh_tw": "**由 lead 預先指派 owner**，以避免競態條件（沒有原子式認領）："
+  },
+  {
+    "original": "```json\n// Assign task #1 to worker-1\n{\n  \"taskId\": \"1\",\n  \"owner\": \"worker-1\"\n}\n```",
+    "zh_tw": "```json\n// 將任務 #1 指派給 worker-1\n{\n  \"taskId\": \"1\",\n  \"owner\": \"worker-1\"\n}\n```"
+  },
+  {
+    "original": "### Phase 5: Spawn Teammates",
+    "zh_tw": "### 階段 5：產生隊友"
+  },
+  {
+    "original": "Spawn N teammates using `Task` with `team_name` and `name` parameters. Each teammate gets the team worker preamble (see below) plus their specific assignment.",
+    "zh_tw": "使用帶有 `team_name` 和 `name` 參數的 `Task` 產生 N 位隊友。每位隊友都會獲得團隊 worker 前言（見下文）以及其專屬指派。"
+  },
+  {
+    "original": "```json\n{\n  \"subagent_type\": \"oh-my-claudecode:executor\",\n  \"team_name\": \"fix-ts-errors\",\n  \"name\": \"worker-1\",\n  \"prompt\": \"<worker-preamble + assigned tasks>\"\n}\n```",
+    "zh_tw": "```json\n{\n  \"subagent_type\": \"oh-my-claudecode:executor\",\n  \"team_name\": \"fix-ts-errors\",\n  \"name\": \"worker-1\",\n  \"prompt\": \"<worker-preamble + assigned tasks>\"\n}\n```"
+  },
+  {
+    "original": "**Response:**",
+    "zh_tw": "**回應：**"
+  },
+  {
+    "original": "```json\n{\n  \"agent_id\": \"worker-1@fix-ts-errors\",\n  \"name\": \"worker-1\",\n  \"team_name\": \"fix-ts-errors\"\n}\n```",
+    "zh_tw": "```json\n{\n  \"agent_id\": \"worker-1@fix-ts-errors\",\n  \"name\": \"worker-1\",\n  \"team_name\": \"fix-ts-errors\"\n}\n```"
+  },
+  {
+    "original": "**Side effects:**",
+    "zh_tw": "**副作用：**"
+  }
+]

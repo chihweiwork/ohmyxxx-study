@@ -1,0 +1,102 @@
+[
+  {
+    "original": "```bash\n# Force all teammates to Claude CLI\nOMX_TEAM_WORKER_CLI=claude omx team 2:executor \"update docs and report\"\n\n# Mixed team (worker 1 = Codex, worker 2 = Claude)\nOMX_TEAM_WORKER_CLI_MAP=codex,claude omx team 2:executor \"split doc/code tasks\"\n\n# Auto mode: Claude is selected when worker launch args/model contains 'claude'\nOMX_TEAM_WORKER_CLI=auto OMX_TEAM_WORKER_LAUNCH_ARGS=\"--model claude-...\" omx team 2:executor \"run mixed validation\"\n```",
+    "zh_tw": "```bash\n# 將所有隊友強制使用 Claude CLI\nOMX_TEAM_WORKER_CLI=claude omx team 2:executor \"更新文件並回報\"\n\n# 混合團隊（worker 1 = Codex，worker 2 = Claude）\nOMX_TEAM_WORKER_CLI_MAP=codex,claude omx team 2:executor \"分拆文件/程式碼任務\"\n\n# 自動模式：當 worker 啟動參數/model 包含 'claude' 時會選擇 Claude\nOMX_TEAM_WORKER_CLI=auto OMX_TEAM_WORKER_LAUNCH_ARGS=\"--model claude-...\" omx team 2:executor \"執行混合驗證\"\n```"
+  },
+  {
+    "original": "## Preconditions",
+    "zh_tw": "## 前置條件"
+  },
+  {
+    "original": "Before running `$team`, confirm:",
+    "zh_tw": "在執行 `$team` 之前，請確認："
+  },
+  {
+    "original": "1. `tmux` installed (`tmux -V`)\n2. Current leader session is inside tmux (`$TMUX` is set)\n3. `omx` command resolves to the intended install/build\n4. If running repo-local `node bin/omx.js ...`, run `npm run build` after `src` changes\n5. Check HUD pane count in the leader window and avoid duplicate `hud --watch` panes before split",
+    "zh_tw": "1. 已安裝 `tmux`（`tmux -V`）\n2. 目前的 leader session 位於 tmux 內（`$TMUX` 已設定）\n3. `omx` 指令解析到預期的安裝/建置版本\n4. 如果執行 repo 內的 `node bin/omx.js ...`，在 `src` 變更後請執行 `npm run build`\n5. 檢查 leader 視窗中的 HUD pane 數量，並在分割前避免重複的 `hud --watch` pane"
+  },
+  {
+    "original": "Suggested preflight:",
+    "zh_tw": "建議的前置檢查："
+  },
+  {
+    "original": "```bash\ntmux list-panes -F '#{pane_id}\\t#{pane_start_command}' | rg 'hud --watch' || true\n```",
+    "zh_tw": "```bash\ntmux list-panes -F '#{pane_id}\\t#{pane_start_command}' | rg 'hud --watch' || true\n```"
+  },
+  {
+    "original": "If duplicates exist, remove extras before `omx team` to prevent HUD ending up in worker stack.",
+    "zh_tw": "如果存在重複項，請在 `omx team` 之前移除多餘的 pane，以避免 HUD 最後落到 worker stack 中。"
+  },
+  {
+    "original": "## Pre-context Intake Gate",
+    "zh_tw": "## 前置脈絡收集閘門"
+  },
+  {
+    "original": "Before launching `omx team`, require a grounded context snapshot:",
+    "zh_tw": "在啟動 `omx team` 之前，必須先取得一份有依據的脈絡快照："
+  },
+  {
+    "original": "1. Derive a task slug from the request.\n2. Reuse the latest relevant snapshot in `.omx/context/{slug}-*.md` when available.\n3. If none exists, create `.omx/context/{slug}-{timestamp}.md` (UTC `YYYYMMDDTHHMMSSZ`) with:\n   - task statement\n   - desired outcome\n   - known facts/evidence\n   - constraints\n   - unknowns/open questions\n   - likely codebase touchpoints\n4. If ambiguity remains high, run `explore` first for brownfield facts, then run `$deep-interview --quick <task>` before team launch.\n5. If current correctness depends on official docs, version-aware framework guidance, best practices, or external dependency behavior, auto-delegate `researcher` as an evidence lane before or alongside worker launch instead of relying on repo-local recall alone.",
+    "zh_tw": "1. 從請求推導出一個 task slug。\n2. 若可用，重用 `.omx/context/{slug}-*.md` 中最新且相關的快照。\n3. 如果不存在，建立 `.omx/context/{slug}-{timestamp}.md`（UTC `YYYYMMDDTHHMMSSZ`），內容包含：\n   - task statement\n   - desired outcome\n   - known facts/evidence\n   - constraints\n   - unknowns/open questions\n   - likely codebase touchpoints\n4. 如果歧義仍然很高，先執行 `explore` 取得 brownfield facts，然後在 team 啟動前執行 `$deep-interview --quick <task>`。\n5. 如果目前正確性取決於官方文件、具版本意識的 framework 指引、最佳實務，或外部相依行為，請自動將 `researcher` 委派為一條 evidence lane，在 worker 啟動之前或同時進行，不要只依賴 repo 內的記憶。"
+  },
+  {
+    "original": "Do not start worker panes until this gate is satisfied; if forced to proceed quickly, state explicit scope/risk limitations in the launch report.",
+    "zh_tw": "在此閘門滿足之前，不要啟動 worker panes；如果必須快速繼續，請在啟動報告中明確說明範圍/風險限制。"
+  },
+  {
+    "original": "For simple read-only brownfield lookups during intake, follow active session guidance: when `USE_OMX_EXPLORE_CMD` is enabled, prefer `omx explore` with narrow, concrete prompts; otherwise use the richer normal explore path and fall back normally if `omx explore` is unavailable.",
+    "zh_tw": "在 intake 期間進行簡單的唯讀 brownfield 查詢時，請遵循 active session 指引：當 `USE_OMX_EXPLORE_CMD` 已啟用時，優先使用帶有狹窄、具體提示的 `omx explore`；否則使用較完整的正常 explore 流程，若 `omx explore` 不可用則正常回退。"
+  },
+  {
+    "original": "## Follow-up Staffing Contract",
+    "zh_tw": "## 後續人力配置合約"
+  },
+  {
+    "original": "When `$team` is used as a follow-up mode from ralplan, carry forward the approved plan's explicit **available-agent-types roster** and convert it into concrete staffing guidance before launch:",
+    "zh_tw": "當 `$team` 作為 ralplan 的後續模式使用時，請沿用已核准計畫中明確的 **available-agent-types roster**，並在啟動前將其轉換為具體的人力配置指引："
+  },
+  {
+    "original": "- keep worker-role choices inside the known roster\n- state the recommended headcount and role counts\n- state the suggested reasoning level for each lane when available\n- explain why each lane exists (delivery, verification, specialist support)\n- include an explicit launch hint (`omx team N \"<task>\"` / `$team N \"<task>\"`) for the coordinated team run; mention `$ultragoal` as the default durable follow-up/ledger path; mention a later separate Ralph follow-up only when explicitly requested or genuinely needed as a fallback\n- if the ideal role is unavailable, choose the closest role from the roster and say so",
+    "zh_tw": "- 將 worker-role 的選擇限制在已知 roster 內\n- 說明建議的人數與各角色數量\n- 在可用時，說明每個 lane 建議的 reasoning level\n- 解釋每個 lane 存在的原因（delivery、verification、specialist support）\n- 為協調團隊執行加入明確的啟動提示（`omx team N \"<task>\"` / `$team N \"<task>\"`）；將 `$ultragoal` 提及為預設且持久的後續/記錄路徑；只有在明確要求或確實需要作為備援時，才提及稍後另行進行的 Ralph follow-up\n- 如果理想角色不可用，請從 roster 中選擇最接近的角色並註明"
+  },
+  {
+    "original": "## Current Runtime Behavior (As Implemented)",
+    "zh_tw": "## 目前執行期行為（依實作）"
+  },
+  {
+    "original": "`omx team` currently performs:",
+    "zh_tw": "`omx team` 目前會執行："
+  },
+  {
+    "original": "1. Parse args (`N`, `agent-type`, task)\n2. Sanitize team name from task text\n3. Initialize team state:\n   - `.omx/state/team/<team>/config.json`\n   - `.omx/state/team/<team>/manifest.v2.json`\n   - `.omx/state/team/<team>/tasks/task-<id>.json`\n4. Compose team-scoped worker instructions file at:\n   - `.omx/state/team/<team>/worker-agents.md`\n   - Uses project `AGENTS.md` content (if present) + worker overlay, without mutating project `AGENTS.md`\n5. Resolve canonical shared state root from leader cwd (`<leader-cwd>/.omx/state`)\n6. Split current tmux window into worker panes\n7. Launch workers with:\n   - `OMX_TEAM_WORKER=<team>/worker-<n>`\n   - `OMX_TEAM_STATE_ROOT=<leader-cwd>/.omx/state`\n   - `OMX_TEAM_LEADER_CWD=<leader-cwd>`\n   - worker CLI selected by `OMX_TEAM_WORKER_CLI` / `OMX_TEAM_WORKER_CLI_MAP` (`codex` or `claude`)\n   - optional worktree metadata envs when `--worktree` is used\n7. Wait for worker readiness (`capture-pane` polling)\n8. Write per-worker `inbox.md` and trigger via `tmux send-keys`\n9. Return control to leader; follow-up uses `status` / `resume` / `shutdown`",
+    "zh_tw": "1. 解析參數（`N`、`agent-type`、task）\n2. 根據 task 文字清理 team 名稱\n3. 初始化 team state：\n   - `.omx/state/team/<team>/config.json`\n   - `.omx/state/team/<team>/manifest.v2.json`\n   - `.omx/state/team/<team>/tasks/task-<id>.json`\n4. 在以下位置組合 team 範圍的 worker instructions 檔案：\n   - `.omx/state/team/<team>/worker-agents.md`\n   - 使用專案的 `AGENTS.md` 內容（若存在）加上 worker overlay，且不會變動專案的 `AGENTS.md`\n5. 從 leader cwd（`<leader-cwd>/.omx/state`）解析出 canonical shared state root\n6. 將目前的 tmux window 分割成 worker panes\n7. 以以下設定啟動 workers：\n   - `OMX_TEAM_WORKER=<team>/worker-<n>`\n   - `OMX_TEAM_STATE_ROOT=<leader-cwd>/.omx/state`\n   - `OMX_TEAM_LEADER_CWD=<leader-cwd>`\n   - 由 `OMX_TEAM_WORKER_CLI` / `OMX_TEAM_WORKER_CLI_MAP` 選定的 worker CLI（`codex` 或 `claude`）\n   - 使用 `--worktree` 時可選的 worktree metadata envs\n7. 等待 worker 就緒（`capture-pane` 輪詢）\n8. 為每個 worker 寫入 `inbox.md`，並透過 `tmux send-keys` 觸發\n9. 將控制權交回 leader；後續使用 `status` / `resume` / `shutdown`"
+  },
+  {
+    "original": "If coarse active team mode state is missing while canonical team runtime state exists, restore/sync the active team mode state before relying on hook/mode-aware behavior.",
+    "zh_tw": "如果 canonical team runtime state 已存在，但 coarse active team mode state 遺失，請先還原/同步 active team mode state，再依賴 hook/mode-aware 行為。"
+  },
+  {
+    "original": "Important:",
+    "zh_tw": "重要："
+  },
+  {
+    "original": "- Leader remains in existing pane\n- Worker panes are independent full Codex/Claude CLI sessions\n- Workers may run in separate git worktrees (`omx team --worktree[=<name>]`) while sharing one team state root\n- Worker ACKs go to `mailbox/leader-fixed.json`\n- Notify hook updates worker heartbeat and sends lifecycle-driven leader nudges (for example resolved native worker Stop/all-idle or stale-leader evidence) during active team mode; deprecated worker stall/progress heuristics are not operator-facing guidance.\n- Submit routing uses this CLI resolution order per worker trigger:\n  1) explicit worker CLI provided by runtime state (persisted on worker identity/config),\n  2) `OMX_TEAM_WORKER_CLI_MAP` entry for that worker index,\n  3) fallback `OMX_TEAM_WORKER_CLI` / auto detection.\n- Mixed CLI-map teams are supported for both startup and trigger submit behavior.\n- Trigger submit differs by CLI:\n  - Codex may use queue-first `Tab` on busy panes (strategy-dependent).\n  - Claude always uses direct Enter-only (`C-m`) rounds (never queue-first `Tab`).",
+    "zh_tw": "- Leader 會留在既有 pane 中\n- Worker panes 是彼此獨立的完整 Codex/Claude CLI session\n- Workers 可在不同的 git worktree 中執行（`omx team --worktree[=<name>]`），同時共享同一個 team state root\n- Worker 的 ACK 會送到 `mailbox/leader-fixed.json`\n- Notify hook 會在 active team mode 期間更新 worker heartbeat，並傳送由生命週期驅動的 leader nudges（例如已處理的 native worker Stop/all-idle 或 stale-leader 證據）；已棄用的 worker stall/progress heuristics 不屬於操作人員面向的指引。\n- Submit routing 會依照每個 worker trigger 使用以下 CLI 解析順序：\n  1) 由 runtime state 提供的明確 worker CLI（保存在 worker identity/config 中），\n  2) 該 worker index 的 `OMX_TEAM_WORKER_CLI_MAP` 項目，\n  3) fallback 的 `OMX_TEAM_WORKER_CLI` / 自動偵測。\n- 混合 CLI-map 團隊同時支援啟動與 trigger submit 行為。\n- Trigger submit 會依 CLI 而不同：\n  - Codex 在繁忙 pane 上可能使用先排隊的 `Tab`（取決於策略）。\n  - Claude 一律使用直接 Enter-only（`C-m`）輪次（絕不使用先排隊的 `Tab`）。"
+  },
+  {
+    "original": "### Team worker model + thinking resolution (current contract)",
+    "zh_tw": "### Team worker model + thinking resolution（目前合約）"
+  },
+  {
+    "original": "Team mode resolves worker **model flags** from one shared launch-arg set (not per-worker model selection).",
+    "zh_tw": "Team mode 會從一組共享的 launch 參數集合解析 worker 的 **model flags**（不是逐一 worker 進行 model 選擇）。"
+  },
+  {
+    "original": "Model precedence (highest to lowest):\n1. Explicit worker model in `OMX_TEAM_WORKER_LAUNCH_ARGS`\n2. Inherited leader `--model` flag\n3. Low-complexity default from `OMX_DEFAULT_SPARK_MODEL` (legacy alias: `OMX_SPARK_MODEL`) when 1+2 are absent and team `agentType` is low-complexity",
+    "zh_tw": "模型優先順序（由高到低）：\n1. `OMX_TEAM_WORKER_LAUNCH_ARGS` 中明確指定的 worker model\n2. 繼承自 leader 的 `--model` 旗標\n3. 當 1 與 2 都不存在且 team `agentType` 為 low-complexity 時，使用 `OMX_DEFAULT_SPARK_MODEL` 的 low-complexity 預設值（舊別名：`OMX_SPARK_MODEL`）"
+  },
+  {
+    "original": "Default-model rule:\n- Do **not** assume a frontier or spark model from recency or model-family heuristics.\n- Use `OMX_DEFAULT_FRONTIER_MODEL` for frontier-default guidance.\n- Use `OMX_DEFAULT_SPARK_MODEL` for spark/low-complexity worker-default guidance.",
+    "zh_tw": "預設模型規則：\n- 不要根據最近性或 model-family heuristics 去假設 frontier 或 spark model。\n- 將 `OMX_DEFAULT_FRONTIER_MODEL` 用於 frontier 預設指引。\n- 將 `OMX_DEFAULT_SPARK_MODEL` 用於 spark/low-complexity worker 的預設指引。"
+  }
+]

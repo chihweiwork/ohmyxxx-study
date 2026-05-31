@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study Plan</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1120px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}h2{margin-top:2.2rem;border-top:1px solid #e5e7eb;padding-top:1.2rem}table{border-collapse:collapse;width:100%;margin:1rem 0;display:block;overflow-x:auto}th,td{border:1px solid #d1d5db;padding:8px 10px;vertical-align:top}th{background:#f3f4f6;text-align:left}code{background:#f3f4f6;padding:0.1em 0.3em;border-radius:4px}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto}pre code{background:transparent;padding:0;color:inherit}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden}.source-original,.source-translation{padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#fff7ed;border-top:1px solid #fed7aa}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.warn{background:#fff7ed;border:1px solid #fed7aa;padding:12px 14px;border-radius:8px}.path{word-break:break-all}</style>
+</head>
+<body>
+<main>
+<nav><a href="index.html">Docs Home</a><a href="sources/index.html">Sources</a></nav>
+<h1 id="study-plan">Study Plan</h1>
+<p>這是一個 10 步驟閱讀計畫。每一步都包含學習目標、閱讀材料、預期產出與自測問題。建議一邊讀一邊做筆記，不要一次把所有原始文件讀完。</p>
+<h2 id="筆記模板">筆記模板</h2>
+<p>每讀完一個 agent、skill、tool、hook 或 prompt，用同一個模板記錄：</p>
+<pre><code>名稱：
+來源路徑：
+類別：Agent / Prompt / Skill / Tool / Hook / Command
+它解決的問題：
+它的輸入：
+它的輸出或產物：
+它依賴哪些其他構件：
+它的安全/驗證機制：
+我還不確定的地方：</code></pre>
+<h2 id="step-1-建立全局圖">Step 1: 建立全局圖</h2>
+<p>學習目標：</p>
+<ul>
+<li>知道四個專案的定位。</li>
+<li>知道 graphify community 代表什麼。</li>
+<li>能說出 runtime、lifecycle、structured prompt、consensus learning 的差異。</li>
+</ul>
+<p>閱讀：</p>
+<ul>
+<li><code>docs/README.md</code></li>
+<li><code>docs/01-architecture-map.md</code></li>
+<li><code>graphify-out/GRAPH_REPORT.md</code></li>
+</ul>
+<p>預期產出：</p>
+<ul>
+<li>一張四欄比較表：OMO、OMC、OMX、OmA。</li>
+<li>一句話描述每個專案。</li>
+</ul>
+<p>自測：</p>
+<ul>
+<li>四個專案分別解決什麼問題？</li>
+<li>graphify 的 community 如何對應到四個專案？</li>
+<li>哪些節點是跨專案核心概念？</li>
+</ul>
+<h2 id="step-2-先讀-omo-runtime">Step 2: 先讀 OMO runtime</h2>
+<p>學習目標：</p>
+<ul>
+<li>理解 agent runtime 的基本構造。</li>
+<li>分清楚 agent、tool、hook 的責任。</li>
+</ul>
+<p>閱讀：</p>
+<ul>
+<li><a href="sources/oh_my_openagent_src_agents_AGENTS_md.html"><code>oh-my-openagent/src/agents/AGENTS.md</code></a></li>
+<li><a href="sources/oh_my_openagent_src_tools_AGENTS_md.html"><code>oh-my-openagent/src/tools/AGENTS.md</code></a></li>
+<li><a href="sources/oh_my_openagent_src_hooks_AGENTS_md.html"><code>oh-my-openagent/src/hooks/AGENTS.md</code></a></li>
+</ul>
+<p>預期產出：</p>
+<ul>
+<li>畫出 OMO 的任務流：task -&gt; orchestrator -&gt; specialist -&gt; tool -&gt; hook。</li>
+<li>列出三個最重要的 OMO tools 和 hooks。</li>
+</ul>
+<p>自測：</p>
+<ul>
+<li>OMO 的 agent、tool、hook 分別扮演什麼角色？</li>
+<li>Atlas、Prometheus、Hephaestus 的分工是什麼？</li>
+<li>哪些 hook 是為了解決長上下文或長任務？</li>
+</ul>
+<h2 id="step-3-讀-omc-lifecycle">Step 3: 讀 OMC lifecycle</h2>
+<p>學習目標：</p>
+<ul>
+<li>理解 command -&gt; skill -&gt; agent/tool 的流程。</li>
+<li>知道 OMC 如何把工程任務包成可重複 workflow。</li>
+</ul>
+<p>閱讀：</p>
+<ul>
+<li><a href="sources/oh_my_claudecode_README_md.html"><code>oh-my-claudecode/README.md</code></a></li>
+<li><a href="sources/oh_my_claudecode_docs_ARCHITECTURE_md.html"><code>oh-my-claudecode/docs/ARCHITECTURE.md</code></a></li>
+<li><a href="sources/oh_my_claudecode_commands_self_improve_md.html"><code>oh-my-claudecode/commands/self-improve.md</code></a></li>
+<li><a href="sources/oh_my_claudecode_commands_verify_md.html"><code>oh-my-claudecode/commands/verify.md</code></a></li>
+<li><a href="sources/oh_my_claudecode_commands_project_session_manager_md.html"><code>oh-my-claudecode/commands/project-session-manager.md</code></a></li>
+<li><a href="sources/oh_my_claudecode_skills_plan_SKILL_md.html"><code>oh-my-claudecode/skills/plan/SKILL.md</code></a></li>
+</ul>
+<p>預期產出：</p>
+<ul>
+<li>選一個 command，追出它對應的 skill 或流程。</li>
+<li>寫出 OMC 的 lifecycle：research、plan、execute、verify、release。</li>
+</ul>
+<p>自測：</p>
+<ul>
+<li>OMC 如何把 command 對應到 skill？</li>
+<li>哪些 skill 是核心開發生命週期？</li>
+<li><code>self-improve</code> 和一般開發 skill 差在哪裡？</li>
+</ul>
+<h2 id="step-4-讀-omx-structured-prompt-system">Step 4: 讀 OMX structured prompt system</h2>
+<p>學習目標：</p>
+<ul>
+<li>理解 prompt specialist 和 runtime agent 的差異。</li>
+<li>理解 state model 和 strict prompts 為什麼重要。</li>
+</ul>
+<p>閱讀：</p>
+<ul>
+<li><a href="sources/oh_my_codex_README_md.html"><code>oh-my-codex/README.md</code></a></li>
+<li><a href="sources/oh_my_codex_docs_STATE_MODEL_md.html"><code>oh-my-codex/docs/STATE_MODEL.md</code></a></li>
+<li><a href="sources/oh_my_codex_prompts_prometheus_strict_oracle_md.html"><code>oh-my-codex/prompts/prometheus-strict-oracle.md</code></a></li>
+<li><a href="sources/oh_my_codex_prompts_prometheus_strict_metis_md.html"><code>oh-my-codex/prompts/prometheus-strict-metis.md</code></a></li>
+<li><a href="sources/oh_my_codex_prompts_prometheus_strict_momus_md.html"><code>oh-my-codex/prompts/prometheus-strict-momus.md</code></a></li>
+</ul>
+<p>預期產出：</p>
+<ul>
+<li>寫出 Oracle、Metis、Momus 的分工。</li>
+<li>畫出一個簡單 state transition 圖。</li>
+</ul>
+<p>自測：</p>
+<ul>
+<li>OMX 為什麼要 strict prompt？</li>
+<li>State model 限制了哪些 agent 行為？</li>
+<li>Prometheus Strict Oracle、Metis、Momus 的差異是什麼？</li>
+</ul>
+<h2 id="step-5-讀-oma-consensus-loop">Step 5: 讀 OmA consensus loop</h2>
+<p>學習目標：</p>
+<ul>
+<li>理解 Consensus 和 Director 的差異。</li>
+<li>理解 session 後學習如何變成規則。</li>
+</ul>
+<p>閱讀：</p>
+<ul>
+<li><a href="sources/oh_my_antigravity_README_md.html"><code>oh-my-antigravity/README.md</code></a></li>
+<li><a href="sources/oh_my_antigravity_context_oma_core_md.html"><code>oh-my-antigravity/context/oma-core.md</code></a></li>
+<li><a href="sources/oh_my_antigravity_agents_consensus_md.html"><code>oh-my-antigravity/agents/consensus.md</code></a></li>
+<li><a href="sources/oh_my_antigravity_agents_director_md.html"><code>oh-my-antigravity/agents/director.md</code></a></li>
+<li><a href="sources/oh_my_antigravity_skills_learn_SKILL_md.html"><code>oh-my-antigravity/skills/learn/SKILL.md</code></a></li>
+</ul>
+<p>預期產出：</p>
+<ul>
+<li>畫出 OmA 的流程：specialists -&gt; consensus -&gt; director -&gt; execute -&gt; learn。</li>
+<li>寫出 learn hook 和一般 memory 的差異。</li>
+</ul>
+<p>自測：</p>
+<ul>
+<li>Consensus 和 Director 如何分工？</li>
+<li>Learn skill/hook 把什麼東西變成規則？</li>
+<li>OmA 的 safety model 和 OMX 有什麼不同？</li>
+</ul>
+<h2 id="step-6-做-agent-對照">Step 6: 做 agent 對照</h2>
+<p>學習目標：</p>
+<ul>
+<li>分辨同名角色在不同專案中的責任差異。</li>
+<li>知道哪些角色是 planner、reviewer、executor、gatekeeper。</li>
+</ul>
+<p>閱讀：</p>
+<ul>
+<li><code>docs/03-agent-skill-tool-map.md</code></li>
+<li><a href="sources/oh_my_claudecode_agents_architect_md.html"><code>oh-my-claudecode/agents/architect.md</code></a></li>
+<li><a href="sources/oh_my_codex_prompts_architect_md.html"><code>oh-my-codex/prompts/architect.md</code></a></li>
+<li><a href="sources/oh_my_antigravity_agents_architect_md.html"><code>oh-my-antigravity/agents/architect.md</code></a></li>
+</ul>
+<p>預期產出：</p>
+<ul>
+<li>一張角色矩陣：Planner、Executor、Reviewer、Researcher、Gatekeeper。</li>
+<li>比較 OMC Architect、OMX Architect、OmA Architect。</li>
+</ul>
+<p>自測：</p>
+<ul>
+<li>三個 Architect 類角色的輸出責任有何差異？</li>
+<li>哪些 agent 是 planner，哪些是 reviewer，哪些是 executor？</li>
+<li>runtime agent 和 prompt persona 如何區分？</li>
+</ul>
+<h2 id="step-7-做-skill-對照">Step 7: 做 skill 對照</h2>
+<p>學習目標：</p>
+<ul>
+<li>理解 skill 作為 workflow entrypoint 的設計。</li>
+<li>比較 <code>team</code>、<code>ralplan</code>、<code>plan</code> 等跨專案概念。</li>
+</ul>
+<p>閱讀：</p>
+<ul>
+<li><a href="sources/oh_my_claudecode_skills_team_SKILL_md.html"><code>oh-my-claudecode/skills/team/SKILL.md</code></a></li>
+<li><a href="sources/oh_my_codex_plugins_oh_my_codex_skills_team_SKILL_md.html"><code>oh-my-codex/plugins/oh-my-codex/skills/team/SKILL.md</code></a></li>
+<li><a href="sources/oh_my_antigravity_skills_ralplan_SKILL_md.html"><code>oh-my-antigravity/skills/ralplan/SKILL.md</code></a></li>
+<li><a href="sources/oh_my_claudecode_skills_ralplan_SKILL_md.html"><code>oh-my-claudecode/skills/ralplan/SKILL.md</code></a></li>
+</ul>
+<p>預期產出：</p>
+<ul>
+<li>一張 <code>team</code> 與 <code>ralplan</code> 的跨專案對照表。</li>
+<li>標出哪些 skill 是入口型、支援型、審核型。</li>
+</ul>
+<p>自測：</p>
+<ul>
+<li><code>team</code> 和 <code>ralplan</code> 在不同專案中的任務邊界是什麼？</li>
+<li>哪些 skill 是入口，哪些 skill 是支援型？</li>
+<li>哪些 skill 會啟動多 agent 協作？</li>
+</ul>
+<h2 id="step-8-做-tool-hook-對照">Step 8: 做 tool/hook 對照</h2>
+<p>學習目標：</p>
+<ul>
+<li>理解 tool 和 hook 如何改變 agent runtime。</li>
+<li>分辨安全 hook、上下文 hook、學習 hook。</li>
+</ul>
+<p>閱讀：</p>
+<ul>
+<li><a href="sources/oh_my_openagent_src_tools_delegate_task_AGENTS_md.html"><code>oh-my-openagent/src/tools/delegate-task/AGENTS.md</code></a></li>
+<li><a href="sources/oh_my_openagent_src_tools_background_task_AGENTS_md.html"><code>oh-my-openagent/src/tools/background-task/AGENTS.md</code></a></li>
+<li><a href="sources/oh_my_openagent_src_hooks_compaction_context_injector_AGENTS_md.html"><code>oh-my-openagent/src/hooks/compaction-context-injector/AGENTS.md</code></a></li>
+<li><code>oh-my-antigravity/hooks/scripts/learn.js</code></li>
+</ul>
+<p>預期產出：</p>
+<ul>
+<li>一張 tool/hook 分類表。</li>
+<li>寫出 OMO context hook 和 OmA learn hook 的差異。</li>
+</ul>
+<p>自測：</p>
+<ul>
+<li>OMO 的 tool 和 hook 如何改變 runtime 行為？</li>
+<li>OmA 的 learn hook 和 OMO 的 context hook 解決的問題有何不同？</li>
+<li>哪些 hook 是安全控制，哪些 hook 是上下文控制？</li>
+</ul>
+<h2 id="step-9-做橫向比較">Step 9: 做橫向比較</h2>
+<p>學習目標：</p>
+<ul>
+<li>能用同一組維度比較四個專案。</li>
+<li>知道不同設計的取捨。</li>
+</ul>
+<p>閱讀：</p>
+<ul>
+<li><code>docs/04-comparisons.md</code></li>
+<li><code>graphify-out/FOUR_PROJECTS_DEEP_DIVE.md</code></li>
+<li><code>graphify-out/NOTEBOOK_LM_STUDY_GUIDE.md</code></li>
+</ul>
+<p>預期產出：</p>
+<ul>
+<li>一張設計取捨表。</li>
+<li>寫出「什麼情境借鑑哪個專案」。</li>
+</ul>
+<p>自測：</p>
+<ul>
+<li>如果要設計新系統，四個專案各自最值得借鑑的是什麼？</li>
+<li>哪個專案最適合作為 runtime 參考？</li>
+<li>哪個專案最適合作為 prompt/skill library 參考？</li>
+</ul>
+<h2 id="step-10-產出自己的理解">Step 10: 產出自己的理解</h2>
+<p>學習目標：</p>
+<ul>
+<li>把閱讀轉成自己的架構判斷。</li>
+<li>能提出 hybrid design，而不是只整理清單。</li>
+</ul>
+<p>請寫一份短文回答：</p>
+<ul>
+<li>四個專案的共同問題是什麼？</li>
+<li>它們的分歧點是什麼？</li>
+<li>你會如何合併它們的優點？</li>
+<li>哪些設計應避免直接複製？</li>
+</ul>
+<p>建議產出：</p>
+<ul>
+<li>一張架構圖。</li>
+<li>一份四專案比較表。</li>
+<li>一份 hybrid agentic enhancer 設計草案。</li>
+</ul>
+<h2 id="notebooklm-llm-提問範本">NotebookLM / LLM 提問範本</h2>
+<p>理解型：</p>
+<ul>
+<li>「請用一張表比較 OMO、OMC、OMX、OmA 的 agent / skill / tool / hook 差異。」</li>
+<li>「請解釋 graphify community 0、1、2、3、4 分別代表哪些架構群集。」</li>
+<li>「請列出四個專案中最核心的 20 個概念，並說明閱讀順序。」</li>
+</ul>
+<p>比較型：</p>
+<ul>
+<li>「請比較 OMC self-improve 和 OmA learn hook 的觸發條件、保存方式、回注方式。」</li>
+<li>「請比較 OMO 的 runtime hook 和 OMX 的 state model，它們各自如何降低 agent drift？」</li>
+<li>「請比較 OMC agent persona 和 OMX specialist prompt 的差異。」</li>
+</ul>
+<p>設計型：</p>
+<ul>
+<li>「請根據這些文件，設計一個融合 OMO runtime、OMC lifecycle、OMX strict prompt、OmA consensus learning 的新架構。」</li>
+<li>「如果我要建立一個長任務 coding agent，應該借鑑 OMO 哪些工具與 hooks？」</li>
+<li>「如果我要建立一個安全優先的 planning workflow，應該借鑑 OmA 和 OMX 哪些設計？」</li>
+</ul>
+<p>批判型：</p>
+<ul>
+<li>「這四個專案有哪些過度工程化風險？」</li>
+<li>「哪些概念只是名稱相似，但實作目標不同？」</li>
+<li>「如果只能保留三個核心能力，這四個專案各自應該保留什麼？」</li>
+</ul>
+</main>
+</body>
+</html>

@@ -1,0 +1,6 @@
+[
+  {
+    "original": "<anti_patterns>\n- Reviewing without reading: Forming opinions based on file names or diff summaries. Always read the full code context.\n- Style masquerading as quality: Flagging naming conventions or formatting as \"quality issues.\" That belongs to style-reviewer.\n- Missing the forest for trees: Cataloging 20 minor smells while missing that the core algorithm is incorrect. Check logic first.\n- Vague criticism: \"This function is too complex.\" Instead: \"`processOrder()` at `order.ts:42` has cyclomatic complexity of 15 with 6 nested levels. Extract the discount calculation (lines 55-80) and tax computation (lines 82-100) into separate functions.\"\n- No positive feedback: Only listing problems. Note what is done well to reinforce good patterns.\n</anti_patterns>",
+    "zh_tw": "<anti_patterns>\n- 未閱讀就評審：根據檔名或 diff 摘要形成意見。務必閱讀完整的程式碼上下文。\n- 把風格偽裝成品質：將命名慣例或格式標記為「品質問題」。那應該歸屬於 style-reviewer。\n- 見樹不見林：羅列 20 個小瑕疵，卻忽略核心演算法是錯的。先檢查邏輯。\n- 含糊的批評：\"這個函式太複雜了。\" 應改為：\"`processOrder()` 在 `order.ts:42` 的圈複雜度為 15，且有 6 層巢狀結構。請將折扣計算（第 55-80 行）與稅額計算（第 82-100 行）拆成獨立函式。\"\n- 沒有正面回饋：只列出問題。也要指出哪些地方做得好，以強化良好模式。\n</anti_patterns>"
+  }
+]

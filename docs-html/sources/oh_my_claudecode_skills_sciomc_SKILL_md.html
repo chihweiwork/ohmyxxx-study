@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oh-my-claudecode/skills/sciomc/SKILL.md</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+</head>
+<body>
+<main>
+<nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
+<h1 class="path">oh-my-claudecode/skills/sciomc/SKILL.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-claudecode/skills/sciomc/SKILL.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---
+name: sciomc
+description: Orchestrate parallel scientist agents for comprehensive analysis with AUTO mode
+argument-hint: &lt;research goal&gt;
+level: 4
+---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---
+name: sciomc
+description: 以 AUTO 模式協調平行的科學家代理進行全面分析
+argument-hint: &lt;research goal&gt;
+level: 4
+---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code># Research Skill</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code># 研究技能</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Orchestrate parallel scientist agents for comprehensive research workflows with optional AUTO mode for fully autonomous execution.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>協調平行的科學家代理，執行全面的研究工作流程，並可選擇使用 AUTO 模式以完全自主執行。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Overview</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 概覽</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Research is a multi-stage workflow that decomposes complex research goals into parallel investigations:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>研究是一個多階段工作流程，會將複雜的研究目標拆解為平行調查：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. **Decomposition** - Break research goal into independent stages/hypotheses
+2. **Execution** - Run parallel scientist agents on each stage
+3. **Verification** - Cross-validate findings, check consistency
+4. **Synthesis** - Aggregate results into comprehensive report</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. **分解** - 將研究目標拆分為彼此獨立的階段/假設
+2. **執行** - 針對每個階段執行平行的科學家代理
+3. **驗證** - 交叉驗證發現，檢查一致性
+4. **綜合** - 將結果彙整成完整報告</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Usage Examples</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 使用範例</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+/oh-my-claudecode:sciomc &lt;goal&gt;                    # Standard research with user checkpoints
+/oh-my-claudecode:sciomc AUTO: &lt;goal&gt;              # Fully autonomous until complete
+/oh-my-claudecode:sciomc status                    # Check current research session status
+/oh-my-claudecode:sciomc resume                    # Resume interrupted research session
+/oh-my-claudecode:sciomc list                      # List all research sessions
+/oh-my-claudecode:sciomc report &lt;session-id&gt;       # Generate report for session
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+/oh-my-claudecode:sciomc &lt;goal&gt;                    # 具備使用者檢查點的標準研究
+/oh-my-claudecode:sciomc AUTO: &lt;goal&gt;              # 完全自主直到完成
+/oh-my-claudecode:sciomc status                    # 檢查目前研究工作階段狀態
+/oh-my-claudecode:sciomc resume                    # 恢復中斷的研究工作階段
+/oh-my-claudecode:sciomc list                      # 列出所有研究工作階段
+/oh-my-claudecode:sciomc report &lt;session-id&gt;       # 為工作階段產生報告
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Quick Examples</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 快速範例</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+/oh-my-claudecode:sciomc What are the performance characteristics of different sorting algorithms?
+/oh-my-claudecode:sciomc AUTO: Analyze authentication patterns in this codebase
+/oh-my-claudecode:sciomc How does the error handling work across the API layer?
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+/oh-my-claudecode:sciomc 不同排序演算法的效能特性是什麼？
+/oh-my-claudecode:sciomc AUTO: 分析此程式碼庫中的驗證模式
+/oh-my-claudecode:sciomc 錯誤處理在 API 層是如何運作的？
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Research Protocol</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 研究協議</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Stage Decomposition Pattern</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 階段分解模式</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>When given a research goal, decompose into 3-7 independent stages:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當給定一個研究目標時，將其分解為 3 到 7 個獨立階段：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```markdown
+## Research Decomposition
+
+**Goal:** &lt;original research goal&gt;
+
+### Stage 1: &lt;stage-name&gt;
+- **Focus:** What this stage investigates
+- **Hypothesis:** Expected finding (if applicable)
+- **Scope:** Files/areas to examine
+- **Tier:** LOW | MEDIUM | HIGH
+
+### Stage 2: &lt;stage-name&gt;
+...
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```markdown
+## Research Decomposition
+
+**Goal:** &lt;original research goal&gt;
+
+### Stage 1: &lt;stage-name&gt;
+- **Focus:** What this stage investigates
+- **Hypothesis:** Expected finding (if applicable)
+- **Scope:** Files/areas to examine
+- **Tier:** LOW | MEDIUM | HIGH
+
+### Stage 2: &lt;stage-name&gt;
+...
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Parallel Scientist Invocation</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 平行呼叫科學家</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Fire independent stages in parallel via Task tool:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>透過 Task 工具平行執行獨立階段：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+// Stage 1 - Simple data gathering
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;haiku&quot;, prompt=&quot;[RESEARCH_STAGE:1] Investigate...&quot;)
+
+// Stage 2 - Standard analysis
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;sonnet&quot;, prompt=&quot;[RESEARCH_STAGE:2] Analyze...&quot;)
+
+// Stage 3 - Complex reasoning
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;opus&quot;, prompt=&quot;[RESEARCH_STAGE:3] Deep analysis of...&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+// Stage 1 - Simple data gathering
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;haiku&quot;, prompt=&quot;[RESEARCH_STAGE:1] Investigate...&quot;)
+
+// Stage 2 - Standard analysis
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;sonnet&quot;, prompt=&quot;[RESEARCH_STAGE:2] Analyze...&quot;)
+
+// Stage 3 - Complex reasoning
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;opus&quot;, prompt=&quot;[RESEARCH_STAGE:3] Deep analysis of...&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Smart Model Routing</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 智慧模型路由</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**CRITICAL: Always pass `model` parameter explicitly!**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**重要：務必明確傳入 `model` 參數！**</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Task Complexity | Agent | Model | Use For |
+|-----------------|-------|-------|---------|
+| Data gathering | `scientist` (model=haiku) | haiku | File enumeration, pattern counting, simple lookups |
+| Standard analysis | `scientist` | sonnet | Code analysis, pattern detection, documentation review |
+| Complex reasoning | `scientist` | opus | Architecture analysis, cross-cutting concerns, hypothesis validation |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 任務複雜度 | 代理 | 模型 | 用途 |
+|-----------------|-------|-------|---------|
+| 資料蒐集 | `scientist` (model=haiku) | haiku | 檔案列舉、模式計數、簡單查詢 |
+| 標準分析 | `scientist` | sonnet | 程式碼分析、模式偵測、文件審查 |
+| 複雜推理 | `scientist` | opus | 架構分析、橫切關注點、假設驗證 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Routing Decision Guide</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 路由決策指南</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Research Task | Tier | Example Prompt |
+|---------------|------|----------------|
+| &quot;Count occurrences of X&quot; | LOW | &quot;Count all usages of useState hook&quot; |
+| &quot;Find all files matching Y&quot; | LOW | &quot;List all test files in the project&quot; |
+| &quot;Analyze pattern Z&quot; | MEDIUM | &quot;Analyze error handling patterns in API routes&quot; |
+| &quot;Document how W works&quot; | MEDIUM | &quot;Document the authentication flow&quot; |
+| &quot;Explain why X happens&quot; | HIGH | &quot;Explain why race conditions occur in the cache layer&quot; |
+| &quot;Compare approaches A vs B&quot; | HIGH | &quot;Compare Redux vs Context for state management here&quot; |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 研究任務 | 層級 | 範例提示詞 |
+|---------------|------|----------------|
+| &quot;Count occurrences of X&quot; | LOW | &quot;Count all usages of useState hook&quot; |
+| &quot;Find all files matching Y&quot; | LOW | &quot;List all test files in the project&quot; |
+| &quot;Analyze pattern Z&quot; | MEDIUM | &quot;Analyze error handling patterns in API routes&quot; |
+| &quot;Document how W works&quot; | MEDIUM | &quot;Document the authentication flow&quot; |
+| &quot;Explain why X happens&quot; | HIGH | &quot;Explain why race conditions occur in the cache layer&quot; |
+| &quot;Compare approaches A vs B&quot; | HIGH | &quot;Compare Redux vs Context for state management here&quot; |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Verification Loop</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 驗證迴圈</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>After parallel execution completes, verify findings:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在平行執行完成後，驗證發現：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+// Cross-validation stage
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;sonnet&quot;, prompt=&quot;
+[RESEARCH_VERIFICATION]
+Cross-validate these findings for consistency:
+
+Stage 1 findings: &lt;summary&gt;
+Stage 2 findings: &lt;summary&gt;
+Stage 3 findings: &lt;summary&gt;
+
+Check for:
+1. Contradictions between stages
+2. Missing connections
+3. Gaps in coverage
+4. Evidence quality
+
+Output: [VERIFIED] or [CONFLICTS:&lt;list&gt;]
+&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+// Cross-validation stage
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;sonnet&quot;, prompt=&quot;
+[RESEARCH_VERIFICATION]
+Cross-validate these findings for consistency:
+
+Stage 1 findings: &lt;summary&gt;
+Stage 2 findings: &lt;summary&gt;
+Stage 3 findings: &lt;summary&gt;
+
+Check for:
+1. Contradictions between stages
+2. Missing connections
+3. Gaps in coverage
+4. Evidence quality
+
+Output: [VERIFIED] or [CONFLICTS:&lt;list&gt;]
+&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## AUTO Mode</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## AUTO 模式</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>AUTO mode runs the complete research workflow autonomously with loop control.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>AUTO 模式會以迴圈控制自主執行完整的研究工作流程。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Loop Control Protocol</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 迴圈控制協議</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+[RESEARCH + AUTO - ITERATION {{ITERATION}}/{{MAX}}]
+
+Your previous attempt did not output the completion promise. Continue working.
+
+Current state: {{STATE}}
+Completed stages: {{COMPLETED_STAGES}}
+Pending stages: {{PENDING_STAGES}}
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+[RESEARCH + AUTO - ITERATION {{ITERATION}}/{{MAX}}]
+
+你先前的嘗試沒有輸出完成承諾。請繼續工作。
+
+Current state: {{STATE}}
+Completed stages: {{COMPLETED_STAGES}}
+Pending stages: {{PENDING_STAGES}}
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Promise Tags</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 承諾標記</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Tag | Meaning | When to Use |
+|-----|---------|-------------|
+| `[PROMISE:RESEARCH_COMPLETE]` | Research finished successfully | All stages done, verified, report generated |
+| `[PROMISE:RESEARCH_BLOCKED]` | Cannot proceed | Missing data, access issues, circular dependency |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 標記 | 意義 | 使用時機 |
+|-----|---------|-------------|
+| `[PROMISE:RESEARCH_COMPLETE]` | 研究已成功完成 | 所有階段已完成、已驗證、已產生報告 |
+| `[PROMISE:RESEARCH_BLOCKED]` | 無法繼續 | 缺少資料、存取問題、循環相依 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### AUTO Mode Rules</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### AUTO 模式規則</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. **Max Iterations:** 10 (configurable)
+2. **Continue until:** Promise tag emitted OR max iterations
+3. **State tracking:** Persist after each stage completion
+4. **Cancellation:** `/oh-my-claudecode:cancel` or &quot;stop&quot;, &quot;cancel&quot;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. **最大迭代次數：** 10（可設定）
+2. **持續直到：** 發出承諾標記 或 達到最大迭代次數
+3. **狀態追蹤：** 每完成一個階段後都要保存
+4. **取消：** `/oh-my-claudecode:cancel` 或「stop」、「cancel」</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### AUTO Mode Example</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### AUTO 模式範例</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+/oh-my-claudecode:sciomc AUTO: Comprehensive security analysis of the authentication system
+
+[Decomposition]
+- Stage 1 (LOW): Enumerate auth-related files
+- Stage 2 (MEDIUM): Analyze token handling
+- Stage 3 (MEDIUM): Review session management
+- Stage 4 (HIGH): Identify vulnerability patterns
+- Stage 5 (MEDIUM): Document security controls
+
+[Execution - Parallel]
+Firing stages 1-3 in parallel...
+Firing stages 4-5 after dependencies complete...
+
+[Verification]
+Cross-validating findings...
+
+[Synthesis]
+Generating report...
+
+[PROMISE:RESEARCH_COMPLETE]
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+/oh-my-claudecode:sciomc AUTO: Comprehensive security analysis of the authentication system
+
+[Decomposition]
+- Stage 1 (LOW): Enumerate auth-related files
+- Stage 2 (MEDIUM): Analyze token handling
+- Stage 3 (MEDIUM): Review session management
+- Stage 4 (HIGH): Identify vulnerability patterns
+- Stage 5 (MEDIUM): Document security controls
+
+[Execution - Parallel]
+Firing stages 1-3 in parallel...
+Firing stages 4-5 after dependencies complete...
+
+[Verification]
+Cross-validating findings...
+
+[Synthesis]
+Generating report...
+
+[PROMISE:RESEARCH_COMPLETE]
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Parallel Execution Patterns</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 平行執行模式</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Independent Dataset Analysis (Parallel)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 獨立資料集分析（平行）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>When stages analyze different data sources:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當各階段分析不同資料來源時：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+// All fire simultaneously
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;haiku&quot;, prompt=&quot;[STAGE:1] Analyze src/api/...&quot;)
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;haiku&quot;, prompt=&quot;[STAGE:2] Analyze src/utils/...&quot;)
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;haiku&quot;, prompt=&quot;[STAGE:3] Analyze src/components/...&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+// All fire simultaneously
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;haiku&quot;, prompt=&quot;[STAGE:1] Analyze src/api/...&quot;)
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;haiku&quot;, prompt=&quot;[STAGE:2] Analyze src/utils/...&quot;)
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;haiku&quot;, prompt=&quot;[STAGE:3] Analyze src/components/...&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Hypothesis Battery (Parallel)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 假設組（平行）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>When testing multiple hypotheses:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當測試多個假設時：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+// Test hypotheses simultaneously
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;sonnet&quot;, prompt=&quot;[HYPOTHESIS:A] Test if caching improves...&quot;)
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;sonnet&quot;, prompt=&quot;[HYPOTHESIS:B] Test if batching reduces...&quot;)
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;sonnet&quot;, prompt=&quot;[HYPOTHESIS:C] Test if lazy loading helps...&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+// Test hypotheses simultaneously
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;sonnet&quot;, prompt=&quot;[HYPOTHESIS:A] Test if caching improves...&quot;)
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;sonnet&quot;, prompt=&quot;[HYPOTHESIS:B] Test if batching reduces...&quot;)
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;sonnet&quot;, prompt=&quot;[HYPOTHESIS:C] Test if lazy loading helps...&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Cross-Validation (Sequential)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 交叉驗證（順序）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>When verification depends on all findings:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當驗證取決於所有發現時：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+// Wait for all parallel stages
+[stages complete]
+
+// Then sequential verification
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;opus&quot;, prompt=&quot;
+[CROSS_VALIDATION]
+Validate consistency across all findings:
+- Finding 1: ...
+- Finding 2: ...
+- Finding 3: ...
+&quot;)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+// Wait for all parallel stages
+[stages complete]
+
+// Then sequential verification
+Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;opus&quot;, prompt=&quot;
+[CROSS_VALIDATION]
+Validate consistency across all findings:
+- Finding 1: ...
+- Finding 2: ...
+- Finding 3: ...
+&quot;)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Concurrency Limit</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 併發限制</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Maximum 20 concurrent scientist agents** to prevent resource exhaustion.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**最多 20 個並行 scientist 代理程式**，以防止資源耗盡。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>If more than 20 stages, batch them:
+```
+Batch 1: Stages 1-5 (parallel)
+[wait for completion]
+Batch 2: Stages 6-7 (parallel)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>如果超過 20 個階段，請分批處理：
+```
+Batch 1: Stages 1-5 (parallel)
+[wait for completion]
+Batch 2: Stages 6-7 (parallel)
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Session Management</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 工作階段管理</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Directory Structure</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 目錄結構</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+.omc/research/{session-id}/
+  state.json              # Session state and progress
+  stages/
+    stage-1.md            # Stage 1 findings
+    stage-2.md            # Stage 2 findings
+    ...
+  findings/
+    raw/                  # Raw findings from scientists
+    verified/             # Post-verification findings
+  figures/
+    figure-1.png          # Generated visualizations
+    ...
+  report.md               # Final synthesized report
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+.omc/research/{session-id}/
+  state.json              # Session state and progress
+  stages/
+    stage-1.md            # Stage 1 findings
+    stage-2.md            # Stage 2 findings
+    ...
+  findings/
+    raw/                  # Raw findings from scientists
+    verified/             # Post-verification findings
+  figures/
+    figure-1.png          # Generated visualizations
+    ...
+  report.md               # Final synthesized report
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### State File Format</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 狀態檔案格式</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```json
+{
+  &quot;id&quot;: &quot;research-20240115-abc123&quot;,
+  &quot;goal&quot;: &quot;Original research goal&quot;,
+  &quot;status&quot;: &quot;in_progress | complete | blocked | cancelled&quot;,
+  &quot;mode&quot;: &quot;standard | auto&quot;,
+  &quot;iteration&quot;: 3,
+  &quot;maxIterations&quot;: 10,
+  &quot;stages&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;Stage name&quot;,
+      &quot;tier&quot;: &quot;LOW | MEDIUM | HIGH&quot;,
+      &quot;status&quot;: &quot;pending | running | complete | failed&quot;,
+      &quot;startedAt&quot;: &quot;ISO timestamp&quot;,
+      &quot;completedAt&quot;: &quot;ISO timestamp&quot;,
+      &quot;findingsFile&quot;: &quot;stages/stage-1.md&quot;
+    }
+  ],
+  &quot;verification&quot;: {
+    &quot;status&quot;: &quot;pending | passed | failed&quot;,
+    &quot;conflicts&quot;: [],
+    &quot;completedAt&quot;: &quot;ISO timestamp&quot;
+  },
+  &quot;createdAt&quot;: &quot;ISO timestamp&quot;,
+  &quot;updatedAt&quot;: &quot;ISO timestamp&quot;
+}
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```json
+{
+  &quot;id&quot;: &quot;research-20240115-abc123&quot;,
+  &quot;goal&quot;: &quot;Original research goal&quot;,
+  &quot;status&quot;: &quot;in_progress | complete | blocked | cancelled&quot;,
+  &quot;mode&quot;: &quot;standard | auto&quot;,
+  &quot;iteration&quot;: 3,
+  &quot;maxIterations&quot;: 10,
+  &quot;stages&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;Stage name&quot;,
+      &quot;tier&quot;: &quot;LOW | MEDIUM | HIGH&quot;,
+      &quot;status&quot;: &quot;pending | running | complete | failed&quot;,
+      &quot;startedAt&quot;: &quot;ISO timestamp&quot;,
+      &quot;completedAt&quot;: &quot;ISO timestamp&quot;,
+      &quot;findingsFile&quot;: &quot;stages/stage-1.md&quot;
+    }
+  ],
+  &quot;verification&quot;: {
+    &quot;status&quot;: &quot;pending | passed | failed&quot;,
+    &quot;conflicts&quot;: [],
+    &quot;completedAt&quot;: &quot;ISO timestamp&quot;
+  },
+  &quot;createdAt&quot;: &quot;ISO timestamp&quot;,
+  &quot;updatedAt&quot;: &quot;ISO timestamp&quot;
+}
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Session Commands</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 工作階段指令</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Command | Action |
+|---------|--------|
+| `/oh-my-claudecode:sciomc status` | Show current session progress |
+| `/oh-my-claudecode:sciomc resume` | Resume most recent interrupted session |
+| `/oh-my-claudecode:sciomc resume &lt;session-id&gt;` | Resume specific session |
+| `/oh-my-claudecode:sciomc list` | List all sessions with status |
+| `/oh-my-claudecode:sciomc report &lt;session-id&gt;` | Generate/regenerate report |
+| `/oh-my-claudecode:sciomc cancel` | Cancel current session (preserves state) |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 指令 | 動作 |
+|---------|--------|
+| `/oh-my-claudecode:sciomc status` | 顯示目前工作階段進度 |
+| `/oh-my-claudecode:sciomc resume` | 續接最近中斷的工作階段 |
+| `/oh-my-claudecode:sciomc resume &lt;session-id&gt;` | 續接指定工作階段 |
+| `/oh-my-claudecode:sciomc list` | 列出所有工作階段及其狀態 |
+| `/oh-my-claudecode:sciomc report &lt;session-id&gt;` | 產生／重新產生報告 |
+| `/oh-my-claudecode:sciomc cancel` | 取消目前工作階段（保留狀態） |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Tag Extraction</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 標籤擷取</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Scientists use structured tags for findings. Extract them with these patterns:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Scientists 會為發現使用結構化標籤。請使用以下模式擷取它們：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Finding Tags</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 發現標籤</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+[FINDING:&lt;id&gt;] &lt;title&gt;
+&lt;evidence and analysis&gt;
+[/FINDING]
+
+[EVIDENCE:&lt;finding-id&gt;]
+- File: &lt;path&gt;
+- Lines: &lt;range&gt;
+- Content: &lt;relevant code/text&gt;
+[/EVIDENCE]
+
+[CONFIDENCE:&lt;level&gt;] # HIGH | MEDIUM | LOW
+&lt;reasoning for confidence level&gt;
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+[FINDING:&lt;id&gt;] &lt;title&gt;
+&lt;evidence and analysis&gt;
+[/FINDING]
+
+[EVIDENCE:&lt;finding-id&gt;]
+- File: &lt;path&gt;
+- Lines: &lt;range&gt;
+- Content: &lt;relevant code/text&gt;
+[/EVIDENCE]
+
+[CONFIDENCE:&lt;level&gt;] # HIGH | MEDIUM | LOW
+&lt;reasoning for confidence level&gt;
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Extraction Regex Patterns</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 擷取正則表達式模式</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```javascript
+// Finding extraction
+const findingPattern = /\[FINDING:(\w+)\]\s*(.*?)\n([\s\S]*?)\[\/FINDING\]/g;
+
+// Evidence extraction
+const evidencePattern = /\[EVIDENCE:(\w+)\]([\s\S]*?)\[\/EVIDENCE\]/g;
+
+// Confidence extraction
+const confidencePattern = /\[CONFIDENCE:(HIGH|MEDIUM|LOW)\]\s*(.*)/g;
+
+// Stage completion
+const stageCompletePattern = /\[STAGE_COMPLETE:(\d+)\]/;
+
+// Verification result
+const verificationPattern = /\[(VERIFIED|CONFLICTS):?(.*?)\]/;
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```javascript
+// Finding extraction
+const findingPattern = /\[FINDING:(\w+)\]\s*(.*?)\n([\s\S]*?)\[\/FINDING\]/g;
+
+// Evidence extraction
+const evidencePattern = /\[EVIDENCE:(\w+)\]([\s\S]*?)\[\/EVIDENCE\]/g;
+
+// Confidence extraction
+const confidencePattern = /\[CONFIDENCE:(HIGH|MEDIUM|LOW)\]\s*(.*)/g;
+
+// Stage completion
+const stageCompletePattern = /\[STAGE_COMPLETE:(\d+)\]/;
+
+// Verification result
+const verificationPattern = /\[(VERIFIED|CONFLICTS):?(.*?)\]/;
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Evidence Window</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 證據視窗</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>When extracting evidence, include context window:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>擷取證據時，請包含上下文視窗：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+[EVIDENCE:F1]
+- File: /src/auth/login.ts
+- Lines: 45-52 (context: 40-57)
+- Content:
+  ```typescript
+  // Lines 45-52 with 5 lines context above/below
+  ```
+[/EVIDENCE]
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+[EVIDENCE:F1]
+- File: /src/auth/login.ts
+- Lines: 45-52 (context: 40-57)
+- Content:
+  ```typescript
+  // Lines 45-52 with 5 lines context above/below
+  ```
+[/EVIDENCE]
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Quality Validation</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 品質驗證</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Findings must meet quality threshold:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>發現必須符合品質門檻：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Quality Check | Requirement |
+|---------------|-------------|
+| Evidence present | At least 1 [EVIDENCE] per [FINDING] |
+| Confidence stated | Each finding has [CONFIDENCE] |
+| Source cited | File paths are absolute and valid |
+| Reproducible | Another agent could verify |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 品質檢查 | 要求 |
+|---------------|-------------|
+| 具備證據 | 每個 [FINDING] 至少有 1 個 [EVIDENCE] |
+| 已註明信心等級 | 每個發現都有 [CONFIDENCE] |
+| 已引用來源 | 檔案路徑為絕對路徑且有效 |
+| 可重現 | 其他 agent 可以驗證 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Report Generation</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 報告產生</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Report Template</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 報告範本</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```markdown
+# Research Report: {{GOAL}}
+
+**Session ID:** {{SESSION_ID}}
+**Date:** {{DATE}}
+**Status:** {{STATUS}}
+
+## Executive Summary
+
+{{2-3 paragraph summary of key findings}}
+
+## Methodology
+
+### Research Stages
+
+| Stage | Focus | Tier | Status |
+|-------|-------|------|--------|
+{{STAGES_TABLE}}
+
+### Approach
+
+{{Description of decomposition rationale and execution strategy}}
+
+## Key Findings
+
+### Finding 1: {{TITLE}}
+
+**Confidence:** {{HIGH|MEDIUM|LOW}}
+
+{{Detailed finding with evidence}}
+
+#### Evidence
+
+{{Embedded evidence blocks}}
+
+### Finding 2: {{TITLE}}
+...
+
+## Visualizations
+
+{{FIGURES}}
+
+## Cross-Validation Results
+
+{{Verification summary, any conflicts resolved}}
+
+## Limitations
+
+- {{Limitation 1}}
+- {{Limitation 2}}
+- {{Areas not covered and why}}
+
+## Recommendations
+
+1. {{Actionable recommendation}}
+2. {{Actionable recommendation}}
+
+## Appendix
+
+### Raw Data
+
+{{Links to raw findings files}}
+
+### Session State
+
+{{Link to state.json}}
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```markdown
+# Research Report: {{GOAL}}
+
+**Session ID:** {{SESSION_ID}}
+**Date:** {{DATE}}
+**Status:** {{STATUS}}
+
+## Executive Summary
+
+{{2-3 paragraph summary of key findings}}
+
+## Methodology
+
+### Research Stages
+
+| Stage | Focus | Tier | Status |
+|-------|-------|------|--------|
+{{STAGES_TABLE}}
+
+### Approach
+
+{{Description of decomposition rationale and execution strategy}}
+
+## Key Findings
+
+### Finding 1: {{TITLE}}
+
+**Confidence:** {{HIGH|MEDIUM|LOW}}
+
+{{Detailed finding with evidence}}
+
+#### Evidence
+
+{{Embedded evidence blocks}}
+
+### Finding 2: {{TITLE}}
+...
+
+## Visualizations
+
+{{FIGURES}}
+
+## Cross-Validation Results
+
+{{Verification summary, any conflicts resolved}}
+
+## Limitations
+
+- {{Limitation 1}}
+- {{Limitation 2}}
+- {{Areas not covered and why}}
+
+## Recommendations
+
+1. {{Actionable recommendation}}
+2. {{Actionable recommendation}}
+
+## Appendix
+
+### Raw Data
+
+{{Links to raw findings files}}
+
+### Session State
+
+{{Link to state.json}}
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Figure Embedding Protocol</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 圖表嵌入協定</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Scientists generate visualizations using this marker:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Scientists 使用此標記產生視覺化：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+[FIGURE:path/to/figure.png]
+Caption: Description of what the figure shows
+Alt: Accessibility description
+[/FIGURE]
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+[FIGURE:path/to/figure.png]
+Caption: Description of what the figure shows
+Alt: Accessibility description
+[/FIGURE]
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Report generator embeds figures:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>報告產生器會嵌入圖表：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```markdown
+## Visualizations
+
+![Figure 1: Description](figures/figure-1.png)
+*Caption: Description of what the figure shows*
+
+![Figure 2: Description](figures/figure-2.png)
+*Caption: Description of what the figure shows*
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```markdown
+## Visualizations
+
+![Figure 1: Description](figures/figure-1.png)
+*Caption: Description of what the figure shows*
+
+![Figure 2: Description](figures/figure-2.png)
+*Caption: Description of what the figure shows*
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Figure Types</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 圖表類型</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Type | Use For | Generated By |
+|------|---------|--------------|
+| Architecture diagram | System structure | scientist |
+| Flow chart | Process flows | scientist |
+| Dependency graph | Module relationships | scientist |
+| Timeline | Sequence of events | scientist |
+| Comparison table | A vs B analysis | scientist |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 類型 | 用途 | 產生者 |
+|------|---------|--------------|
+| 架構圖 | 系統結構 | scientist |
+| 流程圖 | 流程流向 | scientist |
+| 相依圖 | 模組關係 | scientist |
+| 時間軸 | 事件順序 | scientist |
+| 比較表 | A 與 B 分析 | scientist |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Configuration</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 設定</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Optional settings in `.claude/settings.json`:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>`.claude/settings.json` 中的選用設定：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```json
+{
+  &quot;omc&quot;: {
+    &quot;research&quot;: {
+      &quot;maxIterations&quot;: 10,
+      &quot;maxConcurrentScientists&quot;: 5,
+      &quot;defaultTier&quot;: &quot;MEDIUM&quot;,
+      &quot;autoVerify&quot;: true,
+      &quot;generateFigures&quot;: true,
+      &quot;evidenceContextLines&quot;: 5
+    }
+  }
+}
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```json
+{
+  &quot;omc&quot;: {
+    &quot;research&quot;: {
+      &quot;maxIterations&quot;: 10,
+      &quot;maxConcurrentScientists&quot;: 5,
+      &quot;defaultTier&quot;: &quot;MEDIUM&quot;,
+      &quot;autoVerify&quot;: true,
+      &quot;generateFigures&quot;: true,
+      &quot;evidenceContextLines&quot;: 5
+    }
+  }
+}
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Cancellation</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 取消</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+/oh-my-claudecode:cancel
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+/oh-my-claudecode:cancel
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Or say: &quot;stop research&quot;, &quot;cancel research&quot;, &quot;abort&quot;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>或者說：&quot;stop research&quot;、&quot;cancel research&quot;、&quot;abort&quot;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Progress is preserved in `.omc/research/{session-id}/` for resume.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>進度會保留在 `.omc/research/{session-id}/` 中，方便續作。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Troubleshooting</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 疑難排解</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Stuck in verification loop?**
+- Check for conflicting findings between stages
+- Review state.json for specific conflicts
+- May need to re-run specific stages with different approach</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**卡在驗證迴圈中嗎？**
+- 檢查各階段之間是否有互相衝突的發現
+- 查看 `state.json` 以找出具體衝突
+- 可能需要以不同方式重新執行特定階段</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Scientists returning low-quality findings?**
+- Check tier assignment - complex analysis needs HIGH tier
+- Ensure prompts include clear scope and expected output format
+- Review if research goal is too broad</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**科學家回傳的發現品質很低嗎？**
+- 檢查等級分配 - 複雜分析需要 HIGH 等級
+- 確保提示詞包含清楚的範圍與預期輸出格式
+- 檢查研究目標是否過於寬泛</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**AUTO mode exhausted iterations?**
+- Review state to see where it's stuck
+- Check if goal is achievable with available data
+- Consider breaking into smaller research sessions</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**AUTO 模式已耗盡迭代次數嗎？**
+- 檢視狀態以找出卡住的位置
+- 檢查在現有資料下目標是否可達成
+- 考慮拆分成較小的研究階段</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Missing figures in report?**
+- Verify figures/ directory exists
+- Check [FIGURE:] tags in findings
+- Ensure paths are relative to session directory</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**報告中缺少圖表嗎？**
+- 驗證 `figures/` 目錄是否存在
+- 檢查發現中的 `[FIGURE:]` 標籤
+- 確保路徑是相對於工作階段目錄</code></pre></div></section>
+</main>
+</body>
+</html>

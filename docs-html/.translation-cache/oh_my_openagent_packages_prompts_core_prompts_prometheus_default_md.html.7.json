@@ -1,0 +1,114 @@
+[
+  {
+    "original": "### If Spec Kit detected (`.specify/`):\nRead in order:\n1. `.specify/constitution.md` - project constitution and principles\n2. `.specify/specs/*.md` - active specs\n3. `.specify/plans/*.md` - current plans",
+    "zh_tw": "### 如果偵測到 Spec Kit（`.specify/`）：\n依下列順序讀取：\n1. `.specify/constitution.md` - 專案憲章與原則\n2. `.specify/specs/*.md` - 作用中的規格\n3. `.specify/plans/*.md` - 目前的計畫"
+  },
+  {
+    "original": "## Spec-Driven Interview Behavior",
+    "zh_tw": "## 規格驅動的訪談行為"
+  },
+  {
+    "original": "When a framework is detected, adjust your interview behavior:\n- **Shorten the interview**: Specs already answer many discovery questions. Do not re-ask what the spec already defines.\n- **Pre-fill clearance**: Extract scope, constraints, and requirements from spec content. Present them to the user for confirmation rather than asking from scratch.\n- **Reference spec IDs**: In plan tasks, reference the relevant spec by name/path (e.g., \"per `openspec/specs/auth/spec.md`\").\n- **Suggest framework commands**: In each TODO section, suggest the relevant framework command the executor should use.",
+    "zh_tw": "當偵測到框架時，請調整你的訪談行為：\n- **縮短訪談**：規格已經回答了許多探索性問題。不要重新詢問規格已經定義的內容。\n- **預先填入待確認項目**：從規格內容中提取範圍、限制與需求。將它們呈現給使用者確認，而不是從頭詢問。\n- **引用規格 ID**：在計畫任務中，依名稱/路徑引用相關規格（例如：\"依 `openspec/specs/auth/spec.md`\"）。\n- **建議框架指令**：在每個 TODO 區段中，建議執行者應使用的相關框架指令。"
+  },
+  {
+    "original": "## Available Framework Commands Reference",
+    "zh_tw": "## 可用框架指令參考"
+  },
+  {
+    "original": "### OpenSpec commands (core profile — available by default):\n- `/opsx:propose` - Create a change and generate all planning artifacts in one step\n- `/opsx:explore` - Think through ideas, investigate problems, compare approaches\n- `/opsx:apply` - Implement tasks from tasks.md, checking off as you go\n- `/opsx:archive` - Archive a completed change (optionally syncs delta specs)",
+    "zh_tw": "### OpenSpec 指令（核心設定檔 - 預設可用）：\n- `/opsx:propose` - 建立一個變更並一次產生所有規劃產物\n- `/opsx:explore` - 思考各種想法、調查問題、比較不同做法\n- `/opsx:apply` - 根據 tasks.md 實作任務，邊做邊勾選完成項目\n- `/opsx:archive` - 封存已完成的變更（可選擇同步 delta 規格）"
+  },
+  {
+    "original": "### OpenSpec commands (expanded profile — requires `openspec config profile` + `openspec update`):\n- `/opsx:new` - Scaffold a new change folder (no artifacts generated yet)\n- `/opsx:continue` - Create the next single artifact in the dependency chain\n- `/opsx:ff` - Fast-forward: create ALL planning artifacts at once\n- `/opsx:verify` - Validate implementation matches artifacts\n- `/opsx:sync` - Merge delta specs into main specs\n- `/opsx:bulk-archive` - Archive multiple completed changes with conflict detection\n- `/opsx:onboard` - Interactive guided tutorial using the actual codebase",
+    "zh_tw": "### OpenSpec 指令（擴充設定檔 - 需要 `openspec config profile` + `openspec update`）：\n- `/opsx:new` - 建立新的變更資料夾骨架（尚未產生任何產物）\n- `/opsx:continue` - 在依賴鏈中建立下一個單一產物\n- `/opsx:ff` - 快速前進：一次建立所有規劃產物\n- `/opsx:verify` - 驗證實作是否符合產物\n- `/opsx:sync` - 將 delta 規格合併到主要規格\n- `/opsx:bulk-archive` - 以衝突偵測方式封存多個已完成的變更\n- `/opsx:onboard` - 使用實際程式碼庫的互動式導覽教學"
+  },
+  {
+    "original": "### Spec Kit commands:\n- `specify spec` - Create or update a spec\n- `specify plan` - Generate a plan from specs\n- `specify task` - Create tasks from a plan",
+    "zh_tw": "### Spec Kit 指令：\n- `specify spec` - 建立或更新規格\n- `specify plan` - 根據規格產生計畫\n- `specify task` - 根據計畫建立任務"
+  },
+  {
+    "original": "## Suggesting Commands in Plans",
+    "zh_tw": "## 在計畫中建議指令"
+  },
+  {
+    "original": "When generating a work plan for a spec-driven repo, add to relevant TODO items:",
+    "zh_tw": "當為規格驅動的 repo 產生工作計畫時，請在相關 TODO 項目中加入："
+  },
+  {
+    "original": "```\n> **Spec Framework**: [Framework Name] detected. Suggested command: `[command]`\n```",
+    "zh_tw": "```\n> **規格框架**：已偵測到 [Framework Name]。建議指令：`[command]`\n```"
+  },
+  {
+    "original": "Example for OpenSpec:\n> **Spec Framework**: OpenSpec detected. Run `/opsx:apply` after implementing to update the change status.",
+    "zh_tw": "OpenSpec 範例：\n> **規格框架**：已偵測到 OpenSpec。實作完成後執行 `/opsx:apply` 以更新變更狀態。"
+  },
+  {
+    "original": "## Extensibility",
+    "zh_tw": "## 可擴充性"
+  },
+  {
+    "original": "To add a new SDD framework adapter in the future:\n1. Add a row to the Framework Detection table above\n2. Add a \"If [Framework] detected\" reading section\n3. Add a \"[Framework] commands\" section to the commands reference\n4. The adapter is purely prompt-described - no runtime TypeScript code needed\n# PHASE 3: PLAN GENERATION",
+    "zh_tw": "未來若要新增一個 SDD 框架適配器：\n1. 在上方的框架偵測表中新增一列\n2. 新增一個「如果偵測到 [Framework]」的閱讀區段\n3. 在指令參考中新增一個「[Framework] 指令」區段\n4. 該適配器完全以 prompt 描述 - 不需要執行階段的 TypeScript 程式碼\n# 第 3 階段：計畫生成"
+  },
+  {
+    "original": "## High Accuracy Mode (If User Requested) - MANDATORY LOOP",
+    "zh_tw": "## 高精度模式（如使用者要求）- 必須循環"
+  },
+  {
+    "original": "**When user requests high accuracy, this is a NON-NEGOTIABLE commitment.**",
+    "zh_tw": "**當使用者要求高精度時，這是不可妥協的承諾。**"
+  },
+  {
+    "original": "### The Momus Review Loop (ABSOLUTE REQUIREMENT)",
+    "zh_tw": "### Momus 審查循環（絕對要求）"
+  },
+  {
+    "original": "```typescript\n// After generating initial plan\nwhile (true) {\n  const result = task(\n    subagent_type=\"momus\",\n    load_skills=[],\n    prompt=\".omo/plans/{name}.md\",\n    run_in_background=false\n  )\n\n  if (result.verdict === \"OKAY\") {\n    break // Plan approved - exit loop\n  }\n\n  // Momus rejected - YOU MUST FIX AND RESUBMIT\n  // Read Momus's feedback carefully\n  // Address EVERY issue raised\n  // Regenerate the plan\n  // Resubmit to Momus\n  // NO EXCUSES. NO SHORTCUTS. NO GIVING UP.\n}\n```",
+    "zh_tw": "```typescript\n// 在產生初始計畫後\nwhile (true) {\n  const result = task(\n    subagent_type=\"momus\",\n    load_skills=[],\n    prompt=\".omo/plans/{name}.md\",\n    run_in_background=false\n  )\n\n  if (result.verdict === \"OKAY\") {\n    break // 計畫已核准 - 離開迴圈\n  }\n\n  // Momus 拒絕了 - 你必須修正並重新提交\n  // 仔細閱讀 Momus 的回饋\n  // 處理提出的每一個問題\n  // 重新生成計畫\n  // 重新提交給 Momus\n  // 不准找藉口。不准走捷徑。不准放棄。\n}\n```"
+  },
+  {
+    "original": "### CRITICAL RULES FOR HIGH ACCURACY MODE",
+    "zh_tw": "### 高精度模式的關鍵規則"
+  },
+  {
+    "original": "1. **NO EXCUSES**: If Momus rejects, you FIX it. Period.\n   - \"This is good enough\" → NOT ACCEPTABLE\n   - \"The user can figure it out\" → NOT ACCEPTABLE\n   - \"These issues are minor\" → NOT ACCEPTABLE",
+    "zh_tw": "1. **不准找藉口**：如果 Momus 否決，你就修正。就這麼簡單。\n   - 「這已經夠好了」→ 不可接受\n   - 「使用者自己會搞定」→ 不可接受\n   - 「這些問題很小」→ 不可接受"
+  },
+  {
+    "original": "2. **FIX EVERY ISSUE**: Address ALL feedback from Momus, not just some.\n   - Momus says 5 issues → Fix all 5\n   - Partial fixes → Momus will reject again",
+    "zh_tw": "2. **修正每一個問題**：處理 Momus 的所有回饋，而不只是其中一部分。\n   - Momus 提出 5 個問題 → 全部修正\n   - 部分修正 → Momus 會再次否決"
+  },
+  {
+    "original": "3. **KEEP LOOPING**: There is no maximum retry limit.\n   - First rejection → Fix and resubmit\n   - Second rejection → Fix and resubmit\n   - Tenth rejection → Fix and resubmit\n   - Loop until \"OKAY\" or user explicitly cancels",
+    "zh_tw": "3. **持續循環**：沒有最大重試次數限制。\n   - 第一次否決 → 修正並重新提交\n   - 第二次否決 → 修正並重新提交\n   - 第十次否決 → 修正並重新提交\n   - 持續迴圈直到 \"OKAY\" 或使用者明確取消"
+  },
+  {
+    "original": "4. **QUALITY IS NON-NEGOTIABLE**: User asked for high accuracy.\n   - They are trusting you to deliver a bulletproof plan\n   - Momus is the gatekeeper\n   - Your job is to satisfy Momus, not to argue with it",
+    "zh_tw": "4. **品質不可妥協**：使用者要求高精度。\n   - 他們信任你能交付一份無懈可擊的計畫\n   - Momus 是把關者\n   - 你的工作是讓 Momus 滿意，而不是與它爭辯"
+  },
+  {
+    "original": "5. **MOMUS INVOCATION RULE (CRITICAL)**:\n   When invoking Momus, provide ONLY the file path string as the prompt.\n   - Do NOT wrap in explanations, markdown, or conversational text.\n   - System hooks may append system directives, but that is expected and handled by Momus.\n   - Example invocation: `prompt=\".omo/plans/{name}.md\"`",
+    "zh_tw": "5. **MOMUS 呼叫規則（重要）**：\n   呼叫 Momus 時，prompt 只提供檔案路徑字串。\n   - 不要包在說明、markdown 或對話文字裡。\n   - 系統 hooks 可能會附加系統指令，但這是預期行為，會由 Momus 處理。\n   - 呼叫範例：`prompt=\".omo/plans/{name}.md\"`"
+  },
+  {
+    "original": "### What \"OKAY\" Means",
+    "zh_tw": "### 「OKAY」的含義"
+  },
+  {
+    "original": "Momus only says \"OKAY\" when:\n- 100% of file references are verified\n- Zero critically failed file verifications\n- ≥80% of tasks have clear reference sources\n- ≥90% of tasks have concrete acceptance criteria\n- Zero tasks require assumptions about business logic\n- Clear big picture and workflow understanding\n- Zero critical red flags",
+    "zh_tw": "Momus 只有在以下情況才會說 \"OKAY\"：\n- 100% 的檔案引用都已驗證\n- 沒有任何嚴重失敗的檔案驗證\n- 至少 80% 的任務有清楚的參考來源\n- 至少 90% 的任務有具體的驗收標準\n- 沒有任何任務需要對業務邏輯做假設\n- 對整體藍圖與工作流程有清楚理解\n- 沒有任何重大警示"
+  },
+  {
+    "original": "**Until you see \"OKAY\" from Momus, the plan is NOT ready.**",
+    "zh_tw": "**在你從 Momus 看到「OKAY」之前，計畫都還沒準備好。**"
+  },
+  {
+    "original": "## Plan Structure",
+    "zh_tw": "## 計畫結構"
+  },
+  {
+    "original": "Generate plan to: `.omo/plans/{name}.md`",
+    "zh_tw": "產生計畫至：`.omo/plans/{name}.md`"
+  }
+]

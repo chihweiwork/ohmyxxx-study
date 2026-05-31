@@ -1,0 +1,50 @@
+[
+  {
+    "original": "The ralplan-first gate intercepts underspecified execution requests and redirects them through the ralplan consensus planning workflow. This ensures:\n- **Explicit scope**: A PRD defines exactly what will be built\n- **Test specification**: Acceptance criteria are testable before code is written\n- **Consensus**: Planner, Architect, and Critic agree on the approach\n- **No wasted execution**: Agents start with a clear, bounded task",
+    "zh_tw": "ralplan-first gate 會攔截規格不足的執行請求，並將它們重新導向至 ralplan 共識規劃工作流程。這可確保：\n- **明確的範圍**：PRD 明確定義將要建置的內容\n- **測試規格**：驗收準則在撰寫程式碼前就可被測試\n- **共識**：Planner、Architect 與 Critic 對方法達成一致\n- **不浪費執行**：Agents 一開始就面對清楚且有界定的任務"
+  },
+  {
+    "original": "### Good vs Bad Prompts",
+    "zh_tw": "### 好與壞的提示詞"
+  },
+  {
+    "original": "**Passes the gate** (specific enough for direct execution):\n- `ralph fix the null check in src/hooks/bridge.ts:326`\n- `autopilot implement issue #42`\n- `team add validation to function processKeywordDetector`\n- `ralph do:\\n1. Add input validation\\n2. Write tests\\n3. Update README`\n- `ultrawork add the user model in src/models/user.ts`",
+    "zh_tw": "**通過 gate**（具體到足以直接執行）：\n- `ralph fix the null check in src/hooks/bridge.ts:326`\n- `autopilot implement issue #42`\n- `team add validation to function processKeywordDetector`\n- `ralph do:\\n1. Add input validation\\n2. Write tests\\n3. Update README`\n- `ultrawork add the user model in src/models/user.ts`"
+  },
+  {
+    "original": "**Gated — redirected to ralplan** (needs scoping first):\n- `ralph fix this`\n- `autopilot build the app`\n- `team improve performance`\n- `ralph add authentication`\n- `ultrawork make it better`",
+    "zh_tw": "**受 gate 限制 — 重新導向至 ralplan**（需要先進行範圍界定）：\n- `ralph fix this`\n- `autopilot build the app`\n- `team improve performance`\n- `ralph add authentication`\n- `ultrawork make it better`"
+  },
+  {
+    "original": "**Bypass the gate** (when you know what you want):\n- `force: ralph refactor the auth module`\n- `! autopilot optimize everything`",
+    "zh_tw": "**繞過 gate**（當你清楚知道自己要什麼時）：\n- `force: ralph refactor the auth module`\n- `! autopilot optimize everything`"
+  },
+  {
+    "original": "### When the Gate Does NOT Trigger",
+    "zh_tw": "### 何時 Gate 不會觸發"
+  },
+  {
+    "original": "The gate auto-passes when it detects **any** concrete signal. You do not need all of them — one is enough:",
+    "zh_tw": "當 gate 偵測到**任何**具體訊號時，就會自動通過。你不需要同時具備全部條件，只要有一個就夠："
+  },
+  {
+    "original": "| Signal Type | Example prompt | Why it passes |\n|---|---|---|\n| File path | `ralph fix src/hooks/bridge.ts` | References a specific file |\n| Issue/PR number | `ralph implement #42` | Has a concrete work item |\n| camelCase symbol | `ralph fix processKeywordDetector` | Names a specific function |\n| PascalCase symbol | `ralph update UserModel` | Names a specific class |\n| snake_case symbol | `team fix user_model` | Names a specific identifier |\n| Test runner | `ralph npm test && fix failures` | Has an explicit test target |\n| Numbered steps | `ralph do:\\n1. Add X\\n2. Test Y` | Structured deliverables |\n| Acceptance criteria | `ralph add login - acceptance criteria: ...` | Explicit success definition |\n| Error reference | `ralph fix TypeError in auth` | Specific error to address |\n| Code block | `ralph add: \\`\\`\\`ts ... \\`\\`\\`` | Concrete code provided |\n| Escape prefix | `force: ralph do it` or `! ralph do it` | Explicit user override |",
+    "zh_tw": "| 訊號類型 | 範例提示詞 | 為什麼會通過 |\n|---|---|---|\n| 檔案路徑 | `ralph fix src/hooks/bridge.ts` | 參照了一個特定檔案 |\n| Issue/PR 編號 | `ralph implement #42` | 有一個具體的工作項目 |\n| camelCase 符號 | `ralph fix processKeywordDetector` | 指定了一個特定函式 |\n| PascalCase 符號 | `ralph update UserModel` | 指定了一個特定類別 |\n| snake_case 符號 | `team fix user_model` | 指定了一個特定識別符 |\n| 測試執行器 | `ralph npm test && fix failures` | 有明確的測試目標 |\n| 編號步驟 | `ralph do:\\n1. Add X\\n2. Test Y` | 結構化交付項目 |\n| 驗收準則 | `ralph add login - acceptance criteria: ...` | 明確的成功定義 |\n| 錯誤參照 | `ralph fix TypeError in auth` | 有待處理的特定錯誤 |\n| 程式碼區塊 | `ralph add: \\`\\`\\`ts ... \\`\\`\\`` | 提供了具體程式碼 |\n| 轉義前綴 | `force: ralph do it` 或 `! ralph do it` | 明確的使用者覆寫 |"
+  },
+  {
+    "original": "### End-to-End Flow Example",
+    "zh_tw": "### 端到端流程範例"
+  },
+  {
+    "original": "1. User types: `ralph add user authentication`\n2. Gate detects: execution keyword (`ralph`) + underspecified prompt (no files, functions, or test spec)\n3. Gate redirects to **ralplan** with message explaining the redirect\n4. Ralplan consensus runs:\n   - **Planner** creates initial plan (which files, what auth method, what tests)\n   - **Architect** reviews for soundness\n   - **Critic** validates quality and testability\n5. On consensus approval, user chooses execution path:\n   - **team**: parallel coordinated agents (recommended)\n   - **ralph**: sequential execution with verification\n6. Execution begins with a clear, bounded plan",
+    "zh_tw": "1. 使用者輸入：`ralph add user authentication`\n2. Gate 偵測到：執行關鍵字（`ralph`）+ 規格不足的提示詞（沒有檔案、函式或測試規格）\n3. Gate 將其重新導向至 **ralplan**，並附上解釋重新導向的訊息\n4. 進行 Ralplan 共識流程：\n   - **Planner** 產生初始計畫（哪些檔案、使用哪種驗證方式、哪些測試）\n   - **Architect** 檢查其合理性\n   - **Critic** 驗證品質與可測試性\n5. 在共識核准後，使用者選擇執行路徑：\n   - **team**：平行協調式 agents（建議）\n   - **ralph**：帶驗證的序列式執行\n6. 以清楚且有界定的計畫開始執行"
+  },
+  {
+    "original": "### Troubleshooting",
+    "zh_tw": "### 疑難排解"
+  },
+  {
+    "original": "| Issue | Solution |\n|-------|----------|\n| Gate fires on a well-specified prompt | Add a file reference, function name, or issue number to anchor the request |\n| Want to bypass the gate | Prefix with `force:` or `!` (e.g., `force: ralph fix it`) |\n| Gate does not fire on a vague prompt | The gate only catches prompts with <=15 effective words and no concrete anchors; add more detail or use `/ralplan` explicitly |\n| Redirected to ralplan but want execution | Use the structured approval option or explicitly say which execution skill should proceed; `just do it` / `skip planning` alone only ends planning with a `pending approval` artifact |",
+    "zh_tw": "| 問題 | 解決方式 |\n|-------|----------|\n| Gate 在已明確規格的提示詞上仍觸發 | 加上檔案參照、函式名稱或 issue 編號來錨定請求 |\n| 想要繞過 gate | 在前面加上 `force:` 或 `!`（例如：`force: ralph fix it`） |\n| Gate 沒有在模糊提示詞上觸發 | Gate 只會攔截有效字數 <=15 且沒有具體錨點的提示詞；請補充更多細節或直接使用 `/ralplan` |\n| 被導向 ralplan 但想直接執行 | 使用結構化核准選項，或明確說明應該由哪個執行 skill 繼續；單獨說 `just do it` / `skip planning` 只會結束規劃並產生一個 `pending approval` 成品 |"
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "original": "<p align=\"center\">\n  <img src=\"assets/omc-character.jpg\" alt=\"oh-my-claudecode\" width=\"400\" />\n</p>",
+    "zh_tw": "<p align=\"center\">\n  <img src=\"assets/omc-character.jpg\" alt=\"oh-my-claudecode\" width=\"400\" />\n</p>"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Why oh-my-claudecode?",
+    "zh_tw": "## 為什麼選擇 oh-my-claudecode？"
+  },
+  {
+    "original": "- **Zero configuration required** - Works out of the box with intelligent defaults\n- **Team-first orchestration** - Team is the canonical multi-agent surface\n- **Natural language interface** - No commands to memorize, just describe what you want\n- **Automatic parallelization** - Complex tasks distributed across specialized agents\n- **Persistent execution** - Won't give up until the job is verified complete\n- **Cost optimization** - Smart model routing saves 30-50% on tokens\n- **Learn from experience** - Automatically extracts and reuses problem-solving patterns\n- **Real-time visibility** - HUD statusline shows what's happening under the hood",
+    "zh_tw": "- **零設定需求** - 具備智慧預設值，開箱即用\n- **以 Team 為先的編排** - Team 是標準的多代理介面\n- **自然語言介面** - 不必記住指令，只要描述你想要什麼\n- **自動平行化** - 將複雜任務分派給專門代理\n- **持續執行** - 在作業經驗證完成之前不會放棄\n- **成本最佳化** - 智慧模型路由可節省 30-50% 的 token\n- **從經驗中學習** - 自動擷取並重用解題模式\n- **即時可見性** - HUD 狀態列顯示底層正在發生什麼"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Features",
+    "zh_tw": "## 功能"
+  },
+  {
+    "original": "### Orchestration Modes",
+    "zh_tw": "### 編排模式"
+  },
+  {
+    "original": "Multiple strategies for different use cases — from Team-backed orchestration to token-efficient refactoring. [Learn more →](https://yeachan-heo.github.io/oh-my-claudecode-website/docs/#execution-modes)",
+    "zh_tw": "針對不同使用情境提供多種策略，從由 Team 支援的編排到節省 token 的重構皆可適用。[深入了解 →](https://yeachan-heo.github.io/oh-my-claudecode-website/docs/#execution-modes)"
+  },
+  {
+    "original": "| Mode                        | What it is                                                                              | Use For                                                                 |\n| --------------------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |\n| **Team (recommended)**      | Canonical staged pipeline (`team-plan → team-prd → team-exec → team-verify → team-fix`) | Coordinated Claude agents on a shared task list                         |\n| **omc team (CLI)**          | tmux CLI workers — real `claude`/`codex`/`gemini` processes in split-panes              | Codex/Gemini CLI tasks; on-demand spawn, die when done                  |\n| **ccg**                     | Tri-model advisors via `/ask codex` + `/ask gemini`, Claude synthesizes                 | Mixed backend+UI work needing both Codex and Gemini                     |\n| **Autopilot**               | Autonomous execution (single lead agent)                                                | End-to-end feature work with minimal ceremony                           |\n| **Ultrawork**               | Maximum parallelism (non-team)                                                          | Burst parallel fixes/refactors where Team isn't needed                  |\n| **Ralph**                   | Persistent mode with verify/fix loops                                                   | Tasks that must complete fully (no silent partials)                     |\n| **UltraQA**                 | QA cycling until tests/build/lint/typecheck goals pass                                  | Quality gates that need repeat diagnose/fix cycles                      |\n| **Claude Code `/goal`**     | Native Claude Code cross-turn goal loop                                                 | One measurable session completion condition; not an OMC evidence ledger |\n| **Artifact-only Ultragoal** | Durable goal/checkpoint/evidence artifacts without starting a loop                      | Handoffs, audits, or unavailable/conflicting loop runtimes              |\n| **Pipeline**                | Sequential, staged processing                                                           | Multi-step transformations with strict ordering                         |\n| **Ultrapilot (legacy)**     | Deprecated compatibility mode (autopilot pipeline alias)                                | Existing workflows and older docs                                       |",
+    "zh_tw": "| 模式                        | 是什麼                                                                              | 用途                                                                    |\n| --------------------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |\n| **Team（建議）**            | 標準分階段管線（`team-plan → team-prd → team-exec → team-verify → team-fix`）         | 在共享任務清單上協調 Claude 代理                                          |\n| **omc team（CLI）**         | tmux CLI 工作者 — 在分割窗格中的真實 `claude`/`codex`/`gemini` 進程                  | Codex/Gemini CLI 任務；按需啟動，完成後即結束                             |\n| **ccg**                     | 透過 `/ask codex` + `/ask gemini` 的三模型顧問，Claude 負責綜合                        | 需要 Codex 與 Gemini 的混合後端 + UI 工作                                |\n| **Autopilot**               | 自主執行（單一主導代理）                                                              | 端到端功能工作，儀式感最少                                                |\n| **Ultrawork**               | 最大平行化（非 Team）                                                                 | 需要 Team 的情況之外的突發平行修復／重構                                   |\n| **Ralph**                   | 具備 verify/fix 迴圈的持久模式                                                        | 必須完整完成的任務（不接受靜默的部分結果）                                 |\n| **UltraQA**                 | 持續進行 QA 迴圈，直到測試／建置／lint／型別檢查目標通過                                | 需要反覆診斷／修復循環的品質關卡                                           |\n| **Claude Code `/goal`**     | Claude Code 原生的跨回合目標迴圈                                                      | 單一、可衡量的 session 完成條件；不是 OMC 的證據帳本                       |\n| **Artifact-only Ultragoal** | 不啟動迴圈，但保留持久的目標／檢查點／證據工件                                          | 交接、稽核，或無法使用／彼此衝突的迴圈執行環境                              |\n| **Pipeline**                | 依序進行的分階段處理                                                                  | 需要嚴格順序的多步轉換                                                    |\n| **Ultrapilot（舊版）**       | 已棄用的相容模式（autopilot 管線別名）                                                 | 現有工作流程與較舊的文件                                                  |"
+  },
+  {
+    "original": "### Goal Workflow Guidance",
+    "zh_tw": "### 目標工作流程指引"
+  },
+  {
+    "original": "Use only one primary loop authority in a session. Claude Code `/goal` is useful for a native cross-turn completion condition, while Ralph owns single-agent verified completion, Team owns parallel staged execution, and UltraQA owns repeated quality-gate cycling. Artifact-only Ultragoal is the safe fallback when you need durable goal artifacts and evidence without starting another loop.",
+    "zh_tw": "在一個 session 中只使用一個主要迴圈權威。Claude Code `/goal` 適合用於原生的跨回合完成條件，而 Ralph 負責單一代理的驗證式完成，Team 負責平行分階段執行，UltraQA 負責重複的品質關卡循環。當你需要持久的目標工件與證據、但不想再啟動另一個迴圈時，Artifact-only Ultragoal 是安全的備用方案。"
+  },
+  {
+    "original": "For `/goal` behavior, rely on Claude Code/Anthropic sources: the [Claude Code `/goal` docs](https://code.claude.com/docs/en/goal) and [Anthropic Claude Code changelog](https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md). Do **not** claim the `/goal` evaluator independently runs commands or reads files; surface test output, diffs, and review evidence in the conversation before treating a goal as proven.",
+    "zh_tw": "關於 `/goal` 的行為，請依據 Claude Code/Anthropic 的來源：[Claude Code `/goal` 文件](https://code.claude.com/docs/en/goal) 與 [Anthropic Claude Code 變更記錄](https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md)。不要聲稱 `/goal` 評估器會獨立執行指令或讀取檔案；在對話中先呈現測試輸出、diff 與審查證據，再將目標視為已證明。"
+  },
+  {
+    "original": "### Intelligent Orchestration",
+    "zh_tw": "### 智慧編排"
+  },
+  {
+    "original": "- **19 specialized agents** (with tier variants) for architecture, research, design, testing, data science\n- **Smart model routing** - Haiku for simple tasks, Opus for complex reasoning\n- **Automatic delegation** - Right agent for the job, every time\n- **[Model × Agent Compatibility Matrix](docs/agents/model-compatibility.md)** - Which model to pair with each agent, with premium/balanced/budget presets",
+    "zh_tw": "- **19 個專門代理**（含不同層級變體），適用於架構、研究、設計、測試、資料科學\n- **智慧模型路由** - 簡單任務用 Haiku，複雜推理用 Opus\n- **自動委派** - 每次都由最適合的代理處理工作\n- **[模型 × 代理相容性矩陣](docs/agents/model-compatibility.md)** - 每個代理應搭配哪個模型，並提供 premium／balanced／budget 預設"
+  },
+  {
+    "original": "### Developer Experience",
+    "zh_tw": "### 開發者體驗"
+  },
+  {
+    "original": "- **Magic keywords** - `ralph`, `ulw`, `ralplan`; Team stays explicit via `/team`\n- **HUD statusline** - Real-time orchestration metrics in your status bar\n  - If you launch Claude Code directly with `claude --plugin-dir <path>` (bypassing the `omc` shim), export `OMC_PLUGIN_ROOT=<path>` in your shell so the HUD bundle resolves to the same checkout as the plugin loader. See the [Plugin directory flags section in REFERENCE.md](./docs/REFERENCE.md#plugin-directory-flags) for details.\n- **Skill learning** - Extract reusable patterns from your sessions\n- **Analytics & cost tracking** - Understand token usage across all sessions",
+    "zh_tw": "- **魔法關鍵字** - `ralph`、`ulw`、`ralplan`；Team 則維持透過 `/team` 明確指定\n- **HUD 狀態列** - 在狀態列中顯示即時編排指標\n  - 如果你直接使用 `claude --plugin-dir <path>` 啟動 Claude Code（跳過 `omc` shim），請在 shell 中匯出 `OMC_PLUGIN_ROOT=<path>`，讓 HUD bundle 解析到與 plugin loader 相同的 checkout。詳情請見 [REFERENCE.md 中的 Plugin directory flags 章節](./docs/REFERENCE.md#plugin-directory-flags)。\n- **技能學習** - 從你的 session 中擷取可重用的模式\n- **分析與成本追蹤** - 了解所有 session 的 token 使用情況"
+  },
+  {
+    "original": "### Contributing",
+    "zh_tw": "### 貢獻"
+  },
+  {
+    "original": "Want to contribute to OMC? See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full developer guide, including how to fork, set up a local checkout, link it as your active plugin, run tests, and submit PRs.",
+    "zh_tw": "想為 OMC 做出貢獻嗎？請參閱 [CONTRIBUTING.md](./CONTRIBUTING.md) 取得完整的開發者指南，內容包括如何 fork、建立本機 checkout、將其連結為你的啟用中外掛、執行測試，以及提交 PR。"
+  },
+  {
+    "original": "### Custom Skills",
+    "zh_tw": "### 自訂技能"
+  },
+  {
+    "original": "Learn once, reuse forever. OMC extracts hard-won debugging knowledge into portable skill files that auto-inject when relevant.",
+    "zh_tw": "學一次，永遠重用。OMC 會將來之不易的除錯知識萃取成可攜式技能檔，並在相關時自動注入。"
+  },
+  {
+    "original": "|                 | Project Scope                                            | User Scope        |\n| --------------- | -------------------------------------------------------- | ----------------- |\n| **Path**        | `.omc/skills/`                                           | `~/.omc/skills/`  |\n| **Shared with** | Team (commit the skill file to keep it across worktrees) | All your projects |\n| **Priority**    | Higher (overrides user)                                  | Lower (fallback)  |",
+    "zh_tw": "|                 | 專案範圍                                                  | 使用者範圍        |\n| --------------- | -------------------------------------------------------- | ----------------- |\n| **Path**        | `.omc/skills/`                                           | `~/.omc/skills/`  |\n| **Shared with** | Team（將技能檔提交，以便在不同 worktree 間保留）          | 你的所有專案       |\n| **Priority**    | 較高（覆蓋使用者）                                         | 較低（備援）       |"
+  }
+]

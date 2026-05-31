@@ -1,0 +1,78 @@
+[
+  {
+    "original": "2. **Worker isolation**: Pass the worktree path as the `workingDirectory` in the worker's `BridgeConfig`. The worker operates exclusively in its own worktree.",
+    "zh_tw": "2. **工作區隔離**：將 worktree 路徑作為 worker 的 `BridgeConfig` 中的 `workingDirectory` 傳入。該 worker 僅在自己的 worktree 中運作。"
+  },
+  {
+    "original": "3. **Merge coordination**: After a worker completes its tasks, use `checkMergeConflicts()` to verify the branch can be cleanly merged, then `mergeWorkerBranch()` to merge with `--no-ff` for clear history.",
+    "zh_tw": "3. **合併協調**：在 worker 完成其任務後，使用 `checkMergeConflicts()` 驗證分支是否能乾淨地合併，然後使用 `mergeWorkerBranch()` 以 `--no-ff` 進行合併，以保留清晰的歷史記錄。"
+  },
+  {
+    "original": "4. **Team cleanup**: On team shutdown, call `cleanupTeamWorktrees(teamName, repoRoot)` to remove all worktrees and their branches.",
+    "zh_tw": "4. **團隊清理**：在團隊關閉時，呼叫 `cleanupTeamWorktrees(teamName, repoRoot)` 以移除所有 worktree 及其分支。"
+  },
+  {
+    "original": "### API Reference",
+    "zh_tw": "### API 參考"
+  },
+  {
+    "original": "| Function                                                            | Description                    |\n| ------------------------------------------------------------------- | ------------------------------ |\n| `createWorkerWorktree(teamName, workerName, repoRoot, baseBranch?)` | Create isolated worktree       |\n| `removeWorkerWorktree(teamName, workerName, repoRoot)`              | Remove worktree and branch     |\n| `listTeamWorktrees(teamName, repoRoot)`                             | List all team worktrees        |\n| `cleanupTeamWorktrees(teamName, repoRoot)`                          | Remove all team worktrees      |\n| `checkMergeConflicts(workerBranch, baseBranch, repoRoot)`           | Non-destructive conflict check |\n| `mergeWorkerBranch(workerBranch, baseBranch, repoRoot)`             | Merge worker branch (--no-ff)  |\n| `mergeAllWorkerBranches(teamName, repoRoot, baseBranch?)`           | Merge all completed workers    |",
+    "zh_tw": "| Function                                                            | Description                    |\n| ------------------------------------------------------------------- | ------------------------------ |\n| `createWorkerWorktree(teamName, workerName, repoRoot, baseBranch?)` | 建立隔離的 worktree       |\n| `removeWorkerWorktree(teamName, workerName, repoRoot)`              | 移除 worktree 和分支     |\n| `listTeamWorktrees(teamName, repoRoot)`                             | 列出所有團隊 worktree        |\n| `cleanupTeamWorktrees(teamName, repoRoot)`                          | 移除所有團隊 worktree      |\n| `checkMergeConflicts(workerBranch, baseBranch, repoRoot)`           | 非破壞性的衝突檢查 |\n| `mergeWorkerBranch(workerBranch, baseBranch, repoRoot)`             | 合併 worker 分支 (--no-ff)  |\n| `mergeAllWorkerBranches(teamName, repoRoot, baseBranch?)`           | 合併所有已完成的 worker    |"
+  },
+  {
+    "original": "### Important Notes",
+    "zh_tw": "### 重要說明"
+  },
+  {
+    "original": "- `createSession()` in `tmux-session.ts` does NOT handle worktree creation — worktree lifecycle is managed separately via `git-worktree.ts`\n- Worktrees are NOT cleaned up on individual worker shutdown — only on team shutdown, to allow post-mortem inspection\n- Branch names are sanitized via `sanitizeName()` to prevent injection\n- All paths are validated against directory traversal",
+    "zh_tw": "- `tmux-session.ts` 中的 `createSession()` 不會處理 worktree 的建立 - worktree 的生命週期是透過 `git-worktree.ts` 個別管理的\n- worktree 不會在單一 worker 關閉時被清理 - 只會在團隊關閉時清理，以便事後檢視\n- 分支名稱會透過 `sanitizeName()` 清理，以防止注入\n- 所有路徑都會針對目錄穿越進行驗證"
+  },
+  {
+    "original": "## Gotchas",
+    "zh_tw": "## 注意事項"
+  },
+  {
+    "original": "1. **Internal tasks pollute TaskList** -- When a teammate is spawned, the system auto-creates an internal task with `metadata._internal: true`. These appear in `TaskList` output. Filter them when counting real task progress. The subject of an internal task is the teammate's name.",
+    "zh_tw": "1. **內部任務會污染 TaskList** -- 當建立一個隊友時，系統會自動建立一個具有 `metadata._internal: true` 的內部任務。這些會出現在 `TaskList` 輸出中。在計算實際任務進度時要將它們過濾掉。內部任務的主旨是隊友的名稱。"
+  },
+  {
+    "original": "2. **No atomic claiming** -- Unlike SQLite swarm, there is no transactional guarantee on `TaskUpdate`. Two teammates could race to claim the same task. **Mitigation:** The lead should pre-assign owners via `TaskUpdate(taskId, owner)` before spawning teammates. Teammates should only work on tasks assigned to them.",
+    "zh_tw": "2. **沒有原子式認領** -- 與 SQLite swarm 不同，`TaskUpdate` 沒有交易保證。兩個隊友可能會競爭認領同一個任務。**緩解方式：** 領導者應在建立隊友之前，先透過 `TaskUpdate(taskId, owner)` 預先指派擁有者。隊友只應處理分配給他們的任務。"
+  },
+  {
+    "original": "3. **Task IDs are strings** -- IDs are auto-incrementing strings (\"1\", \"2\", \"3\"), not integers. Always pass string values to `taskId` fields.",
+    "zh_tw": "3. **Task ID 是字串** -- ID 是自動遞增的字串（\"1\"、\"2\"、\"3\"），不是整數。傳入 `taskId` 欄位時，務必使用字串值。"
+  },
+  {
+    "original": "4. **TeamDelete requires empty team** -- All teammates must be shut down before calling `TeamDelete`. The lead (the only remaining member) is excluded from this check.",
+    "zh_tw": "4. **TeamDelete 需要空團隊** -- 在呼叫 `TeamDelete` 之前，必須先關閉所有隊友。領導者（唯一剩餘的成員）不包含在這項檢查中。"
+  },
+  {
+    "original": "5. **Messages are auto-delivered** -- Teammate messages arrive to the lead as new conversation turns. No polling or inbox-checking is needed for inbound messages. However, if the lead is mid-turn (processing), messages queue and deliver when the turn ends.",
+    "zh_tw": "5. **訊息會自動送達** -- 隊友訊息會以新的對話回合送達給領導者。接收訊息不需要輪詢或檢查收件匣。不過，如果領導者正處於回合中（處理中），訊息會排隊並在該回合結束時送達。"
+  },
+  {
+    "original": "6. **Teammate prompt stored in config** -- The full prompt text is stored in `config.json` members array. Do not put secrets or sensitive data in teammate prompts.",
+    "zh_tw": "6. **隊友提示詞儲存在設定中** -- 完整的提示文字會儲存在 `config.json` 的 members 陣列中。不要在隊友提示詞中放入機密或敏感資料。"
+  },
+  {
+    "original": "7. **Members auto-removed on shutdown** -- After a teammate approves shutdown and terminates, it is automatically removed from `config.json`. Do not re-read config expecting to find shut-down teammates.",
+    "zh_tw": "7. **成員會在關閉時自動移除** -- 當隊友同意關閉並終止後，會自動從 `config.json` 中移除。不要重新讀取設定檔並預期能找到已關閉的隊友。"
+  },
+  {
+    "original": "8. **shutdown_response needs request_id** -- The teammate must extract the `request_id` from the incoming shutdown request JSON and pass it back. The format is `shutdown-{timestamp}@{worker-name}`. Fabricating this ID will cause the shutdown to fail silently.",
+    "zh_tw": "8. **shutdown_response 需要 request_id** -- 隊友必須從傳入的關閉請求 JSON 中擷取 `request_id` 並回傳。格式為 `shutdown-{timestamp}@{worker-name}`。偽造此 ID 會導致關閉靜默失敗。"
+  },
+  {
+    "original": "9. **Team name must be a valid slug** -- Use lowercase letters, numbers, and hyphens. Derive from the task description (e.g., \"fix TypeScript errors\" becomes \"fix-ts-errors\").",
+    "zh_tw": "9. **團隊名稱必須是有效的 slug** -- 使用小寫字母、數字和連字號。請根據任務描述推導（例如，\"fix TypeScript errors\" 會變成 \"fix-ts-errors\"）。"
+  },
+  {
+    "original": "10. **Broadcast is expensive** -- Each broadcast sends a separate message to every teammate. Use `message` (DM) by default. Only broadcast for truly team-wide critical alerts.",
+    "zh_tw": "10. **廣播成本高** -- 每次廣播都會向每位隊友各自發送一則獨立訊息。預設請使用 `message`（私訊）。只有在真正全團隊範圍的關鍵警示時才使用廣播。"
+  },
+  {
+    "original": "11. **CLI workers are one-shot, not persistent** -- Tmux CLI workers have full filesystem access and CAN make code changes. However, they run as autonomous one-shot jobs -- they cannot use TaskList/TaskUpdate/SendMessage. The lead must manage their lifecycle: write prompt_file, spawn CLI worker, read output_file, mark task complete. They don't participate in team communication like Claude teammates do.",
+    "zh_tw": "11. **CLI worker 是一次性而非持久化的** -- Tmux CLI worker 擁有完整的檔案系統存取權限，且可以修改程式碼。不過，它們是以 автономous one-shot 工作執行 -- 不能使用 TaskList/TaskUpdate/SendMessage。領導者必須管理它們的生命週期：撰寫 prompt_file、啟動 CLI worker、讀取 output_file、標記任務完成。它們不像 Claude 隊友那樣參與團隊溝通。"
+  }
+]

@@ -1,0 +1,166 @@
+[
+  {
+    "original": "---\nname: sciomc\ndescription: Orchestrate parallel scientist agents for comprehensive analysis with AUTO mode\nargument-hint: <research goal>\nlevel: 4\n---",
+    "zh_tw": "---\nname: sciomc\ndescription: 以 AUTO 模式協調平行的科學家代理進行全面分析\nargument-hint: <research goal>\nlevel: 4\n---"
+  },
+  {
+    "original": "# Research Skill",
+    "zh_tw": "# 研究技能"
+  },
+  {
+    "original": "Orchestrate parallel scientist agents for comprehensive research workflows with optional AUTO mode for fully autonomous execution.",
+    "zh_tw": "協調平行的科學家代理，執行全面的研究工作流程，並可選擇使用 AUTO 模式以完全自主執行。"
+  },
+  {
+    "original": "## Overview",
+    "zh_tw": "## 概覽"
+  },
+  {
+    "original": "Research is a multi-stage workflow that decomposes complex research goals into parallel investigations:",
+    "zh_tw": "研究是一個多階段工作流程，會將複雜的研究目標拆解為平行調查："
+  },
+  {
+    "original": "1. **Decomposition** - Break research goal into independent stages/hypotheses\n2. **Execution** - Run parallel scientist agents on each stage\n3. **Verification** - Cross-validate findings, check consistency\n4. **Synthesis** - Aggregate results into comprehensive report",
+    "zh_tw": "1. **分解** - 將研究目標拆分為彼此獨立的階段/假設\n2. **執行** - 針對每個階段執行平行的科學家代理\n3. **驗證** - 交叉驗證發現，檢查一致性\n4. **綜合** - 將結果彙整成完整報告"
+  },
+  {
+    "original": "## Usage Examples",
+    "zh_tw": "## 使用範例"
+  },
+  {
+    "original": "```\n/oh-my-claudecode:sciomc <goal>                    # Standard research with user checkpoints\n/oh-my-claudecode:sciomc AUTO: <goal>              # Fully autonomous until complete\n/oh-my-claudecode:sciomc status                    # Check current research session status\n/oh-my-claudecode:sciomc resume                    # Resume interrupted research session\n/oh-my-claudecode:sciomc list                      # List all research sessions\n/oh-my-claudecode:sciomc report <session-id>       # Generate report for session\n```",
+    "zh_tw": "```\n/oh-my-claudecode:sciomc <goal>                    # 具備使用者檢查點的標準研究\n/oh-my-claudecode:sciomc AUTO: <goal>              # 完全自主直到完成\n/oh-my-claudecode:sciomc status                    # 檢查目前研究工作階段狀態\n/oh-my-claudecode:sciomc resume                    # 恢復中斷的研究工作階段\n/oh-my-claudecode:sciomc list                      # 列出所有研究工作階段\n/oh-my-claudecode:sciomc report <session-id>       # 為工作階段產生報告\n```"
+  },
+  {
+    "original": "### Quick Examples",
+    "zh_tw": "### 快速範例"
+  },
+  {
+    "original": "```\n/oh-my-claudecode:sciomc What are the performance characteristics of different sorting algorithms?\n/oh-my-claudecode:sciomc AUTO: Analyze authentication patterns in this codebase\n/oh-my-claudecode:sciomc How does the error handling work across the API layer?\n```",
+    "zh_tw": "```\n/oh-my-claudecode:sciomc 不同排序演算法的效能特性是什麼？\n/oh-my-claudecode:sciomc AUTO: 分析此程式碼庫中的驗證模式\n/oh-my-claudecode:sciomc 錯誤處理在 API 層是如何運作的？\n```"
+  },
+  {
+    "original": "## Research Protocol",
+    "zh_tw": "## 研究協議"
+  },
+  {
+    "original": "### Stage Decomposition Pattern",
+    "zh_tw": "### 階段分解模式"
+  },
+  {
+    "original": "When given a research goal, decompose into 3-7 independent stages:",
+    "zh_tw": "當給定一個研究目標時，將其分解為 3 到 7 個獨立階段："
+  },
+  {
+    "original": "```markdown\n## Research Decomposition\n\n**Goal:** <original research goal>\n\n### Stage 1: <stage-name>\n- **Focus:** What this stage investigates\n- **Hypothesis:** Expected finding (if applicable)\n- **Scope:** Files/areas to examine\n- **Tier:** LOW | MEDIUM | HIGH\n\n### Stage 2: <stage-name>\n...\n```",
+    "zh_tw": "```markdown\n## Research Decomposition\n\n**Goal:** <original research goal>\n\n### Stage 1: <stage-name>\n- **Focus:** What this stage investigates\n- **Hypothesis:** Expected finding (if applicable)\n- **Scope:** Files/areas to examine\n- **Tier:** LOW | MEDIUM | HIGH\n\n### Stage 2: <stage-name>\n...\n```"
+  },
+  {
+    "original": "### Parallel Scientist Invocation",
+    "zh_tw": "### 平行呼叫科學家"
+  },
+  {
+    "original": "Fire independent stages in parallel via Task tool:",
+    "zh_tw": "透過 Task 工具平行執行獨立階段："
+  },
+  {
+    "original": "```\n// Stage 1 - Simple data gathering\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"haiku\", prompt=\"[RESEARCH_STAGE:1] Investigate...\")\n\n// Stage 2 - Standard analysis\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"sonnet\", prompt=\"[RESEARCH_STAGE:2] Analyze...\")\n\n// Stage 3 - Complex reasoning\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"opus\", prompt=\"[RESEARCH_STAGE:3] Deep analysis of...\")\n```",
+    "zh_tw": "```\n// Stage 1 - Simple data gathering\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"haiku\", prompt=\"[RESEARCH_STAGE:1] Investigate...\")\n\n// Stage 2 - Standard analysis\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"sonnet\", prompt=\"[RESEARCH_STAGE:2] Analyze...\")\n\n// Stage 3 - Complex reasoning\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"opus\", prompt=\"[RESEARCH_STAGE:3] Deep analysis of...\")\n```"
+  },
+  {
+    "original": "### Smart Model Routing",
+    "zh_tw": "### 智慧模型路由"
+  },
+  {
+    "original": "**CRITICAL: Always pass `model` parameter explicitly!**",
+    "zh_tw": "**重要：務必明確傳入 `model` 參數！**"
+  },
+  {
+    "original": "| Task Complexity | Agent | Model | Use For |\n|-----------------|-------|-------|---------|\n| Data gathering | `scientist` (model=haiku) | haiku | File enumeration, pattern counting, simple lookups |\n| Standard analysis | `scientist` | sonnet | Code analysis, pattern detection, documentation review |\n| Complex reasoning | `scientist` | opus | Architecture analysis, cross-cutting concerns, hypothesis validation |",
+    "zh_tw": "| 任務複雜度 | 代理 | 模型 | 用途 |\n|-----------------|-------|-------|---------|\n| 資料蒐集 | `scientist` (model=haiku) | haiku | 檔案列舉、模式計數、簡單查詢 |\n| 標準分析 | `scientist` | sonnet | 程式碼分析、模式偵測、文件審查 |\n| 複雜推理 | `scientist` | opus | 架構分析、橫切關注點、假設驗證 |"
+  },
+  {
+    "original": "### Routing Decision Guide",
+    "zh_tw": "### 路由決策指南"
+  },
+  {
+    "original": "| Research Task | Tier | Example Prompt |\n|---------------|------|----------------|\n| \"Count occurrences of X\" | LOW | \"Count all usages of useState hook\" |\n| \"Find all files matching Y\" | LOW | \"List all test files in the project\" |\n| \"Analyze pattern Z\" | MEDIUM | \"Analyze error handling patterns in API routes\" |\n| \"Document how W works\" | MEDIUM | \"Document the authentication flow\" |\n| \"Explain why X happens\" | HIGH | \"Explain why race conditions occur in the cache layer\" |\n| \"Compare approaches A vs B\" | HIGH | \"Compare Redux vs Context for state management here\" |",
+    "zh_tw": "| 研究任務 | 層級 | 範例提示詞 |\n|---------------|------|----------------|\n| \"Count occurrences of X\" | LOW | \"Count all usages of useState hook\" |\n| \"Find all files matching Y\" | LOW | \"List all test files in the project\" |\n| \"Analyze pattern Z\" | MEDIUM | \"Analyze error handling patterns in API routes\" |\n| \"Document how W works\" | MEDIUM | \"Document the authentication flow\" |\n| \"Explain why X happens\" | HIGH | \"Explain why race conditions occur in the cache layer\" |\n| \"Compare approaches A vs B\" | HIGH | \"Compare Redux vs Context for state management here\" |"
+  },
+  {
+    "original": "### Verification Loop",
+    "zh_tw": "### 驗證迴圈"
+  },
+  {
+    "original": "After parallel execution completes, verify findings:",
+    "zh_tw": "在平行執行完成後，驗證發現："
+  },
+  {
+    "original": "```\n// Cross-validation stage\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"sonnet\", prompt=\"\n[RESEARCH_VERIFICATION]\nCross-validate these findings for consistency:\n\nStage 1 findings: <summary>\nStage 2 findings: <summary>\nStage 3 findings: <summary>\n\nCheck for:\n1. Contradictions between stages\n2. Missing connections\n3. Gaps in coverage\n4. Evidence quality\n\nOutput: [VERIFIED] or [CONFLICTS:<list>]\n\")\n```",
+    "zh_tw": "```\n// Cross-validation stage\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"sonnet\", prompt=\"\n[RESEARCH_VERIFICATION]\nCross-validate these findings for consistency:\n\nStage 1 findings: <summary>\nStage 2 findings: <summary>\nStage 3 findings: <summary>\n\nCheck for:\n1. Contradictions between stages\n2. Missing connections\n3. Gaps in coverage\n4. Evidence quality\n\nOutput: [VERIFIED] or [CONFLICTS:<list>]\n\")\n```"
+  },
+  {
+    "original": "## AUTO Mode",
+    "zh_tw": "## AUTO 模式"
+  },
+  {
+    "original": "AUTO mode runs the complete research workflow autonomously with loop control.",
+    "zh_tw": "AUTO 模式會以迴圈控制自主執行完整的研究工作流程。"
+  },
+  {
+    "original": "### Loop Control Protocol",
+    "zh_tw": "### 迴圈控制協議"
+  },
+  {
+    "original": "```\n[RESEARCH + AUTO - ITERATION {{ITERATION}}/{{MAX}}]\n\nYour previous attempt did not output the completion promise. Continue working.\n\nCurrent state: {{STATE}}\nCompleted stages: {{COMPLETED_STAGES}}\nPending stages: {{PENDING_STAGES}}\n```",
+    "zh_tw": "```\n[RESEARCH + AUTO - ITERATION {{ITERATION}}/{{MAX}}]\n\n你先前的嘗試沒有輸出完成承諾。請繼續工作。\n\nCurrent state: {{STATE}}\nCompleted stages: {{COMPLETED_STAGES}}\nPending stages: {{PENDING_STAGES}}\n```"
+  },
+  {
+    "original": "### Promise Tags",
+    "zh_tw": "### 承諾標記"
+  },
+  {
+    "original": "| Tag | Meaning | When to Use |\n|-----|---------|-------------|\n| `[PROMISE:RESEARCH_COMPLETE]` | Research finished successfully | All stages done, verified, report generated |\n| `[PROMISE:RESEARCH_BLOCKED]` | Cannot proceed | Missing data, access issues, circular dependency |",
+    "zh_tw": "| 標記 | 意義 | 使用時機 |\n|-----|---------|-------------|\n| `[PROMISE:RESEARCH_COMPLETE]` | 研究已成功完成 | 所有階段已完成、已驗證、已產生報告 |\n| `[PROMISE:RESEARCH_BLOCKED]` | 無法繼續 | 缺少資料、存取問題、循環相依 |"
+  },
+  {
+    "original": "### AUTO Mode Rules",
+    "zh_tw": "### AUTO 模式規則"
+  },
+  {
+    "original": "1. **Max Iterations:** 10 (configurable)\n2. **Continue until:** Promise tag emitted OR max iterations\n3. **State tracking:** Persist after each stage completion\n4. **Cancellation:** `/oh-my-claudecode:cancel` or \"stop\", \"cancel\"",
+    "zh_tw": "1. **最大迭代次數：** 10（可設定）\n2. **持續直到：** 發出承諾標記 或 達到最大迭代次數\n3. **狀態追蹤：** 每完成一個階段後都要保存\n4. **取消：** `/oh-my-claudecode:cancel` 或「stop」、「cancel」"
+  },
+  {
+    "original": "### AUTO Mode Example",
+    "zh_tw": "### AUTO 模式範例"
+  },
+  {
+    "original": "```\n/oh-my-claudecode:sciomc AUTO: Comprehensive security analysis of the authentication system\n\n[Decomposition]\n- Stage 1 (LOW): Enumerate auth-related files\n- Stage 2 (MEDIUM): Analyze token handling\n- Stage 3 (MEDIUM): Review session management\n- Stage 4 (HIGH): Identify vulnerability patterns\n- Stage 5 (MEDIUM): Document security controls\n\n[Execution - Parallel]\nFiring stages 1-3 in parallel...\nFiring stages 4-5 after dependencies complete...\n\n[Verification]\nCross-validating findings...\n\n[Synthesis]\nGenerating report...\n\n[PROMISE:RESEARCH_COMPLETE]\n```",
+    "zh_tw": "```\n/oh-my-claudecode:sciomc AUTO: Comprehensive security analysis of the authentication system\n\n[Decomposition]\n- Stage 1 (LOW): Enumerate auth-related files\n- Stage 2 (MEDIUM): Analyze token handling\n- Stage 3 (MEDIUM): Review session management\n- Stage 4 (HIGH): Identify vulnerability patterns\n- Stage 5 (MEDIUM): Document security controls\n\n[Execution - Parallel]\nFiring stages 1-3 in parallel...\nFiring stages 4-5 after dependencies complete...\n\n[Verification]\nCross-validating findings...\n\n[Synthesis]\nGenerating report...\n\n[PROMISE:RESEARCH_COMPLETE]\n```"
+  },
+  {
+    "original": "## Parallel Execution Patterns",
+    "zh_tw": "## 平行執行模式"
+  },
+  {
+    "original": "### Independent Dataset Analysis (Parallel)",
+    "zh_tw": "### 獨立資料集分析（平行）"
+  },
+  {
+    "original": "When stages analyze different data sources:",
+    "zh_tw": "當各階段分析不同資料來源時："
+  },
+  {
+    "original": "```\n// All fire simultaneously\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"haiku\", prompt=\"[STAGE:1] Analyze src/api/...\")\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"haiku\", prompt=\"[STAGE:2] Analyze src/utils/...\")\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"haiku\", prompt=\"[STAGE:3] Analyze src/components/...\")\n```",
+    "zh_tw": "```\n// All fire simultaneously\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"haiku\", prompt=\"[STAGE:1] Analyze src/api/...\")\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"haiku\", prompt=\"[STAGE:2] Analyze src/utils/...\")\nTask(subagent_type=\"oh-my-claudecode:scientist\", model=\"haiku\", prompt=\"[STAGE:3] Analyze src/components/...\")\n```"
+  },
+  {
+    "original": "### Hypothesis Battery (Parallel)",
+    "zh_tw": "### 假設組（平行）"
+  },
+  {
+    "original": "When testing multiple hypotheses:",
+    "zh_tw": "當測試多個假設時："
+  }
+]

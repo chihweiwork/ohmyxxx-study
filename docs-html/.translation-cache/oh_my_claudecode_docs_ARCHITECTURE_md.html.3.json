@@ -1,0 +1,166 @@
+[
+  {
+    "original": "| Field | Purpose |\n|------|---------|\n| `kind` | Artifact category (plan, prompt, result, trace, etc.) |\n| `path` | Durable path to the artifact |\n| `contentHash?` | Optional integrity/checksum hint when available |\n| `createdAt` | Creation timestamp |\n| `producer` | Owning tool, skill, or worker |\n| `sizeBytes?` | Optional payload size for threshold decisions |\n| `retention` | Lifecycle hint for cleanup/ownership |\n| `expiresAt?` | Optional expiry for short-lived artifacts |",
+    "zh_tw": "| 欄位 | 目的 |\n|------|---------|\n| `kind` | 成品類別（plan、prompt、result、trace 等） |\n| `path` | 成品的持久化路徑 |\n| `contentHash?` | 可用時提供的可選完整性/校驗和提示 |\n| `createdAt` | 建立時間戳記 |\n| `producer` | 所屬工具、技能或 worker |\n| `sizeBytes?` | 用於門檻判斷的可選負載大小 |\n| `retention` | 用於清理/擁有權的生命週期提示 |\n| `expiresAt?` | 短期成品的可選到期時間 |"
+  },
+  {
+    "original": "**Bounded handoff rule:**",
+    "zh_tw": "**受限交接規則：**"
+  },
+  {
+    "original": "1. Keep small payloads inline when the call site's explicit threshold allows it.\n2. Switch to a descriptor + short human-readable summary when the payload would bloat control-plane state.\n3. Preserve ownership/retention metadata with the descriptor so later cleanup and audits remain deterministic.",
+    "zh_tw": "1. 當呼叫端的明確門檻允許時，將小型負載內嵌保留。\n2. 當負載會使控制平面狀態膨脹時，改用描述符 + 簡短的人類可讀摘要。\n3. 在描述符中保留擁有權/保留中繼資料，讓後續清理與稽核保持可預測。"
+  },
+  {
+    "original": "### Notepad",
+    "zh_tw": "### 筆記本"
+  },
+  {
+    "original": "**File:** `.omc/notepad.md`",
+    "zh_tw": "**檔案：** `.omc/notepad.md`"
+  },
+  {
+    "original": "The notepad survives context compaction. Content written to it persists even after the context window is reset.",
+    "zh_tw": "筆記本會在上下文壓縮後仍然存在。寫入其中的內容即使在上下文視窗重設後也會保留。"
+  },
+  {
+    "original": "Notes can be saved using the `notepad_write_manual` MCP tool or the `notepad_write_priority` tool for persistent notes.",
+    "zh_tw": "可使用 `notepad_write_manual` MCP 工具或 `notepad_write_priority` 工具來儲存持久筆記。"
+  },
+  {
+    "original": "**MCP Tools:**",
+    "zh_tw": "**MCP 工具：**"
+  },
+  {
+    "original": "| Tool | Description |\n|------|-------------|\n| `notepad_read` | Read notepad contents |\n| `notepad_write_priority` | Write high-priority memo (permanent retention) |\n| `notepad_write_working` | Write working memo |\n| `notepad_write_manual` | Write manual memo |\n| `notepad_prune` | Clean up old memos |\n| `notepad_stats` | View notepad statistics |",
+    "zh_tw": "| 工具 | 說明 |\n|------|-------------|\n| `notepad_read` | 讀取筆記本內容 |\n| `notepad_write_priority` | 寫入高優先級備忘錄（永久保留） |\n| `notepad_write_working` | 寫入工作備忘錄 |\n| `notepad_write_manual` | 寫入手動備忘錄 |\n| `notepad_prune` | 清理舊備忘錄 |\n| `notepad_stats` | 檢視筆記本統計資訊 |"
+  },
+  {
+    "original": "**How it works:**\n1. On `PreCompact` event, important information is saved to the notepad\n2. After compaction, notepad contents are re-injected into context\n3. Agents use the notepad to recover previous context",
+    "zh_tw": "**運作方式：**\n1. 在 `PreCompact` 事件發生時，重要資訊會儲存到筆記本\n2. 壓縮後，筆記本內容會重新注入到上下文中\n3. 代理使用筆記本來恢復先前的上下文"
+  },
+  {
+    "original": "### Project Memory",
+    "zh_tw": "### 專案記憶"
+  },
+  {
+    "original": "**File:** `.omc/project-memory.json`",
+    "zh_tw": "**檔案：** `.omc/project-memory.json`"
+  },
+  {
+    "original": "Project memory is a persistent store for project-level knowledge. It survives across sessions.",
+    "zh_tw": "專案記憶是用來保存專案層級知識的持久化儲存。它會跨工作階段保留。"
+  },
+  {
+    "original": "**MCP Tools:**",
+    "zh_tw": "**MCP 工具：**"
+  },
+  {
+    "original": "| Tool | Description |\n|------|-------------|\n| `project_memory_read` | Read project memory |\n| `project_memory_write` | Overwrite entire project memory |\n| `project_memory_add_note` | Add a note |\n| `project_memory_add_directive` | Add a directive |",
+    "zh_tw": "| 工具 | 說明 |\n|------|-------------|\n| `project_memory_read` | 讀取專案記憶 |\n| `project_memory_write` | 覆寫整個專案記憶 |\n| `project_memory_add_note` | 新增一則筆記 |\n| `project_memory_add_directive` | 新增一條指令 |"
+  },
+  {
+    "original": "**Lifecycle integration:**\n- `SessionStart`: Load project memory and inject into context\n- `PostToolUse`: Extract project knowledge from tool results and save\n- `PreCompact`: Save project memory before context compaction",
+    "zh_tw": "**生命週期整合：**\n- `SessionStart`：載入專案記憶並注入到上下文\n- `PostToolUse`：從工具結果中擷取專案知識並儲存\n- `PreCompact`：在上下文壓縮前儲存專案記憶"
+  },
+  {
+    "original": "### Session Scope",
+    "zh_tw": "### 工作階段範圍"
+  },
+  {
+    "original": "**Path:** `.omc/state/sessions/{sessionId}/`",
+    "zh_tw": "**路徑：** `.omc/state/sessions/{sessionId}/`"
+  },
+  {
+    "original": "Stores state isolated per session. Multiple sessions on the same project run simultaneously without state conflicts.",
+    "zh_tw": "以每個工作階段獨立儲存狀態。同一專案上的多個工作階段可同時執行而不會產生狀態衝突。"
+  },
+  {
+    "original": "### Plan Notepad (Per-Plan Knowledge Capture)",
+    "zh_tw": "### 計畫筆記本（每個計畫的知識擷取）"
+  },
+  {
+    "original": "**Path:** `.omc/notepads/{plan-name}/`",
+    "zh_tw": "**路徑：** `.omc/notepads/{plan-name}/`"
+  },
+  {
+    "original": "Stores learnings from each execution plan separately.",
+    "zh_tw": "分別儲存每個執行計畫的學習內容。"
+  },
+  {
+    "original": "| File | Contents |\n|------|----------|\n| `learnings.md` | Discovered patterns, successful approaches |\n| `decisions.md` | Architecture decisions and rationale |\n| `issues.md` | Problems and blockers |\n| `problems.md` | Technical debt and cautions |",
+    "zh_tw": "| 檔案 | 內容 |\n|------|----------|\n| `learnings.md` | 發現的模式、成功的方法 |\n| `decisions.md` | 架構決策與理由 |\n| `issues.md` | 問題與阻礙 |\n| `problems.md` | 技術債與注意事項 |"
+  },
+  {
+    "original": "All entries are timestamped automatically.",
+    "zh_tw": "所有條目都會自動加上時間戳記。"
+  },
+  {
+    "original": "### Centralized State (Optional)",
+    "zh_tw": "### 集中式狀態（可選）"
+  },
+  {
+    "original": "By default, state is stored in the project's `.omc/` directory and is deleted when the worktree is removed.",
+    "zh_tw": "預設情況下，狀態會儲存在專案的 `.omc/` 目錄中，並在工作樹移除時刪除。"
+  },
+  {
+    "original": "To preserve state across worktree deletions, set the `OMC_STATE_DIR` environment variable:",
+    "zh_tw": "若要在刪除工作樹後仍保留狀態，請設定 `OMC_STATE_DIR` 環境變數："
+  },
+  {
+    "original": "```bash\n# Add to ~/.bashrc or ~/.zshrc\nexport OMC_STATE_DIR=\"$HOME/.claude/omc\"\n```",
+    "zh_tw": "```bash\n# 加到 ~/.bashrc 或 ~/.zshrc\nexport OMC_STATE_DIR=\"$HOME/.claude/omc\"\n```"
+  },
+  {
+    "original": "State is then stored at `~/.claude/omc/{project-identifier}/`. The project identifier is a hash of the Git remote URL, so the same repository shares state across different worktrees.",
+    "zh_tw": "狀態之後會儲存在 `~/.claude/omc/{project-identifier}/`。專案識別碼是 Git 遠端 URL 的雜湊，因此同一個儲存庫會在不同工作樹之間共用狀態。"
+  },
+  {
+    "original": "### Persistent Memory Tags",
+    "zh_tw": "### 持久記憶標籤"
+  },
+  {
+    "original": "For critical information, use `<remember>` tags:",
+    "zh_tw": "對於關鍵資訊，請使用 `<remember>` 標籤："
+  },
+  {
+    "original": "```xml\n<!-- Retained for 7 days -->\n<remember>API endpoint changed to /v2</remember>\n\n<!-- Retained permanently -->\n<remember priority>Never access production DB directly</remember>\n```",
+    "zh_tw": "```xml\n<!-- 保留 7 天 -->\n<remember>API endpoint changed to /v2</remember>\n\n<!-- 永久保留 -->\n<remember priority>Never access production DB directly</remember>\n```"
+  },
+  {
+    "original": "| Tag | Retention |\n|-----|-----------|\n| `<remember>` | 7 days |\n| `<remember priority>` | Permanent |",
+    "zh_tw": "| 標籤 | 保留期限 |\n|-----|-----------|\n| `<remember>` | 7 天 |\n| `<remember priority>` | 永久 |"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Verification Protocol",
+    "zh_tw": "## 驗證協定"
+  },
+  {
+    "original": "The verification module ensures work completion with evidence:",
+    "zh_tw": "驗證模組會以證據確保工作完成："
+  },
+  {
+    "original": "**Standard Checks:**\n- BUILD: Compilation passes\n- TEST: All tests pass\n- LINT: No linting errors\n- FUNCTIONALITY: Feature works as expected\n- ARCHITECT: Opus-tier review approval\n- TODO: All tasks completed\n- ERROR_FREE: No unresolved errors",
+    "zh_tw": "**標準檢查：**\n- BUILD：編譯通過\n- TEST：所有測試通過\n- LINT：沒有 lint 錯誤\n- FUNCTIONALITY：功能如預期運作\n- ARCHITECT：Opus 層級審查核准\n- TODO：所有任務已完成\n- ERROR_FREE：沒有未解決的錯誤"
+  },
+  {
+    "original": "Evidence must be fresh (within 5 minutes) and include actual command output.",
+    "zh_tw": "證據必須是最新的（5 分鐘內），並包含實際的命令輸出。"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## For More Details",
+    "zh_tw": "## 更多詳細資訊"
+  },
+  {
+    "original": "- **Complete Reference**: See [REFERENCE.md](./REFERENCE.md)\n- **Internal API**: See [FEATURES.md](./FEATURES.md)\n- **User Guide**: See [README.md](../README.md)\n- **Skills Reference**: See CLAUDE.md in your project",
+    "zh_tw": "- **完整參考**：請見 [REFERENCE.md](./REFERENCE.md)\n- **內部 API**：請見 [FEATURES.md](./FEATURES.md)\n- **使用指南**：請見 [README.md](../README.md)\n- **技能參考**：請見專案中的 CLAUDE.md"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "original": "---\nname: prometheus-strict\ndescription: \"[OMX] Clean-room interview-driven planner: Metis clarifies, Momus challenges, Oracle synthesizes, then hands off to $ultragoal/$team.\"\nargument-hint: \"<goal or problem statement>\"\n---",
+    "zh_tw": "---\nname: prometheus-strict\ndescription: \"[OMX] 乾淨室式、以訪談驅動的規劃器：Metis 釐清需求，Momus 挑戰假設，Oracle 綜合整理，然後交接給 $ultragoal/$team。\"\nargument-hint: \"<目標或問題陳述>\"\n---"
+  },
+  {
+    "original": "# Prometheus Strict",
+    "zh_tw": "# Prometheus 嚴格版"
+  },
+  {
+    "original": "Clean-room OMX planning workflow inspired by the high-level OMO Prometheus concept only. This skill does not copy implementation, prompts, wording, control flow, or runtime code from OMO. It reimplements the idea under this repository's MIT-licensed skill conventions.",
+    "zh_tw": "僅受高層級 OMO Prometheus 概念啟發的乾淨室 OMX 規劃工作流程。此技能不會從 OMO 複製實作、提示詞、措辭、控制流程或執行階段程式碼。它依照本儲存庫的 MIT 授權技能慣例重新實作這個概念。"
+  },
+  {
+    "original": "Credit: Inspired by OMO Prometheus (`code-yeongyu/oh-my-openagent`), reimplemented from concept under MIT.",
+    "zh_tw": "致謝：受 OMO Prometheus（`code-yeongyu/oh-my-openagent`）啟發，依 MIT 授權下的概念重新實作。"
+  },
+  {
+    "original": "<Purpose>\nPrometheus Strict creates a rigorous plan before execution when ambiguity is still risky. It separates three planning voices: Metis clarifies requirements, Momus challenges assumptions and validation gaps, and Oracle synthesizes the handoff-ready OMX-native plan.",
+    "zh_tw": "<Purpose>\nPrometheus Strict 會在執行前於仍具風險的模糊情況下建立一份嚴謹的計畫。它將三種規劃聲音分開：Metis 釐清需求，Momus 挑戰假設與驗證缺口，而 Oracle 則綜合出可交接的、原生於 OMX 的計畫。"
+  },
+  {
+    "original": "The output is a planning-only artifact for `$ultragoal` and, when independent lanes are justified, `$team`. When a durable artifact is useful, store or request the final plan under `.omx/plans/prometheus-strict/`.\n</Purpose>",
+    "zh_tw": "輸出是一個僅供規劃的產物，供 `$ultragoal` 使用，且在有正當理由需要獨立分工時也可供 `$team` 使用。當需要持久化產物時，請將最終計畫儲存於 `.omx/plans/prometheus-strict/` 下或請求將其儲存於該處。\n</Purpose>"
+  },
+  {
+    "original": "<Use_When>\n- The task is important enough that a shallow plan could produce wrong work.\n- Requirements are partially known but acceptance criteria, boundaries, risks, or validation are incomplete.\n- The user wants a strict interview before execution.\n- A future `$ultragoal` story needs durable scope, tests, and handoff sequencing.\n- A team split may be needed, but the lanes are not yet safe to assign.\n</Use_When>",
+    "zh_tw": "<Use_When>\n- 這項任務重要到足以讓淺層計畫導致錯誤工作。\n- 需求只知道一部分，但驗收標準、邊界、風險或驗證方式尚未完整。\n- 使用者希望在執行前先進行嚴格訪談。\n- 未來的 `$ultragoal` 故事需要持久化的範圍、測試與交接順序。\n- 可能需要團隊拆分，但目前各分工還不足以安全指派。\n</Use_When>"
+  },
+  {
+    "original": "<Do_Not_Use_When>\n- The user asks for immediate implementation of a clear, low-risk change; use the normal executor path.\n- The task is only a repository lookup or explanation; use `explore`/`analyze` as appropriate.\n- The user needs adversarial execution QA after code changes; use `$ultraqa`.\n- The user wants hook behavior, Sisyphus behavior, or a `start-work` port. Those are explicit non-goals.\n</Do_Not_Use_When>",
+    "zh_tw": "<Do_Not_Use_When>\n- 使用者要求立即實作一個清楚且低風險的變更；請使用一般執行路徑。\n- 任務只是查詢或說明儲存庫；請視情況使用 `explore`/`analyze`。\n- 使用者在程式碼變更後需要對抗式執行 QA；請使用 `$ultraqa`。\n- 使用者想要 hook 行為、Sisyphus 行為，或 `start-work` 移植。這些都是明確的非目標。\n</Do_Not_Use_When>"
+  },
+  {
+    "original": "<Why_This_Exists>\nOMX already has `$plan`, `$ralplan`, and `$deep-interview`. Prometheus Strict exists for a narrower case: an explicit clean-room strict-planning lane with named clarification, critique, and synthesis roles, plus a durable `.omx/plans/prometheus-strict/` handoff contract. It is not a replacement for execution workflows.\n</Why_This_Exists>",
+    "zh_tw": "<Why_This_Exists>\nOMX 已經有 `$plan`、`$ralplan` 和 `$deep-interview`。Prometheus Strict 的存在是為了更窄的情境：一條明確的乾淨室嚴格規劃路徑，具有命名清楚的釐清、批判與綜合角色，並附帶一份持久化的 `.omx/plans/prometheus-strict/` 交接契約。它不是執行工作流程的替代品。\n</Why_This_Exists>"
+  },
+  {
+    "original": "<Execution_Policy>\n- Stay planning-only. Do not edit source code during this skill unless the user starts a separate execution workflow afterward.\n- Preserve clean-room boundaries. Do not copy or imitate OMO wording, source, prompts, runtime behavior, or control flow.\n- Keep non-goals visible: No hook implementation. No Sisyphus/start-work port. No automatic external-production actions.\n- Ask high-leverage questions as a batched round when the answers materially change scope, safety, or validation. Reserve one-at-a-time questioning only for dependent question chains where the next question depends on the previous answer.\n- If a safe assumption is available, state it and continue.\n- Use repository reads when needed to make paths, tests, and handoff commands concrete.\n- During Metis planning, run pre-question research fan-out for every non-trivial intent unless the task is trivial, the cited spec is self-contained, or cached evidence already covers the same surface; use `explore` for repo facts and the exact cheap `gpt-5.4-mini` `researcher` lane for external docs / OSS references before asking the user. Prometheus Strict may fan out up to `2 explore + 4 researcher` agents per round so breadth comes from more citation-focused mini researchers while Metis/Momus/Oracle keep stronger judgment roles.\n- Recommend `$team` only when Oracle identifies independent, bounded, verifiable lanes.",
+    "zh_tw": "<Execution_Policy>\n- 保持僅限規劃。除非使用者之後另行啟動獨立的執行工作流程，否則在此技能期間不要編輯原始碼。\n- 保持乾淨室邊界。不要複製或模仿 OMO 的措辭、原始碼、提示詞、執行期行為或控制流程。\n- 讓非目標保持可見：不要實作 hook。不要移植 Sisyphus/start-work。不要自動進行外部生產環境操作。\n- 當答案會實質改變範圍、安全性或驗證方式時，將高影響問題批次提出。只有在相依問題鏈中，下一個問題取決於前一個答案時，才保留一次一問。\n- 如果有安全的假設可用，就先說明並繼續。\n- 需要時使用儲存庫讀取，以便讓路徑、測試與交接命令具體化。\n- 在 Metis 規劃期間，除非任務很簡單、所引用的規格是自洽的，或快取證據已涵蓋相同範圍，否則對每個非平凡意圖都要先進行提問前的研究分流；在詢問使用者前，使用 `explore` 取得儲存庫事實，並使用精確且便宜的 `gpt-5.4-mini` `researcher` 路徑查詢外部文件 / OSS 參考。Prometheus Strict 每輪最多可分流 `2 explore + 4 researcher` 個代理，讓廣度來自更偏重引文的 mini researcher，而 Metis/Momus/Oracle 則保留更強的判斷角色。\n- 只有在 Oracle 識別出獨立、範圍明確、可驗證的分工時，才建議使用 `$team`。"
+  },
+  {
+    "original": "### Structured Question Surface",
+    "zh_tw": "### 結構化提問介面"
+  },
+  {
+    "original": "Every Metis/Momus/Oracle question to the user MUST go through the surface-appropriate structured question path. Plain prose questioning is the last fallback, not the default.",
+    "zh_tw": "對使用者的每一個 Metis/Momus/Oracle 問題都 MUST 經由適合該介面的結構化提問路徑。一般散文式提問是最後的備援，不是預設做法。"
+  },
+  {
+    "original": "- In attached-tmux OMX runtime, use `omx question` as the OMX-owned structured question surface (this is the `AskUserQuestion` equivalent for Prometheus Strict). From attached-tmux Bash/tool paths, prefix the command with `OMX_QUESTION_RETURN_PANE=$TMUX_PANE` (or a concrete `%pane` value) so the leader-pane return target is preserved.\n- **Batch independent high-leverage questions into a single `questions[]` array call**: scope, constraints, non-goals, deliverables, safety bounds, and acceptance criteria are normally independent and MUST be batched into one structured form so the user answers them in a single panel. Reserve one-at-a-time only for dependent question chains where the next question depends on the previous answer.\n- Wait for the `omx question` JSON answer before checking the clearance rule, asking another round, or handing off; prefer `answers[]` / `answers[i].answer`, and use the legacy top-level `answer` only as a compatibility fallback. After every `answers[]` batch, run at least **two gap-fill passes** before another question or handoff: Pass 1 assimilates user answers into the checklist; Pass 2 re-scans repo context, prior turns, research fan-out evidence, and conservative defaults to absorb non-CRITICAL residual gaps.\n- Minimum two emitted question rounds: when Metis emits any user-facing question round, do not hand off after Round 1 unless hostility/`<turn_aborted>` or the round-5 cap forces exit; handoff is allowed only after Round 2 has been emitted and processed. Zero-question complete-checklist handoff remains valid when no questions were emitted.\n- Between-round planning must actively use evidence: after Round 1 answers and the two gap-fill passes, refresh or reuse `<research_fan_out>` explore/researcher evidence, re-run spec prefill, and build Round 2 from residual CRITICAL gaps only.\n- Outside tmux, use the native structured input tool when one is available.\n- When neither structured surface can render (non-tmux Codex CLI, piped runs, CI), list the round's independent questions as a numbered prose block (`Q1: ... Q2: ... Q3: ...`) and wait for all answers in one user turn; do not split into separate round-trips.\n- Multiple interview rounds ARE expected when clearance is not yet reached; each round is one batched form (or its prose fallback), never split across forms.",
+    "zh_tw": "- 在附加的 tmux OMX 執行環境中，使用 `omx question` 作為 OMX 擁有的結構化提問介面（這相當於 Prometheus Strict 的 `AskUserQuestion` 對應物）。從附加的 tmux Bash／工具路徑執行時，請在命令前加上 `OMX_QUESTION_RETURN_PANE=$TMUX_PANE`（或具體的 `%pane` 值），以保留 leader pane 的返回目標。\n- **將彼此獨立且高影響的問題批次放入單一 `questions[]` 陣列呼叫中**：範圍、限制、非目標、交付物、安全邊界與驗收標準通常彼此獨立，且 MUST 批次成一個結構化表單，讓使用者在同一個面板中一次回答。只有在相依問題鏈中，下一個問題依賴前一個答案時，才保留一次一問。\n- 在檢查 clearance 規則、提出下一輪問題或交接之前，必須等待 `omx question` 的 JSON 答案；優先使用 `answers[]` / `answers[i].answer`，只有在相容性需求下才使用舊式頂層 `answer` 作為備援。每完成一批 `answers[]` 後，在提出下一個問題或交接之前至少執行 **兩次補缺輪次**：第 1 輪將使用者答案納入檢查清單；第 2 輪重新掃描儲存庫上下文、前面回合、研究分流證據與保守預設，以吸收非 CRITICAL 的殘餘缺口。\n- 至少要有兩輪發出的提問：當 Metis 發出任何面向使用者的提問輪次時，除非因敵意／`<turn_aborted>` 或第 5 輪上限迫使結束，否則不能在第 1 輪後交接；只有在第 2 輪已發出並處理後才允許交接。若未發出任何問題，則零問題的完整檢查清單交接仍然有效。\n- 輪與輪之間的規劃必須主動使用證據：在第 1 輪答案與兩次補缺輪次之後，刷新或重用 `<research_fan_out>` 的 `explore`／`researcher` 證據，重新執行規格預填，並且只根據殘餘的 CRITICAL 缺口建立第 2 輪。\n- 在 tmux 之外，若有可用的原生結構化輸入工具就使用它。\n- 當兩種結構化介面都無法呈現時（非 tmux 的 Codex CLI、管線輸入、CI），請將該輪的獨立問題列成編號散文區塊（`Q1: ... Q2: ... Q3: ...`），並在同一個使用者回合中等待全部答案；不要拆成多次往返。\n- 當 clearance 尚未達成時，預期會有多輪訪談；每一輪都是一個批次表單（或其散文備援），絕不能拆成多個表單。"
+  },
+  {
+    "original": "### Checklist Clearance",
+    "zh_tw": "### 檢查清單 clearance"
+  }
+]

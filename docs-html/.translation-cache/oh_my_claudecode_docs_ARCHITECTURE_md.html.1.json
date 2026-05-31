@@ -1,0 +1,118 @@
+[
+  {
+    "original": "| Task Type | Recommended Agent | Model |\n|-----------|-------------------|-------|\n| Quick code lookup | `explore` | haiku |\n| Feature implementation | `executor` | sonnet |\n| Complex refactoring | `executor` (model=opus) | opus |\n| Simple bug fix | `debugger` | sonnet |\n| Complex debugging | `architect` | opus |\n| UI component | `designer` | sonnet |\n| Documentation | `writer` | haiku |\n| Test strategy | `test-engineer` | sonnet |\n| Security review | `security-reviewer` | sonnet |\n| Code review | `code-reviewer` | opus |\n| Data analysis | `scientist` | sonnet |",
+    "zh_tw": "| 任務類型 | 建議代理程式 | 模型 |\n|-----------|-------------------|-------|\n| 快速程式碼查找 | `explore` | haiku |\n| 功能實作 | `executor` | sonnet |\n| 複雜重構 | `executor` (model=opus) | opus |\n| 簡單錯誤修正 | `debugger` | sonnet |\n| 複雜除錯 | `architect` | opus |\n| UI 元件 | `designer` | sonnet |\n| 文件撰寫 | `writer` | haiku |\n| 測試策略 | `test-engineer` | sonnet |\n| 安全性審查 | `security-reviewer` | sonnet |\n| 程式碼審查 | `code-reviewer` | opus |\n| 資料分析 | `scientist` | sonnet |"
+  },
+  {
+    "original": "### Typical Agent Workflow",
+    "zh_tw": "### 典型代理工作流程"
+  },
+  {
+    "original": "```\nexplore --> analyst --> planner --> critic --> executor --> verifier\n(discover)  (analyze)   (sequence)  (review)   (implement)  (confirm)\n```",
+    "zh_tw": "```\nexplore --> analyst --> planner --> critic --> executor --> verifier\n(探索)      (分析)      (排序)      (審查)     (實作)      (確認)\n```"
+  },
+  {
+    "original": "### Agent Role Boundaries",
+    "zh_tw": "### 代理角色邊界"
+  },
+  {
+    "original": "| Agent | Does | Does Not |\n|-------|------|----------|\n| `architect` | Code analysis, debugging, verification | Requirements gathering, planning |\n| `analyst` | Find requirements gaps | Code analysis, planning |\n| `planner` | Create task plans | Requirements analysis, plan review |\n| `critic` | Review plan quality | Requirements analysis, code analysis |",
+    "zh_tw": "| 代理程式 | 會做什麼 | 不會做什麼 |\n|-------|------|----------|\n| `architect` | 程式碼分析、除錯、驗證 | 需求蒐集、規劃 |\n| `analyst` | 找出需求缺口 | 程式碼分析、規劃 |\n| `planner` | 建立任務計畫 | 需求分析、計畫審查 |\n| `critic` | 審查計畫品質 | 需求分析、程式碼分析 |"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Skills System",
+    "zh_tw": "## 技能系統"
+  },
+  {
+    "original": "### Overview",
+    "zh_tw": "### 總覽"
+  },
+  {
+    "original": "Skills are **behavior injections** that modify how the orchestrator operates. Instead of swapping agents, skills add capabilities on top of existing agents. OMC provides 31 skills total (28 user-invocable + 3 internal/pipeline).",
+    "zh_tw": "技能是會修改協調器運作方式的 **行為注入**。技能不是替換代理程式，而是在既有代理程式之上新增能力。OMC 共提供 31 個技能（28 個可由使用者呼叫 + 3 個內部／管線）。"
+  },
+  {
+    "original": "### Skill Layers",
+    "zh_tw": "### 技能層"
+  },
+  {
+    "original": "Skills compose in three layers:",
+    "zh_tw": "技能由三個層次組成："
+  },
+  {
+    "original": "```\n┌─────────────────────────────────────────────────────────────┐\n│  GUARANTEE LAYER (optional)                                  │\n│  ralph: \"Cannot stop until verified done\"                   │\n└─────────────────────────────────────────────────────────────┘\n                              │\n                              ▼\n┌─────────────────────────────────────────────────────────────┐\n│  ENHANCEMENT LAYER (0-N skills)                              │\n│  ultrawork (parallel) | git-master (commits) | frontend-ui-ux│\n└─────────────────────────────────────────────────────────────┘\n                              │\n                              ▼\n┌─────────────────────────────────────────────────────────────┐\n│  EXECUTION LAYER (primary skill)                             │\n│  default (build) | orchestrate (coordinate) | planner (plan) │\n└─────────────────────────────────────────────────────────────┘\n```",
+    "zh_tw": "```\n┌─────────────────────────────────────────────────────────────┐\n│  保證層（可選）                                               │\n│  ralph: \"未經驗證完成前不可停止\"                              │\n└─────────────────────────────────────────────────────────────┘\n                              │\n                              ▼\n┌─────────────────────────────────────────────────────────────┐\n│  增強層（0-N 個技能）                                         │\n│  ultrawork (parallel) | git-master (commits) | frontend-ui-ux│\n└─────────────────────────────────────────────────────────────┘\n                              │\n                              ▼\n┌─────────────────────────────────────────────────────────────┐\n│  執行層（主要技能）                                           │\n│  default (build) | orchestrate (coordinate) | planner (plan) │\n└─────────────────────────────────────────────────────────────┘\n```"
+  },
+  {
+    "original": "**Formula:** `[Execution Skill] + [0-N Enhancements] + [Optional Guarantee]`",
+    "zh_tw": "**公式：** `[執行技能] + [0-N 個增強] + [可選保證]`"
+  },
+  {
+    "original": "Example:\n```\nTask: \"ultrawork: refactor API with proper commits\"\nActive skills: ultrawork + default + git-master\n```",
+    "zh_tw": "範例：\n```\n任務：\"ultrawork：以正確的 commits 重構 API\"\n啟用中的技能：ultrawork + default + git-master\n```"
+  },
+  {
+    "original": "### How to Invoke Skills",
+    "zh_tw": "### 如何呼叫技能"
+  },
+  {
+    "original": "**Slash commands:**\n```bash\n/oh-my-claudecode:autopilot build me a todo app\n/oh-my-claudecode:ralph refactor the auth module\n/oh-my-claudecode:team 3:executor \"implement fullstack app\"\n```",
+    "zh_tw": "**斜線命令：**\n```bash\n/oh-my-claudecode:autopilot 幫我建立一個待辦事項應用程式\n/oh-my-claudecode:ralph 重構驗證模組\n/oh-my-claudecode:team 3:executor \"實作全端應用程式\"\n```"
+  },
+  {
+    "original": "**Magic keywords** — include a keyword in natural language and the skill activates automatically:\n```bash\nautopilot build me a todo app      # activates autopilot\nralph: refactor the auth module    # activates ralph\nultrawork implement OAuth          # activates ultrawork\n```",
+    "zh_tw": "**魔法關鍵字** — 在自然語言中包含關鍵字，技能就會自動啟用：\n```bash\nautopilot build me a todo app      # 啟用 autopilot\nralph: refactor the auth module    # 啟用 ralph\nultrawork implement OAuth          # 啟用 ultrawork\n```"
+  },
+  {
+    "original": "### Core Workflow Skills",
+    "zh_tw": "### 核心工作流程技能"
+  },
+  {
+    "original": "#### autopilot\nFull autonomous 5-stage pipeline from idea to working code.\n- Trigger: `autopilot`, `build me`, `I want a`\n```bash\nautopilot build me a REST API with authentication\n```",
+    "zh_tw": "#### autopilot\n從構想到可運作程式碼的完整 5 階段自動化管線。\n- 觸發條件：`autopilot`、`build me`、`I want a`\n```bash\nautopilot 幫我建立一個具驗證的 REST API\n```"
+  },
+  {
+    "original": "#### ralph\nRepeating loop that does not stop until work is verified complete. The `verifier` agent confirms completion before the loop exits.\n- Trigger: `ralph`, `don't stop`, `must complete`\n```bash\nralph: refactor the authentication module\n```",
+    "zh_tw": "#### ralph\n會重複執行，直到工作被驗證完成才會停止的迴圈。`verifier` 代理程式會在迴圈結束前確認完成狀態。\n- 觸發條件：`ralph`、`don't stop`、`must complete`\n```bash\nralph：重構驗證模組\n```"
+  },
+  {
+    "original": "#### ultrawork\nMaximum parallelism — launches multiple agents simultaneously.\n- Trigger: `ultrawork`, `ulw`\n```bash\nultrawork implement user authentication with OAuth\n```",
+    "zh_tw": "#### ultrawork\n最大程度的平行化——同時啟動多個代理程式。\n- 觸發條件：`ultrawork`、`ulw`\n```bash\nultrawork 實作使用 OAuth 的使用者驗證\n```"
+  },
+  {
+    "original": "#### team\nCoordinates N Claude agents with a 5-stage pipeline: `plan → prd → exec → verify → fix`\n```bash\n/oh-my-claudecode:team 3:executor \"implement fullstack todo app\"\n```",
+    "zh_tw": "#### team\n以 5 階段管線協調 N 個 Claude 代理程式：`plan → prd → exec → verify → fix`\n```bash\n/oh-my-claudecode:team 3:executor \"實作全端待辦事項應用程式\"\n```"
+  },
+  {
+    "original": "#### ccg (Claude-Codex-Gemini)\nFans out to Codex and Gemini simultaneously; Claude synthesizes the results.\n- Trigger: `ccg`, `claude-codex-gemini`\n```bash\nccg: review this authentication implementation\n```",
+    "zh_tw": "#### ccg (Claude-Codex-Gemini)\n同時分派給 Codex 和 Gemini；Claude 會整合結果。\n- 觸發條件：`ccg`、`claude-codex-gemini`\n```bash\nccg：審查這個驗證實作\n```"
+  },
+  {
+    "original": "#### ralplan\nIterative planning: Planner, Architect, and Critic loop until they reach consensus.\n- Trigger: `ralplan`\n```bash\nralplan this feature\n```",
+    "zh_tw": "#### ralplan\n迭代式規劃：Planner、Architect 與 Critic 反覆循環，直到達成共識。\n- 觸發條件：`ralplan`\n```bash\nralplan 這個功能\n```"
+  },
+  {
+    "original": "### Utility Skills",
+    "zh_tw": "### 工具型技能"
+  },
+  {
+    "original": "| Skill | Description | Command |\n|-------|-------------|---------|\n| `cancel` | Cancel active execution mode | `/oh-my-claudecode:cancel` |\n| `hud` | Status bar configuration | `/oh-my-claudecode:hud` |\n| `omc-setup` | Initial setup wizard | `/oh-my-claudecode:omc-setup` |\n| `omc-doctor` | Diagnose installation | `/oh-my-claudecode:omc-doctor` |\n| `skillify` | Extract reusable skills from session | `/oh-my-claudecode:skillify` (`learner` deprecated alias) |\n| `skill` | Manage local skills (list/add/remove) | `/oh-my-claudecode:skill` |\n| `trace` | Evidence-driven causal tracing | `/oh-my-claudecode:trace` |\n| `release` | Automated release workflow | `/oh-my-claudecode:release` |\n| `deepinit` | Generate hierarchical AGENTS.md | `/oh-my-claudecode:deepinit` |\n| `deep-interview` | Socratic deep interview | `/deep-interview` |\n| `sciomc` | Parallel scientist agent orchestration | `/oh-my-claudecode:sciomc` |\n| `external-context` | Parallel document-specialist research | `/oh-my-claudecode:external-context` |\n| `ai-slop-cleaner` | Clean AI expression patterns | `/oh-my-claudecode:ai-slop-cleaner` |\n| `writer-memory` | Memory system for writing projects | `/oh-my-claudecode:writer-memory` |",
+    "zh_tw": "| 技能 | 說明 | 指令 |\n|-------|-------------|---------|\n| `cancel` | 取消目前的執行模式 | `/oh-my-claudecode:cancel` |\n| `hud` | 狀態列設定 | `/oh-my-claudecode:hud` |\n| `omc-setup` | 初始設定精靈 | `/oh-my-claudecode:omc-setup` |\n| `omc-doctor` | 診斷安裝狀態 | `/oh-my-claudecode:omc-doctor` |\n| `skillify` | 從工作階段中萃取可重用技能 | `/oh-my-claudecode:skillify`（`learner` 已棄用別名） |\n| `skill` | 管理本地技能（列出／新增／移除） | `/oh-my-claudecode:skill` |\n| `trace` | 以證據為導向的因果追蹤 | `/oh-my-claudecode:trace` |\n| `release` | 自動化發佈工作流程 | `/oh-my-claudecode:release` |\n| `deepinit` | 產生階層式 AGENTS.md | `/oh-my-claudecode:deepinit` |\n| `deep-interview` | 蘇格拉底式深度訪談 | `/deep-interview` |\n| `sciomc` | 平行科學家代理程式協調 | `/oh-my-claudecode:sciomc` |\n| `external-context` | 平行文件專家研究 | `/oh-my-claudecode:external-context` |\n| `ai-slop-cleaner` | 清理 AI 表達模式 | `/oh-my-claudecode:ai-slop-cleaner` |\n| `writer-memory` | 寫作專案的記憶系統 | `/oh-my-claudecode:writer-memory` |"
+  },
+  {
+    "original": "### Magic Keyword Reference",
+    "zh_tw": "### 魔法關鍵字參考"
+  },
+  {
+    "original": "| Keyword | Effect |\n|---------|--------|\n| `ultrawork`, `ulw`, `uw` | Parallel agent orchestration |\n| `autopilot`, `build me`, `I want a`, `handle it all`, `end to end`, `e2e this` | Autonomous execution pipeline |\n| `ralph`, `don't stop`, `must complete`, `until done` | Loop until verified complete |\n| `ccg`, `claude-codex-gemini` | 3-model orchestration |\n| `ralplan` | Consensus-based planning |\n| `deep interview`, `ouroboros` | Socratic deep interview |\n| `code review`, `review code` | Comprehensive code review mode |\n| `security review`, `review security` | Security-focused review mode |\n| `deepsearch`, `search the codebase`, `find in codebase` | Codebase search mode |\n| `deepanalyze`, `deep-analyze` | Deep analysis mode |\n| `ultrathink`, `think hard`, `think deeply` | Deep reasoning mode |\n| `tdd`, `test first`, `red green` | TDD workflow |\n| `deslop`, `anti-slop` | AI expression cleanup |\n| `cancelomc`, `stopomc` | Cancel active execution mode |",
+    "zh_tw": "| 關鍵字 | 效果 |\n|---------|--------|\n| `ultrawork`、`ulw`、`uw` | 平行代理程式協調 |\n| `autopilot`、`build me`、`I want a`、`handle it all`、`end to end`、`e2e this` | 自動化執行管線 |\n| `ralph`、`don't stop`、`must complete`、`until done` | 持續迴圈直到驗證完成 |\n| `ccg`、`claude-codex-gemini` | 3 模型協調 |\n| `ralplan` | 基於共識的規劃 |\n| `deep interview`、`ouroboros` | 蘇格拉底式深度訪談 |\n| `code review`、`review code` | 全面式程式碼審查模式 |\n| `security review`、`review security` | 以安全性為重點的審查模式 |\n| `deepsearch`、`search the codebase`、`find in codebase` | 程式碼庫搜尋模式 |\n| `deepanalyze`、`deep-analyze` | 深度分析模式 |\n| `ultrathink`、`think hard`、`think deeply` | 深度推理模式 |\n| `tdd`、`test first`、`red green` | TDD 工作流程 |\n| `deslop`、`anti-slop` | AI 表達清理 |\n| `cancelomc`、`stopomc` | 取消目前的執行模式 |"
+  },
+  {
+    "original": "### Keyword Detection Sources",
+    "zh_tw": "### 關鍵字偵測來源"
+  }
+]

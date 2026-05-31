@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oh-my-openagent/src/tools/background-task/AGENTS.md</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+</head>
+<body>
+<main>
+<nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
+<h1 class="path">oh-my-openagent/src/tools/background-task/AGENTS.md</h1><p>被引用於：<code>05-study-plan.md</code></p><p><a href="../../oh-my-openagent/src/tools/background-task/AGENTS.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code># src/tools/background-task/ — Background Task Tool Wrappers</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code># src/tools/background-task/ — 背景任務工具包裝器</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Generated:** 2026-05-15</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**產生於：** 2026-05-15</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## OVERVIEW</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 概覽</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>18 files. Tool-layer wrappers for `background_output` and `background_cancel`. Does NOT implement the background execution engine — that lives in `src/features/background-agent/`. This directory provides the LLM-facing tool interface.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>18 個檔案。`background_output` 和 `background_cancel` 的工具層包裝器。這裡不實作背景執行引擎，該引擎位於 `src/features/background-agent/`。此目錄提供面向 LLM 的工具介面。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## THREE TOOLS</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 三個工具</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Tool | Factory | Purpose |
+|------|---------|---------|
+| `background_output` | `createBackgroundOutput` | Get results from a running/completed background task |
+| `background_cancel` | `createBackgroundCancel` | Cancel running task(s) |
+| `createBackgroundTask` | internal | Shared factory used by both |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 工具 | 工廠 | 用途 |
+|------|---------|---------|
+| `background_output` | `createBackgroundOutput` | 取得執行中/已完成背景任務的結果 |
+| `background_cancel` | `createBackgroundCancel` | 取消執行中的任務 |
+| `createBackgroundTask` | internal | 兩者共用的工廠 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## KEY FILES</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 重要檔案</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| File | Purpose |
+|------|---------|
+| `create-background-output.ts` | `background_output` tool: fetch task results by task_id |
+| `create-background-cancel.ts` | `background_cancel` tool: cancel by taskId or all=true |
+| `create-background-task.ts` | Shared tool factory with common params |
+| `clients.ts` | Client interfaces for background output and cancel |
+| `session-messages.ts` | Fetch session messages from OpenCode |
+| `full-session-format.ts` | Format full session output (messages, thinking blocks) |
+| `task-result-format.ts` | Format task result for LLM consumption |
+| `task-status-format.ts` | Format task status (running/completed/error) |
+| `message-dir.ts` | Temp directory for message exchange |
+| `truncate-text.ts` | Truncate large output to fit context |
+| `time-format.ts` | Human-readable duration formatting |
+| `delay.ts` | Polling delay utility |
+| `types.ts` | `BackgroundTaskOptions`, result/status types |
+| `constants.ts` | Timeout defaults, polling intervals |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 檔案 | 用途 |
+|------|---------|
+| `create-background-output.ts` | `background_output` 工具：依 `task_id` 取得任務結果 |
+| `create-background-cancel.ts` | `background_cancel` 工具：依 `taskId` 或 `all=true` 取消 |
+| `create-background-task.ts` | 含有共用參數的共用工具工廠 |
+| `clients.ts` | 背景輸出與取消的用戶端介面 |
+| `session-messages.ts` | 從 OpenCode 擷取 session 訊息 |
+| `full-session-format.ts` | 格式化完整的 session 輸出（訊息、thinking 區塊） |
+| `task-result-format.ts` | 格式化供 LLM 消費的任務結果 |
+| `task-status-format.ts` | 格式化任務狀態（running/completed/error） |
+| `message-dir.ts` | 訊息交換用的暫存目錄 |
+| `truncate-text.ts` | 截斷大型輸出以符合上下文 |
+| `time-format.ts` | 人類可讀的持續時間格式化 |
+| `delay.ts` | 輪詢延遲工具 |
+| `types.ts` | `BackgroundTaskOptions`、結果/狀態型別 |
+| `constants.ts` | 逾時預設值、輪詢間隔 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## BACKGROUND OUTPUT MODES</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 背景輸出模式</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+background_output(task_id, block=false)  → check current status/result
+background_output(task_id, block=true)   → wait until complete (timeout default: 120s)
+background_output(task_id, full_session=true) → return full session transcript
+background_output(task_id, message_limit=N) → last N messages only
+background_output(task_id, include_thinking=true) → include thinking blocks
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+background_output(task_id, block=false)  → 檢查目前狀態/結果
+background_output(task_id, block=true)   → 等待直到完成（預設逾時：120s）
+background_output(task_id, full_session=true) → 回傳完整的 session 逐字稿
+background_output(task_id, message_limit=N) → 僅回傳最後 N 則訊息
+background_output(task_id, include_thinking=true) → 包含 thinking 區塊
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## RELATIONSHIP TO BACKGROUND ENGINE</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 與背景引擎的關係</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+tools/background-task/  ← LLM tool interface
+features/background-agent/  ← execution engine (BackgroundManager)
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+tools/background-task/  ← LLM 工具介面
+features/background-agent/  ← 執行引擎（BackgroundManager）
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>`createBackgroundOutput` queries `BackgroundManager.getTask(task_id)` — it does not manage task state.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>`createBackgroundOutput` 會查詢 `BackgroundManager.getTask(task_id)` — 它不負責管理任務狀態。</code></pre></div></section>
+</main>
+</body>
+</html>

@@ -1,0 +1,142 @@
+[
+  {
+    "original": "| Feature                                        | Terminal CLI                                  | In-session skill                                                        | Notes                                                                                                                                |\n| ---------------------------------------------- | --------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |\n| Setup                                          | `omc setup`                                   | `/setup` or `/omc-setup`                                                | Both are real entrypoints. `/setup` is the easiest plugin-first path.                                                                |\n| Ask providers                                  | `omc ask codex \"review this patch\"`           | `/ask codex \"review this patch\"`                                        | Both route through the same advisor flow.                                                                                            |\n| Team orchestration                             | `omc team 2:codex \"review auth flow\"`         | `/team 3:executor \"fix all TypeScript errors\"`                          | Both exist, but they are different runtimes: `omc team` launches tmux CLI workers; `/team` runs the in-session native team workflow. |\n| Autopilot / Ralph / Ultrawork / Deep Interview | —                                             | `/autopilot ...`, `/ralph ...`, `/ultrawork ...`, `/deep-interview ...` | These are in-session skills. There is no `omc autopilot` / `omc ralph` / `omc ultrawork` CLI subcommand in this repo.                |\n| Autoresearch                                   | `omc autoresearch` (**hard-deprecated shim**) | `/deep-interview --autoresearch ...` + `/oh-my-claudecode:autoresearch` | Setup stays in deep-interview; execution now belongs to the stateful skill.                                                          |",
+    "zh_tw": "| 功能                                           | 終端 CLI                                      | 會話內 skill                                                            | 備註                                                                                                                                 |\n| ---------------------------------------------- | --------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |\n| 設定                                           | `omc setup`                                   | `/setup` 或 `/omc-setup`                                                | 兩者都是真實的入口點。`/setup` 是最簡單的以外掛優先路徑。                                                                             |\n| 詢問提供者                                     | `omc ask codex \"review this patch\"`           | `/ask codex \"review this patch\"`                                        | 兩者都會經過相同的顧問流程。                                                                                                         |\n| 團隊協調                                       | `omc team 2:codex \"review auth flow\"`         | `/team 3:executor \"fix all TypeScript errors\"`                          | 兩者都存在，但它們是不同的執行環境：`omc team` 會啟動 tmux CLI workers；`/team` 會執行會話內原生的 team 工作流程。                   |\n| 自動駕駛 / Ralph / Ultrawork / 深度訪談       | —                                             | `/autopilot ...`、`/ralph ...`、`/ultrawork ...`、`/deep-interview ...` | 這些都是會話內 skills。這個 repo 裡沒有 `omc autopilot` / `omc ralph` / `omc ultrawork` CLI 子指令。                               |\n| 自動研究                                       | `omc autoresearch` (**硬性棄用的轉接層**)      | `/deep-interview --autoresearch ...` + `/oh-my-claudecode:autoresearch` | 設定仍留在 deep-interview；執行現在屬於有狀態的 skill。                                                                              |"
+  },
+  {
+    "original": "### Not Sure Where to Start?",
+    "zh_tw": "### 不確定從哪裡開始？"
+  },
+  {
+    "original": "If you're uncertain about requirements, have a vague idea, or want to micromanage the design:",
+    "zh_tw": "如果你對需求不確定、只有模糊想法，或想細部掌控設計："
+  },
+  {
+    "original": "```\n/deep-interview \"I want to build a task management app\"\n```",
+    "zh_tw": "```\n/deep-interview \"I want to build a task management app\"\n```"
+  },
+  {
+    "original": "The deep interview uses Socratic questioning to clarify your thinking before any code is written. It exposes hidden assumptions and measures clarity across weighted dimensions, ensuring you know exactly what to build before execution begins.",
+    "zh_tw": "deep interview 會在撰寫任何程式碼之前，透過蘇格拉底式提問來釐清你的想法。它會揭露隱藏的假設，並依加權維度衡量清晰度，確保你在執行開始之前就確切知道要做什麼。"
+  },
+  {
+    "original": "## Team Mode (Recommended)",
+    "zh_tw": "## Team 模式（推薦）"
+  },
+  {
+    "original": "Starting in **v4.1.7**, **Team** is the canonical orchestration surface in OMC. The legacy `swarm` keyword/skill has been removed; use `team` directly.",
+    "zh_tw": "從 **v4.1.7** 開始，**Team** 是 OMC 中的標準協調介面。舊的 `swarm` 關鍵字/skill 已被移除；請直接使用 `team`。"
+  },
+  {
+    "original": "```bash\n/team 3:executor \"fix all TypeScript errors\"\n```",
+    "zh_tw": "```bash\n/team 3:executor \"fix all TypeScript errors\"\n```"
+  },
+  {
+    "original": "Use `/team ...` when you want Claude Code's in-session native team workflow. Use `omc team ...` when you want terminal-launched tmux CLI workers (`claude` / `codex` / `gemini` panes).",
+    "zh_tw": "當你想使用 Claude Code 的會話內原生 team 工作流程時，請使用 `/team ...`。當你想使用由終端啟動的 tmux CLI workers（`claude` / `codex` / `gemini` panes）時，請使用 `omc team ...`。"
+  },
+  {
+    "original": "Team runs as a staged pipeline:",
+    "zh_tw": "Team 會以分階段管線執行："
+  },
+  {
+    "original": "`team-plan → team-prd → team-exec → team-verify → team-fix (loop)`",
+    "zh_tw": "`team-plan → team-prd → team-exec → team-verify → team-fix (loop)`"
+  },
+  {
+    "original": "Enable Claude Code native teams in `~/.claude/settings.json`:",
+    "zh_tw": "在 `~/.claude/settings.json` 中啟用 Claude Code 原生 teams："
+  },
+  {
+    "original": "```json\n{\n  \"env\": {\n    \"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS\": \"1\"\n  }\n}\n```",
+    "zh_tw": "```json\n{\n  \"env\": {\n    \"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS\": \"1\"\n  }\n}\n```"
+  },
+  {
+    "original": "> If teams are disabled, OMC will warn you and fall back to non-team execution where possible.",
+    "zh_tw": "> 如果 teams 被停用，OMC 會警告你，並在可能時退回到非 team 執行。"
+  },
+  {
+    "original": "### tmux CLI Workers — Codex & Gemini (v4.4.0+)",
+    "zh_tw": "### tmux CLI Workers - Codex 與 Gemini（v4.4.0+）"
+  },
+  {
+    "original": "**v4.4.0 removes the Codex/Gemini MCP servers** (`x`, `g` providers). Use the CLI-first Team runtime (`omc team ...`) to spawn real tmux worker panes:",
+    "zh_tw": "**v4.4.0 移除了 Codex/Gemini MCP servers**（`x`、`g` providers）。請使用以 CLI 為優先的 Team runtime（`omc team ...`）來啟動真正的 tmux worker panes："
+  },
+  {
+    "original": "```bash\nomc team 2:codex \"review auth module for security issues\"\nomc team 2:gemini \"redesign UI components for accessibility\"\nomc team 1:claude \"implement the payment flow\"\nomc team status auth-review\nomc team shutdown auth-review\n```",
+    "zh_tw": "```bash\nomc team 2:codex \"review auth module for security issues\"\nomc team 2:gemini \"redesign UI components for accessibility\"\nomc team 1:claude \"implement the payment flow\"\nomc team status auth-review\nomc team shutdown auth-review\n```"
+  },
+  {
+    "original": "`/omc-teams` remains as a legacy compatibility skill and now routes to `omc team ...`.",
+    "zh_tw": "`/omc-teams` 仍保留為舊版相容的 skill，現在會導向 `omc team ...`。"
+  },
+  {
+    "original": "For mixed Codex + Gemini work in one command, use the **`/ccg`** skill (routes via `/ask codex` + `/ask gemini`, then Claude synthesizes):",
+    "zh_tw": "若要在一個指令中混合使用 Codex + Gemini，請使用 **`/ccg`** skill（會先透過 `/ask codex` + `/ask gemini`，再由 Claude 綜合整理）："
+  },
+  {
+    "original": "```bash\n/ccg Review this PR — architecture (Codex) and UI components (Gemini)\n```",
+    "zh_tw": "```bash\n/ccg Review this PR — architecture (Codex) and UI components (Gemini)\n```"
+  },
+  {
+    "original": "| Surface                   | Workers                  | Best For                                     |\n| ------------------------- | ------------------------ | -------------------------------------------- |\n| `omc team N:codex \"...\"`  | N Codex CLI panes        | Code review, security analysis, architecture |\n| `omc team N:gemini \"...\"` | N Gemini CLI panes       | UI/UX design, docs, large-context tasks      |\n| `omc team N:claude \"...\"` | N Claude CLI panes       | General tasks via Claude CLI in tmux         |\n| `/ccg`                    | /ask codex + /ask gemini | Tri-model advisor synthesis                  |",
+    "zh_tw": "| 介面                     | Workers                  | 最適合                                     |\n| ------------------------- | ------------------------ | ------------------------------------------ |\n| `omc team N:codex \"...\"`  | N 個 Codex CLI panes     | 程式碼審查、安全性分析、架構               |\n| `omc team N:gemini \"...\"` | N 個 Gemini CLI panes    | UI/UX 設計、文件、大上下文任務             |\n| `omc team N:claude \"...\"` | N 個 Claude CLI panes    | 透過 tmux 中的 Claude CLI 處理一般任務      |\n| `/ccg`                    | /ask codex + /ask gemini | 三模型顧問綜合整理                          |"
+  },
+  {
+    "original": "Workers spawn on-demand and die when their task completes — no idle resource usage. Requires `codex` / `gemini` CLIs installed and an active tmux session.",
+    "zh_tw": "Workers 會按需啟動，並在任務完成時結束 - 不會閒置耗用資源。需要已安裝 `codex` / `gemini` CLIs，且必須有一個作用中的 tmux session。"
+  },
+  {
+    "original": "Native team worker worktrees are being added behind an opt-in/config gate. See [Native Team Worktree Mode](docs/TEAM-WORKTREE-MODE.md) for the workspace contract, canonical state-root rules, dirty-worktree preservation policy, and verification checklist.",
+    "zh_tw": "原生 team worker worktrees 正在以 opt-in/config gate 的方式加入。請參見 [Native Team Worktree Mode](docs/TEAM-WORKTREE-MODE.md)，了解工作區合約、標準 state-root 規則、dirty-worktree 保留政策，以及驗證檢查清單。"
+  },
+  {
+    "original": "> **Note: Package naming** — The project is branded as **oh-my-claudecode** (repo, plugin, commands), but the npm package is published as [`oh-my-claude-sisyphus`](https://www.npmjs.com/package/oh-my-claude-sisyphus). If you install or upgrade the CLI tools via npm/bun, use `npm i -g oh-my-claude-sisyphus@latest`.",
+    "zh_tw": "> **注意：套件命名** — 這個專案的品牌名稱是 **oh-my-claudecode**（repo、plugin、commands），但 npm 套件是以 [`oh-my-claude-sisyphus`](https://www.npmjs.com/package/oh-my-claude-sisyphus) 發布。如果你是透過 npm/bun 安裝或升級 CLI tools，請使用 `npm i -g oh-my-claude-sisyphus@latest`。"
+  },
+  {
+    "original": "### Updating",
+    "zh_tw": "### 更新"
+  },
+  {
+    "original": "If you installed OMC via npm, upgrade with the published package name:",
+    "zh_tw": "如果你是透過 npm 安裝 OMC，請使用已發布的套件名稱升級："
+  },
+  {
+    "original": "```bash\nnpm i -g oh-my-claude-sisyphus@latest\n```",
+    "zh_tw": "```bash\nnpm i -g oh-my-claude-sisyphus@latest\n```"
+  },
+  {
+    "original": "> **Package naming note:** the repo, plugin, and commands are branded **oh-my-claudecode**, but the published npm package name remains `oh-my-claude-sisyphus`.",
+    "zh_tw": "> **套件命名說明：** repo、plugin 與 commands 的品牌名稱是 **oh-my-claudecode**，但已發布的 npm 套件名稱仍然是 `oh-my-claude-sisyphus`。"
+  },
+  {
+    "original": "If you installed OMC via the Claude Code marketplace/plugin flow, update with:",
+    "zh_tw": "如果你是透過 Claude Code marketplace/plugin 流程安裝 OMC，請用以下方式更新："
+  },
+  {
+    "original": "```bash\n# 1. Update the marketplace clone\n/plugin marketplace update omc\n\n# 2. Re-run setup to refresh configuration\n/setup\n```",
+    "zh_tw": "```bash\n# 1. 更新 marketplace clone\n/plugin marketplace update omc\n\n# 2. 重新執行 setup 以重新整理設定\n/setup\n```"
+  },
+  {
+    "original": "If you are developing from a local checkout or git worktree, update the checkout first, then re-run setup from that worktree so the active runtime matches the code you are testing.",
+    "zh_tw": "如果你是從本機 checkout 或 git worktree 進行開發，請先更新 checkout，然後在該 worktree 中重新執行 setup，讓目前啟用的 runtime 與你正在測試的程式碼一致。"
+  },
+  {
+    "original": "> **Note:** If marketplace auto-update is not enabled, you must manually run `/plugin marketplace update omc` to sync the latest version before running setup.",
+    "zh_tw": "> **注意：** 如果 marketplace 自動更新未啟用，你必須在執行 setup 之前，手動執行 `/plugin marketplace update omc` 來同步最新版本。"
+  },
+  {
+    "original": "If you experience issues after updating, clear the old plugin cache:",
+    "zh_tw": "如果你在更新後遇到問題，請清除舊的 plugin cache："
+  },
+  {
+    "original": "```bash\n/omc-doctor\n```",
+    "zh_tw": "```bash\n/omc-doctor\n```"
+  },
+  {
+    "original": "<h1 align=\"center\">Your Claude Just Have been Steroided.</h1>",
+    "zh_tw": "<h1 align=\"center\">Your Claude Just Have been Steroided.</h1>"
+  }
+]

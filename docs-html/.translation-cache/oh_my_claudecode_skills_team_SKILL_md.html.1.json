@@ -1,0 +1,74 @@
+[
+  {
+    "original": "| Stage           | Required Agents                     | Optional Agents                                                                                         | Selection Criteria                                                                                                                                                                                |\n| --------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| **team-plan**   | `explore` (haiku), `planner` (opus) | `analyst` (opus), `architect` (opus)                                                                    | Use `analyst` for unclear requirements. Use `architect` for systems with complex boundaries.                                                                                                      |\n| **team-prd**    | `analyst` (opus)                    | `critic` (opus)                                                                                         | Use `critic` to challenge scope.                                                                                                                                                                  |\n| **team-exec**   | `executor` (sonnet)                 | `executor` (opus), `debugger` (sonnet), `designer` (sonnet), `writer` (haiku), `test-engineer` (sonnet) | Match agent to subtask type. Use `executor` (model=opus) for complex autonomous work, `designer` for UI, `debugger` for compilation issues, `writer` for docs, `test-engineer` for test creation. |\n| **team-verify** | `verifier` (sonnet)                 | `test-engineer` (sonnet), `security-reviewer` (sonnet), `code-reviewer` (opus)                          | Always run `verifier`. Add `security-reviewer` for auth/crypto changes. Add `code-reviewer` for >20 files or architectural changes. `code-reviewer` also covers style/formatting checks.          |\n| **team-fix**    | `executor` (sonnet)                 | `debugger` (sonnet), `executor` (opus)                                                                  | Use `debugger` for type/build errors and regression isolation. Use `executor` (model=opus) for complex multi-file fixes.                                                                          |",
+    "zh_tw": "| 階段           | 必要代理程式                     | 可選代理程式                                                                                         | 選擇標準                                                                                                                                                                                |\n| --------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| **team-plan**   | `explore` (haiku), `planner` (opus) | `analyst` (opus), `architect` (opus)                                                                    | 需求不明確時使用 `analyst`。對邊界複雜的系統使用 `architect`。                                                                                                      |\n| **team-prd**    | `analyst` (opus)                    | `critic` (opus)                                                                                         | 使用 `critic` 來挑戰範圍。                                                                                                                                                                  |\n| **team-exec**   | `executor` (sonnet)                 | `executor` (opus), `debugger` (sonnet), `designer` (sonnet), `writer` (haiku), `test-engineer` (sonnet) | 將代理程式與子任務類型配對。對複雜的自主工作使用 `executor`（model=opus），UI 使用 `designer`，編譯問題使用 `debugger`，文件使用 `writer`，測試建立使用 `test-engineer`。 |\n| **team-verify** | `verifier` (sonnet)                 | `test-engineer` (sonnet), `security-reviewer` (sonnet), `code-reviewer` (opus)                          | 一律執行 `verifier`。對驗證/加密變更加入 `security-reviewer`。對超過 20 個檔案或架構變更加入 `code-reviewer`。`code-reviewer` 也涵蓋樣式/格式檢查。          |\n| **team-fix**    | `executor` (sonnet)                 | `debugger` (sonnet), `executor` (opus)                                                                  | 針對型別/建置錯誤與回歸隔離使用 `debugger`。對複雜的跨多檔修正使用 `executor`（model=opus）。                                                                          |"
+  },
+  {
+    "original": "**Routing rules:**",
+    "zh_tw": "**路由規則：**"
+  },
+  {
+    "original": "1. **The lead picks agents per stage, not the user.** The user's `N:agent-type` parameter only overrides the `team-exec` stage worker type. All other stages use stage-appropriate specialists.\n2. **Specialist agents complement executor agents.** Route analysis/review to architect/critic Claude agents and UI work to designer agents. Tmux CLI workers are one-shot and don't participate in team communication.\n3. **Cost mode affects model tier.** In downgrade: `opus` agents to `sonnet`, `sonnet` to `haiku` where quality permits. `team-verify` always uses at least `sonnet`.\n4. **Risk level escalates review.** Security-sensitive or >20 file changes must include `security-reviewer` + `code-reviewer` (opus) in `team-verify`.",
+    "zh_tw": "1. **負責人依每個階段選擇代理程式，而不是使用者。** 使用者的 `N:agent-type` 參數只會覆寫 `team-exec` 階段的工作者類型。所有其他階段都使用適合該階段的專家。\n2. **專家代理程式補充執行代理程式。** 將分析/審查路由給 architect/critic Claude 代理程式，將 UI 工作路由給 designer 代理程式。Tmux CLI 工作者是一次性的，不參與團隊溝通。\n3. **成本模式會影響模型層級。** 在降級時：在品質允許的情況下，將 `opus` 代理程式降為 `sonnet`，將 `sonnet` 降為 `haiku`。`team-verify` 一律至少使用 `sonnet`。\n4. **風險等級會升級審查。** 安全敏感變更或超過 20 個檔案的變更，必須在 `team-verify` 中包含 `security-reviewer` + `code-reviewer`（opus）。"
+  },
+  {
+    "original": "### Stage Entry/Exit Criteria",
+    "zh_tw": "### 階段進入/退出條件"
+  },
+  {
+    "original": "- **team-plan**\n  - Entry: Team invocation is parsed and orchestration starts.\n  - Agents: `explore` scans codebase, `planner` creates task graph, optionally `analyst`/`architect` for complex tasks.\n  - Exit: decomposition is complete and a runnable task graph is prepared.\n- **team-prd**\n  - Entry: scope is ambiguous or acceptance criteria are missing.\n  - Agents: `analyst` extracts requirements, optionally `critic`.\n  - Exit: acceptance criteria and boundaries are explicit.\n- **team-exec**\n  - Entry: `TeamCreate`, `TaskCreate`, assignment, and worker spawn are complete.\n  - Agents: workers spawned as the appropriate specialist type per subtask (see routing table).\n  - Exit: execution tasks reach terminal state for the current pass.\n- **team-verify**\n  - Entry: execution pass finishes.\n  - Agents: `verifier` + task-appropriate reviewers (see routing table).\n  - Exit (pass): verification gates pass with no required follow-up.\n  - Exit (fail): fix tasks are generated and control moves to `team-fix`.\n- **team-fix**\n  - Entry: verification found defects/regressions/incomplete criteria.\n  - Agents: `executor`/`debugger` depending on defect type.\n  - Exit: fixes are complete and flow returns to `team-exec` then `team-verify`.",
+    "zh_tw": "- **team-plan**\n  - 進入：團隊呼叫被解析，協調開始。\n  - 代理程式：`explore` 掃描程式碼庫，`planner` 建立任務圖，複雜任務可選擇 `analyst`/`architect`。\n  - 退出：分解完成，且已準備好可執行的任務圖。\n- **team-prd**\n  - 進入：範圍不明確或缺少驗收標準。\n  - 代理程式：`analyst` 擷取需求，必要時加入 `critic`。\n  - 退出：驗收標準與邊界已明確。\n- **team-exec**\n  - 進入：`TeamCreate`、`TaskCreate`、指派與工作者啟動已完成。\n  - 代理程式：依每個子任務啟動對應的專家類型工作者（見路由表）。\n  - 退出：執行任務在目前輪次達到終止狀態。\n- **team-verify**\n  - 進入：執行輪次結束。\n  - 代理程式：`verifier` + 適合該任務的審查者（見路由表）。\n  - 退出（通過）：驗證閘道通過，且沒有必須跟進的事項。\n  - 退出（失敗）：產生修正任務，控制權轉移到 `team-fix`。\n- **team-fix**\n  - 進入：驗證發現缺陷/回歸/不完整標準。\n  - 代理程式：依缺陷類型使用 `executor`/`debugger`。\n  - 退出：修正完成，流程回到 `team-exec`，然後 `team-verify`。"
+  },
+  {
+    "original": "### Verify/Fix Loop and Stop Conditions",
+    "zh_tw": "### 驗證/修正迴圈與停止條件"
+  },
+  {
+    "original": "Continue `team-exec -> team-verify -> team-fix` until:",
+    "zh_tw": "持續 `team-exec -> team-verify -> team-fix`，直到："
+  },
+  {
+    "original": "1. verification passes and no required fix tasks remain, or\n2. work reaches an explicit terminal blocked/failed outcome with evidence.",
+    "zh_tw": "1. 驗證通過且沒有剩餘的必要修正任務，或\n2. 工作到達帶有證據的明確終止 blocked/failed 結果。"
+  },
+  {
+    "original": "`team-fix` is bounded by max attempts. If fix attempts exceed the configured limit, transition to terminal `failed` (no infinite loop).",
+    "zh_tw": "`team-fix` 受最大嘗試次數限制。如果修正嘗試超過設定上限，則轉移到終止狀態 `failed`（不會無限迴圈）。"
+  },
+  {
+    "original": "### Stage Handoff Convention",
+    "zh_tw": "### 階段交接慣例"
+  },
+  {
+    "original": "When transitioning between stages, important context — decisions made, alternatives rejected, risks identified — lives only in the lead's conversation history. If the lead's context compacts or agents restart, this knowledge is lost.",
+    "zh_tw": "在階段之間轉換時，重要脈絡——已做出的決策、被拒絕的替代方案、已識別的風險——只存在於負責人的對話歷史中。如果負責人的上下文被壓縮或代理程式重新啟動，這些知識就會遺失。"
+  },
+  {
+    "original": "**Each completing stage MUST produce a handoff document before transitioning.**",
+    "zh_tw": "**每個完成的階段在轉換前都必須產生一份交接文件。**"
+  },
+  {
+    "original": "The lead writes handoffs to `.omc/handoffs/<stage-name>.md`.",
+    "zh_tw": "負責人將交接內容寫入 `.omc/handoffs/<stage-name>.md`。"
+  },
+  {
+    "original": "#### Handoff Format",
+    "zh_tw": "#### 交接格式"
+  },
+  {
+    "original": "```markdown\n## Handoff: <current-stage> → <next-stage>\n\n- **Decided**: [key decisions made in this stage]\n- **Rejected**: [alternatives considered and why they were rejected]\n- **Risks**: [identified risks for the next stage]\n- **Files**: [key files created or modified]\n- **Remaining**: [items left for the next stage to handle]\n```",
+    "zh_tw": "```markdown\n## Handoff: <current-stage> → <next-stage>\n\n- **Decided**: [key decisions made in this stage]\n- **Rejected**: [alternatives considered and why they were rejected]\n- **Risks**: [identified risks for the next stage]\n- **Files**: [key files created or modified]\n- **Remaining**: [items left for the next stage to handle]\n```"
+  },
+  {
+    "original": "#### Handoff Rules",
+    "zh_tw": "#### 交接規則"
+  },
+  {
+    "original": "1. **Lead reads previous handoff BEFORE spawning next stage's agents.** The handoff content is included in the next stage's agent spawn prompts, ensuring agents start with full context.\n2. **Handoffs accumulate.** The verify stage can read all prior handoffs (plan → prd → exec) for full decision history.\n3. **On team cancellation, handoffs survive** in `.omc/handoffs/` for session resume. They are not deleted by `TeamDelete`.\n4. **Handoffs are lightweight.** 10-20 lines max. They capture decisions and rationale, not full specifications (those live in deliverable files like DESIGN.md).",
+    "zh_tw": "1. **負責人在啟動下一階段的代理程式之前，必須先讀取前一份交接。** 交接內容會包含在下一階段的代理程式啟動提示中，確保代理程式從完整脈絡開始。\n2. **交接會累積。** 驗證階段可以讀取所有先前的交接（plan → prd → exec），以取得完整的決策歷史。\n3. **在團隊取消時，交接會保留** 在 `.omc/handoffs/` 中供工作階段恢復使用。它們不會被 `TeamDelete` 刪除。\n4. **交接應保持輕量。** 最多 10-20 行。它們記錄決策與理由，而不是完整規格（那些內容會放在像 DESIGN.md 這類交付檔案中）。"
+  },
+  {
+    "original": "#### Example",
+    "zh_tw": "#### 範例"
+  }
+]

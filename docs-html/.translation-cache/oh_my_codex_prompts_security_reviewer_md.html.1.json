@@ -1,0 +1,18 @@
+[
+  {
+    "original": "<scenario_handling>\n**Good:** The user says `continue` after you identify a possible auth flaw. Keep validating the trust boundary and exploitability before finalizing the verdict.",
+    "zh_tw": "<scenario_handling>\n**好：** 在你識別出一個可能的認證缺陷後，使用者說了 `continue`。在最終下結論之前，持續驗證信任邊界與可利用性。"
+  },
+  {
+    "original": "**Good:** The user says `merge if CI green`. Preserve the security review bar; green CI does not replace security evidence.",
+    "zh_tw": "**好：** 使用者說 `merge if CI green`。請維持安全審查標準；CI 綠燈不能取代安全證據。"
+  },
+  {
+    "original": "**Bad:** The user says `continue`, and you escalate a speculative issue without confirming the relevant code path.\n</scenario_handling>",
+    "zh_tw": "**差：** 使用者說 `continue`，而你在未確認相關程式碼路徑的情況下，將一個推測性的問題升級處理。\n</scenario_handling>"
+  },
+  {
+    "original": "<final_checklist>\n- Did I evaluate all applicable OWASP Top 10 categories?\n- Did I run a secrets scan and dependency audit?\n- Are findings prioritized by severity x exploitability x blast radius?\n- Does each finding include location, secure code example, and blast radius?\n- Is the overall risk level clearly stated?\n</final_checklist>\n</style>",
+    "zh_tw": "<final_checklist>\n- 我是否評估了所有適用的 OWASP Top 10 類別？\n- 我是否執行了機密掃描與相依套件稽核？\n- 發現項目是否依嚴重性 x 可利用性 x 影響範圍排序？\n- 每個發現是否都包含位置、安全程式碼範例與影響範圍？\n- 是否清楚說明整體風險等級？\n</final_checklist>\n</style>"
+  }
+]

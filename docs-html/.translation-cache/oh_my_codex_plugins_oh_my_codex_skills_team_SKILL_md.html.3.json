@@ -1,0 +1,162 @@
+[
+  {
+    "original": "- File path uses `task-<id>.json` (example `task-1.json`)\n- MCP API `task_id` uses bare id (example `\"1\"`, not `\"task-1\"`)\n- Never instruct workers to read `tasks/{id}.json`",
+    "zh_tw": "- 檔案路徑使用 `task-<id>.json`（例如 `task-1.json`）\n- MCP API `task_id` 使用裸 id（例如 `\"1\"`，而不是 `\"task-1\"`）\n- 絕不要指示 worker 讀取 `tasks/{id}.json`"
+  },
+  {
+    "original": "## Environment Knobs",
+    "zh_tw": "## 環境開關"
+  },
+  {
+    "original": "Useful runtime env vars:",
+    "zh_tw": "有用的執行期環境變數："
+  },
+  {
+    "original": "- `OMX_TEAM_READY_TIMEOUT_MS`\n  - Worker readiness timeout (default 45000)\n- `OMX_TEAM_SKIP_READY_WAIT=1`\n  - Skip readiness wait (debug only)\n- `OMX_TEAM_AUTO_TRUST=0`\n  - Disable auto-advance for trust prompt (default behavior auto-advances)\n- `OMX_TEAM_AUTO_ACCEPT_BYPASS=0`\n  - Disable Claude bypass-permissions prompt auto-accept (default behavior auto-accepts `2` + Enter)\n- `OMX_TEAM_WORKER_LAUNCH_ARGS`\n  - Extra args passed to worker launch command\n- `OMX_TEAM_WORKER_CLI`\n  - Worker CLI selector: `auto|codex|claude` (default: `auto`)\n  - `auto` chooses `claude` when worker `--model` contains `claude`, otherwise `codex`\n  - In `claude` mode, workers launch with exactly one `--dangerously-skip-permissions`\n    and ignore explicit model/config/effort launch overrides (uses default `settings.json`)\n- `OMX_TEAM_WORKER_CLI_MAP`\n  - Per-worker CLI selector (comma-separated `auto|codex|claude`)\n  - Length must be `1` (broadcast) or exactly the team worker count\n  - Example: `OMX_TEAM_WORKER_CLI_MAP=codex,codex,claude,claude`\n  - When present, overrides `OMX_TEAM_WORKER_CLI`\n- `OMX_TEAM_AUTO_INTERRUPT_RETRY`\n  - Trigger submit fallback (default: enabled)\n  - `0` disables adaptive queue->resend escalation\n- `OMX_TEAM_LEADER_NUDGE_MS`\n  - Leader nudge interval in ms (default 120000)\n- `OMX_TEAM_STRICT_SUBMIT=1`\n  - Force strict send-keys submit failure behavior",
+    "zh_tw": "- `OMX_TEAM_READY_TIMEOUT_MS`\n  - Worker 就緒逾時（預設 45000）\n- `OMX_TEAM_SKIP_READY_WAIT=1`\n  - 跳過就緒等待（僅供除錯）\n- `OMX_TEAM_AUTO_TRUST=0`\n  - 停用 trust 提示的自動前進（預設行為會自動前進）\n- `OMX_TEAM_AUTO_ACCEPT_BYPASS=0`\n  - 停用 Claude bypass-permissions 提示的自動接受（預設行為會自動接受 `2` + Enter）\n- `OMX_TEAM_WORKER_LAUNCH_ARGS`\n  - 傳給 worker 啟動命令的額外引數\n- `OMX_TEAM_WORKER_CLI`\n  - Worker CLI 選擇器：`auto|codex|claude`（預設：`auto`）\n  - `auto` 會在 worker 的 `--model` 包含 `claude` 時選擇 `claude`，否則選擇 `codex`\n  - 在 `claude` 模式下，worker 啟動時只會帶上一個 `--dangerously-skip-permissions`\n    並忽略明確指定的 model/config/effort 啟動覆寫（使用預設 `settings.json`）\n- `OMX_TEAM_WORKER_CLI_MAP`\n  - 逐個 worker 的 CLI 選擇器（以逗號分隔的 `auto|codex|claude`）\n  - 長度必須是 `1`（廣播）或剛好等於 team worker 數量\n  - 範例：`OMX_TEAM_WORKER_CLI_MAP=codex,codex,claude,claude`\n  - 存在時會覆蓋 `OMX_TEAM_WORKER_CLI`\n- `OMX_TEAM_AUTO_INTERRUPT_RETRY`\n  - 觸發提交回退（預設：啟用）\n  - `0` 會停用自適應 queue->resend 升級\n- `OMX_TEAM_LEADER_NUDGE_MS`\n  - Leader nudge 間隔，單位為 ms（預設 120000）\n- `OMX_TEAM_STRICT_SUBMIT=1`\n  - 強制嚴格的 send-keys 提交失敗行為"
+  },
+  {
+    "original": "## Failure Modes and Diagnosis",
+    "zh_tw": "## 失敗模式與診斷"
+  },
+  {
+    "original": "Operator note (important for Claude panes):\n- Manual Enter injection (`tmux send-keys ... C-m`) can appear to \"do nothing\" when a worker is actively processing; Enter may be queued by the pane/task flow.\n- This is not necessarily a runtime bug. Confirm worker/team state before diagnosing dispatch failure.\n- Avoid repeated blind Enter spam; it can create noisy duplicate submits once the pane becomes idle.",
+    "zh_tw": "操作員備註（對 Claude 面板很重要）：\n- 當 worker 正在 सक्रिय處理時，手動注入 Enter（`tmux send-keys ... C-m`）可能看起來像是「沒有作用」；Enter 可能已被面板/任務流程排入佇列。\n- 這不一定是執行期 bug。請先確認 worker/team 狀態，再診斷派送失敗。\n- 避免反覆盲目狂送 Enter；等面板變成閒置後，這可能造成噪音式的重複提交。"
+  },
+  {
+    "original": "### Safe Manual Intervention (last resort)",
+    "zh_tw": "### 安全的人工介入（最後手段）"
+  },
+  {
+    "original": "Use only after checking `omx team status <team>` and mailbox/state evidence:",
+    "zh_tw": "僅在檢查 `omx team status <team>` 與 mailbox/state 證據之後才使用："
+  },
+  {
+    "original": "1. Capture pane tail to confirm current worker state:\n   - `tmux capture-pane -t %<worker-pane> -p -S -120`\n   - If a larger-tail read or bounded summary would help, prefer explicit opt-in inspection via `omx sparkshell --tmux-pane %<worker-pane> --tail-lines 400` before improvising extra tmux commands.\n2. If the pane is stuck in an interactive state, safely return to idle prompt first:\n   - optional interrupt `C-c` or escape flow (CLI-specific) once, then re-check pane capture\n3. Send one concise trigger (single line) and wait for evidence:\n   - `tmux send-keys -t %<worker-pane> \"ack + continue current task; report status\" C-m`\n4. Re-check:\n   - pane output via `capture-pane`\n   - mailbox updates (`mailbox/leader-fixed.json` or worker mailbox)\n   - `omx team status <team>`",
+    "zh_tw": "1. 擷取面板尾端以確認目前 worker 狀態：\n   - `tmux capture-pane -t %<worker-pane> -p -S -120`\n   - 如果需要更長的尾端讀取或有界摘要，請在自行臨時追加 tmux 指令之前，優先使用明確同意的檢視方式：`omx sparkshell --tmux-pane %<worker-pane> --tail-lines 400`\n2. 如果面板卡在互動狀態，先安全地回到閒置提示字元：\n   - 視情況只做一次可選的中斷 `C-c` 或 escape 流程（依 CLI 而定），然後再重新檢查面板擷取\n3. 傳送一個簡潔觸發字串（單行），然後等待證據：\n   - `tmux send-keys -t %<worker-pane> \"ack + continue current task; report status\" C-m`\n4. 重新檢查：\n   - 透過 `capture-pane` 查看面板輸出\n   - mailbox 更新（`mailbox/leader-fixed.json` 或 worker mailbox）\n   - `omx team status <team>`"
+  },
+  {
+    "original": "### `worker_notify_failed:<worker>`",
+    "zh_tw": "### `worker_notify_failed:<worker>`"
+  },
+  {
+    "original": "Meaning:\n- Leader wrote inbox but trigger submit path failed",
+    "zh_tw": "含意：\n- Leader 已寫入 inbox，但觸發提交路徑失敗"
+  },
+  {
+    "original": "Checks:",
+    "zh_tw": "檢查："
+  },
+  {
+    "original": "1. `tmux list-panes -F '#{pane_id}\\t#{pane_start_command}'`\n2. `tmux capture-pane -t %<worker-pane> -p -S -120`\n3. Verify worker process alive and not stuck on trust prompt\n4. Rebuild if running repo-local (`npm run build`)",
+    "zh_tw": "1. `tmux list-panes -F '#{pane_id}\\t#{pane_start_command}'`\n2. `tmux capture-pane -t %<worker-pane> -p -S -120`\n3. 驗證 worker 行程仍在執行，且沒有卡在 trust 提示\n4. 如果是執行 repo 本地版本，則重新建置（`npm run build`）"
+  },
+  {
+    "original": "### Team starts but leader gets no ACK",
+    "zh_tw": "### Team 已啟動但 leader 沒有收到 ACK"
+  },
+  {
+    "original": "Checks:",
+    "zh_tw": "檢查："
+  },
+  {
+    "original": "1. Worker pane capture shows inbox processing\n2. `.omx/state/team/<team>/mailbox/leader-fixed.json` exists\n3. Worker skill loaded and `omx team api send-message --json` called\n4. Task-id mismatch not blocking worker flow",
+    "zh_tw": "1. Worker 面板擷取顯示正在處理 inbox\n2. `.omx/state/team/<team>/mailbox/leader-fixed.json` 存在\n3. Worker skill 已載入，且已呼叫 `omx team api send-message --json`\n4. task-id 不一致沒有阻擋 worker 流程"
+  },
+  {
+    "original": "### Worker logs `omx team api ... ENOENT` (or legacy `team_send_message ENOENT` / `team_update_task ENOENT`)",
+    "zh_tw": "### Worker 記錄 `omx team api ... ENOENT`（或舊版 `team_send_message ENOENT` / `team_update_task ENOENT`）"
+  },
+  {
+    "original": "Meaning:\n- Team state path no longer exists while worker is still running.\n- Typical cause: leader/manual flow ran `omx team shutdown <team>` (or removed `.omx/state/team/<team>`) before worker finished.",
+    "zh_tw": "含意：\n- 當 worker 仍在執行時，team state 路徑已不再存在。\n- 常見原因：leader/手動流程在 worker 完成之前就執行了 `omx team shutdown <team>`（或刪除了 `.omx/state/team/<team>`）。"
+  },
+  {
+    "original": "Checks:",
+    "zh_tw": "檢查："
+  },
+  {
+    "original": "1. `omx team status <team>` and confirm whether tasks were still `in_progress` when shutdown occurred\n2. Verify whether `.omx/state/team/<team>/` exists\n3. Inspect worker pane tail for post-shutdown writes\n4. Confirm no external cleanup (`rm -rf .omx/state/team/<team>`) happened during execution",
+    "zh_tw": "1. `omx team status <team>`，並確認在 shutdown 發生時 tasks 是否仍是 `in_progress`\n2. 驗證 `.omx/state/team/<team>/` 是否存在\n3. 檢查 worker 面板尾端是否有 shutdown 之後的寫入\n4. 確認執行期間沒有發生外部清理（`rm -rf .omx/state/team/<team>`）"
+  },
+  {
+    "original": "Prevention:",
+    "zh_tw": "預防："
+  },
+  {
+    "original": "1. Enforce completion gate (no in-progress tasks) before shutdown\n2. Use `shutdown` only for terminal completion or explicit abort\n3. If aborting, expect late worker writes to fail and treat ENOENT as expected teardown artifact",
+    "zh_tw": "1. 在 shutdown 之前強制完成閘門（不得有進行中的任務）\n2. 僅在終態完成或明確中止時使用 `shutdown`\n3. 如果是中止，預期較晚到的 worker 寫入會失敗，並將 ENOENT 視為預期中的拆除產物"
+  },
+  {
+    "original": "### Shutdown reports success but stale worker panes remain",
+    "zh_tw": "### Shutdown 回報成功，但仍殘留過期的 worker 面板"
+  },
+  {
+    "original": "Cause:\n- stale pane outside config tracking or previous failed run",
+    "zh_tw": "原因：\n- 不在設定追蹤範圍內的過期面板，或是前一次失敗執行留下的面板"
+  },
+  {
+    "original": "Fix:\n- manual pane cleanup (see clean-slate commands)",
+    "zh_tw": "修正：\n- 手動清理面板（見 clean-slate 指令）"
+  },
+  {
+    "original": "## Clean-Slate Recovery",
+    "zh_tw": "## 全新狀態復原"
+  },
+  {
+    "original": "Run from leader pane:",
+    "zh_tw": "從 leader 面板執行："
+  },
+  {
+    "original": "```bash\n# 1) Inspect panes\ntmux list-panes -F '#{pane_id}\\t#{pane_current_command}\\t#{pane_start_command}'\n\n# 2) Kill stale worker panes only (examples)\ntmux kill-pane -t %450\ntmux kill-pane -t %451\n\n# 3) Remove stale team state (example)\nrm -rf .omx/state/team/<team-name>\n\n# 4) Retry\nomx team 1:executor \"fresh retry\"\n```",
+    "zh_tw": "```bash\n# 1) Inspect panes\ntmux list-panes -F '#{pane_id}\\t#{pane_current_command}\\t#{pane_start_command}'\n\n# 2) Kill stale worker panes only (examples)\ntmux kill-pane -t %450\ntmux kill-pane -t %451\n\n# 3) Remove stale team state (example)\nrm -rf .omx/state/team/<team-name>\n\n# 4) Retry\nomx team 1:executor \"fresh retry\"\n```"
+  },
+  {
+    "original": "Guidelines:",
+    "zh_tw": "準則："
+  },
+  {
+    "original": "- Do not kill leader pane\n- Do not kill HUD pane (`omx hud --watch`) unless intentionally restarting HUD",
+    "zh_tw": "- 不要殺掉 leader 面板\n- 不要殺掉 HUD 面板（`omx hud --watch`），除非你刻意要重新啟動 HUD"
+  },
+  {
+    "original": "## Required Reporting During Execution",
+    "zh_tw": "## 執行期間的必要回報"
+  },
+  {
+    "original": "When operating this skill, provide concrete progress evidence:",
+    "zh_tw": "操作這個 skill 時，請提供具體的進度證據："
+  },
+  {
+    "original": "1. Team started line (`Team started: <name>`)\n2. tmux target and worker pane presence\n3. leader mailbox ACK path/content check\n4. status/shutdown outcomes",
+    "zh_tw": "1. Team started 的行（`Team started: <name>`）\n2. tmux target 與 worker 面板存在情況\n3. leader mailbox ACK 路徑/內容檢查\n4. status/shutdown 結果"
+  },
+  {
+    "original": "Do not claim success without file/pane evidence.\nDo not claim clean completion if shutdown occurred with `in_progress>0`.\nUse `omx sparkshell --tmux-pane ...` as an explicit opt-in operator aid for pane inspection and summaries; keep raw `tmux capture-pane` evidence available for manual intervention and proof.",
+    "zh_tw": "沒有檔案/面板證據，不要聲稱成功。\n如果 shutdown 發生時 `in_progress>0`，不要聲稱已乾淨完成。\n將 `omx sparkshell --tmux-pane ...` 作為明確同意後才使用的操作輔助，用於面板檢查與摘要；保留原始 `tmux capture-pane` 證據，以便人工介入與佐證。"
+  },
+  {
+    "original": "## Programmatic Team Orchestration",
+    "zh_tw": "## 程式化 Team 編排"
+  },
+  {
+    "original": "Use the `omx team ...` CLI as the supported team-launch surface. For automation, drive the same CLI flow from scripts or supervising agents rather than relying on a separate MCP runner.",
+    "zh_tw": "將 `omx team ...` CLI 作為支援的 team 啟動介面。對於自動化，請從腳本或監督 agent 驅動相同的 CLI 流程，而不是依賴另一個獨立的 MCP runner。"
+  },
+  {
+    "original": "### Supported current surfaces",
+    "zh_tw": "### 目前支援的介面"
+  },
+  {
+    "original": "- **`omx team ...` CLI** — Primary method for interactive or automated team orchestration. Use this when you want direct tmux-pane visibility or a scriptable launch path.\n- **Team state files** — Inspect `.omx/state/team/<team>/` when you need status, task, or mailbox evidence after launch.",
+    "zh_tw": "- **`omx team ...` CLI** — 互動式或自動化 team 編排的主要方法。當你需要直接查看 tmux 面板，或需要可腳本化的啟動路徑時，請使用這個方式。\n- **Team state 檔案** — 在啟動後若需要 status、task 或 mailbox 證據，請檢查 `.omx/state/team/<team>/`。"
+  },
+  {
+    "original": "### Cleanup distinction",
+    "zh_tw": "### 清理差異"
+  },
+  {
+    "original": "Two cleanup paths exist and must not be confused:",
+    "zh_tw": "存在兩種清理路徑，而且不能混淆："
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "original": "---\nname: atlas-agent\ndescription: Developer reference for the Atlas todo-list orchestrator agent -- model variants, prompt sections, and routing.\n---",
+    "zh_tw": "---\nname: atlas-agent\ndescription: Atlas 待辦清單協調器代理程式的開發者參考文件 -- 模型變體、提示區段與路由。\n---"
+  },
+  {
+    "original": "# src/agents/atlas/ -- Todo-List Orchestrator",
+    "zh_tw": "# src/agents/atlas/ -- 待辦清單協調器"
+  },
+  {
+    "original": "**Generated:** 2026-05-18",
+    "zh_tw": "**產生時間：** 2026-05-18"
+  },
+  {
+    "original": "## OVERVIEW",
+    "zh_tw": "## 總覽"
+  },
+  {
+    "original": "9 TypeScript files plus 5 markdown prompt variants in `packages/prompts-core/prompts/atlas/`. Atlas agent -- todo-list orchestrator that delegates via `task()` to complete every checkbox in a plan until fully done. Mode `primary`. Color `#10B981`.",
+    "zh_tw": "`packages/prompts-core/prompts/atlas/` 中有 9 個 TypeScript 檔案以及 5 個 markdown 提示變體。Atlas 代理程式 -- 一個透過 `task()` 委派、直到完全完成為止來完成計畫中每個核取方塊的待辦清單協調器。模式 `primary`。顏色 `#10B981`。"
+  },
+  {
+    "original": "## FILES",
+    "zh_tw": "## 檔案"
+  },
+  {
+    "original": "| File | Purpose |\n|------|---------|\n| `agent.ts` | `createAtlasAgent()` factory, prompts-core variant loading, runtime placeholder injection, `OrchestratorContext` |\n| `index.ts` | Barrel exports |\n| `prompt-section-builder.ts` | Composes category, agent, skills, and decision matrix sections |\n| `atlas-prompt.test.ts` | Prompt composition tests |\n| `prompt-byte-preservation.test.ts` | Byte-exact prompt baseline and runtime placeholder regression tests |\n| `prompt-checkbox-enforcement.test.ts` | Checkbox enforcement behavior tests |\n| `prompt-routing.test.ts` | Model-variant routing tests |\n| `packages/prompts-core/prompts/atlas/default.md` | Default/Claude markdown prompt variant |\n| `packages/prompts-core/prompts/atlas/gpt.md` | GPT-optimized markdown prompt variant |\n| `packages/prompts-core/prompts/atlas/gemini.md` | Gemini-optimized markdown prompt variant |\n| `packages/prompts-core/prompts/atlas/kimi.md` | Kimi K2.x markdown prompt variant |\n| `packages/prompts-core/prompts/atlas/opus-4-7.md` | Claude Opus 4.7 markdown prompt variant |",
+    "zh_tw": "| 檔案 | 用途 |\n|------|---------|\n| `agent.ts` | `createAtlasAgent()` 工廠、prompts-core 變體載入、執行階段佔位符注入、`OrchestratorContext` |\n| `index.ts` | 匯出總入口 |\n| `prompt-section-builder.ts` | 組合分類、代理程式、技能與決策矩陣區段 |\n| `atlas-prompt.test.ts` | 提示組合測試 |\n| `prompt-byte-preservation.test.ts` | 逐位元組精確的提示基準與執行階段佔位符回歸測試 |\n| `prompt-checkbox-enforcement.test.ts` | 核取方塊強制執行行為測試 |\n| `prompt-routing.test.ts` | 模型變體路由測試 |\n| `packages/prompts-core/prompts/atlas/default.md` | 預設/Claude markdown 提示變體 |\n| `packages/prompts-core/prompts/atlas/gpt.md` | GPT 最佳化 markdown 提示變體 |\n| `packages/prompts-core/prompts/atlas/gemini.md` | Gemini 最佳化 markdown 提示變體 |\n| `packages/prompts-core/prompts/atlas/kimi.md` | Kimi K2.x markdown 提示變體 |\n| `packages/prompts-core/prompts/atlas/opus-4-7.md` | Claude Opus 4.7 markdown 提示變體 |"
+  },
+  {
+    "original": "## MODEL VARIANT ROUTING",
+    "zh_tw": "## 模型變體路由"
+  },
+  {
+    "original": "Parent `agent.ts` calls `resolveVariant()` from `@oh-my-opencode/prompts-core` against `atlasPromptVariants`:\n- GPT family -> `gpt.md`\n- Gemini family -> `gemini.md`\n- Kimi K2.x family -> `kimi.md`\n- Claude Opus 4.7 -> `opus-4-7.md`\n- Default -> `default.md` (Claude 4.6 family)",
+    "zh_tw": "父層 `agent.ts` 會針對 `atlasPromptVariants` 呼叫來自 `@oh-my-opencode/prompts-core` 的 `resolveVariant()`：\n- GPT 系列 -> `gpt.md`\n- Gemini 系列 -> `gemini.md`\n- Kimi K2.x 系列 -> `kimi.md`\n- Claude Opus 4.7 -> `opus-4-7.md`\n- 預設 -> `default.md`（Claude 4.6 系列）"
+  },
+  {
+    "original": "`atlasPromptVariants` is ordered with `opus-4-7` before `default` so the specific Claude Opus 4.7 route wins before the generic fallback.",
+    "zh_tw": "`atlasPromptVariants` 的順序將 `opus-4-7` 排在 `default` 之前，因此特定的 Claude Opus 4.7 路由會在通用回退之前優先生效。"
+  },
+  {
+    "original": "## RUNTIME INJECTION",
+    "zh_tw": "## 執行階段注入"
+  },
+  {
+    "original": "The markdown files keep live OpenCode sections as placeholders. `agent.ts` resolves them through `loadPrompt()` runtime injections:\n- `{CATEGORY_SECTION}` -> `buildCategorySection()`\n- `{AGENT_SECTION}` -> `buildAgentSelectionSection()`\n- `{DECISION_MATRIX}` -> `buildDecisionMatrix()`\n- `{SKILLS_SECTION}` -> `buildSkillsSection()`\n- `{{CATEGORY_SKILLS_DELEGATION_GUIDE}}` -> `buildCategorySkillsDelegationGuide()`",
+    "zh_tw": "這些 markdown 檔案會將即時的 OpenCode 區段保留為佔位符。`agent.ts` 會透過 `loadPrompt()` 的執行階段注入來解析它們：\n- `{CATEGORY_SECTION}` -> `buildCategorySection()`\n- `{AGENT_SECTION}` -> `buildAgentSelectionSection()`\n- `{DECISION_MATRIX}` -> `buildDecisionMatrix()`\n- `{SKILLS_SECTION}` -> `buildSkillsSection()`\n- `{{CATEGORY_SKILLS_DELEGATION_GUIDE}}` -> `buildCategorySkillsDelegationGuide()`"
+  },
+  {
+    "original": "`prompt-section-builder.ts` remains the resolver implementation in `src/` because it depends on live category, agent, and skill state.",
+    "zh_tw": "`prompt-section-builder.ts` 仍留在 `src/` 中作為解析器實作，因為它依賴即時的分類、代理程式與技能狀態。"
+  },
+  {
+    "original": "## KEY BEHAVIORS",
+    "zh_tw": "## 主要行為"
+  },
+  {
+    "original": "- Mode: `primary` (respects UI model selection)\n- Temperature: 0.1\n- Default model: `claude-sonnet-4-6`\n- Denied tools: `task`, `call_omo_agent` (Atlas delegates; it does not run subagents directly)\n- Checkbox enforcement in prompts (per `prompt-checkbox-enforcement.test.ts`)\n- Auto-continue: never asks user for approval between plan steps\n- Parallel fan-out by default; sequential only for named blocking dependencies\n- Post-delegation rule: edit plan checkbox, read plan to confirm, then dispatch next task\n- Registered via `createAtlasAgent` in `src/agents/builtin-agents/atlas-agent.ts`\n- Markdown prompts are imported with Bun's `.md` text loader so Atlas prompt content is bundled into `dist/index.js`.",
+    "zh_tw": "- 模式：`primary`（尊重 UI 模型選擇）\n- 溫度：0.1\n- 預設模型：`claude-sonnet-4-6`\n- 禁止工具：`task`、`call_omo_agent`（Atlas 進行委派；不直接執行子代理程式）\n- 提示中的核取方塊強制執行（依據 `prompt-checkbox-enforcement.test.ts`）\n- 自動繼續：在計畫步驟之間從不向使用者要求核准\n- 預設以平行展開；只有在有命名的阻塞相依關係時才採順序執行\n- 委派後規則：編輯計畫核取方塊、讀取計畫以確認，然後派送下一個任務\n- 透過 `src/agents/builtin-agents/atlas-agent.ts` 中的 `createAtlasAgent` 註冊\n- Markdown 提示會透過 Bun 的 `.md` 文字載入器匯入，因此 Atlas 提示內容會被打包進 `dist/index.js`。"
+  }
+]

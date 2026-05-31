@@ -1,0 +1,46 @@
+[
+  {
+    "original": "---\nname = \"context-optimize\"\ndescription = \"Improve context efficiency and cache stability for long or complex sessions.\"\n---",
+    "zh_tw": "---\nname = \"context-optimize\"\ndescription = \"提升長時間或複雜會話的上下文效率與快取穩定性。\"\n---"
+  },
+  {
+    "original": "## Purpose",
+    "zh_tw": "## 目的"
+  },
+  {
+    "original": "Use this skill when context is growing quickly or cache consistency drops.",
+    "zh_tw": "當上下文快速增長或快取一致性下降時，請使用此技能。"
+  },
+  {
+    "original": "## Trigger",
+    "zh_tw": "## 觸發條件"
+  },
+  {
+    "original": "- Conversation becomes long and repetitive\n- The model loses thread coherence\n- Frequent prompt restarts or unstable behavior appears",
+    "zh_tw": "- 對話變得冗長且重複\n- 模型失去上下文連貫性\n- 頻繁出現提示重啟或不穩定行為"
+  },
+  {
+    "original": "## Workflow",
+    "zh_tw": "## 工作流程"
+  },
+  {
+    "original": "1. Identify repeated, stale, or low-value context.\n2. Detect likely cache breakers (instruction churn, unstable prefixes).\n3. Propose cache-safe compaction and message hygiene rules.\n4. Produce an actionable operating checklist for next turns.",
+    "zh_tw": "1. 識別重複、過時或低價值的上下文。\n2. 偵測可能破壞快取的因素（指令頻繁變動、不穩定的前綴）。\n3. 提出對快取安全的壓縮與訊息整潔規則。\n4. 產出可執行的下一輪操作檢查清單。"
+  },
+  {
+    "original": "## Output Template",
+    "zh_tw": "## 輸出範本"
+  },
+  {
+    "original": "```markdown\n## Context Health\n- ...\n\n## Cache Risks\n- ...\n\n## Optimization Actions\n1. ...\n2. ...\n3. ...\n\n## Session Rules\n- ...\n```",
+    "zh_tw": "```markdown\n## 上下文健康狀態\n- ...\n\n## 快取風險\n- ...\n\n## 優化動作\n1. ...\n2. ...\n3. ...\n\n## 會話規則\n- ...\n```"
+  },
+  {
+    "original": "## Notes",
+    "zh_tw": "## 注意事項"
+  },
+  {
+    "original": "- Keep stable instructions unchanged during a session.\n- Prefer summaries over re-sending raw large blocks.",
+    "zh_tw": "- 在會話期間保持穩定指令不變。\n- 優先使用摘要，而非重新傳送原始的大型區塊。"
+  }
+]

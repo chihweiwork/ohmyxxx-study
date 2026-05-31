@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Guides</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1120px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}h2{margin-top:2.2rem;border-top:1px solid #e5e7eb;padding-top:1.2rem}table{border-collapse:collapse;width:100%;margin:1rem 0;display:block;overflow-x:auto}th,td{border:1px solid #d1d5db;padding:8px 10px;vertical-align:top}th{background:#f3f4f6;text-align:left}code{background:#f3f4f6;padding:0.1em 0.3em;border-radius:4px}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto}pre code{background:transparent;padding:0;color:inherit}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden}.source-original,.source-translation{padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#fff7ed;border-top:1px solid #fed7aa}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.warn{background:#fff7ed;border:1px solid #fed7aa;padding:12px 14px;border-radius:8px}.path{word-break:break-all}</style>
+</head>
+<body>
+<main>
+<nav><a href="index.html">Docs Home</a><a href="sources/index.html">Sources</a></nav>
+<h1 id="project-guides">Project Guides</h1>
+<p>本章逐一說明四個專案該怎麼讀。目標是讓你讀原始碼與文件時知道「先抓哪條主線」，而不是在上千個 Markdown、TypeScript、TOML 檔案中迷路。</p>
+<p>建議每個專案都用同一個問題框架閱讀：</p>
+<ul>
+<li>它把使用者意圖放在哪個入口？</li>
+<li>它如何規劃、委派、執行、驗證？</li>
+<li>它如何避免 agent drift、上下文爆炸或錯誤決策？</li>
+<li>它的 agent / skill / tool / hook / prompt 哪些是核心，哪些只是支援？</li>
+</ul>
+<h2 id="oh-my-openagent-omo">oh-my-openagent (OMO)</h2>
+<p>OMO 最像完整的 agent runtime。它不只提供 prompt 或 skill，而是有 agent registry、tool implementation、hook pipeline、tmux/background execution 和多模型 prompt variants。</p>
+<h3 id="心智模型">心智模型</h3>
+<p>把 OMO 想成一個「agent runtime shell」：</p>
+<pre><code>user task
+  -&gt; orchestrator agent
+  -&gt; specialist agent
+  -&gt; tool execution
+  -&gt; hook correction/recovery
+  -&gt; background/session continuation</code></pre>
+<p>這個模型的重點是 runtime 能力。OMO 關心的不只是「agent 應該怎麼想」，還包含「agent 如何被建立、如何呼叫別的 agent、如何在背景跑、如何從 context 或 runtime error 中恢復」。</p>
+<h3 id="核心流程">核心流程</h3>
+<ol>
+<li>使用者任務進入 Atlas、Prometheus、Sisyphus 或其他 orchestrator。</li>
+<li>Orchestrator 依任務類型選擇 specialist agent，例如 Hephaestus、Librarian、Oracle、Metis、Momus。</li>
+<li>Agent 透過 <code>delegate-task</code>、<code>call-omo-agent</code>、<code>background-task</code> 等工具展開同步或背景任務。</li>
+<li>Hooks 在前後攔截與修正，例如 context recovery、rules injection、fallback、team gating。</li>
+<li>如果任務很長，背景任務、tmux subagent、session recovery 會讓工作延續。</li>
+</ol>
+<h3 id="先讀">先讀</h3>
+<ul>
+<li><a href="sources/oh_my_openagent_src_agents_AGENTS_md.html"><code>oh-my-openagent/src/agents/AGENTS.md</code></a></li>
+<li><a href="sources/oh_my_openagent_src_tools_AGENTS_md.html"><code>oh-my-openagent/src/tools/AGENTS.md</code></a></li>
+<li><a href="sources/oh_my_openagent_src_hooks_AGENTS_md.html"><code>oh-my-openagent/src/hooks/AGENTS.md</code></a></li>
+<li><a href="sources/oh_my_openagent_packages_prompts_core_prompts_atlas_default_md.html"><code>oh-my-openagent/packages/prompts-core/prompts/atlas/default.md</code></a></li>
+<li><a href="sources/oh_my_openagent_packages_prompts_core_prompts_prometheus_default_md.html"><code>oh-my-openagent/packages/prompts-core/prompts/prometheus/default.md</code></a></li>
+</ul>
+<h3 id="讀檔提示">讀檔提示</h3>
+<ul>
+<li>看到 <code>AGENTS.md</code>，先判斷它是在描述目錄規則、agent persona，還是 runtime 文件。</li>
+<li>看到 <code>tools.ts</code> 或 <code>index.ts</code>，通常代表真實工具實作，不只是 prompt instruction。</li>
+<li>看到 <code>hooks/</code>，要問它是「安全限制」、「上下文注入」、「錯誤恢復」還是「使用者體驗修正」。</li>
+</ul>
+<h3 id="容易誤解">容易誤解</h3>
+<ul>
+<li>OMO 的 agent 不是單純 Markdown 角色。很多 agent 會被 runtime tool 和 hook 包起來。</li>
+<li>OMO 的 hooks 很多，不代表每個都同等重要。先看 context recovery、compaction、rules injector、fallback。</li>
+<li>Atlas 和 Prometheus 都像 planner，但 Atlas 偏 orchestrator/router，Prometheus 偏 strategy/planning。</li>
+</ul>
+<h3 id="學完應能回答">學完應能回答</h3>
+<ul>
+<li><code>delegate-task</code> 和 <code>call-omo-agent</code> 的差異是什麼？</li>
+<li>OMO 為什麼需要 background task？</li>
+<li>OMO 的 context recovery 解決了哪類失敗？</li>
+</ul>
+<h2 id="oh-my-claudecode-omc">oh-my-claudecode (OMC)</h2>
+<p>OMC 是 Claude Code 的 developer OS。它把常見開發任務包成 commands，再把可重用流程放進 skills，並用 agents 作為 specialist persona。</p>
+<h3 id="心智模型">心智模型</h3>
+<p>把 OMC 想成「開發生命週期套件」：</p>
+<pre><code>command
+  -&gt; skill workflow
+  -&gt; specialist agent/tool
+  -&gt; artifact
+  -&gt; verification or release</code></pre>
+<p>它的核心價值是把日常工程活動制度化，例如 research、plan、debug、verify、release、visual QA、self-improve。</p>
+<h3 id="核心流程">核心流程</h3>
+<ol>
+<li>使用者呼叫 command，例如 <code>debug</code>、<code>verify</code>、<code>visual-verdict</code>、<code>self-improve</code>。</li>
+<li>Command 對應到 skill 或 CLI implementation。</li>
+<li>Skill 指定工作流程、輸入資料、產物和驗證方式。</li>
+<li>遇到需要專家判斷時，使用 <code>agents/*.md</code> 的 specialist role。</li>
+<li>透過 tools 處理 memory、wiki、state、LSP、diagnostics 等支援能力。</li>
+</ol>
+<h3 id="先讀">先讀</h3>
+<ul>
+<li><a href="sources/oh_my_claudecode_README_md.html"><code>oh-my-claudecode/README.md</code></a></li>
+<li><a href="sources/oh_my_claudecode_docs_ARCHITECTURE_md.html"><code>oh-my-claudecode/docs/ARCHITECTURE.md</code></a></li>
+<li><a href="sources/oh_my_claudecode_docs_TOOLS_md.html"><code>oh-my-claudecode/docs/TOOLS.md</code></a></li>
+<li><code>oh-my-claudecode/commands/</code></li>
+<li><a href="sources/oh_my_claudecode_skills_plan_SKILL_md.html"><code>oh-my-claudecode/skills/plan/SKILL.md</code></a></li>
+<li><a href="sources/oh_my_claudecode_skills_self_improve_SKILL_md.html"><code>oh-my-claudecode/skills/self-improve/SKILL.md</code></a></li>
+<li><code>oh-my-claudecode/agents/</code></li>
+</ul>
+<h3 id="讀檔提示">讀檔提示</h3>
+<ul>
+<li>先從 <code>commands/*.md</code> 找入口，再追到對應 skill。</li>
+<li>讀 skill 時要找：觸發條件、輸入、步驟、產物、驗證。</li>
+<li>讀 agent 時要找：它是 planner、executor、reviewer、researcher 還是 verifier。</li>
+</ul>
+<h3 id="容易誤解">容易誤解</h3>
+<ul>
+<li>OMC 的 command 不是只有 alias。很多 command 代表一整段工作流。</li>
+<li><code>self-improve</code> 不是一般「自我反省」prompt，而是包含 goal clarifier、researcher、benchmark builder 的工作鏈。</li>
+<li><code>visual-verdict</code> 的重點不是截圖本身，而是 UI 變更後的視覺驗證 loop。</li>
+</ul>
+<h3 id="學完應能回答">學完應能回答</h3>
+<ul>
+<li>command、skill、agent 在 OMC 中如何分工？</li>
+<li><code>verify</code> 與 reviewer agent 的關係是什麼？</li>
+<li><code>self-improve</code> 如何把 prompt improvement 變成可評測流程？</li>
+</ul>
+<h2 id="oh-my-codex-omx">oh-my-codex (OMX)</h2>
+<p>OMX 是 Codex-oriented enhancer。它的重點是把 agent 行為結構化：prompt specialist、Prometheus strict、state model、plugin skills 和 team runtime。</p>
+<h3 id="心智模型">心智模型</h3>
+<p>把 OMX 想成「有狀態與結構約束的 prompt/skill 系統」：</p>
+<pre><code>skill entry
+  -&gt; specialist prompt
+  -&gt; state/strict constraints
+  -&gt; team/runtime module
+  -&gt; verified transition</code></pre>
+<p>OMX 不只問「要用哪個 agent」，還問「這個 agent 的輸出形狀是否被約束」、「目前處於哪個 state」、「下一步 transition 是否合理」。</p>
+<h3 id="核心流程">核心流程</h3>
+<ol>
+<li>使用者透過 skill 或 mode 進入工作流，例如 <code>plan</code>、<code>team</code>、<code>analyze</code>、<code>prometheus-strict</code>。</li>
+<li>Specialist prompt 提供角色判斷，例如 Architect、Security Reviewer、Planner、Executor。</li>
+<li>Strict prompts 與 state model 約束輸出形狀與進度。</li>
+<li>Runtime modules 處理 subagents、team、pipeline、hooks、mcp 等能力。</li>
+<li>Reviewer 類 prompt 或 state transition 檢查用來減少 drift。</li>
+</ol>
+<h3 id="先讀">先讀</h3>
+<ul>
+<li><a href="sources/oh_my_codex_README_md.html"><code>oh-my-codex/README.md</code></a></li>
+<li><a href="sources/oh_my_codex_docs_STATE_MODEL_md.html"><code>oh-my-codex/docs/STATE_MODEL.md</code></a></li>
+<li><a href="sources/oh_my_codex_prompts_prometheus_strict_oracle_md.html"><code>oh-my-codex/prompts/prometheus-strict-oracle.md</code></a></li>
+<li><a href="sources/oh_my_codex_prompts_prometheus_strict_metis_md.html"><code>oh-my-codex/prompts/prometheus-strict-metis.md</code></a></li>
+<li><a href="sources/oh_my_codex_prompts_prometheus_strict_momus_md.html"><code>oh-my-codex/prompts/prometheus-strict-momus.md</code></a></li>
+<li><a href="sources/oh_my_codex_plugins_oh_my_codex_skills_plan_SKILL_md.html"><code>oh-my-codex/plugins/oh-my-codex/skills/plan/SKILL.md</code></a></li>
+<li><a href="sources/oh_my_codex_plugins_oh_my_codex_skills_team_SKILL_md.html"><code>oh-my-codex/plugins/oh-my-codex/skills/team/SKILL.md</code></a></li>
+</ul>
+<h3 id="讀檔提示">讀檔提示</h3>
+<ul>
+<li>讀 <code>prompts/*.md</code> 時，不要只看角色名稱，要看它要求的輸出形狀與限制。</li>
+<li>讀 plugin skill 時，要找它如何把 prompt 接到使用者 workflow。</li>
+<li>讀 <code>docs/STATE_MODEL.md</code> 時，要注意它如何把自由對話變成可控的狀態轉移。</li>
+</ul>
+<h3 id="容易誤解">容易誤解</h3>
+<ul>
+<li>OMX 的 <code>prompts/*.md</code> 很多看起來像 OMC agents，但它們在 Codex 脈絡中更像可插拔 specialist prompt。</li>
+<li>Strict prompt 不等於更聰明，而是犧牲一部分彈性換取穩定性和可驗證性。</li>
+<li><code>team</code> 在 OMX 中不是單純多人協作，而是 Codex workflow 的組織方式。</li>
+</ul>
+<h3 id="學完應能回答">學完應能回答</h3>
+<ul>
+<li>Prometheus Strict Oracle、Metis、Momus 的責任差異是什麼？</li>
+<li>State model 如何降低 agent drift？</li>
+<li>OMX 的 prompt specialist 和 OMC 的 agent persona 有何不同？</li>
+</ul>
+<h2 id="oh-my-antigravity-oma">oh-my-antigravity (OmA)</h2>
+<p>OmA 是 consensus + self-learning extension。它用 Director、Consensus 和多個 specialist agent 做規劃與審核，並用 learn hook 把 session 中的經驗寫成本地規則。</p>
+<h3 id="心智模型">心智模型</h3>
+<p>把 OmA 想成「共識決策加本地學習」：</p>
+<pre><code>user task
+  -&gt; specialist proposals
+  -&gt; consensus synthesis
+  -&gt; director gate
+  -&gt; execution/verification
+  -&gt; learn hook writes rules</code></pre>
+<p>它的重點不是「更多 agent」，而是「不讓單一 agent 的判斷直接成為最終決策」。</p>
+<h3 id="核心流程">核心流程</h3>
+<ol>
+<li>使用者透過 <code>commands/oma/*.toml</code> 進入功能，例如 <code>team-plan</code>、<code>team-exec</code>、<code>consensus</code>、<code>learn</code>。</li>
+<li>Specialist agents 提案或執行，例如 Architect、Researcher、Reviewer、Editor。</li>
+<li>Consensus agent 彙整多方意見。</li>
+<li>Director agent 做最後 gating。</li>
+<li><code>learn</code> skill/hook 從 session 萃取可重用規則。</li>
+</ol>
+<h3 id="先讀">先讀</h3>
+<ul>
+<li><a href="sources/oh_my_antigravity_README_md.html"><code>oh-my-antigravity/README.md</code></a></li>
+<li><a href="sources/oh_my_antigravity_context_oma_core_md.html"><code>oh-my-antigravity/context/oma-core.md</code></a></li>
+<li><a href="sources/oh_my_antigravity_agents_director_md.html"><code>oh-my-antigravity/agents/director.md</code></a></li>
+<li><a href="sources/oh_my_antigravity_agents_consensus_md.html"><code>oh-my-antigravity/agents/consensus.md</code></a></li>
+<li><a href="sources/oh_my_antigravity_skills_learn_SKILL_md.html"><code>oh-my-antigravity/skills/learn/SKILL.md</code></a></li>
+<li><code>oh-my-antigravity/hooks/scripts/learn.js</code></li>
+</ul>
+<h3 id="讀檔提示">讀檔提示</h3>
+<ul>
+<li>讀 agent 時，先判斷它是在產生提案、審核提案、執行任務，還是做最後決策。</li>
+<li>讀 <code>commands/oma/*.toml</code> 時，要看它把哪些 agent/skill 串成使用者入口。</li>
+<li>讀 learn hook 時，要關注它保存什麼、何時觸發、如何回到後續 session。</li>
+</ul>
+<h3 id="容易誤解">容易誤解</h3>
+<ul>
+<li>Consensus 不是投票器而已，它負責合成與消除衝突。</li>
+<li>Director 不只是 reviewer，它是 gatekeeper，決定是否允許進入執行。</li>
+<li>Learn hook 不是一般 memory，它偏向把可重用工作經驗變成本地 rule。</li>
+</ul>
+<h3 id="學完應能回答">學完應能回答</h3>
+<ul>
+<li>Consensus 與 Director 的差異是什麼？</li>
+<li>OmA 的 learn 機制和 OMC self-improve 有何不同？</li>
+<li>OmA 的安全性來自 prompt 嚴格化，還是來自決策流程？</li>
+</ul>
+<h2 id="專案閱讀順序建議">專案閱讀順序建議</h2>
+<p>如果你只有一天：</p>
+<ol>
+<li>讀 OMO 的 <code>src/agents/AGENTS.md</code> 和 <code>src/tools/AGENTS.md</code>。</li>
+<li>讀 OMC 的 <code>docs/ARCHITECTURE.md</code> 和 <code>skills/self-improve/SKILL.md</code>。</li>
+<li>讀 OMX 的 <code>docs/STATE_MODEL.md</code> 和 <code>prompts/prometheus-strict-oracle.md</code>。</li>
+<li>讀 OmA 的 <code>agents/consensus.md</code>、<code>agents/director.md</code>、<code>skills/learn/SKILL.md</code>。</li>
+</ol>
+<p>如果你要深入研究：</p>
+<ol>
+<li>每個專案先讀 README 和 core architecture/context。</li>
+<li>再讀核心 workflow 入口：commands 或 skills。</li>
+<li>再讀 specialist roles：agents 或 prompts。</li>
+<li>最後讀 runtime implementation：tools、hooks、src modules。</li>
+</ol>
+</main>
+</body>
+</html>

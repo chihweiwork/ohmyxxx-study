@@ -1,0 +1,34 @@
+[
+  {
+    "original": "| Skill | Focus | Output style |\n| --- | --- | --- |\n| `$plan` | Convert goals into phased plan | Milestones, risks, and acceptance criteria |\n| `$oma-plan` | Slash-friendly planning alias that avoids native `/plan` collisions | Same planning output as `$plan` |\n| `$ralplan` | Strict, stage-gated planning with rollback points | Quality-first execution map |\n| `$execute` | Implement a scoped plan slice | Change summary with validation notes |\n| `$prd` | Convert requests into measurable acceptance criteria | PRD-style scope contract |\n| `$research` | Explore options/tradeoffs | Decision-oriented comparison |\n| `$deep-dive` | Run trace-to-interview discovery before planning | Clarity score, assumption ledger, and launch brief |\n| `$ultragoal` | Manage durable multi-goal workflows with repo-native checkpoints | Sequential goal map with verification criteria and ledger logs |\n| `$blueprint` | Lock product/UI workflow decisions before implementation | Workflow map, interface decisions, state coverage, and verification hooks |\n| `$context-optimize` | Improve context structure | Compression and signal-to-noise adjustments |\n| `$learn` | Extract reusable session patterns | Learned rule candidates and save recommendations |",
+    "zh_tw": "| 技能 | 重點 | 輸出風格 |\n| --- | --- | --- |\n| `$plan` | 將目標轉換為分階段計畫 | 里程碑、風險與驗收標準 |\n| `$oma-plan` | 友善於斜線指令的規劃別名，避免與原生 `/plan` 衝突 | 與 `$plan` 相同的規劃輸出 |\n| `$ralplan` | 嚴格、分階段把關的規劃，具備回滾點 | 以品質優先的執行路線圖 |\n| `$execute` | 實作一段有範圍的計畫切片 | 變更摘要與驗證註記 |\n| `$prd` | 將需求轉換為可衡量的驗收標準 | 以 PRD 風格呈現的範圍契約 |\n| `$research` | 探索選項／取捨 | 以決策為導向的比較 |\n| `$deep-dive` | 在規劃前執行由追蹤到訪談的探索 | 清晰度分數、假設清單與啟動簡報 |\n| `$ultragoal` | 使用 repo 原生檢查點管理可持續的多目標工作流程 | 依序展開的目標地圖，含驗證標準與帳本式紀錄 |\n| `$blueprint` | 在實作前鎖定產品/UI 工作流程決策 | 工作流程圖、介面決策、狀態覆蓋與驗證掛鉤 |\n| `$context-optimize` | 改善上下文結構 | 壓縮與訊號雜訊比調整 |\n| `$learn` | 提取可重用的會話模式 | 已學到的規則候選與儲存建議 |"
+  },
+  {
+    "original": "### Sub-agents",
+    "zh_tw": "### 子代理"
+  },
+  {
+    "original": "| Agent | Primary responsibility | Preferred model profile |\n| --- | --- | --- |\n| `oma-architect` | System boundaries, interfaces, long-term maintainability | `gemini-3.1-pro-preview` |\n| `oma-planner` | Task decomposition and sequencing | `gemini-3.1-pro-preview` |\n| `oma-product` | Scope lock, non-goals, and measurable acceptance criteria | `gemini-3.1-pro-preview` |\n| `oma-executor` | Fast implementation cycles | `gemini-3-flash-preview` |\n| `oma-reviewer` | Correctness and regression risk checks | `gemini-3.1-pro-preview` |\n| `oma-verifier` | Acceptance-gate evidence and release-readiness checks | `gemini-3.1-pro-preview` |\n| `oma-debugger` | Root-cause analysis and patch strategy | `gemini-3.1-pro-preview` |\n| `oma-consensus` | Option scoring and decision convergence | `gemini-3.1-pro-preview` |\n| `oma-researcher` | External option analysis and synthesis | `gemini-3.1-pro-preview` |\n| `oma-director` | Team message routing, conflict resolution, and lifecycle orchestration | `gemini-3.1-pro-preview` |\n| `oma-consultant` | Strategic analysis criteria and recommendation framing | `gemini-3.1-pro-preview` |\n| `oma-editor` | Final deliverable structure, consistency, and audience fit | `gemini-3-flash-preview` |\n| `oma-quick` | Small, tactical fixes | `gemini-3.1-flash-lite-preview` |",
+    "zh_tw": "| 代理 | 主要職責 | 偏好的模型設定 |\n| --- | --- | --- |\n| `oma-architect` | 系統邊界、介面、長期可維護性 | `gemini-3.1-pro-preview` |\n| `oma-planner` | 任務分解與排序 | `gemini-3.1-pro-preview` |\n| `oma-product` | 範圍鎖定、非目標與可衡量的驗收標準 | `gemini-3.1-pro-preview` |\n| `oma-executor` | 快速實作迭代 | `gemini-3-flash-preview` |\n| `oma-reviewer` | 正確性與迴歸風險檢查 | `gemini-3.1-pro-preview` |\n| `oma-verifier` | 驗收閘門證據與發佈就緒檢查 | `gemini-3.1-pro-preview` |\n| `oma-debugger` | 根因分析與修補策略 | `gemini-3.1-pro-preview` |\n| `oma-consensus` | 選項評分與決策收斂 | `gemini-3.1-pro-preview` |\n| `oma-researcher` | 外部選項分析與綜合 | `gemini-3.1-pro-preview` |\n| `oma-director` | 團隊訊息路由、衝突解決與生命週期編排 | `gemini-3.1-pro-preview` |\n| `oma-consultant` | 策略分析準則與建議框架 | `gemini-3.1-pro-preview` |\n| `oma-editor` | 最終交付物結構、一致性與受眾適配 | `gemini-3-flash-preview` |\n| `oma-quick` | 小型、戰術性修正 | `gemini-3.1-flash-lite-preview` |"
+  },
+  {
+    "original": "## Context Layer Model",
+    "zh_tw": "## 情境層模型"
+  },
+  {
+    "original": "| Layer | Source | Goal |\n| --- | --- | --- |\n| 1 | System / runtime constraints | Keep behavior aligned with platform guarantees |\n| 2 | Project standards | Preserve team conventions and architecture intent |\n| 3 | Thin `GEMINI.md`, `MEMORY.md`, and shared context | Maintain stable long-session memory without carrying heavy procedure every turn |\n| 4 | Active task brief + workspace/taskboard state | Keep current objective, active lanes, and acceptance criteria visible |\n| 5 | Latest execution traces | Feed immediate iteration and review loops without replaying full raw history |",
+    "zh_tw": "| 層級 | 來源 | 目標 |\n| --- | --- | --- |\n| 1 | 系統 / 執行階段限制 | 讓行為符合平台保證 |\n| 2 | 專案標準 | 保留團隊慣例與架構意圖 |\n| 3 | 精簡的 `GEMINI.md`、`MEMORY.md` 與共享上下文 | 在不於每回合攜帶繁重流程的情況下，維持穩定的長會話記憶 |\n| 4 | 目前任務簡報 + 工作區／任務板狀態 | 讓當前目標、進行中的分工軌道與驗收標準保持可見 |\n| 5 | 最新執行追蹤 | 在不重播完整原始歷史的情況下，提供即時迭代與審查迴圈所需資訊 |"
+  },
+  {
+    "original": "## Project Structure",
+    "zh_tw": "## 專案結構"
+  },
+  {
+    "original": "```text\noh-my-antigravity/\n|- GEMINI.md\n|- gemini-extension.json\n|- .omg/\n|  `- state/\n|     |- session-lock.json\n|     `- interviews/\n|     |  |- active.json\n|     |  `- [slug]/\n|     |     |- context.json\n|     |     `- prd.md\n|     `- sessions/\n|        `- [session-slug]/\n|           |- workspace.json\n|           |- taskboard.md\n|           |- workflow.md\n|           `- checkpoint.md\n|- agents/\n|- commands/\n|  `- omg/\n|- skills/\n|- context/\n|- docs/\n`- LICENSE\n```",
+    "zh_tw": "```text\noh-my-antigravity/\n|- GEMINI.md\n|- gemini-extension.json\n|- .omg/\n|  `- state/\n|     |- session-lock.json\n|     `- interviews/\n|     |  |- active.json\n|     |  `- [slug]/\n|     |     |- context.json\n|     |     `- prd.md\n|     `- sessions/\n|        `- [session-slug]/\n|           |- workspace.json\n|           |- taskboard.md\n|           |- workflow.md\n|           `- checkpoint.md\n|- agents/\n|- commands/\n|  `- omg/\n|- skills/\n|- context/\n|- docs/\n`- LICENSE\n```"
+  },
+  {
+    "original": "## Troubleshooting",
+    "zh_tw": "## 疑難排解"
+  }
+]

@@ -1,0 +1,130 @@
+[
+  {
+    "original": "Inside Autopilot, `ralplan` consensus also requires tracker-backed native\nsubagent lane evidence for the Architect and Critic approvals. `codex_exec`\noutputs and authored planning artifacts remain trace evidence, but they do not\nprove that visible native subagent lanes ran.",
+    "zh_tw": "在 Autopilot 中，`ralplan` 共識也要求針對 Architect 和 Critic 核准提供由 tracker 支援的原生\nsubagent lane 證據。`codex_exec`\n輸出與撰寫的規劃產物仍屬追蹤證據，但它們無法\n證明可見的原生 subagent lane 已執行。"
+  },
+  {
+    "original": "## Planning-like vs execution-like",
+    "zh_tw": "## 類規劃與類執行"
+  },
+  {
+    "original": "### Planning-like",
+    "zh_tw": "### 類規劃"
+  },
+  {
+    "original": "- `deep-interview`\n- `ralplan`\n- `autoresearch`",
+    "zh_tw": "- `deep-interview`\n- `ralplan`\n- `autoresearch`"
+  },
+  {
+    "original": "### Execution-like",
+    "zh_tw": "### 類執行"
+  },
+  {
+    "original": "- `team`\n- `ralph`\n- `autopilot`\n- `ultrawork`\n- `ultraqa`",
+    "zh_tw": "- `team`\n- `ralph`\n- `autopilot`\n- `ultrawork`\n- `ultraqa`"
+  },
+  {
+    "original": "Execution-like -> planning-like rollback auto-complete is forbidden. The denial should tell the user, in substance:",
+    "zh_tw": "類執行 -> 類規劃的回滾自動完成是禁止的。拒絕時應實質上告訴使用者："
+  },
+  {
+    "original": "> first clear current state first and retry if this action is intended",
+    "zh_tw": "> 如果確實要執行此動作，請先清除目前狀態再重試"
+  },
+  {
+    "original": "## Multi-skill prompt-submit behavior",
+    "zh_tw": "## 多技能提示提交行為"
+  },
+  {
+    "original": "A single prompt can explicitly invoke multiple contiguous `$skill` tokens.",
+    "zh_tw": "單一提示可以明確呼叫多個連續的 `$skill` token。"
+  },
+  {
+    "original": "Example:",
+    "zh_tw": "範例："
+  },
+  {
+    "original": "```text\n$ralplan $team $ralph ship this fix\n```",
+    "zh_tw": "```text\n$ralplan $team $ralph ship this fix\n```"
+  },
+  {
+    "original": "Expected result:",
+    "zh_tw": "預期結果："
+  },
+  {
+    "original": "1. `ralplan` is recognized as the planning source\n2. simultaneous execution follow-ups are deferred instead of auto-starting\n3. final active skill remains `ralplan`\n4. deferred execution skills are surfaced in native-hook output for traceability\n5. native hook output should describe all explicit skills, not only the primary one",
+    "zh_tw": "1. `ralplan` 被識別為規劃來源\n2. 同時進行的執行後續動作會被延後，而不是自動啟動\n3. 最終的作用中技能仍維持為 `ralplan`\n4. 延後的執行技能會在 native-hook 輸出中顯示，以便追蹤\n5. native hook 輸出應描述所有明確指定的技能，而不僅是主要技能"
+  },
+  {
+    "original": "Recommended message shape:",
+    "zh_tw": "建議的訊息格式："
+  },
+  {
+    "original": "- detected keywords summary\n- deferred-skill summary, e.g. `planning preserved over simultaneous execution follow-up; deferred skills: team, ralph`\n- final active skill / initialized state summary\n- team runtime hint only when `team` is actually among the final active skills",
+    "zh_tw": "- 偵測到的關鍵字摘要\n- 延後技能摘要，例如 `planning preserved over simultaneous execution follow-up; deferred skills: team, ralph`\n- 最終作用中技能 / 初始化狀態摘要\n- 只有當 `team` 確實屬於最終作用中技能時，才顯示 team 執行期提示"
+  },
+  {
+    "original": "## Audit fields for auto-complete",
+    "zh_tw": "## 自動完成的稽核欄位"
+  },
+  {
+    "original": "When a source mode is auto-completed during transition, the source state should record:",
+    "zh_tw": "當來源模式在轉換期間被自動完成時，來源狀態應記錄："
+  },
+  {
+    "original": "- `active: false`\n- `current_phase: completed`\n- `completed_at`\n- `auto_completed_reason` or equivalent\n- `completion_note` or equivalent\n- destination metadata when useful (`transition_target_mode`, source path, etc.)",
+    "zh_tw": "- `active: false`\n- `current_phase: completed`\n- `completed_at`\n- `auto_completed_reason` 或等效欄位\n- `completion_note` 或等效欄位\n- 在有用時記錄目的地中繼資料（`transition_target_mode`、來源路徑等）"
+  },
+  {
+    "original": "## Invariants",
+    "zh_tw": "## 不變條件"
+  },
+  {
+    "original": "These rules should remain true unless intentionally changed:",
+    "zh_tw": "除非有意修改，這些規則應保持為真："
+  },
+  {
+    "original": "- rollback to planning never auto-completes\n- non-allowlisted transitions remain blocked\n- `ultrawork` overlap-any must not weaken `ralplan-first` gating\n- native-hook output is a presentation layer over shared transition results, not a separate decision engine\n- compatibility sync must not resurrect completed source modes",
+    "zh_tw": "- 回滾到規劃絕不會自動完成\n- 不在允許清單中的轉換仍會被阻擋\n- `ultrawork` 的 overlap-any 不得削弱 `ralplan-first` 的門檻控制\n- native-hook 輸出是建立在共享轉換結果之上的呈現層，而不是獨立的決策引擎\n- 相容性同步不得重新喚起已完成的來源模式"
+  },
+  {
+    "original": "## Practical guidance",
+    "zh_tw": "## 實務指引"
+  },
+  {
+    "original": "### If you are changing transition rules",
+    "zh_tw": "### 如果你正在變更轉換規則"
+  },
+  {
+    "original": "Update together:",
+    "zh_tw": "請一併更新："
+  },
+  {
+    "original": "- `src/state/workflow-transition.ts`\n- `src/state/workflow-transition-reconcile.ts`\n- lifecycle / MCP callers\n- prompt-submit/native-hook rendering\n- regression tests",
+    "zh_tw": "- `src/state/workflow-transition.ts`\n- `src/state/workflow-transition-reconcile.ts`\n- lifecycle / MCP 呼叫端\n- prompt-submit/native-hook rendering\n- regression tests"
+  },
+  {
+    "original": "### If you are debugging stale state",
+    "zh_tw": "### 如果你正在除錯過期狀態"
+  },
+  {
+    "original": "Check these in order:",
+    "zh_tw": "請依序檢查這些項目："
+  },
+  {
+    "original": "1. session-scoped `<mode>-state.json`\n2. root `<mode>-state.json`\n3. session/root `skill-active-state.json`\n4. whether a previous auto-complete wrote audit metadata but compatibility sync reintroduced the mode",
+    "zh_tw": "1. session 範圍的 `<mode>-state.json`\n2. root `<mode>-state.json`\n3. session/root `skill-active-state.json`\n4. 先前的自動完成是否寫入了稽核中繼資料，但相容性同步又重新引入了該模式"
+  },
+  {
+    "original": "### If you are adding a new allowlisted handoff",
+    "zh_tw": "### 如果你正在新增一個允許清單內的交接"
+  },
+  {
+    "original": "Define:",
+    "zh_tw": "請定義："
+  },
+  {
+    "original": "- source mode\n- destination mode(s)\n- whether source auto-completes or destination overlaps\n- rollback behavior\n- expected native-hook / CLI / MCP transition output\n- regression tests for both session and root scope",
+    "zh_tw": "- 來源模式\n- 目的模式\n- 來源是否自動完成或目的端是否重疊\n- 回滾行為\n- 預期的 native-hook / CLI / MCP 轉換輸出\n- session 與 root 範圍的 regression tests"
+  }
+]

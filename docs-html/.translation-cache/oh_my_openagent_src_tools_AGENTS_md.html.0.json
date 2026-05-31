@@ -1,0 +1,82 @@
+[
+  {
+    "original": "# src/tools/ — 12–31 Native Tools Across 13 Tool Directories (+ shared utilities)",
+    "zh_tw": "# src/tools/ — 13 個工具目錄中的 12–31 個原生工具（+ 共用工具）"
+  },
+  {
+    "original": "**Generated:** 2026-05-15",
+    "zh_tw": "**產生日期：** 2026-05-15"
+  },
+  {
+    "original": "## OVERVIEW",
+    "zh_tw": "## 概覽"
+  },
+  {
+    "original": "Tools registered via [`createToolRegistry()`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/tool-registry.ts) in `src/plugin/`. Native tools are factory-based (`createXXXTool`) except `interactive_bash` (`ToolDefinition`). LSP and AST-grep tools are no longer native `src/tools/` implementations; they are served by Tier-1 built-in MCPs `lsp` and `ast_grep` and keep the same exposed names (`lsp_diagnostics`, `ast_grep_search`, etc.).",
+    "zh_tw": "工具透過 `src/plugin/` 中的 [`createToolRegistry()`](file:///Users/yeongyu/local-workspaces/omo/src/plugin/tool-registry.ts) 註冊。原生工具皆以工廠模式（`createXXXTool`）為基礎，`interactive_bash`（`ToolDefinition`）除外。LSP 和 AST-grep 工具不再是 `src/tools/` 的原生實作；它們由 Tier-1 內建 MCP `lsp` 和 `ast_grep` 提供，並保留相同的對外名稱（`lsp_diagnostics`、`ast_grep_search` 等）。"
+  },
+  {
+    "original": "## TOOL CATALOG",
+    "zh_tw": "## 工具目錄"
+  },
+  {
+    "original": "### Always On (12 native tools)",
+    "zh_tw": "### 一直啟用（12 個原生工具）"
+  },
+  {
+    "original": "| Group | Tools |\n|-------|-------|\n| **Search** (2) | `grep`, `glob` |\n| **Sessions** (4) | `session_list`, `session_read`, `session_search`, `session_info` |\n| **Background tasks** (2) | `background_output`, `background_cancel` |\n| **Delegation** (2) | `task` (delegate, full skill+category support), `call_omo_agent` (named agent only: explore, librarian) |\n| **Skills/MCP** (2) | `skill` (load skill or invoke command), `skill_mcp` (call skill-embedded MCP tool/resource/prompt) |",
+    "zh_tw": "| 群組 | 工具 |\n|-------|-------|\n| **搜尋** (2) | `grep`, `glob` |\n| **工作階段** (4) | `session_list`, `session_read`, `session_search`, `session_info` |\n| **背景任務** (2) | `background_output`, `background_cancel` |\n| **委派** (2) | `task`（委派，完整支援 skill+category）、`call_omo_agent`（僅限具名代理：explore、librarian） |\n| **Skills/MCP** (2) | `skill`（載入 skill 或執行命令）、`skill_mcp`（呼叫嵌入於 skill 的 MCP 工具/資源/prompt） |"
+  },
+  {
+    "original": "> LSP and AST-grep tools are now provided by built-in MCP servers `lsp` and `ast_grep` (Tier-1 stdio), backed by `packages/lsp-tools-mcp/` and `packages/ast-grep-mcp/`. OpenCode-compatible aliases remain available (`lsp_status`, `lsp_diagnostics`, `lsp_goto_definition`, `lsp_find_references`, `lsp_symbols`, `lsp_prepare_rename`, `lsp_rename`, `ast_grep_search`, `ast_grep_replace`).",
+    "zh_tw": "> LSP 和 AST-grep 工具現在由內建 MCP 伺服器 `lsp` 和 `ast_grep`（Tier-1 stdio）提供，底層由 `packages/lsp-tools-mcp/` 和 `packages/ast-grep-mcp/` 支援。仍保留相容 OpenCode 的別名（`lsp_status`、`lsp_diagnostics`、`lsp_goto_definition`、`lsp_find_references`、`lsp_symbols`、`lsp_prepare_rename`、`lsp_rename`、`ast_grep_search`、`ast_grep_replace`）。"
+  },
+  {
+    "original": "### Conditional (up to +19 native tools)",
+    "zh_tw": "### 條件式（最多 +19 個原生工具）"
+  },
+  {
+    "original": "| Tool(s) | Gate | Source |\n|---------|------|--------|\n| `look_at` | not in `disabled_agents` for `multimodal-looker` | `look-at/` |\n| `interactive_bash` | `isInteractiveBashEnabled(config)` (tmux config) | `interactive-bash/` |\n| `task_create`, `task_get`, `task_list`, `task_update` | `experimental.task_system` | `task/` |\n| `edit` (hashline-edit) | `hashline_edit: true` | `hashline-edit/` |\n| 12 `team_*` tools | `team_mode.enabled: true` | `../features/team-mode/tools/` |",
+    "zh_tw": "| 工具 | 條件 | 來源 |\n|---------|------|--------|\n| `look_at` | `multimodal-looker` 不在 `disabled_agents` 中 | `look-at/` |\n| `interactive_bash` | `isInteractiveBashEnabled(config)`（tmux 設定） | `interactive-bash/` |\n| `task_create`、`task_get`、`task_list`、`task_update` | `experimental.task_system` | `task/` |\n| `edit`（hashline-edit） | `hashline_edit: true` | `hashline-edit/` |\n| 12 個 `team_*` 工具 | `team_mode.enabled: true` | `../features/team-mode/tools/` |"
+  },
+  {
+    "original": "### 12 team_* Tools (when team_mode enabled)",
+    "zh_tw": "### 12 個 team_* 工具（啟用 team_mode 時）"
+  },
+  {
+    "original": "| Tool | Purpose |\n|------|---------|\n| `team_create` | Spawn team + member sessions from a TeamSpec (named or inline) |\n| `team_delete` | Tear down — removes mailbox, tasklist, worktrees, optional tmux layout |\n| `team_shutdown_request` | Member or lead requests its own shutdown |\n| `team_approve_shutdown` | Lead acks a pending shutdown |\n| `team_reject_shutdown` | Lead rejects a shutdown with reason |\n| `team_send_message` | Async message to specific member or `*` broadcast |\n| `team_task_create` | Create task on shared list |\n| `team_task_list` | List tasks (filter by status, owner) |\n| `team_task_update` | Claim/complete/delete (atomic file lock) |\n| `team_task_get` | Fetch single task |\n| `team_status` | Full team run status (members, tasks, mailbox) |\n| `team_list` | List declared + active teams |",
+    "zh_tw": "| 工具 | 用途 |\n|------|---------|\n| `team_create` | 依據 TeamSpec（具名或內嵌）建立團隊與成員工作階段 |\n| `team_delete` | 清理 - 移除 mailbox、tasklist、worktrees、可選的 tmux 版面配置 |\n| `team_shutdown_request` | 成員或 leader 請求自行關閉 |\n| `team_approve_shutdown` | leader 核准待處理的關閉請求 |\n| `team_reject_shutdown` | leader 以原因拒絕關閉請求 |\n| `team_send_message` | 向特定成員或 `*` 廣播非同步訊息 |\n| `team_task_create` | 在共享清單上建立任務 |\n| `team_task_list` | 列出任務（依狀態、擁有者篩選） |\n| `team_task_update` | 認領/完成/刪除（原子性檔案鎖） |\n| `team_task_get` | 取得單一任務 |\n| `team_status` | 完整團隊執行狀態（成員、任務、mailbox） |\n| `team_list` | 列出已宣告與啟用中的團隊 |"
+  },
+  {
+    "original": "## DELEGATION CATEGORIES (built-in 8)",
+    "zh_tw": "## 委派分類（內建 8 種）"
+  },
+  {
+    "original": "`task` (delegate) selects model by category. Default category models live in provider-specific files under `src/tools/delegate-task/` and aggregate via `BUILTIN_CATEGORIES` in `builtin-categories.ts`. Authoritative fallback chains in [`src/shared/model-requirements.ts`](file:///Users/yeongyu/local-workspaces/omo/src/shared/model-requirements.ts) `CATEGORY_MODEL_REQUIREMENTS`.",
+    "zh_tw": "`task`（delegate）會依分類選擇模型。預設分類模型位於 `src/tools/delegate-task/` 底下各 provider 專屬檔案，並透過 `builtin-categories.ts` 中的 `BUILTIN_CATEGORIES` 彙總。權威的 fallback 鏈定義於 [`src/shared/model-requirements.ts`](file:///Users/yeongyu/local-workspaces/omo/src/shared/model-requirements.ts) 的 `CATEGORY_MODEL_REQUIREMENTS`。"
+  },
+  {
+    "original": "| Category | Default Model | Source File | Domain |\n|----------|---------------|-------------|--------|\n| `visual-engineering` | google/gemini-3.1-pro (variant: high) | google-categories.ts | Frontend, UI/UX |\n| `ultrabrain` | openai/gpt-5.5 (variant: xhigh) | openai-categories.ts | Hard logic / heavy reasoning |\n| `deep` | openai/gpt-5.5 (variant: medium) | openai-categories.ts | Autonomous multi-step problem-solving |\n| `artistry` | google/gemini-3.1-pro (variant: high) | google-categories.ts | Creative / unconventional approaches |\n| `quick` | openai/gpt-5.4-mini | openai-categories.ts | Trivial single-file changes |\n| `unspecified-low` | anthropic/claude-sonnet-4-6 | anthropic-categories.ts | Moderate effort fallback |\n| `unspecified-high` | anthropic/claude-opus-4-7 (variant: max) | anthropic-categories.ts | High effort fallback |\n| `writing` | kimi-for-coding/k2p5 (default) → gemini-3-flash (first fallback) | kimi-categories.ts | Documentation, prose |",
+    "zh_tw": "| 分類 | 預設模型 | 來源檔案 | 領域 |\n|----------|---------------|-------------|--------|\n| `visual-engineering` | google/gemini-3.1-pro（variant: high） | google-categories.ts | 前端、UI/UX |\n| `ultrabrain` | openai/gpt-5.5（variant: xhigh） | openai-categories.ts | 硬性邏輯／重度推理 |\n| `deep` | openai/gpt-5.5（variant: medium） | openai-categories.ts | 自主式多步問題解決 |\n| `artistry` | google/gemini-3.1-pro（variant: high） | google-categories.ts | 創意／非傳統方法 |\n| `quick` | openai/gpt-5.4-mini | openai-categories.ts | 瑣碎的單檔變更 |\n| `unspecified-low` | anthropic/claude-sonnet-4-6 | anthropic-categories.ts | 中等工作量 fallback |\n| `unspecified-high` | anthropic/claude-opus-4-7（variant: max） | anthropic-categories.ts | 高工作量 fallback |\n| `writing` | kimi-for-coding/k2p5（預設）→ gemini-3-flash（第一個 fallback） | kimi-categories.ts | 文件、散文 |"
+  },
+  {
+    "original": "User-defined categories declared in `categories: { ... }` config override and extend this set.",
+    "zh_tw": "在 `categories: { ... }` 設定中宣告的使用者自訂分類會覆寫並擴充這個集合。"
+  },
+  {
+    "original": "## TOOL DIR LAYOUT",
+    "zh_tw": "## 工具目錄版面配置"
+  },
+  {
+    "original": "```\ntools/\n├── background-task/      # background_output, background_cancel (LLM interface; engine in features/background-agent)\n├── call-omo-agent/       # call_omo_agent (explore + librarian only)\n├── delegate-task/        # task — full delegation with categories + skills\n├── glob/                 # glob (60s timeout, 100 file limit)\n├── grep/                 # grep (60s timeout, 10MB limit)\n├── hashline-edit/        # edit — hash-anchored line edits with LINE#ID validation\n├── interactive-bash/     # interactive_bash — tmux session control\n├── look-at/              # look_at — image/PDF analysis\n├── session-manager/      # 4 session_* tools\n├── skill/                # skill — load skill or run command\n├── skill-mcp/            # skill_mcp — call skill-embedded MCP servers\n├── slashcommand/         # discoverCommandsSync — feeds skill tool with /-command list\n├── task/                 # 4 task_* tools (Sisyphus task system)\n└── index.ts              # barrel exports\n```",
+    "zh_tw": "```\ntools/\n├── background-task/      # background_output, background_cancel（LLM 介面；engine 位於 features/background-agent）\n├── call-omo-agent/       # call_omo_agent（僅限 explore + librarian）\n├── delegate-task/        # task — 具備 categories + skills 的完整委派\n├── glob/                 # glob（60 秒 timeout，100 個檔案上限）\n├── grep/                 # grep（60 秒 timeout，10MB 上限）\n├── hashline-edit/        # edit — 以 hash 錨定的行編輯，並進行 LINE#ID 驗證\n├── interactive-bash/     # interactive_bash — tmux 工作階段控制\n├── look-at/              # look_at — 圖片/PDF 分析\n├── session-manager/      # 4 個 session_* 工具\n├── skill/                # skill — 載入 skill 或執行命令\n├── skill-mcp/            # skill_mcp — 呼叫嵌入於 skill 的 MCP 伺服器\n├── slashcommand/         # discoverCommandsSync — 將 /-command 清單提供給 skill 工具\n├── task/                 # 4 個 task_* 工具（Sisyphus task system）\n└── index.ts              # barrel exports\n```"
+  },
+  {
+    "original": "## ADDING A NEW TOOL",
+    "zh_tw": "## 新增工具"
+  },
+  {
+    "original": "1. Create `src/tools/{name}/index.ts` with factory `createXXXTool`\n2. Add `types.ts` for parameter Zod schemas\n3. Add `tools.ts` (or single index.ts) for implementation\n4. Export factory from `src/tools/index.ts`\n5. Register in `src/plugin/tool-registry.ts`:\n   - Always-on: spread into `allTools` directly\n   - Conditional: build a `Record<string, ToolDefinition>` and gate-spread\n6. If the tool needs disabling, ensure it appears in `filterDisabledTools` allow-list (its name will be matched against `disabled_tools`)",
+    "zh_tw": "1. 建立 `src/tools/{name}/index.ts`，其中包含 factory `createXXXTool`\n2. 新增 `types.ts` 以定義參數的 Zod schemas\n3. 新增 `tools.ts`（或單一的 index.ts）作為實作\n4. 從 `src/tools/index.ts` 匯出 factory\n5. 在 `src/plugin/tool-registry.ts` 中註冊：\n   - 一直啟用：直接展開到 `allTools`\n   - 條件式：建立 `Record<string, ToolDefinition>` 並依條件展開\n6. 如果工具需要停用，請確保它出現在 `filterDisabledTools` allow-list 中（其名稱會與 `disabled_tools` 比對）"
+  }
+]

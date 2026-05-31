@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oh-my-openagent/src/hooks/compaction-context-injector/AGENTS.md</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+</head>
+<body>
+<main>
+<nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
+<h1 class="path">oh-my-openagent/src/hooks/compaction-context-injector/AGENTS.md</h1><p>被引用於：<code>05-study-plan.md</code></p><p><a href="../../oh-my-openagent/src/hooks/compaction-context-injector/AGENTS.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code># src/hooks/compaction-context-injector/ -- Post-Compaction Context Recovery</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code># src/hooks/compaction-context-injector/ -- 壓縮後上下文復原</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Generated:** 2026-05-18</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**產生時間：** 2026-05-18</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## OVERVIEW</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 總覽</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Continuation Tier hook. Fires on `session.compacted` to re-inject critical context lost during context-window compaction. Prevents the agent from losing its bearings after OpenCode trims session history.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Continuation 層級的 hook。在 `session.compacted` 觸發，重新注入在 context-window 壓縮期間遺失的關鍵上下文。避免 OpenCode 裁切 session history 後讓 agent 失去方向。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## TIER + EVENT</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 層級 + 事件</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **Tier:** Continuation
+- **Event:** `session.compacted` (primary), `session.idle`, `session.deleted`, `message.updated`, `message.part.delta`, `message.part.updated`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **層級:** Continuation
+- **事件:** `session.compacted`（主要）、`session.idle`、`session.deleted`、`message.updated`、`message.part.delta`、`message.part.updated`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## KEY FILES</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 關鍵檔案</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| File | Purpose |
+|------|---------|
+| `hook.ts` | `createCompactionContextInjector()` -- composes capture, restore, inject, event |
+| `recovery.ts` | `createRecoveryLogic()` -- rebuilds agent/model/tools after compaction |
+| `tail-monitor.ts` | Tracks assistant output to detect no-text tails |
+| `session-prompt-config-resolver.ts` | Walks session messages to resolve current agent/model/tools |
+| `validated-model.ts` | `validateCheckpointModel()` -- model validation |
+| `session-id.ts` | `resolveSessionID()`, `isCompactionAgent()` |
+| `recovery-prompt-config.ts` | `createExpectedRecoveryPromptConfig()`, `isPromptConfigRecovered()` |
+| `constants.ts` | `RECOVERY_COOLDOWN_MS`, `NO_TEXT_TAIL_THRESHOLD`, `RECENT_COMPACTION_WINDOW_MS` |
+| `types.ts` | `CompactionContextInjector` interface |
+| `compaction-context-prompt.ts` | `COMPACTION_CONTEXT_PROMPT` -- 8-section summary template |
+| `index.ts` / `index.test.ts` | Barrel export + tests |
+| `recovery.test.ts` / `session-prompt-config-resolver.test.ts` | Unit tests |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 檔案 | 用途 |
+|------|---------|
+| `hook.ts` | `createCompactionContextInjector()` -- 組合 capture、restore、inject、event |
+| `recovery.ts` | `createRecoveryLogic()` -- 在壓縮後重建 agent/model/tools |
+| `tail-monitor.ts` | 追蹤 assistant 輸出以偵測沒有文字的尾端 |
+| `session-prompt-config-resolver.ts` | 遍歷 session 訊息以解析目前的 agent/model/tools |
+| `validated-model.ts` | `validateCheckpointModel()` -- 模型驗證 |
+| `session-id.ts` | `resolveSessionID()`、`isCompactionAgent()` |
+| `recovery-prompt-config.ts` | `createExpectedRecoveryPromptConfig()`、`isPromptConfigRecovered()` |
+| `constants.ts` | `RECOVERY_COOLDOWN_MS`、`NO_TEXT_TAIL_THRESHOLD`、`RECENT_COMPACTION_WINDOW_MS` |
+| `types.ts` | `CompactionContextInjector` 介面 |
+| `compaction-context-prompt.ts` | `COMPACTION_CONTEXT_PROMPT` -- 8 個區段的摘要範本 |
+| `index.ts` / `index.test.ts` | 匯出樞紐 + 測試 |
+| `recovery.test.ts` / `session-prompt-config-resolver.test.ts` | 單元測試 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## HOW IT WORKS</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 運作方式</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. **Capture:** Before compaction, saves agent/model/tools checkpoint via `setCompactionAgentConfigCheckpoint()`
+2. **Inject:** Returns `COMPACTION_CONTEXT_PROMPT` with active delegated session history
+3. **Recover:** On `session.compacted`, dispatches internal prompt to restore checkpointed config
+4. **Tail monitor:** Detects consecutive assistant messages with no text output; triggers recovery if recent compaction</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. **Capture：** 在壓縮前，透過 `setCompactionAgentConfigCheckpoint()` 儲存 agent/model/tools 檢查點
+2. **Inject：** 回傳包含目前委派 session 歷史的 `COMPACTION_CONTEXT_PROMPT`
+3. **Recover：** 在 `session.compacted` 時，派送內部提示以還原已檢查點的設定
+4. **Tail monitor：** 偵測連續沒有文字輸出的 assistant 訊息；若近期有壓縮則觸發復原</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## INTEGRATION</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 整合</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Registered in `create-continuation-hooks.ts` as `compactionContextInjector`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在 `create-continuation-hooks.ts` 中註冊為 `compactionContextInjector`。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## DISTINCTION</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 差異</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **`compactionTodoPreserver`:** Preserves todos only (sibling Continuation hook)
+- **`anthropicContextWindowLimitRecovery`:** Prevents the limit preemptively (Session Tier)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **`compactionTodoPreserver`：** 只保留 todos（同層級的 Continuation hook）
+- **`anthropicContextWindowLimitRecovery`：** 預先防止達到限制（Session Tier）</code></pre></div></section>
+</main>
+</body>
+</html>

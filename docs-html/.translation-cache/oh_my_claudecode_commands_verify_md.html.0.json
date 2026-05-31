@@ -1,0 +1,30 @@
+[
+  {
+    "original": "---\ndescription: \"\"\n---",
+    "zh_tw": "---\ndescription: \"\"\n---"
+  },
+  {
+    "original": "# OMC verify",
+    "zh_tw": "# OMC verify"
+  },
+  {
+    "original": "This compatibility command keeps `/oh-my-claudecode:verify` available without loading the full `verify` skill description in every Claude Code session.",
+    "zh_tw": "這個相容性指令會讓 `/oh-my-claudecode:verify` 保持可用，而不必在每個 Claude Code 工作階段都載入完整的 `verify` skill 說明。"
+  },
+  {
+    "original": "## Dispatch",
+    "zh_tw": "## 派發"
+  },
+  {
+    "original": "1. Read the full bundled skill instructions from the active OMC plugin/install: `skills/verify/SKILL.md`.\n2. Follow that SKILL.md exactly, treating the user's arguments as:",
+    "zh_tw": "1. 從目前啟用的 OMC plugin/install 讀取完整的 bundled skill instructions：`skills/verify/SKILL.md`。\n2. 嚴格遵循該 SKILL.md，並將使用者的參數視為："
+  },
+  {
+    "original": "```text\n$ARGUMENTS\n```",
+    "zh_tw": "```text\n$ARGUMENTS\n```"
+  },
+  {
+    "original": "If the file is not directly readable from the current working directory, locate it under the active `CLAUDE_PLUGIN_ROOT`/`OMC_PLUGIN_ROOT`, package root, or installed OMC plugin directory, then continue.",
+    "zh_tw": "如果此檔案無法直接從目前工作目錄讀取，請在目前啟用的 `CLAUDE_PLUGIN_ROOT`/`OMC_PLUGIN_ROOT`、套件根目錄，或已安裝的 OMC plugin 目錄中找到它，然後繼續。"
+  }
+]

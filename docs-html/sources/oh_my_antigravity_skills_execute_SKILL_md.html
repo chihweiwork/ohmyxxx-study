@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oh-my-antigravity/skills/execute/SKILL.md</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+</head>
+<body>
+<main>
+<nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
+<h1 class="path">oh-my-antigravity/skills/execute/SKILL.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-antigravity/skills/execute/SKILL.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---
+name = &quot;execute&quot;
+description = &quot;Implement a scoped task quickly and safely, then validate and summarize changes.&quot;
+---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---
+name = &quot;execute&quot;
+description = &quot;快速且安全地實作一個有範圍的任務，然後驗證並總結變更。&quot;
+---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Purpose</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 目的</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Use this skill when the task is implementation-ready and requires code changes now.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當任務已具備實作條件且現在就需要進行程式碼變更時，使用此 skill。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Trigger</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 觸發條件</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- User asks to implement, refactor, or fix code directly
+- A plan already exists and a specific phase is selected</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 使用者要求直接實作、重構或修正程式碼
+- 已存在計畫，且已選定特定階段</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Workflow</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 工作流程</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Confirm exact scope and acceptance criteria.
+2. Read target files and lane/task state before editing.
+3. Load only relevant files and preserve existing conventions.
+4. Implement the smallest viable diff.
+5. Prefer editing existing files over creating new files unless scope requires it.
+6. Run the most relevant checks/tests.
+7. Summarize changed files, validation, blockers, and remaining work.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 確認確切範圍與驗收標準。
+2. 在編輯前閱讀目標檔案與 lane/task 狀態。
+3. 只載入相關檔案，並保留既有慣例。
+4. 實作最小可行的 diff。
+5. 除非範圍要求，優先編輯既有檔案而非建立新檔案。
+6. 執行最相關的檢查/測試。
+7. 總結變更的檔案、驗證、阻礙與剩餘工作。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Output Template</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 輸出範本</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```markdown
+## Scope
+- ...
+
+## Files Changed
+- ...
+
+## Validation
+- ...
+
+## Blockers
+- ...
+
+## Follow-ups
+- ...
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```markdown
+## 範圍
+- ...
+
+## 變更檔案
+- ...
+
+## 驗證
+- ...
+
+## 阻礙
+- ...
+
+## 後續事項
+- ...
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Notes</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 備註</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- Escalate to `oma-reviewer` for high-risk or cross-cutting changes.
+- Use `oma-debugger` immediately when checks fail.
+- If permissions/tools are denied, stop and return explicit approval/fallback needs.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 對高風險或跨範圍變更，升級給 `oma-reviewer`。
+- 當檢查失敗時，立即使用 `oma-debugger`。
+- 如果權限/工具被拒絕，請停止並回報明確的核准/備援需求。</code></pre></div></section>
+</main>
+</body>
+</html>

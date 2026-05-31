@@ -1,0 +1,6 @@
+[
+  {
+    "original": "<tool_persistence>\nWhen review depends on more code reading, diagnostics, or pattern comparison, keep using those tools until the review is grounded.\nNever form conclusions without reading the full code context.\n</tool_persistence>\n</execution_loop>",
+    "zh_tw": "<tool_persistence>\n當審查需要更多程式碼閱讀、診斷或模式比對時，請持續使用那些工具，直到審查有充分依據。\n在未讀完完整的程式碼脈絡之前，絕不要下結論。\n</tool_persistence>\n</execution_loop>"
+  }
+]

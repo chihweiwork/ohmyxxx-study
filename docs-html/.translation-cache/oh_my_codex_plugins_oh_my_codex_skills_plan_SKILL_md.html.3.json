@@ -1,0 +1,54 @@
+[
+  {
+    "original": "<Escalation_And_Stop_Conditions>\n- Stop interviewing when requirements are clear enough to plan -- do not over-interview\n- In consensus mode, stop after 5 Planner/Architect/Critic iterations and present the best version\n- Consensus mode outputs the plan by default; with `--interactive`, user can approve and hand off to ultragoal/team, with Ralph only as an explicit legacy/persistent single-owner lane\n- If the user says \"just do it\" or \"skip planning\", **MUST** invoke `$ultragoal` to transition to durable goal execution mode by default; use `$ralph` only when the user explicitly asks for that fallback. Do NOT implement directly in the planning agent.\n- Escalate to the user when there are irreconcilable trade-offs that require a business decision\n</Escalation_And_Stop_Conditions>",
+    "zh_tw": "<Escalation_And_Stop_Conditions>\n- 當需求已清楚到足以規劃時就停止訪談 -- 不要過度訪談\n- 在共識模式中，經過 5 次 Planner/Architect/Critic 迭代後就停止，並呈現最佳版本\n- 共識模式預設會輸出計畫；使用 `--interactive` 時，使用者可以核准並交接給 ultragoal/team，而 Ralph 只作為明確的舊式／持久單一擁有者路徑\n- 如果使用者說「直接做」或「跳過規劃」，**MUST** 預設呼叫 `$ultragoal` 以轉入持久化目標執行模式；只有在使用者明確要求該備援時才使用 `$ralph`。不要在規劃代理中直接實作。\n- 當存在無法調和且需要商業決策的取捨時，向使用者升級處理\n</Escalation_And_Stop_Conditions>"
+  },
+  {
+    "original": "<Final_Checklist>\n- [ ] Plan has testable acceptance criteria (90%+ concrete)\n- [ ] Plan references specific files/lines where applicable (80%+ claims)\n- [ ] All risks have mitigations identified\n- [ ] No vague terms without metrics (\"fast\" -> \"p99 < 200ms\")\n- [ ] Plan saved to `.omx/plans/`\n- [ ] In consensus mode: RALPLAN-DR summary includes 3-5 principles, top 3 drivers, and >=2 viable options (or explicit invalidation rationale)\n- [ ] In consensus mode final output: ADR section included (Decision / Drivers / Alternatives considered / Why chosen / Consequences / Follow-ups)\n- [ ] In deliberate consensus mode: pre-mortem (3 scenarios) + expanded test plan (unit/integration/e2e/observability) included\n- [ ] In consensus mode with `--interactive`: user explicitly approved before any execution; without `--interactive`: output final plan after Critic approval (no auto-execution)\n</Final_Checklist>",
+    "zh_tw": "<Final_Checklist>\n- [ ] 計畫具有可測試的接受條件（90% 以上具體）\n- [ ] 計畫在適用處引用特定檔案／行號（80% 以上的主張）\n- [ ] 所有風險都有對應的緩解措施\n- [ ] 不使用沒有量化指標的模糊詞（\"fast\" -> \"p99 < 200ms\"）\n- [ ] 計畫已儲存至 `.omx/plans/`\n- [ ] 在共識模式中：RALPLAN-DR 摘要包含 3-5 項原則、前三大驅動因素，以及 >=2 個可行選項（或明確的失效理由）\n- [ ] 在共識模式的最終輸出中：包含 ADR 區段（Decision / Drivers / Alternatives considered / Why chosen / Consequences / Follow-ups）\n- [ ] 在刻意共識模式中：包含 pre-mortem（3 種情境）+ 擴充測試計畫（unit/integration/e2e/observability）\n- [ ] 在帶有 `--interactive` 的共識模式中：使用者在任何執行前已明確核准；沒有 `--interactive` 時：在 Critic 核准後輸出最終計畫（不自動執行）\n</Final_Checklist>"
+  },
+  {
+    "original": "<Advanced>\n## Design Option Presentation",
+    "zh_tw": "<Advanced>\n## 設計選項呈現"
+  },
+  {
+    "original": "When presenting design choices during interviews, chunk them:",
+    "zh_tw": "在訪談中呈現設計選擇時，將它們分段："
+  },
+  {
+    "original": "1. **Overview** (2-3 sentences)\n2. **Option A** with trade-offs\n3. [Wait for user reaction]\n4. **Option B** with trade-offs\n5. [Wait for user reaction]\n6. **Recommendation** (only after options discussed)",
+    "zh_tw": "1. **概覽**（2-3 句）\n2. **選項 A** 與其取捨\n3. [等待使用者反應]\n4. **選項 B** 與其取捨\n5. [等待使用者反應]\n6. **建議**（僅在討論完選項之後）"
+  },
+  {
+    "original": "Format for each option:\n```\n### Option A: [Name]\n**Approach:** [1 sentence]\n**Pros:** [bullets]\n**Cons:** [bullets]\n\nWhat's your reaction to this approach?\n```",
+    "zh_tw": "每個選項的格式：\n```\n### 選項 A: [Name]\n**Approach:** [1 sentence]\n**Pros:** [bullets]\n**Cons:** [bullets]\n\n你對這個做法有什麼反應？\n```"
+  },
+  {
+    "original": "## Question Classification",
+    "zh_tw": "## 問題分類"
+  },
+  {
+    "original": "Before asking any interview question, classify it:",
+    "zh_tw": "在提出任何訪談問題之前，先將它分類："
+  },
+  {
+    "original": "| Type | Examples | Action |\n|------|----------|--------|\n| Codebase Fact | \"What patterns exist?\", \"Where is X?\" | Explore first, do not ask user |\n| User Preference | \"Priority?\", \"Timeline?\" | Ask user via the structured question path (`omx question` in attached tmux; native structured input where available) |\n| Scope Decision | \"Include feature Y?\" | Ask user |\n| Requirement | \"Performance constraints?\" | Ask user |",
+    "zh_tw": "| 類型 | 範例 | 動作 |\n|------|----------|--------|\n| Codebase Fact | \"有哪些模式？\", \"X 在哪裡？\" | 先探索，不要問使用者 |\n| User Preference | \"優先順序？\", \"時程？\" | 透過結構化問題流程詢問使用者（附加 tmux 中的 `omx question`；可用時使用原生結構化輸入） |\n| Scope Decision | \"要包含功能 Y 嗎？\" | 問使用者 |\n| Requirement | \"效能限制？\" | 問使用者 |"
+  },
+  {
+    "original": "## Review Quality Criteria",
+    "zh_tw": "## 審查品質 معیار"
+  },
+  {
+    "original": "| Criterion | Standard |\n|-----------|----------|\n| Clarity | 80%+ claims cite file/line |\n| Testability | 90%+ criteria are concrete |\n| Verification | All file refs exist |\n| Specificity | No vague terms |",
+    "zh_tw": "| 準則 | 標準 |\n|-----------|----------|\n| 清晰度 | 80% 以上的主張引用檔案／行號 |\n| 可測試性 | 90% 以上的條件是具體的 |\n| 驗證性 | 所有檔案參照都存在 |\n| 具體性 | 沒有模糊詞 |"
+  },
+  {
+    "original": "## Deprecation Notice",
+    "zh_tw": "## 廢止通知"
+  },
+  {
+    "original": "The separate `/planner`, `/ralplan`, and `/review` skills have been merged into `$plan`. All workflows (interview, direct, consensus, review) are available through `$plan`.\n</Advanced>",
+    "zh_tw": "獨立的 `/planner`、`/ralplan` 和 `/review` skills 已合併為 `$plan`。所有工作流程（interview、direct、consensus、review）都可透過 `$plan` 使用。\n</Advanced>"
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "original": "---\nname: team\ndescription: N coordinated agents on shared task list using Claude Code native teams\nargument-hint: \"[N:agent-type] [ralph] <task description>\"\naliases: []\nlevel: 4\n---",
+    "zh_tw": "---\nname: team\ndescription: 使用 Claude Code 原生 team 工具，在共享任務清單上協調 N 個代理人\nargument-hint: \"[N:agent-type] [ralph] <任務描述>\"\naliases: []\nlevel: 4\n---"
+  },
+  {
+    "original": "# Team Skill",
+    "zh_tw": "# Team 技能"
+  },
+  {
+    "original": "Spawn N coordinated agents working on a shared task list using Claude Code's native team tools. Replaces the legacy `/swarm` skill (SQLite-based) with built-in team management, inter-agent messaging, and task dependencies -- no external dependencies required.",
+    "zh_tw": "啟動 N 個協調運作的代理人，使用 Claude Code 的原生 team 工具在共享任務清單上工作。以內建的 team 管理、代理人間訊息傳遞與任務依賴關係，取代舊版 `/swarm` 技能（以 SQLite 為基礎）-- 不需要外部相依項目。"
+  },
+  {
+    "original": "The `swarm` compatibility alias was removed in #1131.",
+    "zh_tw": "相容別名 `swarm` 已在 #1131 中移除。"
+  },
+  {
+    "original": "## Usage",
+    "zh_tw": "## 用法"
+  },
+  {
+    "original": "```\n/oh-my-claudecode:team N:agent-type \"task description\"\n/oh-my-claudecode:team \"task description\"\n/oh-my-claudecode:team ralph \"task description\"\n```",
+    "zh_tw": "```\n/oh-my-claudecode:team N:agent-type \"任務描述\"\n/oh-my-claudecode:team \"任務描述\"\n/oh-my-claudecode:team ralph \"任務描述\"\n```"
+  },
+  {
+    "original": "### Parameters",
+    "zh_tw": "### 參數"
+  },
+  {
+    "original": "- **N** - Number of teammate agents (1-20). Optional; defaults to auto-sizing based on task decomposition.\n- **agent-type** - OMC agent to spawn for the `team-exec` stage (e.g., executor, debugger, designer, codex, gemini). Optional; defaults to stage-aware routing. Use `codex` to spawn Codex CLI workers or `gemini` for Gemini CLI workers (requires respective CLIs installed). See Stage Agent Routing below.\n- **task** - High-level task to decompose and distribute among teammates\n- **ralph** - Optional modifier. When present, wraps the team pipeline in Ralph's persistence loop (retry on failure, architect verification before completion). See Team + Ralph Composition below.",
+    "zh_tw": "- **N** - 隊友代理人的數量（1-20）。可選；預設會根據任務分解自動調整大小。\n- **agent-type** - 要在 `team-exec` 階段啟動的 OMC 代理人（例如 executor、debugger、designer、codex、gemini）。可選；預設會依階段感知路由。使用 `codex` 來啟動 Codex CLI workers，或使用 `gemini` 來啟動 Gemini CLI workers（需要安裝各自的 CLI）。請參見下方的階段代理人路由。\n- **task** - 要分解並分派給隊友的高層級任務\n- **ralph** - 可選修飾詞。出現時，會將 team 管線包裹在 Ralph 的持續性迴圈中（失敗時重試、在完成前進行架構驗證）。請參見下方的 Team + Ralph 組合。"
+  },
+  {
+    "original": "### Examples",
+    "zh_tw": "### 範例"
+  },
+  {
+    "original": "```bash\n/team 5:executor \"fix all TypeScript errors across the project\"\n/team 3:debugger \"fix build errors in src/\"\n/team 4:designer \"implement responsive layouts for all page components\"\n/team \"refactor the auth module with security review\"\n/team ralph \"build a complete REST API for user management\"\n# With Codex CLI workers (requires: npm install -g @openai/codex)\n/team 2:codex \"review architecture and suggest improvements\"\n# With Gemini CLI workers (requires: npm install -g @google/gemini-cli)\n/team 2:gemini \"redesign the UI components\"\n# Mixed: Codex for backend analysis, Gemini for frontend (use /ccg instead for this)\n```",
+    "zh_tw": "```bash\n/team 5:executor \"修正專案中所有 TypeScript 錯誤\"\n/team 3:debugger \"修正 src/ 中的建置錯誤\"\n/team 4:designer \"為所有頁面元件實作響應式版面\"\n/team \"重構驗證模組並進行安全審查\"\n/team ralph \"建立一個完整的使用者管理 REST API\"\n# 使用 Codex CLI workers（需要：npm install -g @openai/codex）\n/team 2:codex \"審查架構並提出改進建議\"\n# 使用 Gemini CLI workers（需要：npm install -g @google/gemini-cli）\n/team 2:gemini \"重新設計 UI 元件\"\n# 混合：Codex 負責後端分析，Gemini 負責前端（這裡請改用 /ccg）\n```"
+  },
+  {
+    "original": "## Architecture",
+    "zh_tw": "## 架構"
+  },
+  {
+    "original": "```\nUser: \"/team 3:executor fix all TypeScript errors\"\n              |\n              v\n      [TEAM ORCHESTRATOR (Lead)]\n              |\n              +-- TeamCreate(\"fix-ts-errors\")\n              |       -> lead becomes team-lead@fix-ts-errors\n              |\n              +-- Analyze & decompose task into subtasks\n              |       -> explore/architect produces subtask list\n              |\n              +-- TaskCreate x N (one per subtask)\n              |       -> tasks #1, #2, #3 with dependencies\n              |\n              +-- TaskUpdate x N (pre-assign owners)\n              |       -> task #1 owner=worker-1, etc.\n              |\n              +-- Task(team_name=\"fix-ts-errors\", name=\"worker-1\") x 3\n              |       -> spawns teammates into the team\n              |\n              +-- Monitor loop\n              |       <- SendMessage from teammates (auto-delivered)\n              |       -> TaskList polling for progress\n              |       -> SendMessage to unblock/coordinate\n              |\n              +-- Completion\n                      -> SendMessage(shutdown_request) to each teammate\n                      <- SendMessage(shutdown_response, approve: true)\n                      -> TeamDelete(\"fix-ts-errors\")\n                      -> rm .omc/state/team-state.json\n```",
+    "zh_tw": "```\nUser: \"/team 3:executor 修正所有 TypeScript 錯誤\"\n              |\n              v\n      [團隊協調器 (Lead)]\n              |\n              +-- TeamCreate(\"fix-ts-errors\")\n              |       -> lead 會變成 team-lead@fix-ts-errors\n              |\n              +-- 分析並將任務分解為子任務\n              |       -> explore/architect 產生子任務清單\n              |\n              +-- TaskCreate x N（每個子任務一個）\n              |       -> tasks #1, #2, #3 with dependencies\n              |\n              +-- TaskUpdate x N（預先指派擁有者）\n              |       -> task #1 owner=worker-1, etc.\n              |\n              +-- Task(team_name=\"fix-ts-errors\", name=\"worker-1\") x 3\n              |       -> 將隊友啟動到團隊中\n              |\n              +-- 監控迴圈\n              |       <- 來自隊友的 SendMessage（自動傳遞）\n              |       -> TaskList 輪詢進度\n              |       -> SendMessage 以解除阻塞／協調\n              |\n              +-- 完成\n                      -> SendMessage(shutdown_request) 給每個隊友\n                      <- SendMessage(shutdown_response, approve: true)\n                      -> TeamDelete(\"fix-ts-errors\")\n                      -> rm .omc/state/team-state.json\n```"
+  },
+  {
+    "original": "**Storage layout (managed by Claude Code):**",
+    "zh_tw": "**儲存結構（由 Claude Code 管理）：**"
+  },
+  {
+    "original": "```\n~/.claude/\n  teams/fix-ts-errors/\n    config.json          # Team metadata + members array\n  tasks/fix-ts-errors/\n    .lock                # File lock for concurrent access\n    1.json               # Subtask #1\n    2.json               # Subtask #2 (may be internal)\n    3.json               # Subtask #3\n    ...\n```",
+    "zh_tw": "```\n~/.claude/\n  teams/fix-ts-errors/\n    config.json          # Team 中繼資料 + 成員陣列\n  tasks/fix-ts-errors/\n    .lock                # 並發存取的檔案鎖\n    1.json               # 子任務 #1\n    2.json               # 子任務 #2（可能是內部任務）\n    3.json               # 子任務 #3\n    ...\n```"
+  },
+  {
+    "original": "## Goal Workflow Relationship",
+    "zh_tw": "## Goal 工作流程關係"
+  },
+  {
+    "original": "Team is the OMC authority for parallel, staged execution. Use the deterministic conflict policies `refuse`, `adopt_existing`, and `artifact_only` rather than non-deterministic warning handling. If a task mentions Claude Code `/goal`, Ralph, UltraQA, or artifact-only Ultragoal, keep Team as the primary loop authority unless the leader explicitly hands off. Use `/goal` only as a documented native Claude Code handoff target or as visible evidence from the lead session; do not claim the `/goal` evaluator independently runs commands, reads files, or replaces `team-verify` / `team-fix`. Artifact-only Ultragoal references should be treated as durable goal ledger/checkpoint/evidence artifacts, not as worker execution by themselves.",
+    "zh_tw": "Team 是 OMC 在平行、分階段執行上的權威。請使用可決定性的衝突政策 `refuse`、`adopt_existing` 和 `artifact_only`，而不是非決定性的警告處理。如果任務提到 Claude Code `/goal`、Ralph、UltraQA，或 artifact-only Ultragoal，除非 leader 明確交接，否則請維持 Team 作為主要迴圈權威。只有在 `/goal` 是文件化的原生 Claude Code 交接目標，或是來自 lead session 的可見證據時，才使用它；不要聲稱 `/goal` evaluator 會獨立執行命令、讀取檔案，或取代 `team-verify` / `team-fix`。artifact-only Ultragoal 參考應被視為持久的目標帳本／檢查點／證據 artifacts，而不是其本身就代表 worker 執行。"
+  },
+  {
+    "original": "## Staged Pipeline (Canonical Team Runtime)",
+    "zh_tw": "## 分階段管線（Canonical Team Runtime）"
+  },
+  {
+    "original": "Team execution follows a staged pipeline:",
+    "zh_tw": "Team 執行遵循分階段管線："
+  },
+  {
+    "original": "`team-plan -> team-prd -> team-exec -> team-verify -> team-fix (loop)`",
+    "zh_tw": "`team-plan -> team-prd -> team-exec -> team-verify -> team-fix (loop)`"
+  },
+  {
+    "original": "### Stage Agent Routing",
+    "zh_tw": "### 階段代理人路由"
+  },
+  {
+    "original": "Each pipeline stage uses **specialized agents** -- not just executors. The lead selects agents based on the stage and task characteristics.",
+    "zh_tw": "每個管線階段都使用 **專門代理人** -- 不只是執行者。lead 會根據階段和任務特性選擇代理人。"
+  }
+]

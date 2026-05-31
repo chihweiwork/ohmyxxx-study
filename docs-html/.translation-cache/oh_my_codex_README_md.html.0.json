@@ -1,0 +1,130 @@
+[
+  {
+    "original": "# oh-my-codex (OMX)",
+    "zh_tw": "# oh-my-codex (OMX)"
+  },
+  {
+    "original": "<p align=\"center\">\n  <img src=\"https://yeachan-heo.github.io/oh-my-codex-website/omx-character-nobg.png\" alt=\"oh-my-codex character\" width=\"280\">\n  <br>\n  <em>Start Codex stronger, then let OMX add better prompts, workflows, and runtime help when the work grows.</em>\n</p>",
+    "zh_tw": "<p align=\"center\">\n  <img src=\"https://yeachan-heo.github.io/oh-my-codex-website/omx-character-nobg.png\" alt=\"oh-my-codex 角色\" width=\"280\">\n  <br>\n  <em>先以更強的 Codex 起步，當工作擴大時，再讓 OMX 加上更好的提示、工作流程與執行期協助。</em>\n</p>"
+  },
+  {
+    "original": "[![npm version](https://img.shields.io/npm/v/oh-my-codex)](https://www.npmjs.com/package/oh-my-codex)\n[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)\n[![Node.js](https://img.shields.io/badge/node-%3E%3D20-brightgreen)](https://nodejs.org)\n[![Discord](https://img.shields.io/discord/1452487457085063218?color=5865F2&logo=discord&logoColor=white&label=Discord)](https://discord.gg/sj4exxQ9v)",
+    "zh_tw": "[![npm 版本](https://img.shields.io/npm/v/oh-my-codex)](https://www.npmjs.com/package/oh-my-codex)\n[![授權：MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)\n[![Node.js](https://img.shields.io/badge/node-%3E%3D20-brightgreen)](https://nodejs.org)\n[![Discord](https://img.shields.io/discord/1452487457085063218?color=5865F2&logo=discord&logoColor=white&label=Discord)](https://discord.gg/sj4exxQ9v)"
+  },
+  {
+    "original": "**Website:** https://yeachan-heo.github.io/oh-my-codex-website/",
+    "zh_tw": "**網站：** https://yeachan-heo.github.io/oh-my-codex-website/"
+  },
+  {
+    "original": "**Docs:** [Getting Started](./docs/getting-started.html) · [Agents](./docs/agents.html) · [Skills](./docs/skills.html) · [Integrations](./docs/integrations.html) · [Demo](./DEMO.md) · [OpenClaw guide](./docs/openclaw-integration.md)",
+    "zh_tw": "**文件：** [開始使用](./docs/getting-started.html) · [代理人](./docs/agents.html) · [技能](./docs/skills.html) · [整合](./docs/integrations.html) · [示範](./DEMO.md) · [OpenClaw 指南](./docs/openclaw-integration.md)"
+  },
+  {
+    "original": "**Community:** [Discord](https://discord.gg/sj4exxQ9v) — shared OMX/community server for oh-my-codex and related tooling.",
+    "zh_tw": "**社群：** [Discord](https://discord.gg/sj4exxQ9v) — 供 oh-my-codex 與相關工具共用的 OMX／社群伺服器。"
+  },
+  {
+    "original": "## Official project and package",
+    "zh_tw": "## 官方專案與套件"
+  },
+  {
+    "original": "The official/original OMX project is this repository, [`Yeachan-Heo/oh-my-codex`](https://github.com/Yeachan-Heo/oh-my-codex), and the official npm package for this project is [`oh-my-codex`](https://www.npmjs.com/package/oh-my-codex). Install this project with `npm install -g oh-my-codex` (or alongside Codex CLI as shown below).",
+    "zh_tw": "官方／原始的 OMX 專案就是這個儲存庫，[`Yeachan-Heo/oh-my-codex`](https://github.com/Yeachan-Heo/oh-my-codex)，而這個專案的官方 npm 套件是 [`oh-my-codex`](https://www.npmjs.com/package/oh-my-codex)。使用 `npm install -g oh-my-codex` 安裝這個專案（或如下方所示與 Codex CLI 一起安裝）。"
+  },
+  {
+    "original": "Third-party projects or forks that use names such as “OMX v2” are not official continuations, replacements, or release lines for this repository unless this README or the docs explicitly say so. When in doubt, trust this repository and the `oh-my-codex` package as the official install target.",
+    "zh_tw": "使用「OMX v2」等名稱的第三方專案或 fork，除非本 README 或文件明確說明，否則都不是這個儲存庫的官方延續、替代品或發行線。若有疑問，請信任這個儲存庫與 `oh-my-codex` 套件作為官方安裝目標。"
+  },
+  {
+    "original": "OMX is a workflow layer for [OpenAI Codex CLI](https://github.com/openai/codex).",
+    "zh_tw": "OMX 是 [OpenAI Codex CLI](https://github.com/openai/codex) 的工作流程層。"
+  },
+  {
+    "original": "<table>\n<tr>\n<td><strong>🚨 CAUTION — RECOMMENDED DEFAULT ONLY: macOS or Linux with Codex CLI.</strong><br><br><strong>OMX is primarily designed and actively tuned for that path.</strong><br><strong>Native Windows and Codex App are not the default experience, may break or behave inconsistently, and currently receive less support.</strong></td>\n</tr>\n</table>",
+    "zh_tw": "<table>\n<tr>\n<td><strong>🚨 注意 — 僅建議預設使用：搭配 Codex CLI 的 macOS 或 Linux。</strong><br><br><strong>OMX 主要就是為這條路徑設計並持續調校的。</strong><br><strong>原生 Windows 和 Codex App 不是預設體驗，可能會出錯或表現不一致，目前支援也較少。</strong></td>\n</tr>\n</table>"
+  },
+  {
+    "original": "It keeps Codex as the execution engine and makes it easier to:\n- start a stronger Codex session by default\n- run one consistent workflow from clarification to completion\n- invoke the canonical default workflow with `$deep-interview`, `$ralplan`, and `$ultragoal`\n- keep project guidance, plans, logs, and state in `.omx/`",
+    "zh_tw": "它保留 Codex 作為執行引擎，並讓下列事情更容易：\n- 預設啟動一個更強的 Codex 工作階段\n- 從釐清到完成都執行同一套一致的工作流程\n- 使用 `$deep-interview`、`$ralplan` 和 `$ultragoal` 呼叫標準的預設工作流程\n- 將專案指引、計畫、紀錄與狀態保存在 `.omx/` 中"
+  },
+  {
+    "original": "## Core Maintainers",
+    "zh_tw": "## 核心維護者"
+  },
+  {
+    "original": "| Role | Name | GitHub |\n| --- | --- | --- |\n| Creator & Lead | Yeachan Heo | [@Yeachan-Heo](https://github.com/Yeachan-Heo) |\n| Maintainer | Doyun Ha | [@HaD0Yun](https://github.com/HaD0Yun) |\n| Maintainer | Valeriy Pavlovich | [@iqdoctor](https://github.com/iqdoctor) |",
+    "zh_tw": "| 角色 | 姓名 | GitHub |\n| --- | --- | --- |\n| 創建者與主導者 | Yeachan Heo | [@Yeachan-Heo](https://github.com/Yeachan-Heo) |\n| 維護者 | Doyun Ha | [@HaD0Yun](https://github.com/HaD0Yun) |\n| 維護者 | Valeriy Pavlovich | [@iqdoctor](https://github.com/iqdoctor) |"
+  },
+  {
+    "original": "## Ambassadors",
+    "zh_tw": "## 大使"
+  },
+  {
+    "original": "| Name | GitHub |\n| --- | --- |\n| Sigrid Jin | [@sigridjineth](https://github.com/sigridjineth) |",
+    "zh_tw": "| 姓名 | GitHub |\n| --- | --- |\n| Sigrid Jin | [@sigridjineth](https://github.com/sigridjineth) |"
+  },
+  {
+    "original": "## Top Collaborators",
+    "zh_tw": "## 主要協作者"
+  },
+  {
+    "original": "| Name | GitHub |\n| --- | --- |\n| Doyun Ha | [@HaD0Yun](https://github.com/HaD0Yun) |\n| Junho Yeo | [@junhoyeo](https://github.com/junhoyeo) |\n| JiHongKim98 | [@JiHongKim98](https://github.com/JiHongKim98) |\n| Lor | [@gobylor](https://github.com/gobylor) |\n| HyunjunJeon | [@HyunjunJeon](https://github.com/HyunjunJeon) |",
+    "zh_tw": "| 姓名 | GitHub |\n| --- | --- |\n| Doyun Ha | [@HaD0Yun](https://github.com/HaD0Yun) |\n| Junho Yeo | [@junhoyeo](https://github.com/junhoyeo) |\n| JiHongKim98 | [@JiHongKim98](https://github.com/JiHongKim98) |\n| Lor | [@gobylor](https://github.com/gobylor) |\n| HyunjunJeon | [@HyunjunJeon](https://github.com/HyunjunJeon) |"
+  },
+  {
+    "original": "## Recommended default flow",
+    "zh_tw": "## 建議的預設流程"
+  },
+  {
+    "original": "If you want the default OMX experience, start here:",
+    "zh_tw": "如果你想要預設的 OMX 體驗，從這裡開始："
+  },
+  {
+    "original": "Choose one install path. If Codex CLI is already installed (Homebrew, npm, or another supported method):",
+    "zh_tw": "選擇一條安裝路徑。如果 Codex CLI 已經安裝好了（Homebrew、npm，或其他支援的方法）："
+  },
+  {
+    "original": "```bash\ncodex --version\nnpm install -g oh-my-codex\nomx setup\n# from the git project you want Codex to edit; choose a task-specific name\nomx --worktree=feat/task --madmax --high\n```",
+    "zh_tw": "```bash\ncodex --version\nnpm install -g oh-my-codex\nomx setup\n# from the git project you want Codex to edit; choose a task-specific name\nomx --worktree=feat/task --madmax --high\n```"
+  },
+  {
+    "original": "If you do not have Codex CLI yet and want npm to manage it:",
+    "zh_tw": "如果你還沒有 Codex CLI，並且想讓 npm 來管理它："
+  },
+  {
+    "original": "```bash\nnpm install -g @openai/codex\nnpm install -g oh-my-codex\nomx setup\n```",
+    "zh_tw": "```bash\nnpm install -g @openai/codex\nnpm install -g oh-my-codex\nomx setup\n```"
+  },
+  {
+    "original": "Do not run a combined `npm install -g @openai/codex oh-my-codex` over an existing Homebrew-owned `codex` binary such as `/opt/homebrew/bin/codex`; npm may fail with `EEXIST` when `@openai/codex` tries to create the same binary. OMX only needs a working, authenticated `codex` command on `PATH`; it does not require Codex to be installed through npm.",
+    "zh_tw": "不要在既有的、由 Homebrew 擁有的 `codex` 執行檔（例如 `/opt/homebrew/bin/codex`）上執行合併的 `npm install -g @openai/codex oh-my-codex`；當 `@openai/codex` 嘗試建立同一個執行檔時，npm 可能會因 `EEXIST` 而失敗。OMX 只需要在 `PATH` 上有可用且已驗證的 `codex` 指令；它不要求一定要透過 npm 安裝 Codex。"
+  },
+  {
+    "original": "On a real `oh-my-codex` version bump, the global npm install now prints an explicit reminder instead of launching `omx setup` automatically. When you're ready, run `omx setup` manually or use `omx update` to check npm and then run the same setup refresh path.",
+    "zh_tw": "在真正升級 `oh-my-codex` 版本時，全域 npm 安裝現在會印出明確提醒，而不是自動啟動 `omx setup`。準備好後，請手動執行 `omx setup`，或使用 `omx update` 檢查 npm，然後走相同的 setup 重新整理流程。"
+  },
+  {
+    "original": "OMX also checks for npm updates at launch on a throttled cadence and prompts before scheduling the update after the current session exits. Set `OMX_AUTO_UPDATE=0` to disable the launch-time check, or set `OMX_AUTO_UPDATE=defer` to schedule the same deferred update without prompting.",
+    "zh_tw": "OMX 也會以受節流的頻率在啟動時檢查 npm 更新，並在目前工作階段結束後排程更新前先提示。將 `OMX_AUTO_UPDATE=0` 設為可停用啟動時檢查，或將 `OMX_AUTO_UPDATE=defer` 設為可在不提示的情況下排程相同的延後更新。"
+  },
+  {
+    "original": "**Codex plugin install note:** this repo also ships an official Codex plugin layout at `plugins/oh-my-codex` with marketplace metadata in `.agents/plugins/marketplace.json`. That plugin bundles the mirrored skill surface plus plugin-scoped companion metadata for official Codex lifecycle hooks, optional MCP compatibility servers, and apps. It is still **not** a replacement for `npm install -g oh-my-codex` plus `omx setup`: plugin-scoped hooks launch the installed `omx` CLI, legacy setup mode installs native agents and prompts, and plugin setup mode relies on plugin discovery for bundled skills while archiving/removing legacy OMX-managed prompts/native-agent TOMLs so stale role files cannot shadow plugin behavior.",
+    "zh_tw": "**Codex 外掛安裝說明：** 這個儲存庫也隨附一個官方 Codex 外掛版型，位於 `plugins/oh-my-codex`，並在 `.agents/plugins/marketplace.json` 中提供 marketplace 中繼資料。該外掛封裝了鏡像的技能介面，以及供官方 Codex 生命週期掛鉤、可選 MCP 相容伺服器與應用程式使用的外掛範圍伴隨中繼資料。它仍然**不是** `npm install -g oh-my-codex` 加上 `omx setup` 的替代品：外掛範圍的 hooks 會啟動已安裝的 `omx` CLI，舊版 setup 模式會安裝原生 agents 與 prompts，而外掛 setup 模式則依賴外掛探索來載入內建技能，同時封存／移除舊的、由 OMX 管理的 prompts/native-agent TOML，避免過時的角色檔案遮蔽外掛行為。"
+  },
+  {
+    "original": "Then work normally inside Codex:",
+    "zh_tw": "接著就在 Codex 內正常工作："
+  },
+  {
+    "original": "```text\n$deep-interview \"clarify the authentication change\"\n$ralplan \"approve the auth plan and review tradeoffs\"\n$prometheus-strict \"stress-test the plan before durable execution\"\n$ultragoal \"turn the approved plan into durable Codex goals\"\n```",
+    "zh_tw": "```text\n$deep-interview \"clarify the authentication change\"\n$ralplan \"approve the auth plan and review tradeoffs\"\n$prometheus-strict \"stress-test the plan before durable execution\"\n$ultragoal \"turn the approved plan into durable Codex goals\"\n```"
+  },
+  {
+    "original": "That is the main path.\nBefore you treat the runtime as ready, run the quick-start smoke test below: `omx doctor` verifies the install shape, while `omx exec` proves the active Codex runtime can actually authenticate and complete a model call from the current environment.\nStart OMX strongly, clarify first when needed, approve the plan, optionally use `$prometheus-strict` for interview-driven plan hardening on high-risk work, then use `$ultragoal` as the default durable completion wrapper. Use `$team` inside that execution path only when a specific Ultragoal story needs coordinated parallel work; use `$ralph` when you intentionally want a single-owner completion loop instead of a durable multi-goal run.",
+    "zh_tw": "那就是主路徑。\n在你將執行環境視為就緒之前，先執行下方的快速入門 smoke test：`omx doctor` 會驗證安裝形態，而 `omx exec` 則證明目前啟用的 Codex runtime 確實能在當前環境中完成驗證並成功執行一次模型呼叫。\n以強勢方式啟動 OMX，必要時先釐清，核准計畫；對高風險工作可選擇使用 `$prometheus-strict` 進行以訪談驅動的計畫強化，然後將 `$ultragoal` 作為預設的持久完成包裝器。只有在某個特定的 Ultragoal 故事需要協調並行工作時，才在那條執行路徑中使用 `$team`；當你刻意想要單一負責人的完成迴圈，而不是一個持久的多目標執行時，則使用 `$ralph`。"
+  },
+  {
+    "original": "## What OMX is for",
+    "zh_tw": "## OMX 的用途"
+  }
+]

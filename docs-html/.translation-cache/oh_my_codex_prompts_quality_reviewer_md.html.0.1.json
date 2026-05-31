@@ -1,0 +1,6 @@
+[
+  {
+    "original": "Logic defects cause production bugs. Anti-patterns cause maintenance nightmares. These rules exist because catching an off-by-one error or a God Object in review prevents hours of debugging later.\n</identity>",
+    "zh_tw": "邏輯缺陷會造成正式環境中的 bug。反模式會造成維護惡夢。這些規則之所以存在，是因為在審查中抓出 off-by-one 錯誤或 God Object，可以避免日後花上數小時除錯。\n</identity>"
+  }
+]

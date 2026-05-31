@@ -1,0 +1,26 @@
+[
+  {
+    "original": "**RALPLAN-DR modes**: **Short** (default, bounded structure) and **Deliberate** (for `--deliberate` or explicit high-risk requests). Both modes keep the same Planner -> Architect -> Critic sequence and the same `AskUserQuestion` gates.",
+    "zh_tw": "**RALPLAN-DR 模式**：**Short**（預設，具有限定結構）與 **Deliberate**（用於 `--deliberate` 或明確的高風險請求）。兩種模式都維持相同的 Planner -> Architect -> Critic 序列，以及相同的 `AskUserQuestion` 閘門。"
+  },
+  {
+    "original": "**Provider overrides (supported when the provider CLI is installed):**",
+    "zh_tw": "**提供者覆寫（在已安裝提供者 CLI 時支援）：**"
+  },
+  {
+    "original": "- `--architect codex` — replace the Claude Architect pass with `omc ask codex --agent-prompt architect \"...\"` for implementation-heavy architecture review\n- `--critic codex` — replace the Claude Critic pass with `omc ask codex --agent-prompt critic \"...\"` for an external review pass before execution\n- If the requested provider is unavailable, briefly note that and continue with the default Claude Architect/Critic step for that stage",
+    "zh_tw": "- `--architect codex` — 將 Claude Architect 階段替換為 `omc ask codex --agent-prompt architect \"...\"`，用於偏重實作的架構審查\n- `--critic codex` — 將 Claude Critic 階段替換為 `omc ask codex --agent-prompt critic \"...\"`，用於在執行前進行外部審查\n- 如果所請求的提供者不可用，請簡要說明，並在該階段繼續使用預設的 Claude Architect/Critic 步驟"
+  },
+  {
+    "original": "**State lifecycle**: The persistent-mode stop hook uses `ralplan-state.json` to enforce continuation during the consensus loop. The skill **MUST** manage this state:",
+    "zh_tw": "**狀態生命週期**：持久模式的 stop hook 使用 `ralplan-state.json` 在共識迴圈期間強制續行。此技能**必須**管理這個狀態："
+  },
+  {
+    "original": "- **On entry**: Call `state_write(mode=\"ralplan\", active=true, session_id=<current_session_id>)` before step 1\n- **On handoff to execution** (approval → ralph/team): Call `state_write(mode=\"ralplan\", active=false, session_id=<current_session_id>)`. Do NOT use `state_clear` here — `state_clear` writes a 30-second cancel signal that disables stop-hook enforcement for ALL modes, leaving the newly launched execution mode unprotected.\n- **On true terminal exit** (rejection, non-interactive plan output, error/abort): Call `state_clear(mode=\"ralplan\", session_id=<current_session_id>)` — no execution mode follows, so the cancel signal window is harmless.\n- Do NOT clear during intermediate steps like Critic approval or max-iteration presentation, as the user may still select \"Request changes\".",
+    "zh_tw": "- **在進入時**：在步驟 1 之前呼叫 `state_write(mode=\"ralplan\", active=true, session_id=<current_session_id>)`\n- **在交接到執行時**（核准 → ralph/team）：呼叫 `state_write(mode=\"ralplan\", active=false, session_id=<current_session_id>)`。此處**不要**使用 `state_clear` —— `state_clear` 會寫入一個 30 秒的取消信號，會停用**所有**模式的 stop-hook 強制執行，讓新啟動的執行模式失去保護。\n- **在真正終止退出時**（拒絕、非互動式計畫輸出、錯誤/中止）：呼叫 `state_clear(mode=\"ralplan\", session_id=<current_session_id>)` —— 之後不會接續執行模式，因此這段取消信號窗口是無害的。\n- 在像 Critic 核准或達到最大迭代次數的呈現等中間步驟時，**不要**清除，因為使用者仍可能選擇「Request changes」。"
+  },
+  {
+    "original": "Without cleanup, the stop hook blocks all subsequent stops with `[RALPLAN - CONSENSUS PLANNING]` reinforcement messages even after the consensus workflow has finished. Always pass `session_id` to avoid clearing other concurrent sessions' state.",
+    "zh_tw": "如果沒有清理，stop hook 會在共識工作流程結束後，仍以 `[RALPLAN - CONSENSUS PLANNING]` 強化訊息阻擋所有後續停止。請務必傳入 `session_id`，以避免清除其他並行 session 的狀態。"
+  }
+]

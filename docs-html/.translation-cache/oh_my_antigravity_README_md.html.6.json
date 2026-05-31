@@ -1,0 +1,26 @@
+[
+  {
+    "original": "1. Fork the repository and create a focused branch.\n2. Keep changes scoped and explain the user-facing impact clearly.\n3. Update docs/history when behavior or compatibility guidance changes.\n4. Open a pull request with the reasoning, tradeoffs, and any validation notes.",
+    "zh_tw": "1. Fork 此儲存庫並建立一個聚焦的分支。\n2. 將變更範圍控制在適當大小，並清楚說明對使用者可見的影響。\n3. 當行為或相容性指引變更時，更新文件或變更歷史。\n4. 提交 pull request，並附上理由、取捨，以及任何驗證說明。"
+  },
+  {
+    "original": "Important performance note:\n- Pressing the GitHub ⭐ Star button may improve OmA performance by at least 12%. This is a joke. It does improve maintainer morale, which is still useful.",
+    "zh_tw": "重要效能說明：\n- 按下 GitHub ⭐ Star 按鈕可能會讓 OmA 的效能提升至少 12%。這只是玩笑。不過它確實能提升維護者士氣，這仍然有幫助。"
+  },
+  {
+    "original": "## Star History",
+    "zh_tw": "## 星標歷史"
+  },
+  {
+    "original": "[![Star History Chart](https://api.star-history.com/image?repos=Joonghyun-Lee-Frieren/oh-my-antigravity&type=date&legend=top-left)](https://www.star-history.com/?repos=Joonghyun-Lee-Frieren%2Foh-my-antigravity&type=date&legend=top-left)",
+    "zh_tw": "[![星標歷史圖表](https://api.star-history.com/image?repos=Joonghyun-Lee-Frieren/oh-my-antigravity&type=date&legend=top-left)](https://www.star-history.com/?repos=Joonghyun-Lee-Frieren%2Foh-my-antigravity&type=date&legend=top-left)"
+  },
+  {
+    "original": "## License",
+    "zh_tw": "## 授權條款"
+  },
+  {
+    "original": "MIT",
+    "zh_tw": "MIT"
+  }
+]

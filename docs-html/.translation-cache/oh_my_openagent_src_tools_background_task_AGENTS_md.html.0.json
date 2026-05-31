@@ -1,0 +1,54 @@
+[
+  {
+    "original": "# src/tools/background-task/ — Background Task Tool Wrappers",
+    "zh_tw": "# src/tools/background-task/ — 背景任務工具包裝器"
+  },
+  {
+    "original": "**Generated:** 2026-05-15",
+    "zh_tw": "**產生於：** 2026-05-15"
+  },
+  {
+    "original": "## OVERVIEW",
+    "zh_tw": "## 概覽"
+  },
+  {
+    "original": "18 files. Tool-layer wrappers for `background_output` and `background_cancel`. Does NOT implement the background execution engine — that lives in `src/features/background-agent/`. This directory provides the LLM-facing tool interface.",
+    "zh_tw": "18 個檔案。`background_output` 和 `background_cancel` 的工具層包裝器。這裡不實作背景執行引擎，該引擎位於 `src/features/background-agent/`。此目錄提供面向 LLM 的工具介面。"
+  },
+  {
+    "original": "## THREE TOOLS",
+    "zh_tw": "## 三個工具"
+  },
+  {
+    "original": "| Tool | Factory | Purpose |\n|------|---------|---------|\n| `background_output` | `createBackgroundOutput` | Get results from a running/completed background task |\n| `background_cancel` | `createBackgroundCancel` | Cancel running task(s) |\n| `createBackgroundTask` | internal | Shared factory used by both |",
+    "zh_tw": "| 工具 | 工廠 | 用途 |\n|------|---------|---------|\n| `background_output` | `createBackgroundOutput` | 取得執行中/已完成背景任務的結果 |\n| `background_cancel` | `createBackgroundCancel` | 取消執行中的任務 |\n| `createBackgroundTask` | internal | 兩者共用的工廠 |"
+  },
+  {
+    "original": "## KEY FILES",
+    "zh_tw": "## 重要檔案"
+  },
+  {
+    "original": "| File | Purpose |\n|------|---------|\n| `create-background-output.ts` | `background_output` tool: fetch task results by task_id |\n| `create-background-cancel.ts` | `background_cancel` tool: cancel by taskId or all=true |\n| `create-background-task.ts` | Shared tool factory with common params |\n| `clients.ts` | Client interfaces for background output and cancel |\n| `session-messages.ts` | Fetch session messages from OpenCode |\n| `full-session-format.ts` | Format full session output (messages, thinking blocks) |\n| `task-result-format.ts` | Format task result for LLM consumption |\n| `task-status-format.ts` | Format task status (running/completed/error) |\n| `message-dir.ts` | Temp directory for message exchange |\n| `truncate-text.ts` | Truncate large output to fit context |\n| `time-format.ts` | Human-readable duration formatting |\n| `delay.ts` | Polling delay utility |\n| `types.ts` | `BackgroundTaskOptions`, result/status types |\n| `constants.ts` | Timeout defaults, polling intervals |",
+    "zh_tw": "| 檔案 | 用途 |\n|------|---------|\n| `create-background-output.ts` | `background_output` 工具：依 `task_id` 取得任務結果 |\n| `create-background-cancel.ts` | `background_cancel` 工具：依 `taskId` 或 `all=true` 取消 |\n| `create-background-task.ts` | 含有共用參數的共用工具工廠 |\n| `clients.ts` | 背景輸出與取消的用戶端介面 |\n| `session-messages.ts` | 從 OpenCode 擷取 session 訊息 |\n| `full-session-format.ts` | 格式化完整的 session 輸出（訊息、thinking 區塊） |\n| `task-result-format.ts` | 格式化供 LLM 消費的任務結果 |\n| `task-status-format.ts` | 格式化任務狀態（running/completed/error） |\n| `message-dir.ts` | 訊息交換用的暫存目錄 |\n| `truncate-text.ts` | 截斷大型輸出以符合上下文 |\n| `time-format.ts` | 人類可讀的持續時間格式化 |\n| `delay.ts` | 輪詢延遲工具 |\n| `types.ts` | `BackgroundTaskOptions`、結果/狀態型別 |\n| `constants.ts` | 逾時預設值、輪詢間隔 |"
+  },
+  {
+    "original": "## BACKGROUND OUTPUT MODES",
+    "zh_tw": "## 背景輸出模式"
+  },
+  {
+    "original": "```\nbackground_output(task_id, block=false)  → check current status/result\nbackground_output(task_id, block=true)   → wait until complete (timeout default: 120s)\nbackground_output(task_id, full_session=true) → return full session transcript\nbackground_output(task_id, message_limit=N) → last N messages only\nbackground_output(task_id, include_thinking=true) → include thinking blocks\n```",
+    "zh_tw": "```\nbackground_output(task_id, block=false)  → 檢查目前狀態/結果\nbackground_output(task_id, block=true)   → 等待直到完成（預設逾時：120s）\nbackground_output(task_id, full_session=true) → 回傳完整的 session 逐字稿\nbackground_output(task_id, message_limit=N) → 僅回傳最後 N 則訊息\nbackground_output(task_id, include_thinking=true) → 包含 thinking 區塊\n```"
+  },
+  {
+    "original": "## RELATIONSHIP TO BACKGROUND ENGINE",
+    "zh_tw": "## 與背景引擎的關係"
+  },
+  {
+    "original": "```\ntools/background-task/  ← LLM tool interface\nfeatures/background-agent/  ← execution engine (BackgroundManager)\n```",
+    "zh_tw": "```\ntools/background-task/  ← LLM 工具介面\nfeatures/background-agent/  ← 執行引擎（BackgroundManager）\n```"
+  },
+  {
+    "original": "`createBackgroundOutput` queries `BackgroundManager.getTask(task_id)` — it does not manage task state.",
+    "zh_tw": "`createBackgroundOutput` 會查詢 `BackgroundManager.getTask(task_id)` — 它不負責管理任務狀態。"
+  }
+]

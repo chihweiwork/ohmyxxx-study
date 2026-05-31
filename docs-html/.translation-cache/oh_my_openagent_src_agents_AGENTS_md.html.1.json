@@ -1,0 +1,50 @@
+[
+  {
+    "original": "```\nagents/\n├── sisyphus.ts                                # Main orchestrator router\n├── sisyphus/                                  # Model-specific variant prompts\n│   ├── default.ts, gemini.ts, gpt-5-4.ts, gpt-5-5.ts\n├── hephaestus.ts                              # Routes to model variant\n├── hephaestus/                                # gpt.ts, gpt-5-3-codex.ts, gpt-5-4.ts, gpt-5-5.ts\n├── oracle.ts                                  # Read-only consultant\n├── librarian.ts                               # External search\n├── explore.ts                                 # Codebase grep\n├── multimodal-looker.ts                       # Vision/PDF\n├── metis.ts                                   # Pre-planning\n├── momus.ts                                   # Plan review\n├── atlas/agent.ts                             # Todo orchestrator\n├── prometheus/                                # Strategic planner thin loaders: system-prompt.ts, gemini.ts, gpt.ts; prompt content in packages/prompts-core/prompts/prometheus/\n├── types.ts                                   # BuiltinAgentName, AgentMode, AgentConfig\n├── builtin-agents.ts                          # agentSources registry (10 → 11 with sisyphus-junior)\n├── builtin-agents/                            # maybeCreateXXXConfig conditional factories + general-agents.ts + available-skills.ts\n├── agent-builder.ts                           # buildAgent() composition\n├── utils.ts                                   # agent utilities\n├── env-context.ts                             # environment context for prompts\n├── custom-agent-summaries.ts                  # custom-agent prompt summaries\n├── dynamic-agent-prompt-builder.ts            # dynamic prompt builder\n├── dynamic-agent-core-sections.ts             # core prompt sections\n├── dynamic-agent-policy-sections.ts           # policy sections\n├── dynamic-agent-tool-categorization.ts       # tool categorization for prompt\n└── dynamic-agent-category-skills-guide.ts     # category-skill guidance\n```",
+    "zh_tw": "```\nagents/\n├── sisyphus.ts                                # 主協調器路由\n├── sisyphus/                                  # 模型特定變體提示詞\n│   ├── default.ts, gemini.ts, gpt-5-4.ts, gpt-5-5.ts\n├── hephaestus.ts                              # 路由至模型變體\n├── hephaestus/                                # gpt.ts, gpt-5-3-codex.ts, gpt-5-4.ts, gpt-5-5.ts\n├── oracle.ts                                  # 唯讀顧問\n├── librarian.ts                               # 外部搜尋\n├── explore.ts                                 # 程式碼庫搜尋\n├── multimodal-looker.ts                       # 視覺/PDF\n├── metis.ts                                   # 事前規劃\n├── momus.ts                                   # 計畫審查\n├── atlas/agent.ts                             # 待辦事項協調器\n├── prometheus/                                # 策略規劃器的薄載入器：system-prompt.ts、gemini.ts、gpt.ts；提示詞內容位於 packages/prompts-core/prompts/prometheus/\n├── types.ts                                   # BuiltinAgentName、AgentMode、AgentConfig\n├── builtin-agents.ts                          # agentSources 登錄表（隨 sisyphus-junior 從 10 → 11）\n├── builtin-agents/                            # maybeCreateXXXConfig 條件式工廠 + general-agents.ts + available-skills.ts\n├── agent-builder.ts                           # buildAgent() 組合\n├── utils.ts                                   # 代理工具函式\n├── env-context.ts                             # 提示詞的環境脈絡\n├── custom-agent-summaries.ts                  # 自訂代理提示詞摘要\n├── dynamic-agent-prompt-builder.ts            # 動態提示詞建構器\n├── dynamic-agent-core-sections.ts             # 核心提示詞區段\n├── dynamic-agent-policy-sections.ts           # 政策區段\n├── dynamic-agent-tool-categorization.ts       # 提示詞的工具分類\n└── dynamic-agent-category-skills-guide.ts     # 類別與技能指引\n```"
+  },
+  {
+    "original": "## FACTORY PATTERN",
+    "zh_tw": "## 工廠模式"
+  },
+  {
+    "original": "```typescript\nconst createXXXAgent: AgentFactory = (model: string) => ({\n  instructions: \"...\",\n  model,\n  temperature: 0.1,\n  // ...config\n})\ncreateXXXAgent.mode = \"subagent\" // or \"primary\" or \"all\"\n```",
+    "zh_tw": "```typescript\nconst createXXXAgent: AgentFactory = (model: string) => ({\n  instructions: \"...\",\n  model,\n  temperature: 0.1,\n  // ...config\n})\ncreateXXXAgent.mode = \"subagent\" // 或 \"primary\" 或 \"all\"\n```"
+  },
+  {
+    "original": "Model resolution: 4-step pipeline → override → category-default → provider-fallback → system-default. Defined in [`shared/model-resolution-pipeline.ts`](file:///Users/yeongyu/local-workspaces/omo/src/shared/model-resolution-pipeline.ts).",
+    "zh_tw": "模型解析：4 步驟管線 → override → category-default → provider-fallback → system-default。定義於 [`shared/model-resolution-pipeline.ts`](file:///Users/yeongyu/local-workspaces/omo/src/shared/model-resolution-pipeline.ts)。"
+  },
+  {
+    "original": "## MODES",
+    "zh_tw": "## 模式"
+  },
+  {
+    "original": "Definition (from [`src/agents/types.ts`](file:///Users/yeongyu/local-workspaces/omo/src/agents/types.ts)):",
+    "zh_tw": "定義（來自 [`src/agents/types.ts`](file:///Users/yeongyu/local-workspaces/omo/src/agents/types.ts)）："
+  },
+  {
+    "original": "- **`primary`** — respects user's UI-selected model. Used by: sisyphus, hephaestus, atlas, prometheus.\n- **`subagent`** — uses own fallback chain, ignores UI selection. Used by: oracle, librarian, explore, multimodal-looker, metis, momus, sisyphus-junior.\n- **`all`** — declared in the type for OpenCode compatibility but no built-in agent currently uses it.",
+    "zh_tw": "- **`primary`** — 尊重使用者在 UI 中選取的模型。用於：sisyphus、hephaestus、atlas、prometheus。\n- **`subagent`** — 使用自己的回退鏈，忽略 UI 選擇。用於：oracle、librarian、explore、multimodal-looker、metis、momus、sisyphus-junior。\n- **`all`** — 已在型別中宣告以相容 OpenCode，但目前沒有任何內建代理使用它。"
+  },
+  {
+    "original": "## CANONICAL ORDER",
+    "zh_tw": "## 標準順序"
+  },
+  {
+    "original": "`Sisyphus → Hephaestus → Prometheus → Atlas` (primary core agents) then alphabetical for the rest. Enforced by [`installAgentSortShim()`](file:///Users/yeongyu/local-workspaces/omo/src/shared/agent-sort-shim.ts) — patches `Array.prototype.{toSorted,sort}` narrowly when ≥2 canonical core agents are in the array. See [`src/plugin-handlers/AGENTS.md`](file:///Users/yeongyu/local-workspaces/omo/src/plugin-handlers/AGENTS.md) for the full history.",
+    "zh_tw": "`Sisyphus → Hephaestus → Prometheus → Atlas`（主要核心代理）之後，其餘依字母順序排列。由 [`installAgentSortShim()`](file:///Users/yeongyu/local-workspaces/omo/src/shared/agent-sort-shim.ts) 強制執行，會在陣列中有 ≥2 個標準核心代理時，限定性地修補 `Array.prototype.{toSorted,sort}`。完整歷史請見 [`src/plugin-handlers/AGENTS.md`](file:///Users/yeongyu/local-workspaces/omo/src/plugin-handlers/AGENTS.md)。"
+  },
+  {
+    "original": "## DYNAMIC PROMPT BUILDER",
+    "zh_tw": "## 動態提示詞建構器"
+  },
+  {
+    "original": "`dynamic-agent-prompt-builder.ts` composes per-agent system prompts at runtime by stitching:\n- Core sections (identity, mode, restrictions)\n- Policy sections (citation, verification, anti-patterns)\n- Tool categorization (per-domain tool guidance)\n- Category-skills guide (which skills load with which categories)",
+    "zh_tw": "`dynamic-agent-prompt-builder.ts` 會在執行期間透過拼接以下內容來組成每個代理的系統提示詞：\n- 核心區段（身分、模式、限制）\n- 政策區段（引用、驗證、反模式）\n- 工具分類（各領域的工具指引）\n- 類別與技能指引（各類別會載入哪些技能）"
+  },
+  {
+    "original": "This is what the Sisyphus prompt's \"AGENTS / CATEGORY + SKILLS\" tables come from.",
+    "zh_tw": "這就是 Sisyphus 提示詞中的 \"AGENTS / CATEGORY + SKILLS\" 表格的來源。"
+  }
+]

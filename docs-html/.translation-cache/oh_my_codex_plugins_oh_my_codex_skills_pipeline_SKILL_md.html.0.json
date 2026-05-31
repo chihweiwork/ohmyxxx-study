@@ -1,0 +1,94 @@
+[
+  {
+    "original": "---\nname: pipeline\ndescription: Configurable pipeline orchestrator for sequencing stages\n---",
+    "zh_tw": "---\nname: pipeline\ndescription: 用於排序各階段的可配置流水線編排器\n---"
+  },
+  {
+    "original": "# Pipeline Skill",
+    "zh_tw": "# Pipeline 技能"
+  },
+  {
+    "original": "`$pipeline` is the configurable pipeline orchestrator for OMX. It sequences stages\nthrough a uniform `PipelineStage` interface, with state persistence and resume support.",
+    "zh_tw": "`$pipeline` 是 OMX 的可配置流水線編排器。它透過一致的 `PipelineStage` 介面來排序各個階段，並支援狀態持久化與續跑。"
+  },
+  {
+    "original": "## Default Autopilot Pipeline",
+    "zh_tw": "## 預設 Autopilot 流水線"
+  },
+  {
+    "original": "The default Autopilot pipeline sequences:",
+    "zh_tw": "預設的 Autopilot 流水線依序執行："
+  },
+  {
+    "original": "```\ndeep-interview -> ralplan -> ultragoal (+ team if needed) -> code-review -> ultraqa\n```",
+    "zh_tw": "```\ndeep-interview -> ralplan -> ultragoal (+ team if needed) -> code-review -> ultraqa\n```"
+  },
+  {
+    "original": "`$team` is conditional: use it only inside an active Ultragoal story when independent lanes or broad verification make coordinated parallel execution useful. Explicit legacy Ralph pipelines remain available through custom stages, but Ralph is not the advertised default Autopilot loop.",
+    "zh_tw": "`$team` 是有條件的：只有在一個進行中的 Ultragoal story 內，當獨立分工或廣泛驗證使協調式平行執行有價值時才使用它。明確的舊版 Ralph 流水線仍可透過自訂階段使用，但 Ralph 並不是所宣稱的預設 Autopilot 迴圈。"
+  },
+  {
+    "original": "## Configuration",
+    "zh_tw": "## 設定"
+  },
+  {
+    "original": "Pipeline parameters are configurable per run:",
+    "zh_tw": "流水線參數可依每次執行進行設定："
+  },
+  {
+    "original": "| Parameter | Default | Description |\n|-----------|---------|-------------|\n| `maxRalphIterations` | 10 | Quality-gate retry ceiling; legacy option name retained for compatibility |\n| `workerCount` | 2 | Number of Codex CLI team workers |\n| `agentType` | `executor` | Agent type for team workers |",
+    "zh_tw": "| 參數 | 預設值 | 說明 |\n|-----------|---------|-------------|\n| `maxRalphIterations` | 10 | 品質門檻重試上限；保留舊選項名稱以兼容 |\n| `workerCount` | 2 | Codex CLI team 工作者數量 |\n| `agentType` | `executor` | team 工作者的代理類型 |"
+  },
+  {
+    "original": "## Stage Interface",
+    "zh_tw": "## 階段介面"
+  },
+  {
+    "original": "Every stage implements the `PipelineStage` interface:",
+    "zh_tw": "每個階段都實作 `PipelineStage` 介面："
+  },
+  {
+    "original": "```typescript\ninterface PipelineStage {\n  readonly name: string;\n  run(ctx: StageContext): Promise<StageResult>;\n  canSkip?(ctx: StageContext): boolean;\n}\n```",
+    "zh_tw": "```typescript\ninterface PipelineStage {\n  readonly name: string;\n  run(ctx: StageContext): Promise<StageResult>;\n  canSkip?(ctx: StageContext): boolean;\n}\n```"
+  },
+  {
+    "original": "Stages receive a `StageContext` with accumulated artifacts from prior stages and\nreturn a `StageResult` with status, artifacts, and duration.",
+    "zh_tw": "各階段會接收一個 `StageContext`，其中包含前一階段累積的產物，並\n回傳一個包含狀態、產物與持續時間的 `StageResult`。"
+  },
+  {
+    "original": "## Built-in Stages",
+    "zh_tw": "## 內建階段"
+  },
+  {
+    "original": "- **deep-interview**: Requirements clarification and ambiguity gate.\n- **ralplan**: Consensus planning (planner + architect + critic). Skips only when both `prd-*.md` and `test-spec-*.md` planning artifacts already exist **and** durable consensus evidence records Architect approval followed by Critic approval. Plan/test-spec files alone are not consensus evidence. If either review is missing, blocked, out of order, or non-approving, the stage remains in ralplan or fails with an explicit blocker/max-iteration outcome instead of progressing to execution. Carries any `deep-interview-*.md` spec paths forward for traceability.\n- **ultragoal**: Durable goal-mode execution with `.omx/ultragoal` ledgers. Launch `$team` only from inside an Ultragoal story when parallel lanes are warranted.\n- **code-review**: Merge-readiness review gate.\n- **ultraqa**: Adversarial QA gate after a clean review; docs-only/trivially non-runtime changes may record an explicit skip reason.\n- **team-exec** and **ralph-verify**: Legacy/custom pipeline adapters retained for explicit non-default pipelines.",
+    "zh_tw": "- **deep-interview**：需求釐清與歧義門檻。\n- **ralplan**：共識式規劃（planner + architect + critic）。只有在 `prd-*.md` 與 `test-spec-*.md` 規劃產物都已存在，**而且** 持久化的共識證據記錄了 Architect 核准，接著是 Critic 核准時才會跳過。只有 plan/test-spec 檔案本身不算是共識證據。若任一審查缺失、受阻、順序錯誤，或未核准，該階段會停留在 ralplan，或以明確的阻塞／最大迭代結果失敗，而不是進入執行。會將任何 `deep-interview-*.md` 規格路徑往後傳遞以利追蹤。\n- **ultragoal**：具備 `.omx/ultragoal` 帳本的持久化目標模式執行。只有在 Ultragoal story 內、且需要平行分工時才啟動 `$team`。\n- **code-review**：可合併就緒審查門檻。\n- **ultraqa**：在乾淨審查後進行的對抗式 QA 門檻；僅限文件變更／明顯不影響執行期的變更可記錄明確的跳過原因。\n- **team-exec** 與 **ralph-verify**：為明確的非預設流水線保留的舊版／自訂流水線介接器。"
+  },
+  {
+    "original": "## State Management",
+    "zh_tw": "## 狀態管理"
+  },
+  {
+    "original": "Pipeline state persists via the ModeState system at `.omx/state/pipeline-state.json`.\nThe HUD renders pipeline phase automatically. Resume is supported from the last incomplete stage.",
+    "zh_tw": "流水線狀態會透過位於 `.omx/state/pipeline-state.json` 的 ModeState 系統持久化。\nHUD 會自動顯示流水線階段。支援從最後一個未完成的階段續跑。"
+  },
+  {
+    "original": "- **On start**: `omx state write --input '{\"mode\":\"pipeline\",\"active\":true,\"current_phase\":\"stage:ralplan\"}' --json`\n- **On stage transitions**: `omx state write --input '{\"mode\":\"pipeline\",\"current_phase\":\"stage:<name>\"}' --json`\n- **On completion**: `omx state write --input '{\"mode\":\"pipeline\",\"active\":false,\"current_phase\":\"complete\"}' --json`",
+    "zh_tw": "- **開始時**：`omx state write --input '{\"mode\":\"pipeline\",\"active\":true,\"current_phase\":\"stage:ralplan\"}' --json`\n- **在階段切換時**：`omx state write --input '{\"mode\":\"pipeline\",\"current_phase\":\"stage:<name>\"}' --json`\n- **完成時**：`omx state write --input '{\"mode\":\"pipeline\",\"active\":false,\"current_phase\":\"complete\"}' --json`"
+  },
+  {
+    "original": "## API",
+    "zh_tw": "## API"
+  },
+  {
+    "original": "```typescript\nimport {\n  runPipeline,\n  createAutopilotPipelineConfig,\n  createDeepInterviewStage,\n  createRalplanStage,\n  createUltragoalStage,\n  createCodeReviewStage,\n  createUltraqaStage,\n} from './pipeline/index.js';\n\nconst config = createAutopilotPipelineConfig('build feature X', {\n  stages: [\n    createDeepInterviewStage(),\n    createRalplanStage(),\n    createUltragoalStage(),\n    createCodeReviewStage(),\n    createUltraqaStage(),\n  ],\n});\n\nconst result = await runPipeline(config);\n```",
+    "zh_tw": "```typescript\nimport {\n  runPipeline,\n  createAutopilotPipelineConfig,\n  createDeepInterviewStage,\n  createRalplanStage,\n  createUltragoalStage,\n  createCodeReviewStage,\n  createUltraqaStage,\n} from './pipeline/index.js';\n\nconst config = createAutopilotPipelineConfig('build feature X', {\n  stages: [\n    createDeepInterviewStage(),\n    createRalplanStage(),\n    createUltragoalStage(),\n    createCodeReviewStage(),\n    createUltraqaStage(),\n  ],\n});\n\nconst result = await runPipeline(config);\n```"
+  },
+  {
+    "original": "## Relationship to Other Modes",
+    "zh_tw": "## 與其他模式的關係"
+  },
+  {
+    "original": "- **autopilot**: Autopilot can use pipeline as its execution engine (v0.8+)\n- **team**: Pipeline delegates execution to team mode (Codex CLI workers)\n- **ultragoal**: Autopilot delegates durable execution to Ultragoal by default\n- **team**: Optional execution engine inside an Ultragoal story when parallel lanes are needed\n- **ralph**: Available only for explicit legacy/custom pipelines\n- **ralplan**: Pipeline planning runs RALPLAN consensus planning",
+    "zh_tw": "- **autopilot**：Autopilot 可以將 pipeline 作為其執行引擎（v0.8+）\n- **team**：Pipeline 將執行委派給 team 模式（Codex CLI workers）\n- **ultragoal**：Autopilot 預設將持久化執行委派給 Ultragoal\n- **team**：在需要平行分工的 Ultragoal story 內，可選的執行引擎\n- **ralph**：僅供明確的舊版／自訂流水線使用\n- **ralplan**：Pipeline 規劃會執行 RALPLAN 共識式規劃"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "original": "- OmA no longer estimates or prints token usage after each turn.\n- Use Gemini CLI native `/model` or `/stats model` for authoritative usage and quota status.\n- Legacy `.omg/state/quota-watch.json` files can be ignored; new OmA releases no longer update them.",
+    "zh_tw": "- OmA 不再在每輪後估算或列印 token 使用量。\n- 請使用 Gemini CLI 原生的 `/model` 或 `/stats model` 來取得權威的使用量與配額狀態。\n- 舊版的 `.omg/state/quota-watch.json` 檔案可以忽略；新的 OmA 版本不再更新它們。"
+  },
+  {
+    "original": "## Learn-Signal Safety Filter (AfterAgent Hook)",
+    "zh_tw": "## Learn-Signal 安全過濾器（AfterAgent Hook）"
+  },
+  {
+    "original": "OmA now also ships a safety-hardened learn-signal hook so `/oma:learn` nudges appear only when a session has actionable implementation intent.",
+    "zh_tw": "OmA 現在也隨附一個安全強化的 learn-signal hook，讓 `/oma:learn` 提示只會在工作階段具有可執行的實作意圖時出現。"
+  },
+  {
+    "original": "- Hook entrypoint: `hooks/hooks.json` (`AfterAgent` -> `oma-learn-signal-after-agent`)\n- Script: `hooks/scripts/learn.js`\n- State artifact: `.omg/state/learn-watch.json` (deduped event key, prompt-once session tracking, and sanitized state)\n- Deep-interview lock source (read-only): `.omg/state/deep-interview.json`\n- Runtime controls:\n  - `OMG_STATE_ROOT=<dir>` to move `learn-watch.json` beside other OmA state\n  - `OMG_HOOKS_QUIET=1` to keep the hook silent while preserving state updates\n  - `OMG_HOOK_PROFILE=minimal|balanced|strict` (`minimal` suppresses learn nudges)\n  - `OMG_DISABLED_HOOKS=learn` to disable only the learn-signal hook by env\n  - when no reliable session `cwd` is available, learn-state persistence is skipped to avoid cross-project collisions",
+    "zh_tw": "- Hook 入口點：`hooks/hooks.json`（`AfterAgent` -> `oma-learn-signal-after-agent`）\n- 腳本：`hooks/scripts/learn.js`\n- 狀態產物：`.omg/state/learn-watch.json`（去重的事件鍵、只提示一次的 session 追蹤，以及已清理的狀態）\n- 深度訪談鎖定來源（唯讀）：`.omg/state/deep-interview.json`\n- 執行期控制：\n  - `OMG_STATE_ROOT=<dir>` 可將 `learn-watch.json` 移到其他 OmA 狀態旁邊\n  - `OMG_HOOKS_QUIET=1` 可讓 hook 保持靜默，同時保留狀態更新\n  - `OMG_HOOK_PROFILE=minimal|balanced|strict`（`minimal` 會抑制 learn 提示）\n  - `OMG_DISABLED_HOOKS=learn` 可透過環境變數只停用 learn-signal hook\n  - 當沒有可靠的 session `cwd` 可用時，會跳過 learn 狀態持久化，以避免跨專案衝突"
+  },
+  {
+    "original": "Safety behavior:",
+    "zh_tw": "安全行為："
+  },
+  {
+    "original": "- if deep-interview lock state is active, learn nudges are suppressed so interview flow is not interrupted\n- informational-only query sessions are filtered before emit\n- repeated retries against the same transcript snapshot are deduplicated\n- legacy or malformed prior state is sanitized before reuse to reduce stale-state collisions",
+    "zh_tw": "- 如果深度訪談鎖定狀態處於啟用中，learn 提示會被抑制，以免中斷訪談流程\n- 僅供資訊查詢的 session 會在送出前過濾\n- 針對相同逐字稿快照的重複重試會去重\n- 舊版或格式錯誤的先前狀態會在重用前先清理，以降低過期狀態衝突"
+  },
+  {
+    "original": "Disable only this hook:",
+    "zh_tw": "只停用這個 hook："
+  },
+  {
+    "original": "```json\n{\n  \"hooksConfig\": {\n    \"disabled\": [\"oma-learn-signal-after-agent\"]\n  }\n}\n```",
+    "zh_tw": "```json\n{\n  \"hooksConfig\": {\n    \"disabled\": [\"oma-learn-signal-after-agent\"]\n  }\n}\n```"
+  },
+  {
+    "original": "Example (disable the shipped AfterAgent learn hook by env):",
+    "zh_tw": "範例（透過環境變數停用隨附的 AfterAgent learn hook）："
+  },
+  {
+    "original": "```bash\nexport OMG_DISABLED_HOOKS=learn\n```",
+    "zh_tw": "```bash\nexport OMG_DISABLED_HOOKS=learn\n```"
+  },
+  {
+    "original": "## Interface Map",
+    "zh_tw": "## 介面對照表"
+  },
+  {
+    "original": "### Commands",
+    "zh_tw": "### 指令"
+  }
+]

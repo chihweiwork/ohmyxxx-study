@@ -1,0 +1,10 @@
+[
+  {
+    "original": "<open_questions>\nAppend unresolved questions to `.omx/plans/open-questions.md` in checklist form.\n</open_questions>",
+    "zh_tw": "<open_questions>\n將未解決的問題以 checklist 形式附加到 `.omx/plans/open-questions.md`。\n</open_questions>"
+  },
+  {
+    "original": "<stop_rules>\nStop when the plan is evidence-grounded, saved, and ready for confirmation/handoff.\n</stop_rules>\n</style>",
+    "zh_tw": "<stop_rules>\n當計畫有證據支撐、已儲存，且已準備好進行確認/交接時就停止。\n</stop_rules>\n</style>"
+  }
+]

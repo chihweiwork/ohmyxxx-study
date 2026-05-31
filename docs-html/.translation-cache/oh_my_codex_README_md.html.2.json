@@ -1,0 +1,74 @@
+[
+  {
+    "original": "1. If Codex CLI already exists, verify it with `codex --version` and install or update OMX with `npm install -g oh-my-codex`; otherwise install `@openai/codex` separately first if you want npm to manage Codex\n2. After install or real OMX version bumps, run `omx setup` yourself when you're ready, or use `omx update` when you also want npm to check for and install the latest build before refreshing setup\n3. Run `omx doctor`\n4. Run a real execution smoke test: `codex login status` and `omx exec --skip-git-repo-check -C . \"Reply with exactly OMX-EXEC-OK\"`\n5. Launch with a named worktree from a git repo, for example `omx --worktree=feat/task --madmax --high`; if you run concurrent `--madmax` sessions, use distinct named worktrees such as `--worktree=feature/auth`\n6. Use `$deep-interview \"...\"` when the request or boundaries are still unclear\n7. Use `$ralplan \"...\"` to approve the plan and review tradeoffs\n8. Use `$ultragoal \"...\"` to turn the approved plan into durable goals and ledger checkpoints",
+    "zh_tw": "1. 如果 Codex CLI 已經存在，請用 `codex --version` 驗證，並使用 `npm install -g oh-my-codex` 安裝或更新 OMX；否則，如果你想讓 npm 管理 Codex，請先另外安裝 `@openai/codex`\n2. 在安裝後或真正的 OMX 版本升級後，當你準備好時自行執行 `omx setup`，或者當你也想讓 npm 在重新整理 setup 前檢查並安裝最新建置時，使用 `omx update`\n3. 執行 `omx doctor`\n4. 執行一次真正的執行冒煙測試：`codex login status` 與 `omx exec --skip-git-repo-check -C . \"Reply with exactly OMX-EXEC-OK\"`\n5. 從 git repo 以具名 worktree 啟動，例如 `omx --worktree=feat/task --madmax --high`；如果你同時執行多個 `--madmax` 工作階段，請使用不同的具名 worktree，例如 `--worktree=feature/auth`\n6. 當需求或邊界仍不清楚時，使用 `$deep-interview \"...\"`\n7. 使用 `$ralplan \"...\"` 來核准計畫並檢視取捨\n8. 使用 `$ultragoal \"...\"` 將已核准的計畫轉成可持久化的目標與 ledger checkpoints"
+  },
+  {
+    "original": "## Recommended workflow",
+    "zh_tw": "## 建議工作流程"
+  },
+  {
+    "original": "1. `$deep-interview` — clarify scope when the request or boundaries are still vague.\n2. `$ralplan` — turn that clarified scope into an approved architecture and implementation plan.\n3. `$ultragoal` — make the approved plan durable as sequential Codex goals with `.omx/ultragoal` ledger checkpoints.",
+    "zh_tw": "1. `$deep-interview` — 當需求或邊界仍然模糊時，釐清範圍。\n2. `$ralplan` — 將釐清後的範圍轉成已核准的架構與實作計畫。\n3. `$ultragoal` — 讓已核准的計畫以 `.omx/ultragoal` ledger checkpoints 的形式，成為可持久化的連續 Codex 目標。"
+  },
+  {
+    "original": "`$ralplan` stops at planning artifacts and a durable consensus handoff. Code changes require an explicit execution lane (`$ultragoal`, `$team`, or an intentional `$ralph` fallback); ralplan does not implement directly.",
+    "zh_tw": "`$ralplan` 只會停留在規劃產物與可持久化的共識交接。程式碼變更需要明確的執行通道（`$ultragoal`、`$team`，或刻意採用的 `$ralph` 備案）；`ralplan` 不會直接實作。"
+  },
+  {
+    "original": "Inside an Ultragoal story, use `$team` only when that story benefits from coordinated parallel execution. Use `$ralph` as an intentional alternate completion loop when you do not need a durable multi-goal ledger.",
+    "zh_tw": "在 Ultragoal 故事中，只有在該故事能受益於協調式平行執行時才使用 `$team`。當你不需要可持久化的多目標 ledger 時，將 `$ralph` 作為刻意採用的替代完成迴圈。"
+  },
+  {
+    "original": "## Common in-session surfaces",
+    "zh_tw": "## 常見的會話內介面"
+  },
+  {
+    "original": "| Surface | Use it for |\n| --- | --- |\n| `$deep-interview \"...\"` | clarifying intent, boundaries, and non-goals |\n| `$ralplan \"...\"` | approving the implementation plan and tradeoffs |\n| `$ultragoal \"...\"` | durable multi-goal completion after the approved plan |\n| `$ralph \"...\"` | persistent completion and verification loops |\n| `$team \"...\"` | coordinated parallel execution when the work is big enough |\n| `/skills` | browsing installed skills and supporting helpers |",
+    "zh_tw": "| 介面 | 用途 |\n| --- | --- |\n| `$deep-interview \"...\"` | 釐清意圖、邊界與非目標 |\n| `$ralplan \"...\"` | 核准實作計畫與取捨 |\n| `$ultragoal \"...\"` | 在核准計畫之後進行可持久化的多目標完成 |\n| `$ralph \"...\"` | 持續性的完成與驗證迴圈 |\n| `$team \"...\"` | 當工作量夠大時進行協調式平行執行 |\n| `/skills` | 瀏覽已安裝的 skills 與支援 helpers |"
+  },
+  {
+    "original": "## Advanced / operator surfaces",
+    "zh_tw": "## 進階 / 操作員介面"
+  },
+  {
+    "original": "These are useful, but they are not the main onboarding path.",
+    "zh_tw": "這些很有用，但不是主要的上手路徑。"
+  },
+  {
+    "original": "### Team runtime",
+    "zh_tw": "### Team runtime"
+  },
+  {
+    "original": "Use the team runtime when you specifically need durable tmux/worktree coordination, not as the default way to begin using OMX. In Codex App or plain outside-tmux sessions, treat `omx team` as a tmux-runtime shell surface rather than a directly available in-app workflow; launch OMX CLI from shell first if you actually want team execution.",
+    "zh_tw": "當你特別需要可持久化的 tmux/worktree 協調時才使用 team runtime，而不是把它當成開始使用 OMX 的預設方式。在 Codex App 或一般的非 tmux 工作階段中，應將 `omx team` 視為 tmux-runtime 的 shell 介面，而不是可直接在 app 內使用的工作流程；如果你真的想要 team 執行，請先從 shell 啟動 OMX CLI。"
+  },
+  {
+    "original": "```bash\nomx team 3:executor \"fix the failing tests with verification\"\nomx team status <team-name>\nomx team resume <team-name>\nomx team shutdown <team-name>\n```",
+    "zh_tw": "```bash\nomx team 3:executor \"fix the failing tests with verification\"\nomx team status <team-name>\nomx team resume <team-name>\nomx team shutdown <team-name>\n```"
+  },
+  {
+    "original": "### Setup, doctor, and HUD",
+    "zh_tw": "### Setup、doctor 與 HUD"
+  },
+  {
+    "original": "These are operator/support surfaces:\n- Codex plugin marketplace install/discovery can cache the plugin under `${CODEX_HOME:-~/.codex}/plugins/cache/$MARKETPLACE_NAME/oh-my-codex/$VERSION/` (local installs may use `local` as the version identifier); that packaged plugin includes plugin-scoped companion metadata for official Codex lifecycle hooks, optional MCP compatibility servers, and apps (MCP/apps disabled by default), so it is still paired with the installed `omx` CLI for runtime execution\n- `omx setup` installs prompts, skills, AGENTS scaffolding, `.codex/config.toml`, and (for legacy installs or older Codex without `plugin_hooks`) OMX-managed native Codex hooks in `.codex/hooks.json`\n  - setup refresh preserves non-OMX hook entries in `.codex/hooks.json` and only rewrites OMX-managed wrappers\n  - `omx setup --merge-agents` preserves existing `AGENTS.md` guidance while inserting or refreshing generated OMX sections between `<!-- OMX:AGENTS:START -->` / `<!-- OMX:AGENTS:END -->`; without `--merge-agents` or `--force`, non-interactive setup keeps skipping existing `AGENTS.md` files\n  - `omx uninstall` removes OMX-managed wrappers from `.codex/hooks.json` but keeps the file when user hooks remain\n- `omx update` checks npm immediately, installs the newest global OMX build, then reruns the same interactive setup refresh path\n- launch-time update checks are throttled and prompt by default; use `OMX_AUTO_UPDATE=0` to disable them or `OMX_AUTO_UPDATE=defer` to schedule deferred updates without a prompt\n- fresh OMX-managed `gpt-5.5` config seeding now recommends `model_context_window = 250000` and `model_auto_compact_token_limit = 200000`, but only when those keys are missing\n- `.omx-config.json` model/env routing is documented in [the model/env routing reference](./docs/reference/omx-config-schema-routing.md); only edit keys supported by your installed OMX version\n- `omx doctor` verifies the install when something seems wrong; it does not prove that the active Codex profile can make an authenticated model call\n- `omx hud --watch` is a monitoring/status surface, not the primary user workflow",
+    "zh_tw": "這些是操作/支援介面：\n- Codex plugin marketplace 的安裝/探索可以將 plugin 快取在 `${CODEX_HOME:-~/.codex}/plugins/cache/$MARKETPLACE_NAME/oh-my-codex/$VERSION/` 下（本機安裝可能使用 `local` 作為版本識別碼）；該封裝好的 plugin 包含針對官方 Codex 生命週期 hooks、可選的 MCP 相容伺服器，以及 apps（MCP/apps 預設停用）的 plugin 範圍 companion metadata，因此在執行時仍會與已安裝的 `omx` CLI 搭配使用\n- `omx setup` 會安裝 prompts、skills、AGENTS scaffolding、`.codex/config.toml`，以及（對於舊版安裝或沒有 `plugin_hooks` 的較舊 Codex）由 OMX 管理的原生 Codex hooks，位於 `.codex/hooks.json`\n  - setup 重新整理會保留 `.codex/hooks.json` 中非 OMX 的 hook 項目，且只會重寫 OMX 管理的 wrappers\n  - `omx setup --merge-agents` 會在插入或重新整理生成的 OMX 區段時保留既有的 `AGENTS.md` 指引，區段位於 `<!-- OMX:AGENTS:START -->` / `<!-- OMX:AGENTS:END -->` 之間；沒有 `--merge-agents` 或 `--force` 時，非互動式 setup 會持續略過既有的 `AGENTS.md` 檔案\n  - `omx uninstall` 會從 `.codex/hooks.json` 移除由 OMX 管理的 wrappers，但當仍有使用者 hooks 時會保留該檔案\n- `omx update` 會立即檢查 npm、安裝最新的全域 OMX build，然後重新執行相同的互動式 setup 重新整理流程\n- 啟動時的更新檢查有節流機制，且預設會提示；可使用 `OMX_AUTO_UPDATE=0` 停用，或使用 `OMX_AUTO_UPDATE=defer` 在不提示的情況下排程延後更新\n- 新建立的 OMX 管理 `gpt-5.5` 設定種子現在建議 `model_context_window = 250000` 與 `model_auto_compact_token_limit = 200000`，但僅在這些 keys 缺失時才會套用\n- `.omx-config.json` 的 model/env 路由已記載於 [the model/env routing reference](./docs/reference/omx-config-schema-routing.md)；只編輯你已安裝的 OMX 版本所支援的 keys\n- 當看起來有問題時，`omx doctor` 會驗證安裝；但它無法證明目前啟用的 Codex profile 能發出已驗證的 model call\n- `omx hud --watch` 是監控/狀態介面，而不是主要的使用者工作流程"
+  },
+  {
+    "original": "For non-team sessions, native Codex hooks are now the canonical lifecycle surface:\n- `plugins/oh-my-codex/hooks/hooks.json` = official plugin-scoped hook registrations for plugin installs\n- `.codex/hooks.json` = legacy/fallback native Codex hook registrations preserved for legacy installs and older Codex versions\n- `.omx/hooks/*.mjs` = OMX plugin hooks\n- `omx tmux-hook` / notify-hook / derived watcher = tmux + runtime fallback paths",
+    "zh_tw": "對於非 team 工作階段，原生 Codex hooks 現在是標準的生命週期介面：\n- `plugins/oh-my-codex/hooks/hooks.json` = 供 plugin 安裝使用的官方 plugin 範圍 hook 註冊\n- `.codex/hooks.json` = 為舊版安裝與較舊 Codex 版本保留的 legacy/fallback 原生 Codex hook 註冊\n- `.omx/hooks/*.mjs` = OMX plugin hooks\n- `omx tmux-hook` / notify-hook / derived watcher = tmux + runtime 備援路徑"
+  },
+  {
+    "original": "See [Codex native hook mapping](./docs/codex-native-hooks.md) for the current native / fallback matrix.",
+    "zh_tw": "請參閱 [Codex native hook mapping](./docs/codex-native-hooks.md) 了解目前的 native / fallback 對照表。"
+  },
+  {
+    "original": "### Troubleshooting false-green readiness",
+    "zh_tw": "### 排查假性綠燈就緒狀態"
+  },
+  {
+    "original": "A green `omx doctor` means the install and local runtime wiring look sane. If real execution still fails, check the environment Codex actually uses:",
+    "zh_tw": "綠色的 `omx doctor` 表示安裝與本機 runtime 連線看起來正常。如果真正執行仍然失敗，請檢查 Codex 實際使用的環境："
+  }
+]

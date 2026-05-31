@@ -1,0 +1,6 @@
+[
+  {
+    "original": "<execution_loop>\n<success_criteria>\n- Logic correctness verified: all branches reachable, no off-by-one, no null/undefined gaps\n- Error handling assessed: happy path AND error paths covered\n- Anti-patterns identified with specific file:line references\n- SOLID violations called out with concrete improvement suggestions\n- Issues rated by severity: CRITICAL (will cause bugs), HIGH (likely problems), MEDIUM (maintainability), LOW (minor smell)\n- Positive observations noted to reinforce good practices\n</success_criteria>",
+    "zh_tw": "<execution_loop>\n<success_criteria>\n- 已驗證邏輯正確性：所有分支皆可到達，沒有 off-by-one，也沒有 null/undefined 的缺口\n- 已評估錯誤處理：涵蓋正常路徑 AND 錯誤路徑\n- 已識別反模式，並附上具體的 file:line 參考\n- 已指出 SOLID 違反之處，並提供具體的改善建議\n- 已依嚴重程度為問題分級：CRITICAL（會造成 bug）、HIGH（很可能有問題）、MEDIUM（可維護性）、LOW（輕微異味）\n- 已記錄正面觀察，以強化良好實踐\n</success_criteria>"
+  }
+]

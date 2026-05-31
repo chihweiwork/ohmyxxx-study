@@ -1,0 +1,34 @@
+[
+  {
+    "original": "---\nname: ralph\ndescription: Self-referential loop until task completion with architect verification\n---",
+    "zh_tw": "---\nname: ralph\ndescription: 透過架構師驗證，持續自我參照迴圈直到任務完成\n---"
+  },
+  {
+    "original": "[RALPH + ULTRAWORK - ITERATION {{ITERATION}}/{{MAX}}]",
+    "zh_tw": "[RALPH + ULTRAWORK - 第 {{ITERATION}}/{{MAX}} 次迭代]"
+  },
+  {
+    "original": "Your previous attempt did not output the completion promise. Continue working on the task.",
+    "zh_tw": "你先前的嘗試沒有輸出完成承諾。請繼續處理這個任務。"
+  },
+  {
+    "original": "<Purpose>\nRalph is a persistence loop that keeps working on a task until it is fully complete and architect-verified. It wraps ultrawork's parallel execution with session persistence, automatic retry on failure, and mandatory verification before completion.\n</Purpose>",
+    "zh_tw": "<Purpose>\nRalph 是一個持續性迴圈，會持續處理任務，直到任務完全完成並通過架構師驗證。它將 ultrawork 的平行執行包裝起來，結合工作階段持續、失敗時自動重試，以及在完成前的強制驗證。\n</Purpose>"
+  },
+  {
+    "original": "<Use_When>\n- Task requires guaranteed completion with verification (not just \"do your best\")\n- User says \"ralph\", \"don't stop\", \"must complete\", \"finish this\", or \"keep going until done\"\n- Work may span multiple iterations and needs persistence across retries\n- Task benefits from parallel execution with architect sign-off at the end\n</Use_When>",
+    "zh_tw": "<Use_When>\n- 任務需要保證完成並經過驗證（不只是「盡力而為」）\n- 使用者說「ralph」、「不要停」、「必須完成」、「把這個完成」，或「一直做到結束」\n- 工作可能跨越多次迭代，且需要在重試之間保持持續性\n- 任務可受益於平行執行，並在最後取得架構師核准\n</Use_When>"
+  },
+  {
+    "original": "<Do_Not_Use_When>\n- User wants a full autonomous pipeline from idea to code -- use `autopilot` instead\n- User wants to explore or plan before committing -- use `plan` skill instead\n- User wants a quick one-shot fix -- delegate directly to an executor agent\n- User wants manual control over completion -- use `ultrawork` directly\n</Do_Not_Use_When>",
+    "zh_tw": "<Do_Not_Use_When>\n- 使用者想要從構想到程式碼的完整自主流程 -- 請改用 `autopilot`\n- 使用者想在提交前先探索或規劃 -- 請改用 `plan` skill\n- 使用者想要快速的一次性修復 -- 直接委派給執行代理\n- 使用者想手動控制完成流程 -- 直接使用 `ultrawork`\n</Do_Not_Use_When>"
+  },
+  {
+    "original": "<Why_This_Exists>\nComplex tasks often fail silently: partial implementations get declared \"done\", tests get skipped, edge cases get forgotten. Ralph prevents this by looping until work is genuinely complete, requiring fresh verification evidence before allowing completion, and using tiered architect review to confirm quality.\n</Why_This_Exists>",
+    "zh_tw": "<Why_This_Exists>\n複雜任務常常會悄悄失敗：部分實作被宣稱為「完成」，測試被跳過，邊界情況被遺忘。Ralph 透過持續迴圈直到工作真正完成、在允許完成前要求新的驗證證據，以及使用分層的架構師審查來確認品質，來防止這種情況。\n</Why_This_Exists>"
+  },
+  {
+    "original": "<Execution_Policy>\n- Fire independent agent calls simultaneously -- never wait sequentially for independent work\n- Use `run_in_background: true` for long operations (installs, builds, test suites)\n- Always pass the `model` parameter explicitly when delegating to agents\n- Read `docs/shared/agent-tiers.md` before first delegation to select correct agent tiers\n- Deliver the full implementation: no scope reduction, no partial completion, no deleting tests to make them pass\n- Apply the shared workflow guidance pattern: outcome-first framing, concise visible updates for multi-step execution, local overrides for the active workflow branch, validation proportional to risk, explicit stop rules, and automatic continuation for safe reversible steps. Ask only for material, destructive, credentialed, external-production, or preference-dependent branches.\n- Integrate with Codex goal mode when goal tools are available: inspect the active thread goal with `get_goal`, preserve it as the top-level stop condition, and only call `update_goal({status: \"complete\"})` after a Ralph completion audit proves the objective is actually achieved.\n</Execution_Policy>",
+    "zh_tw": "<Execution_Policy>\n- 同時發出獨立的代理呼叫 -- 絕不要為彼此獨立的工作依序等待\n- 對長時間操作（安裝、建置、測試套件）使用 `run_in_background: true`\n- 在委派給代理時，務必明確傳入 `model` 參數\n- 在第一次委派前先閱讀 `docs/shared/agent-tiers.md`，以選擇正確的代理層級\n- 交付完整實作：不要縮減範圍、不要只完成部分、不要為了讓測試通過而刪除測試\n- 套用共享工作流程指引模式：以成果為先的框架、針對多步驟執行提供簡潔且可見的更新、對目前工作流程分支套用本地覆寫、與風險相稱的驗證、明確的停止規則，以及對安全且可回復步驟的自動續行。只有在涉及重大、破壞性、需憑證、外部正式環境，或取決於偏好的分支時才詢問。\n- 當可用目標工具時，整合 Codex 目標模式：使用 `get_goal` 檢查目前執行緒的目標，將其保留為最上層停止條件，並且只有在 Ralph 完成審核證明目標確實達成之後，才呼叫 `update_goal({status: \"complete\"})`。\n</Execution_Policy>"
+  }
+]

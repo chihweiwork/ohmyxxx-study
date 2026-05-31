@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oh-my-openagent/src/agents/sisyphus-junior/AGENTS.md</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+</head>
+<body>
+<main>
+<nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
+<h1 class="path">oh-my-openagent/src/agents/sisyphus-junior/AGENTS.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-openagent/src/agents/sisyphus-junior/AGENTS.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---
+name: sisyphus-junior-agent
+description: Developer reference for the Sisyphus-Junior category-spawned executor agent -- model variants and discipline.
+---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---
+name: sisyphus-junior-agent
+description: Sisyphus-Junior 類別派生執行器代理的開發者參考 -- 模型變體與紀律。
+---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code># src/agents/sisyphus-junior/ -- Category-Spawned Executor</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code># src/agents/sisyphus-junior/ -- 類別派生執行器</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Generated:** 2026-05-18</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**產生日期：** 2026-05-18</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## OVERVIEW</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 概覽</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>10 files. Sisyphus-Junior is a focused task executor spawned by `delegate-task` when category routing requires it. Runs in subagent mode with its own fallback chain. Does not delegate further; executes directly.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>10 個檔案。Sisyphus-Junior 是一個專注的任務執行器，當類別路由需要時，會由 `delegate-task` 派生。以 subagent 模式執行，並使用自己的回退鏈。不會進一步委派；直接執行。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## FILES</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 檔案</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| File | Purpose |
+|------|---------|
+| `agent.ts` | `createSisyphusJuniorAgentWithOverrides()` factory, model-variant routing, `SISYPHUS_JUNIOR_DEFAULTS` |
+| `index.ts` | Barrel exports |
+| `default.ts` | Base/Claude prompt: todo discipline, verification, termination rules |
+| `gemini.ts` | Gemini-optimized prompt variant |
+| `gpt.ts` | Base GPT prompt variant |
+| `gpt-5-3-codex.ts` | GPT-5.3 Codex prompt variant |
+| `gpt-5-4.ts` | GPT-5.4-native prompt variant |
+| `gpt-5-5.ts` | GPT-5.5-native prompt variant |
+| `kimi-k2-6.ts` | Kimi K2.6 prompt variant |
+| `index.test.ts` | Unit tests |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 檔案 | 用途 |
+|------|---------|
+| `agent.ts` | `createSisyphusJuniorAgentWithOverrides()` 工廠、模型變體路由、`SISYPHUS_JUNIOR_DEFAULTS` |
+| `index.ts` | 匯出集合 |
+| `default.ts` | 基礎/Claude 提示詞：待辦紀律、驗證、終止規則 |
+| `gemini.ts` | Gemini 最佳化提示詞變體 |
+| `gpt.ts` | 基礎 GPT 提示詞變體 |
+| `gpt-5-3-codex.ts` | GPT-5.3 Codex 提示詞變體 |
+| `gpt-5-4.ts` | GPT-5.4 原生提示詞變體 |
+| `gpt-5-5.ts` | GPT-5.5 原生提示詞變體 |
+| `kimi-k2-6.ts` | Kimi K2.6 提示詞變體 |
+| `index.test.ts` | 單元測試 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## VARIANT SELECTION</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 變體選擇</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Parent `agent.ts` selects prompt variant by model name:
+- Contains &quot;kimi-k2&quot; -&gt; `kimi-k2-6.ts`
+- Contains &quot;gpt-5.5&quot; -&gt; `gpt-5-5.ts`
+- Contains &quot;gpt-5.4&quot; -&gt; `gpt-5-4.ts`
+- Contains &quot;gpt-5.3-codex&quot; -&gt; `gpt-5-3-codex.ts`
+- Contains &quot;gpt&quot; -&gt; `gpt.ts`
+- Contains &quot;gemini&quot; -&gt; `gemini.ts`
+- Default -&gt; `default.ts` (Claude, GLM, etc.)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>父層 `agent.ts` 會依模型名稱選擇提示詞變體：
+- 包含 &quot;kimi-k2&quot; -&gt; `kimi-k2-6.ts`
+- 包含 &quot;gpt-5.5&quot; -&gt; `gpt-5-5.ts`
+- 包含 &quot;gpt-5.4&quot; -&gt; `gpt-5-4.ts`
+- 包含 &quot;gpt-5.3-codex&quot; -&gt; `gpt-5-3-codex.ts`
+- 包含 &quot;gpt&quot; -&gt; `gpt.ts`
+- 包含 &quot;gemini&quot; -&gt; `gemini.ts`
+- 預設 -&gt; `default.ts`（Claude、GLM 等）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## KEY BEHAVIORS</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 關鍵行為</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- Mode: `subagent` (uses own fallback chain, ignores UI selection)
+- Default model: `claude-sonnet-4-6`
+- Default temperature: `0.1` (`SISYPHUS_JUNIOR_DEFAULTS`)
+- Fallback chain: kimi-k2.6 -&gt; gpt-5.5 medium -&gt; minimax-m2.7 -&gt; big-pickle
+- Blocked tools: `task` (all models); `apply_patch` also blocked for GPT models
+- `call_omo_agent` explicitly allowed so subagents can spawn explore/librarian
+- Max tokens: 64000
+- Thinking enabled for non-GPT/non-GLM models (budgetTokens: 32000)
+- Reasoning effort &quot;medium&quot; for GPT models</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 模式：`subagent`（使用自己的回退鏈，忽略 UI 選擇）
+- 預設模型：`claude-sonnet-4-6`
+- 預設 temperature：`0.1`（`SISYPHUS_JUNIOR_DEFAULTS`）
+- 回退鏈：kimi-k2.6 -&gt; gpt-5.5 medium -&gt; minimax-m2.7 -&gt; big-pickle
+- 被阻擋的工具：`task`（所有模型）；`apply_patch` 也會對 GPT 模型阻擋
+- 明確允許 `call_omo_agent`，因此 subagents 可以派生 explore/librarian
+- 最大 tokens：64000
+- 對非 GPT／非 GLM 模型啟用 thinking（budgetTokens: 32000）
+- GPT 模型的 reasoning effort 為 &quot;medium&quot;</code></pre></div></section>
+</main>
+</body>
+</html>

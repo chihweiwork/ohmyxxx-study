@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oh-my-antigravity/context/oma-core.md</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+</head>
+<body>
+<main>
+<nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
+<h1 class="path">oh-my-antigravity/context/oma-core.md</h1><p>被引用於：<code>01-architecture-map.md</code>、<code>02-project-guides.md</code>、<code>05-study-plan.md</code></p><p><a href="../../oh-my-antigravity/context/oma-core.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code># OmA Core Context</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code># OmA 核心上下文</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>OmA adds a role-driven workflow layer to Gemini CLI.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>OmA 為 Gemini CLI 加上一層以角色驅動的工作流程層。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Primary Interface</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 主要介面</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- Use `/oma:*` commands for operational control.
+- Keep always-on context thin; heavy procedure belongs in the invoked command, not here.
+- Retained skills are limited to: `$plan`, `$oma-plan`, `$execute`, `$prd`, `$ralplan`, `$research`, `$deep-dive`, `$blueprint`, `$context-optimize`, `$learn`, `$ultragoal`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 使用 `/oma:*` 指令進行操作控制。
+- 保持常駐上下文精簡；繁重的流程應放在被呼叫的指令中，不應放在這裡。
+- 保留的技能僅限於：`$plan`、`$oma-plan`、`$execute`、`$prd`、`$ralplan`、`$research`、`$deep-dive`、`$blueprint`、`$context-optimize`、`$learn`、`$ultragoal`。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Default Flow (Hybrid Routing)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 預設流程（混合路由）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **Entry**: `intent` -&gt; `blueprint` (if product/UI workflow decisions matter) -&gt; `workspace` (if dirty lanes or multi-root setup needed) -&gt; `team-assemble` (if role fit is unclear).
+- **Clarification**: `interview` (if depth flags detected or scope is ambiguous).
+  - *Automated*: -&gt; `team-assemble` (orchestrates plan -&gt; prd -&gt; taskboard -&gt; exec -&gt; verify -&gt; fix).
+  - *Manual*: -&gt; `team-plan` -&gt; `team-prd`.
+- **Execution**: `taskboard` -&gt; `team-exec` -&gt; `team-verify` -&gt; `team-fix`.
+- **Loop**: Repeat `exec -&gt; verify -&gt; fix` until acceptance. Use `loop` for subsequent slices.
+- **Parallel Rule**: Keep immediate blockers on the active lane; delegate only independent sidecar tasks in parallel.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **進入**：`intent` -&gt; `blueprint`（如果產品 / UI 工作流程決策很重要）-&gt; `workspace`（如果需要髒分支或多根目錄設定）-&gt; `team-assemble`（如果角色適配不明確）。
+- **釐清**：`interview`（如果偵測到深度旗標或範圍不明確）。
+  - *自動化*：-&gt; `team-assemble`（協調 plan -&gt; prd -&gt; taskboard -&gt; exec -&gt; verify -&gt; fix）。
+  - *手動*：-&gt; `team-plan` -&gt; `team-prd`。
+- **執行**：`taskboard` -&gt; `team-exec` -&gt; `team-verify` -&gt; `team-fix`。
+- **迴圈**：重複 `exec -&gt; verify -&gt; fix` 直到通過驗收。後續片段使用 `loop`。
+- **平行規則**：將立即阻塞項保留在當前線路；只平行委派彼此獨立的側邊任務。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## System Map: Modes, Controls &amp; Agents</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 系統地圖：模式、控制與代理</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **Operational Modes**: `balanced`, `speed`, `deep`, `autopilot`, `ralph`, `ultrawork`.
+- **Control Plane**: `rules`, `memory`, `workspace`, `taskboard`, `deep-init`, `hud`, `hooks`, `notify`, `reasoning`, `approval`, `doctor`, `cancel`.
+- **Agent Role Registry**:
+  - **Strategy**: `oma-director`, `oma-architect`, `oma-planner`.
+  - **Production**: `oma-product`, `oma-consultant`, `oma-editor`.
+  - **Execution**: `oma-executor`, `oma-reviewer`, `oma-verifier`, `oma-debugger`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **操作模式**：`balanced`、`speed`、`deep`、`autopilot`、`ralph`、`ultrawork`。
+- **控制平面**：`rules`、`memory`、`workspace`、`taskboard`、`deep-init`、`hud`、`hooks`、`notify`、`reasoning`、`approval`、`doctor`、`cancel`。
+- **代理角色登錄表**：
+  - **策略**：`oma-director`、`oma-architect`、`oma-planner`。
+  - **製作**：`oma-product`、`oma-consultant`、`oma-editor`。
+  - **執行**：`oma-executor`、`oma-reviewer`、`oma-verifier`、`oma-debugger`。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Workflow State: Interviewing</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 工作流程狀態：訪談中</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **Entry**: Triggered via depth keywords (`low|medium|high`) on `/oma:intent`.
+- **Hold**: All automated implementation pipelines are blocked while in this state.
+- **Agent**: `interview` is the exclusive agent active during this state.
+- **Persistence**: Dialogue state, confirmed facts, and `ready_to_run_prompt` must be saved to `.omg/state/interviews/[slug]/context.json`, with `.omg/state/interviews/active.json` pointing at the current session.
+- **Meta-commands**: Support `$intent-status`, `$intent-restart`, `$intent-help`, `$intent-resume`, and `$intent-done`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **進入**：透過 `/oma:intent` 上的深度關鍵字（`low|medium|high`）觸發。
+- **暫停**：此狀態下所有自動化實作流程都會被阻擋。
+- **代理**：`interview` 是此狀態下唯一 सक्रिय 的代理。
+- **持久化**：對話狀態、已確認事實與 `ready_to_run_prompt` 必須儲存到 `.omg/state/interviews/[slug]/context.json`，並由 `.omg/state/interviews/active.json` 指向目前工作階段。
+- **中繼指令**：支援 `$intent-status`、`$intent-restart`、`$intent-help`、`$intent-resume` 和 `$intent-done`。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Intent Pinning Pattern</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 意圖釘選模式</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **Handoff Accuracy**: Every `/oma:*` command recommendation **MUST** include the `--intent=&quot;[Core Objective]&quot;` flag to prevent context drift between agents.
+- **North Star**: Receiving agents use the `--intent` flag as their primary directive, overriding background noise.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **交接準確性**：每一個 `/oma:*` 指令建議都**必須**包含 `--intent=&quot;[Core Objective]&quot;` 旗標，以防止代理之間的上下文漂移。
+- **北極星**：接收代理會將 `--intent` 旗標作為主要指令，覆蓋背景雜訊。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Context and State Management</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 上下文與狀態管理</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **Single Source of Truth (SSoT)**: The active interview session referenced by `.omg/state/interviews/active.json` is the **exclusive** reference for the Socratic gateway.
+  - **Smart Synchronization**: Agents `read_file` the active pointer first, then the session state ONLY at entry points to ensure alignment.
+  - **Implicit Adoption**: On read, the file content overrides any stale internal context immediately.
+  - **Update Policy**: Update the active session file (`write_file`) only when tangible changes (facts, score, prompt) occur.
+- **Shared Workflow State**: Treat `.omg/state/workspace.json`, `.omg/state/taskboard.md`, `.omg/state/workflow.md`, and `.omg/state/checkpoint.md` as single-writer artifacts per project.
+  - **Lock File**: Read `.omg/state/session-lock.json` before mutating any shared workflow artifact.
+  - **Authoritative Writer**: Only the main/orchestration session whose lock matches may update shared workflow artifacts.
+  - **Conflict Rule**: If another live session owns the lock, do not overwrite shared workflow artifacts; write session-local drafts under `.omg/state/sessions/[session-slug]/` and surface the ownership conflict explicitly.
+  - **Delegated Turns**: Delegated/worker/subagent turns must not write shared workflow artifacts directly; they return handoff summaries or session-local notes for the orchestrator to merge.
+- **Summarization**: Read only files needed for the current step and summarize before handoff.
+- **Persistence**: Use `.omg/state/*`, `MEMORY.md`, `.omg/memory/*`, `.omg/rules/*`, `.omg/hooks/*`, or `.omg/notify/*`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **單一事實來源（SSoT）**：`.omg/state/interviews/active.json` 所參照的活動訪談工作階段，是蘇格拉底式入口的**唯一**參考依據。
+  - **智慧同步**：代理先 `read_file` 讀取活動指標，然後只在進入點讀取工作階段狀態，以確保一致性。
+  - **隱式採用**：讀取時，檔案內容會立即覆蓋任何過時的內部上下文。
+  - **更新政策**：只有在出現具體變更（事實、分數、提示）時，才更新活動工作階段檔案（`write_file`）。
+- **共享工作流程狀態**：將 `.omg/state/workspace.json`、`.omg/state/taskboard.md`、`.omg/state/workflow.md` 與 `.omg/state/checkpoint.md` 視為每個專案的單寫入者工件。
+  - **鎖定檔**：在修改任何共享工作流程工件之前，先讀取 `.omg/state/session-lock.json`。
+  - **權威寫入者**：只有鎖定相符的主要 / 編排工作階段可以更新共享工作流程工件。
+  - **衝突規則**：如果另一個存活工作階段持有鎖，不要覆寫共享工作流程工件；請在 `.omg/state/sessions/[session-slug]/` 下寫入工作階段本地草稿，並明確指出所有權衝突。
+  - **委派輪次**：委派 / worker / subagent 的輪次不得直接寫入共享工作流程工件；它們應回傳交接摘要或工作階段本地筆記，供編排者合併。
+- **摘要**：只讀取目前步驟需要的檔案，並在交接前先做摘要。
+- **持久化**：使用 `.omg/state/*`、`MEMORY.md`、`.omg/memory/*`、`.omg/rules/*`、`.omg/hooks/*` 或 `.omg/notify/*`。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Execution Discipline</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 執行紀律</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **Read Before Modify**: Read target files or state first; avoid blind edits.
+- **Plan Mode Boundary**: When running under native Gemini CLI Plan Mode, do not activate OmA skills, subagents, or implementation lanes without explicit user confirmation.
+- **Minimal Diff**: Prefer editing existing files over creating new files unless scope explicitly requires new files.
+- **Critical-Path Focus**: Complete immediate blocking work before adding speculative side tasks.
+- **Deterministic Queue**: For task execution order, prefer dependency-ready + lane-safe tasks first, then priority (`p0` -&gt; `p3`), then stable task ID.
+- **Baseline Integrity**: Keep each active lane anchored to an explicit baseline branch or HEAD snapshot when known; if the baseline drifts unexpectedly, stop and surface the mismatch before continuing implementation or review.
+- **Permission Recovery**: If a tool/action is denied, do not retry unchanged; request approval or switch to a safe fallback plan.
+- **Agent Recovery**: If a lane agent is unavailable, reroute once to a mapped fallback lane and record why.
+- **Concise Success Path**: Keep normal-success reporting compact and expand only blocker or early-stop branches.
+- **Session Ownership**: When multiple top-level sessions touch the same project, keep one authoritative orchestration session per shared workflow state and push all parallel session notes into lane/session-local drafts until merged.
+- **Subagent Tooling**: Treat upstream subagent invocation as a single tool-controlled handoff surface; OmA commands should describe the intended role, lane, termination reason, and evidence rather than assuming older wrapped subagent tools exist.
+- **Native Memory Boundary**: Native `/memory inbox` and skill patching are review surfaces. Do not auto-apply extracted skills or memory patches into OmA assets without operator review and normal versioned-file validation.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **先讀後改**：先讀取目標檔案或狀態；避免盲目編輯。
+- **Plan 模式邊界**：在原生 Gemini CLI Plan Mode 下執行時，除非得到使用者明確確認，否則不要啟用 OmA skills、subagents 或 implementation lanes。
+- **最小差異**：除非範圍明確要求新增檔案，否則優先編輯既有檔案，而不是建立新檔案。
+- **關鍵路徑優先**：先完成立即的阻塞工作，再加入推測性的側邊任務。
+- **決定性佇列**：在安排任務執行順序時，先選依賴已就緒且對當前 lane 安全的任務，再依優先級（`p0` -&gt; `p3`），最後才是穩定任務 ID。
+- **基線完整性**：在已知的情況下，讓每個啟用中的 lane 都錨定到明確的基線分支或 HEAD 快照；若基線意外漂移，先停止並回報不一致，再繼續實作或審查。
+- **權限回復**：如果某個工具 / 動作被拒絕，不要原樣重試；請請求核准或改用安全的回退方案。
+- **代理回復**：如果某個 lane 代理不可用，改道一次到對應的回退 lane，並記錄原因。
+- **簡潔成功路徑**：正常成功的回報保持精簡，只在阻塞或提前停止的分支上展開。
+- **工作階段所有權**：當多個頂層工作階段接觸同一個專案時，對每個共享工作流程狀態只保留一個權威的編排工作階段，並把所有平行的工作階段筆記放入 lane / session 本地草稿，直到合併。
+- **Subagent 工具**：將上游 subagent 的呼叫視為單一、由工具控制的交接面；OmA 指令應描述預期角色、lane、終止原因與證據，而不是假設舊式包裝的 subagent 工具仍然存在。
+- **原生記憶邊界**：原生 `/memory inbox` 與 skill patching 都是審查面。不要在未經操作員審查與一般版本化檔案驗證的情況下，自動將提取出的 skills 或記憶 patch 套用到 OmA 資產中。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Command Response Contract</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 指令回應約定</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- Keep `/oma:*` outputs concise and operator-facing.
+- State status/decision first, then blockers/risks, then the next command.
+- Use tables only for matrices or comparisons. Mention evidence/persisted files only when relevant.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 保持 `/oma:*` 輸出精簡，且面向操作員。
+- 先說明狀態 / 決策，再說明阻塞項 / 風險，最後說下一個指令。
+- 只有在矩陣或比較時才使用表格。僅在相關時提及證據 / 已持久化檔案。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Safety &amp; Integrity</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 安全與完整性</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **Pre-requisites**: Do not start implementation if scope or acceptance criteria are missing.
+- **Stage Gate**: Keep `team-exec` blocked until both `team-plan` (task graph) and `team-prd` (acceptance criteria) are confirmed.
+- **Validation**: Never claim completion or mark work done without verification evidence.
+- **Isolation**: Isolate dirty/untrusted worktrees before autonomous review or verification.
+- **Lane Anchor Check**: Treat missing or drifted baseline branch/commit anchors as a workflow risk for multi-lane execution, especially before `team-exec`, `team-verify`, or resume handoff.
+- **Denied Actions**: Treat denied permissions/tool calls as a workflow event; re-plan or escalate explicitly.
+- **Termination**: Stop autonomous loops on hard blockers, missing permissions, or repeated failures.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **前置條件**：如果缺少範圍或驗收標準，不要開始實作。
+- **階段關卡**：在 `team-plan`（任務圖）與 `team-prd`（驗收標準）都確認之前，讓 `team-exec` 維持阻塞。
+- **驗證**：未經驗證證據，不要宣稱完成或標記工作已完成。
+- **隔離**：在自動審查或驗證之前，先隔離髒的／不受信任的工作樹。
+- **航道錨點檢查**：將缺失或漂移的基準分支／提交錨點視為多航道執行的工作流程風險，尤其是在 `team-exec`、`team-verify` 或恢復交接之前。
+- **拒絕的動作**：將被拒絕的權限／工具呼叫視為工作流程事件；明確重新規劃或升級處理。
+- **終止**：在遇到硬性阻塞、缺少權限或重複失敗時，停止自動迴圈。</code></pre></div></section>
+</main>
+</body>
+</html>

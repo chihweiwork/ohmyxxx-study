@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oh-my-codex/plugins/oh-my-codex/skills/plan/SKILL.md</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+</head>
+<body>
+<main>
+<nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
+<h1 class="path">oh-my-codex/plugins/oh-my-codex/skills/plan/SKILL.md</h1><p>被引用於：<code>02-project-guides.md</code>、<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-codex/plugins/oh-my-codex/skills/plan/SKILL.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---
+name: plan
+description: Strategic planning with optional interview workflow
+---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---
+name: plan
+description: 具備可選訪談流程的策略規劃
+---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Purpose&gt;
+Plan creates comprehensive, actionable work plans through intelligent interaction. It auto-detects whether to interview the user (broad requests) or plan directly (detailed requests), and supports consensus mode (iterative Planner/Architect/Critic loop with RALPLAN-DR structured deliberation) and review mode (Critic evaluation of existing plans).
+&lt;/Purpose&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Purpose&gt;
+Plan 會透過智慧互動建立完整且可執行的工作計畫。它會自動偵測是否需要訪談使用者（較廣泛的需求）或直接規劃（較詳細的需求），並支援共識模式（採用帶有 RALPLAN-DR 結構化審議的迭代式 Planner/Architect/Critic 迴圈）以及審查模式（由 Critic 評估既有計畫）。
+&lt;/Purpose&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Use_When&gt;
+- User wants to plan before implementing -- &quot;plan this&quot;, &quot;plan the&quot;, &quot;let's plan&quot;
+- User wants structured requirements gathering for a vague idea
+- User wants an existing plan reviewed -- &quot;review this plan&quot;, `--review`
+- User wants multi-perspective consensus on a plan -- `--consensus`, &quot;ralplan&quot;
+- Task is broad or vague and needs scoping before any code is written
+&lt;/Use_When&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Use_When&gt;
+- 使用者想在實作前先規劃 -- &quot;規劃這個&quot;, &quot;規劃那個&quot;, &quot;我們來規劃吧&quot;
+- 使用者希望針對一個模糊想法進行有結構的需求蒐集
+- 使用者想要審查既有計畫 -- &quot;審查這個計畫&quot;, `--review`
+- 使用者想就某個計畫取得多方觀點共識 -- `--consensus`, &quot;ralplan&quot;
+- 任務範圍廣泛或模糊，需要在撰寫任何程式碼前先行界定
+&lt;/Use_When&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Do_Not_Use_When&gt;
+- User wants autonomous end-to-end execution -- use `autopilot` instead
+- User wants to start coding immediately with a clear task -- use `ralph` or delegate to executor
+- User asks a simple question that can be answered directly -- just answer it
+- Task is a single focused fix with obvious scope -- skip planning, just do it
+&lt;/Do_Not_Use_When&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Do_Not_Use_When&gt;
+- 使用者想要自主的端到端執行 -- 改用 `autopilot`
+- 使用者希望以明確任務立刻開始編碼 -- 改用 `ralph` 或交由 executor
+- 使用者提出可直接回答的簡單問題 -- 直接回答即可
+- 任務是範圍明確的單一修正 -- 跳過規劃，直接處理
+&lt;/Do_Not_Use_When&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Why_This_Exists&gt;
+Jumping into code without understanding requirements leads to rework, scope creep, and missed edge cases. Plan provides structured requirements gathering, expert analysis, and quality-gated plans so that execution starts from a solid foundation. The consensus mode adds multi-perspective validation for high-stakes projects.
+&lt;/Why_This_Exists&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Why_This_Exists&gt;
+在未理解需求的情況下直接投入程式碼，會導致返工、範圍擴張，以及遺漏邊界情況。Plan 提供有結構的需求蒐集、專家分析與具品質門檻的計畫，讓執行能建立在穩固的基礎上。共識模式則為高風險專案加入多角度驗證。
+&lt;/Why_This_Exists&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Execution_Policy&gt;
+- Auto-detect interview vs direct mode based on request specificity
+- Ask one question at a time during interviews -- never batch multiple interview rounds into one question form
+- Gather codebase facts via `explore` agent before asking the user about them
+- `omx explore` is deprecated. Use normal repository inspection tools/subagents for simple read-only repository lookups during planning; use `omx sparkshell` only for explicit shell-native read-only evidence, and keep prompt-heavy or ambiguous planning work on the richer normal path.
+- Plans must meet quality standards: 80%+ claims cite file/line, 90%+ criteria are testable
+- Implementation step count must be right-sized to task scope; avoid defaulting to exactly five steps when the work is clearly smaller or larger
+- Consensus mode outputs the final plan by default; add `--interactive` to enable execution handoff
+- Consensus mode uses RALPLAN-DR short mode by default; switch to deliberate mode with `--deliberate` or when the request explicitly signals high risk (auth/security, data migration, destructive/irreversible changes, production incident, compliance/PII, public API breakage)
+- Apply the shared workflow guidance pattern: outcome-first framing, concise visible updates for multi-step planning, local overrides for the active workflow branch, evidence-backed planning and validation expectations, explicit stop rules, and automatic continuation for safe reversible steps. Ask only for material, destructive, credentialed, external-production, or preference-dependent branches.
+&lt;/Execution_Policy&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Execution_Policy&gt;
+- 依據請求的具體程度，自動判斷是訪談模式還是直接模式
+- 訪談時一次只問一個問題 -- 絕不要把多輪訪談合併成一個提問表單
+- 在詢問使用者之前，先透過 `explore` agent 蒐集程式碼庫事實
+- `omx explore` 已棄用。規劃期間，針對簡單的唯讀倉庫查找，請使用一般的倉庫檢查工具／子代理；只有在需要明確的 shell 原生唯讀證據時才使用 `omx sparkshell`，而將需要大量提示或較模糊的規劃工作留在更完整的正常流程中。
+- 計畫必須符合品質標準：80% 以上的主張需引用檔案／行號，90% 以上的準則必須可測試
+- 實作步驟數必須與任務範圍相稱；當工作明顯更小或更大時，避免預設剛好五步
+- 共識模式預設輸出最終計畫；加入 `--interactive` 以啟用執行交接
+- 共識模式預設使用 RALPLAN-DR 短模式；在 `--deliberate` 或請求明確 संकेत高風險（驗證／安全、資料遷移、破壞性／不可逆變更、正式環境事故、合規／PII、公開 API 破壞）時切換到審慎模式
+- 套用共享工作流程指引模式：以結果為先的表述、多步規劃時簡潔可見的更新、針對目前工作流程分支的本地覆寫、以證據支撐的規劃與驗證期待、明確的停止規則，以及對安全且可回復步驟的自動續行。只針對具實質性、破壞性、需憑證、外部正式環境或依偏好而定的分支提問。
+&lt;/Execution_Policy&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Steps&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Steps&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Mode Selection</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 模式選擇</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Mode | Trigger | Behavior |
+|------|---------|----------|
+| Interview | Default for broad requests | Interactive requirements gathering |
+| Direct | `--direct`, or detailed request | Skip interview, generate plan directly |
+| Consensus | `--consensus`, &quot;ralplan&quot; | Planner -&gt; Architect -&gt; Critic loop until agreement with RALPLAN-DR structured deliberation (short by default, `--deliberate` for high-risk); outputs plan by default |
+| Consensus Interactive | `--consensus --interactive` | Same as Consensus but pauses for user feedback at draft and approval steps, then hands off to execution |
+| Review | `--review`, &quot;review this plan&quot; | Critic evaluation of existing plan |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 模式 | 觸發條件 | 行為 |
+|------|---------|----------|
+| 訪談 | 廣泛請求的預設模式 | 互動式需求蒐集 |
+| 直接 | `--direct`，或詳細請求 | 跳過訪談，直接產生計畫 |
+| 共識 | `--consensus`，&quot;ralplan&quot; | Planner -&gt; Architect -&gt; Critic 迴圈，直到透過 RALPLAN-DR 結構化審議達成一致（預設為短模式；高風險時使用 `--deliberate`）；預設輸出計畫 |
+| 共識互動 | `--consensus --interactive` | 與共識模式相同，但會在草稿與核准步驟暫停以接收使用者回饋，之後再交付執行 |
+| 審查 | `--review`，&quot;review this plan&quot; | Critic 對既有計畫的評估 |
+</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Interview Mode (broad/vague requests)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 訪談模式（廣泛／模糊請求）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. **Classify the request**: Broad (vague verbs, no specific files, touches 3+ areas) triggers interview mode
+2. **Ask one focused question** using the surface-appropriate structured question path for preferences, scope, and constraints: in attached-tmux OMX runtime use `omx question`; outside tmux use native structured input when available; use plain text only as a last fallback
+3. **Gather codebase facts first**: Before asking &quot;what patterns does your code use?&quot;, spawn an `explore` agent to find out, then ask informed follow-up questions
+4. **Build on answers**: Each question builds on the previous answer
+5. **Consult Analyst** (THOROUGH tier) for hidden requirements, edge cases, and risks
+6. **Create plan** when the user signals readiness: &quot;create the plan&quot;, &quot;I'm ready&quot;, &quot;make it a work plan&quot;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. **分類請求**：廣泛（動詞模糊、沒有特定檔案、影響 3+ 個區域）時會觸發訪談模式
+2. **提出一個聚焦問題**：使用符合目前介面情境的結構化提問路徑來詢問偏好、範圍與限制；在附加 tmux 的 OMX 執行環境中使用 `omx question`；在 tmux 外部則在可用時使用原生結構化輸入；只有在最後的備援情況下才使用純文字
+3. **先蒐集程式碼庫事實**：在詢問「你的程式碼使用哪些模式？」之前，先派出 `explore` agent 來查明，然後再提出有根據的追問
+4. **承接回答**：每個問題都建立在前一個回答之上
+5. **諮詢 Analyst**（THOROUGH 等級）以找出隱藏需求、邊界情況與風險
+6. **建立計畫**：當使用者表示已準備好時，例如「建立計畫」、「我準備好了」、「把它做成工作計畫」
+</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Direct Mode (detailed requests)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 直接模式（詳細請求）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. **Quick Analysis**: Optional brief Analyst consultation
+2. **Create plan**: Generate comprehensive work plan immediately
+3. **Review** (optional): Critic review if requested</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. **快速分析**：可選的簡短 Analyst 諮詢
+2. **建立計畫**：立即產生完整的工作計畫
+3. **審查**（可選）：如有要求則進行 Critic 審查
+</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Consensus Mode (`--consensus` / &quot;ralplan&quot;)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 共識模式（`--consensus` / &quot;ralplan&quot;）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**RALPLAN-DR modes**: **Short** (default, bounded structure) and **Deliberate** (for `--deliberate` or explicit high-risk requests). Both modes keep the same Planner -&gt; Architect -&gt; Critic sequence. The workflow auto-proceeds through planning steps (Planner/Architect/Critic) but outputs the final plan without executing.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**RALPLAN-DR 模式**：**Short**（預設，具邊界的結構）與 **Deliberate**（用於 `--deliberate` 或明確高風險請求）。兩種模式都維持相同的 Planner -&gt; Architect -&gt; Critic 流程。工作流程會自動依序完成規劃步驟（Planner/Architect/Critic），但只輸出最終計畫，不會執行。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. **Planner** creates initial plan and a compact **RALPLAN-DR summary** before any Architect review. The summary **MUST** include:
+   - **Principles** (3-5)
+   - **Decision Drivers** (top 3)
+   - **Viable Options** (&gt;=2) with bounded pros/cons for each option
+   - If only one viable option remains, an explicit **invalidation rationale** for the alternatives that were rejected
+   - In **deliberate mode**: a **pre-mortem** (3 failure scenarios) and an **expanded test plan** covering **unit / integration / e2e / observability**
+2. **User feedback** *(--interactive only)*: If running with `--interactive`, **MUST** use `AskUserQuestion` / the structured question UI (`omx question` in attached tmux; native structured input outside tmux when available) to present the draft plan **plus the RALPLAN-DR Principles / Decision Drivers / Options summary for early direction alignment** with these options:
+   - **Proceed to review** — send to Architect and Critic for evaluation
+   - **Request changes** — return to step 1 with user feedback incorporated
+   - **Skip review** — go directly to final approval (step 7)
+   If NOT running with `--interactive`, automatically proceed to review (step 3).
+3. **Architect** reviews for architectural soundness as a dedicated subsequent `Architect` subagent with the full task, current plan text/path, RALPLAN-DR summary, and relevant artifact context. Architect review **MUST** include: strongest steelman counterargument (antithesis) against the favored option, at least one meaningful tradeoff tension, and (when possible) a synthesis path. In deliberate mode, Architect should explicitly flag principle violations. **Wait for this step to complete before proceeding to step 4.** Do NOT run steps 3 and 4 in parallel. Do NOT substitute a default/improvised subagent prompt for the role-specific `Architect` prompt.
+4. **Critic** evaluates against quality criteria as a dedicated subsequent `Critic` subagent with the full task, current plan text/path, RALPLAN-DR summary, artifact context, and the completed `Architect` result. Critic **MUST** verify principle-option consistency, fair alternative exploration, risk mitigation clarity, testable acceptance criteria, and concrete verification steps. Critic **MUST** explicitly reject shallow alternatives, driver contradictions, vague risks, or weak verification. In deliberate mode, Critic **MUST** reject missing/weak pre-mortem or missing/weak expanded test plan. Run only after step 3 is complete. Do NOT let the `Architect` response self-approve the Critic gate.
+5. **Re-review loop** (max 5 iterations): If Critic rejects or iterates, execute this closed loop:
+   a. Collect all feedback from Architect + Critic
+   b. Pass feedback to Planner to produce a revised plan
+   c. **Return to Step 3** — Architect reviews the revised plan
+   d. **Return to Step 4** — Critic evaluates the revised plan
+   e. Repeat until Critic approves OR max 5 iterations reached
+   f. If max iterations reached without approval, present the best version to user via the structured question UI with note that expert consensus was not reached
+6. **Apply improvements**: When reviewers approve with improvement suggestions, merge all accepted improvements into the plan file before proceeding. Final consensus output **MUST** include an **ADR** section with: **Decision**, **Drivers**, **Alternatives considered**, **Why chosen**, **Consequences**, **Follow-ups**. Specifically:
+   a. Collect all improvement suggestions from Architect and Critic responses
+   b. Deduplicate and categorize the suggestions
+   c. Update the plan file in `.omx/plans/` with the accepted improvements (add missing details, refine steps, strengthen acceptance criteria, ADR updates, etc.)
+   d. Note which improvements were applied in a brief changelog section at the end of the plan
+   e. Before any execution handoff, derive an explicit **available-agent-types roster** from the known prompt catalog and add concrete **follow-up staffing guidance** for `$ultragoal` and `$team` (recommended roles, counts, suggested reasoning levels by lane, and why each lane exists), plus an explicit `$ralph` fallback note only when persistent single-owner verification is intentionally selected
+   f. Add a product-facing **Goal-Mode Follow-up Suggestions** section: recommend `$ultragoal` by default for general goal-oriented follow-up, `$autoresearch-goal` only when the context is a research project with a research deliverable/evaluator, and `$performance-goal` when the context is an optimization or performance project. Keep these suggestions alongside the Team path and any explicit Ralph fallback rather than replacing implementation-delivery guidance. For ordinary pre-planning external docs or best-practice lookup, cite `$best-practice-research` evidence and synthesize it into the plan instead of recommending Autoresearch as a final architecture component. For durable-goal work that is also parallelizable, explicitly recommend **Team + Ultragoal**: Ultragoal remains leader-owned goal/ledger state and Team returns checkpoint-ready execution evidence.
+   g. For the `$team` path, add an explicit launch-hint block with concrete `omx team` / `$team` commands and a **team verification path** (what Team proves before shutdown and what Ultragoal checkpoints as durable completion evidence). Distinguish Team + Ultragoal from any explicit Ralph fallback: Team handles coordinated parallel lanes; Ultragoal is the default durable follow-up/ledger owner, and Ralph is only an explicitly requested legacy-style persistent sequential verification/fix lane when needed.
+7. On Critic approval (with improvements applied): *(--interactive only)* If running with `--interactive`, use `AskUserQuestion` / the structured question UI to present the plan with these options:
+   - **Approve durable goal execution** — proceed via `$ultragoal` by default (optionally with `$team` for parallel lanes)
+   - **Approve and implement via team** — proceed to implementation via coordinated parallel team agents
+   - **Start goal-mode follow-up** — proceed via `$ultragoal` by default, or `$autoresearch-goal` / `$performance-goal` when the approved plan specifically fits research validation or measurable optimization
+   - **Request changes** — return to step 1 with user feedback
+   - **Reject** — discard the plan entirely
+   If NOT running with `--interactive`, output the final approved plan and stop. Do NOT auto-execute.
+8. *(--interactive only)* User chooses via the structured question UI (never ask for approval in plain text when a structured surface is available)
+9. On user approval (--interactive only):
+   - **Approve durable goal execution**: **MUST** invoke `$ultragoal` with the approved plan path from `.omx/plans/` as context **plus the explicit available-agent-types roster, suggested reasoning levels, concrete role allocation guidance, and direct launch hints for Ultragoal follow-up work**. Use `$team` alongside Ultragoal when parallel lanes are warranted. Do NOT implement directly. Do NOT edit source code files in the planning agent. Ralph is not the default follow-up; only invoke `$ralph` when the user explicitly selects a legacy/persistent single-owner execution lane.
+   - **Approve and implement via team**: **MUST** invoke `$team` with the approved plan path from `.omx/plans/` as context **plus the explicit available-agent-types roster, suggested reasoning levels, concrete staffing / worker-role allocation guidance, explicit `omx team` / `$team` launch hints, and the team verification path**. Do NOT implement directly. The team skill coordinates parallel agents across the staged pipeline for faster execution on large tasks.
+   - **Start goal-mode follow-up**: **MUST** invoke the selected goal workflow with the approved plan path and appropriate success context: `$ultragoal` as the default goal-mode path, `$autoresearch-goal` for research projects, or `$performance-goal` for optimization/performance projects with measurable evaluator criteria. Do NOT implement directly in the planning agent.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. **Planner** 會在任何 Architect 審查之前先建立初始計畫與一份精簡的 **RALPLAN-DR 摘要**。該摘要 **MUST** 包含：
+   - **Principles**（3-5 項）
+   - **Decision Drivers**（前 3 項）
+   - **Viable Options**（&gt;=2）以及每個選項受限的優缺點
+   - 如果只剩下一個可行選項，需明確說明被拒絕替代方案的 **invalidity 理由**
+   - 在 **deliberate mode**：需提供 **pre-mortem**（3 個失敗情境）以及涵蓋 **unit / integration / e2e / observability** 的 **expanded test plan**
+2. **User feedback** *(僅限 --interactive)*：如果以 `--interactive` 執行，**MUST** 使用 `AskUserQuestion` / 結構化問題介面（在已附加的 tmux 中使用 `omx question`；若可用，則在 tmux 外使用原生結構化輸入）來呈現草案計畫，**再加上 RALPLAN-DR Principles / Decision Drivers / Options 摘要，以便提早對齊方向**，並提供以下選項：
+   - **Proceed to review** — 送交 Architect 與 Critic 評估
+   - **Request changes** — 回到步驟 1，納入使用者回饋
+   - **Skip review** — 直接進入最終核准（步驟 7）
+   如果不是以 `--interactive` 執行，則自動進入審查（步驟 3）。
+3. **Architect** 會作為專門的後續 `Architect` subagent，以完整任務、目前的計畫文字/路徑、RALPLAN-DR 摘要，以及相關產物脈絡來檢查架構健全性。Architect 審查 **MUST** 包含：針對首選方案最強的 steelman 反方論點（antithesis）、至少一個有意義的取捨張力，以及（在可行時）一條綜合路徑。在 deliberate mode 中，Architect 應明確標示原則違反。**必須等待此步驟完成後，才能進入步驟 4。** 不要並行執行步驟 3 與 4。也不要用預設/臨時拼湊的 subagent prompt 取代角色專屬的 `Architect` prompt。
+4. **Critic** 會作為專門的後續 `Critic` subagent，以完整任務、目前的計畫文字/路徑、RALPLAN-DR 摘要、產物脈絡，以及已完成的 `Architect` 結果來依品質標準進行評估。Critic **MUST** 驗證原則與選項的一致性、公平的替代方案探索、風險緩解的清晰度、可測試的接受標準，以及具體的驗證步驟。Critic **MUST** 明確拒絕膚淺的替代方案、與驅動因素矛盾之處、模糊的風險或薄弱的驗證。在 deliberate mode 中，Critic **MUST** 拒絕缺失或薄弱的 pre-mortem，或缺失或薄弱的 expanded test plan。只能在步驟 3 完成後執行。不要讓 `Architect` 的回應自行通過 Critic 關卡。
+5. **Re-review loop**（最多 5 次迭代）：如果 Critic 拒絕或要求迭代，執行這個封閉迴圈：
+   a. 蒐集 Architect + Critic 的所有回饋
+   b. 將回饋交給 Planner 產生修正版計畫
+   c. **回到步驟 3** — 由 Architect 審查修正版計畫
+   d. **回到步驟 4** — 由 Critic 評估修正版計畫
+   e. 重複直到 Critic 核准，或達到最多 5 次迭代
+   f. 如果達到最大迭代次數仍未通過，透過結構化問題介面向使用者呈現最佳版本，並註明專家尚未達成共識
+6. **Apply improvements**：當審查者帶著改進建議核准時，於繼續之前，將所有已接受的改進合併進計畫檔。最終共識輸出 **MUST** 包含一個 **ADR** 區段，內容包括：**Decision**, **Drivers**, **Alternatives considered**, **Why chosen**, **Consequences**, **Follow-ups**。具體來說：
+   a. 蒐集 Architect 與 Critic 回應中的所有改進建議
+   b. 去重並分類這些建議
+   c. 在 `.omx/plans/` 中更新計畫檔，納入已接受的改進（補齊缺漏細節、精煉步驟、強化接受標準、更新 ADR 等）
+   d. 在計畫末尾的簡短變更紀錄區段中註明已套用哪些改進
+   e. 在任何執行交接前，從已知的 prompt catalog 推導出明確的 **available-agent-types roster**，並為 `$ultragoal` 與 `$team` 加入具體的 **後續人力配置指引**（建議角色、數量、各 lane 建議的 reasoning level，以及每個 lane 存在的原因），再加上一條明確的 `$ralph` fallback 註記，僅在刻意選擇持久的單一擁有者驗證時才加入
+   f. 新增一個面向產品的 **Goal-Mode Follow-up Suggestions** 區段：一般的目標導向後續工作預設建議 `$ultragoal`；只有在情境是具有研究交付物/評估者的研究專案時才建議 `$autoresearch-goal`；而在情境是最佳化或效能專案時則建議 `$performance-goal`。這些建議應與 Team 路徑及任何明確的 Ralph fallback 放在一起，而不是取代實作交付指引。對於一般的前期外部文件或最佳實踐查找，請引用 `$best-practice-research` 的證據並將其綜合進計畫，而不是將 Autoresearch 建議為最終架構元件。對於同時可平行化的 durable-goal 工作，請明確建議 **Team + Ultragoal**：Ultragoal 保持領導者擁有的目標/帳本狀態，而 Team 回傳可用於檢查點的執行證據。
+   g. 對 `$team` 路徑，新增一個明確的啟動提示區塊，包含具體的 `omx team` / `$team` 指令以及 **team verification path**（Team 在關閉前證明什麼，以及 Ultragoal 將哪些內容作為持久完成證據來做檢查點）。區分 Team + Ultragoal 與任何明確的 Ralph fallback：Team 負責協調平行 lanes；Ultragoal 是預設的持久後續/帳本擁有者，而 Ralph 只是在需要時，作為明確要求的傳統風格持久單一擁有者序列式驗證/修復 lane。
+7. 在 Critic 核准後（且已套用改進）：*(僅限 --interactive)* 若以 `--interactive` 執行，請使用 `AskUserQuestion` / 結構化問題介面呈現計畫，並提供以下選項：
+   - **Approve durable goal execution** — 預設透過 `$ultragoal` 進行（可選擇搭配 `$team` 以處理平行 lanes）
+   - **Approve and implement via team** — 透過協調式平行 team agents 進入實作
+   - **Start goal-mode follow-up** — 預設透過 `$ultragoal` 進行；若核准的計畫特別符合研究驗證或可量化最佳化，則改用 `$autoresearch-goal` / `$performance-goal`
+   - **Request changes** — 回到步驟 1，納入使用者回饋
+   - **Reject** — 完全捨棄該計畫
+   如果不是以 `--interactive` 執行，則輸出最終核准的計畫並停止。不要自動執行。
+8. *(僅限 --interactive)* 使用者透過結構化問題介面進行選擇（當有結構化介面可用時，絕不要用純文字詢問核准）
+9. 在使用者核准後（僅限 --interactive）：
+   - **Approve durable goal execution**: **MUST** 以 `.omx/plans/` 中已核准的計畫路徑作為脈絡呼叫 `$ultragoal`，**並加入明確的 available-agent-types roster、建議的 reasoning levels、具體的角色分配指引，以及給 Ultragoal 後續工作的直接啟動提示**。當需要平行 lanes 時，將 `$team` 與 Ultragoal 一起使用。不要直接實作。不要在 planning agent 中編輯原始碼檔案。Ralph 不是預設後續；只有在使用者明確選擇 legacy/持久的單一擁有者執行 lane 時，才呼叫 `$ralph`。
+   - **Approve and implement via team**: **MUST** 以 `.omx/plans/` 中已核准的計畫路徑作為脈絡呼叫 `$team`，**並加入明確的 available-agent-types roster、建議的 reasoning levels、具體的 staffing / worker-role 分配指引、明確的 `omx team` / `$team` 啟動提示，以及 team verification path**。不要直接實作。team skill 會在分階段流水線中協調平行 agents，以便更快執行大型任務。
+   - **Start goal-mode follow-up**: **MUST** 以已核准的計畫路徑與適當的成功脈絡呼叫所選的 goal workflow：`$ultragoal` 作為預設 goal-mode 路徑，研究專案用 `$autoresearch-goal`，或是具備可量化評估標準的最佳化/效能專案用 `$performance-goal`。不要在 planning agent 中直接實作。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Review Mode (`--review`)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 審查模式 (`--review`)</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>0. Treat review as a reviewer-only pass. The context that wrote the plan, cleanup proposal, or diff MUST NOT be the context that approves it.
+1. Read plan file from `.omx/plans/`
+2. Evaluate via Critic using `ask_codex` with `agent_role: &quot;critic&quot;`
+3. For cleanup/refactor/anti-slop work, verify that the artifact includes a cleanup plan, regression tests or an explicit test gap, smell-by-smell passes, and quality gates.
+4. Return verdict: APPROVED, REVISE (with specific feedback), or REJECT (replanning required)
+5. If the current context authored the artifact, hand the review to `$code-review`, `critic`, `quality-reviewer`, or `verifier` as appropriate.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>0. 將審查視為僅供審查者執行的流程。撰寫計畫、清理提案或 diff 的上下文，MUST NOT 是核准它的上下文。
+1. 從 `.omx/plans/` 讀取計畫檔案
+2. 使用 `ask_codex` 搭配 `agent_role: &quot;critic&quot;` 透過 Critic 進行評估
+3. 對於清理／重構／anti-slop 工作，確認產物包含清理計畫、回歸測試或明確的測試缺口、逐項 smell 的通過，以及品質閘門。
+4. 回傳判定：APPROVED、REVISE（附具體回饋），或 REJECT（需要重新規劃）
+5. 如果目前上下文撰寫了該產物，則視情況將審查交給 `$code-review`、`critic`、`quality-reviewer` 或 `verifier`。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Plan Output Format</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 計畫輸出格式</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Every plan includes:
+- Requirements Summary
+- Acceptance Criteria (testable)
+- Implementation Steps (with file references)
+- Adaptive step count sized to the actual scope (not a fixed five-step template)
+- Risks and Mitigations
+- Verification Steps
+- For consensus/ralplan: **RALPLAN-DR summary** (Principles, Decision Drivers, Options)
+- For consensus/ralplan final output: **ADR** (Decision, Drivers, Alternatives considered, Why chosen, Consequences, Follow-ups)
+- For consensus/ralplan execution handoff: **Available-Agent-Types Roster**, **Follow-up Staffing Guidance** (including suggested reasoning levels by lane), product-facing **Goal-Mode Follow-up Suggestions** (`$ultragoal`, `$autoresearch-goal`, `$performance-goal` when contextually appropriate), explicit `omx team` / `$team` **Launch Hints**, and **Team Verification Path**
+- For deliberate consensus mode: **Pre-mortem (3 scenarios)** and **Expanded Test Plan** (unit/integration/e2e/observability)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>每個計畫都包含：
+- 需求摘要
+- 驗收標準（可測試）
+- 實作步驟（附檔案參考）
+- 依實際範圍調整的自適應步數（不是固定的五步模板）
+- 風險與緩解措施
+- 驗證步驟
+- 針對 consensus/ralplan：**RALPLAN-DR summary**（Principles、Decision Drivers、Options）
+- 針對 consensus/ralplan 最終輸出：**ADR**（Decision、Drivers、Alternatives considered、Why chosen、Consequences、Follow-ups）
+- 針對 consensus/ralplan 執行交接：**Available-Agent-Types Roster**、**Follow-up Staffing Guidance**（包含各 lane 建議的推理等級）、面向產品的 **Goal-Mode Follow-up Suggestions**（在情境適合時使用 `$ultragoal`、`$autoresearch-goal`、`$performance-goal`）、明確的 `omx team` / `$team` **Launch Hints**，以及 **Team Verification Path**
+- 針對 deliberate consensus mode：**Pre-mortem（3 個情境）** 與 **Expanded Test Plan**（unit/integration/e2e/observability）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Plans are saved to `.omx/plans/`. Drafts go to `.omx/drafts/`.
+&lt;/Steps&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>計畫會儲存到 `.omx/plans/`。草稿會儲存到 `.omx/drafts/`。
+&lt;/Steps&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Tool_Usage&gt;
+- Use `AskUserQuestion` for preference questions (scope, priority, timeline, risk tolerance) -- provides clickable UI
+- Use plain text for questions needing specific values (port numbers, names, follow-up clarifications)
+- Use the `explore` agent (LOW tier, bounded quick pass) to gather codebase facts before asking the user
+- Use `ask_codex` with `agent_role: &quot;planner&quot;` for planning validation on large-scope plans
+- Use `ask_codex` with `agent_role: &quot;analyst&quot;` for requirements analysis
+- Use `ask_codex` with `agent_role: &quot;critic&quot;` for standalone review mode. In consensus mode, use the dedicated sequential role-specific `Architect` and `Critic` subagents described in steps 3-4 instead of a single critic-only review call.
+- If optional MCP compatibility tools or Codex consultation are unavailable, fall back to equivalent OMX prompt/native agents -- never block on external tools
+- **CRITICAL — Consensus mode agent calls MUST be sequential, never parallel.** Always await the subsequent role-specific `Architect` result before issuing the subsequent role-specific `Critic` call.
+- In consensus mode, default to RALPLAN-DR short mode; enable deliberate mode on `--deliberate` or explicit high-risk signals (auth/security, migrations, destructive changes, production incidents, compliance/PII, public API breakage)
+- In consensus mode with `--interactive`: use `AskUserQuestion` / the structured question UI for the user feedback step (step 2) and the final approval step (step 7) -- never ask for approval in plain text when a structured surface is available. Without `--interactive`, auto-proceed through planning steps without pausing. Output the final plan without execution.
+- In consensus mode with `--interactive`, on user approval **MUST** invoke the selected follow-up lane from step 9 (`$ultragoal`, `$team`, `$autoresearch-goal`, `$performance-goal`, or explicit `$ralph` fallback) -- never implement directly in the planning agent
+- In consensus mode, execution follow-up handoff **MUST** include an explicit available-agent-types roster plus concrete staffing / role-allocation guidance grounded in that roster, suggested reasoning levels by lane, product-facing goal-mode follow-up suggestions (`$ultragoal` by default, `$autoresearch-goal` for research projects, `$performance-goal` for optimization/performance projects), explicit `omx team` / `$team` launch hints, and a team verification path. For parallelizable durable-goal plans, recommend Team + Ultragoal with leader-owned checkpointing from Team evidence; reserve Ralph for persistent sequential single-owner verification/fix follow-up.
+&lt;/Tool_Usage&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Tool_Usage&gt;
+- 使用 `AskUserQuestion` 來詢問偏好類問題（範圍、優先順序、時間表、風險承受度）-- 提供可點擊的 UI
+- 對於需要特定值的問題（連接埠號、名稱、後續釐清），使用純文字
+- 在詢問使用者之前，先使用 `explore` agent（LOW tier，界定明確的快速瀏覽）蒐集程式碼庫事實
+- 對大型範圍的計畫驗證，使用 `ask_codex` 搭配 `agent_role: &quot;planner&quot;`
+- 進行需求分析時，使用 `ask_codex` 搭配 `agent_role: &quot;analyst&quot;`
+- 在獨立審查模式下，使用 `ask_codex` 搭配 `agent_role: &quot;critic&quot;`。在 consensus 模式中，請使用步驟 3-4 所述、專用且依序執行的角色型 `Architect` 與 `Critic` 子代理，而不是單一的 critic-only 審查呼叫。
+- 如果可選的 MCP 相容工具或 Codex 諮詢無法使用，則退回到等效的 OMX prompt／原生代理 -- 絕不要因外部工具而阻塞
+- **CRITICAL — Consensus mode agent calls MUST be sequential, never parallel.** 務必先等待後續角色的 `Architect` 結果，再發出後續角色的 `Critic` 呼叫。
+- 在 consensus 模式下，預設使用 RALPLAN-DR short mode；在 `--deliberate` 或明確高風險訊號出現時啟用 deliberate mode（auth/security、migrations、destructive changes、production incidents、compliance/PII、public API breakage）
+- 在帶有 `--interactive` 的 consensus 模式中：在使用者回饋步驟（step 2）與最終核准步驟（step 7）使用 `AskUserQuestion`／結構化問題 UI -- 當有結構化介面可用時，絕不要以純文字詢問核准。沒有 `--interactive` 時，則自動通過規劃步驟，不暫停。輸出最終計畫，但不執行。
+- 在帶有 `--interactive` 的 consensus 模式中，當使用者核准後 **MUST** 叫用 step 9 中選定的後續 lane（`$ultragoal`、`$team`、`$autoresearch-goal`、`$performance-goal`，或明確的 `$ralph` fallback）-- 絕不要在 planning agent 中直接實作
+- 在 consensus 模式中，執行交接 **MUST** 包含明確的 available-agent-types roster，以及以該 roster 為基礎的具體 staffing／role-allocation 指引、各 lane 建議的推理等級、面向產品的 goal-mode 後續建議（預設 `$ultragoal`，研究專案使用 `$autoresearch-goal`，最佳化／效能專案使用 `$performance-goal`）、明確的 `omx team` / `$team` launch hints，以及 team verification path。對於可平行執行的 durable-goal 計畫，建議使用 Team + Ultragoal，並以 Team 證據進行 leader-owned checkpointing；將 Ralph 保留給持續性的、單一擁有者的依序驗證／修正後續工作。
+&lt;/Tool_Usage&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Scenario Examples</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 情境範例</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Good:** The user says `continue` after the workflow already has a clear next step. Continue the current branch of work instead of restarting or re-asking the same question.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**Good:** 使用者在工作流程已經有明確下一步之後說了 `continue`。請繼續目前的工作分支，而不是重新開始或再次詢問同一個問題。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Good:** The user changes only the output shape or downstream delivery step (for example `make a PR`). Preserve earlier non-conflicting workflow constraints and apply the update locally.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**Good:** 使用者只變更輸出形式或下游交付步驟（例如 `make a PR`）。保留先前不衝突的工作流程限制，並在本地套用更新。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Bad:** The user says `continue`, and the workflow restarts discovery or stops before the missing verification/evidence is gathered.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**Bad:** 使用者說 `continue`，而工作流程卻重新開始探索，或在收集缺失的驗證／證據之前就停止。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Examples&gt;
+&lt;Good&gt;
+Adaptive interview (gathering facts before asking):
+```
+Planner: [spawns explore agent: &quot;find authentication implementation&quot;]
+Planner: [receives: &quot;Auth is in src/auth/ using JWT with passport.js&quot;]
+Planner: &quot;I see you're using JWT authentication with passport.js in src/auth/.
+         For this new feature, should we extend the existing auth or add a separate auth flow?&quot;
+```
+Why good: Answers its own codebase question first, then asks an informed preference question.
+&lt;/Good&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Examples&gt;
+&lt;Good&gt;
+自適應訪談（先蒐集事實再提問）：
+```
+Planner: [spawns explore agent: &quot;find authentication implementation&quot;]
+Planner: [receives: &quot;Auth is in src/auth/ using JWT with passport.js&quot;]
+Planner: &quot;我看到你在 src/auth/ 中使用的是 JWT authentication with passport.js。
+         對於這個新功能，我們應該擴充現有的 auth，還是新增一個獨立的 auth flow？&quot;
+```
+Why good: 先回答自己的 codebase 問題，再提出有根據的偏好問題。
+&lt;/Good&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Good&gt;
+Single question at a time:
+```
+Q1: &quot;What's the main goal?&quot;
+A1: &quot;Improve performance&quot;
+Q2: &quot;For performance, what matters more -- latency or throughput?&quot;
+A2: &quot;Latency&quot;
+Q3: &quot;For latency, are we optimizing for p50 or p99?&quot;
+```
+Why good: Each question builds on the previous answer. Focused and progressive.
+&lt;/Good&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Good&gt;
+一次只問一個問題：
+```
+Q1: &quot;主要目標是什麼？&quot;
+A1: &quot;提升效能&quot;
+Q2: &quot;就效能而言，哪個更重要 -- latency 還是 throughput？&quot;
+A2: &quot;Latency&quot;
+Q3: &quot;就 latency 而言，我們是要優化 p50 還是 p99？&quot;
+```
+Why good: 每個問題都建立在前一個答案之上。聚焦且循序漸進。
+&lt;/Good&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Bad&gt;
+Asking about things you could look up:
+```
+Planner: &quot;Where is authentication implemented in your codebase?&quot;
+User: &quot;Uh, somewhere in src/auth I think?&quot;
+```
+Why bad: The planner should spawn an explore agent to find this, not ask the user.
+&lt;/Bad&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Bad&gt;
+詢問你可以查到的事情：
+```
+Planner: &quot;你的 codebase 中的 authentication 是實作在哪裡？&quot;
+User: &quot;呃，我想是在 src/auth 的某處？&quot;
+```
+Why bad: Planner 應該派出 explore agent 來找這個資訊，而不是問使用者。
+&lt;/Bad&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Bad&gt;
+Batching multiple questions:
+```
+&quot;What's the scope? And the timeline? And who's the audience?&quot;
+```
+Why bad: Three questions at once causes shallow answers. Ask one at a time.
+&lt;/Bad&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Bad&gt;
+一次打包多個問題：
+```
+&quot;範圍是什麼？時程是什麼？受眾是誰？&quot;
+```
+Why bad: 一次問三個問題只會得到淺薄的答案。請一次只問一個。
+&lt;/Bad&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Bad&gt;
+Presenting all design options at once:
+```
+&quot;Here are 4 approaches: Option A... Option B... Option C... Option D... Which do you prefer?&quot;
+```
+Why bad: Decision fatigue. Present one option with trade-offs, get reaction, then present the next.
+&lt;/Bad&gt;
+&lt;/Examples&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Bad&gt;
+一次 प्रस्तुत所有設計選項：
+```
+&quot;這裡有 4 種做法：Option A... Option B... Option C... Option D... 你偏好哪一個？&quot;
+```
+Why bad: 會造成決策疲勞。先提出一個有取捨的選項，取得回應後，再提出下一個。
+&lt;/Bad&gt;
+&lt;/Examples&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Escalation_And_Stop_Conditions&gt;
+- Stop interviewing when requirements are clear enough to plan -- do not over-interview
+- In consensus mode, stop after 5 Planner/Architect/Critic iterations and present the best version
+- Consensus mode outputs the plan by default; with `--interactive`, user can approve and hand off to ultragoal/team, with Ralph only as an explicit legacy/persistent single-owner lane
+- If the user says &quot;just do it&quot; or &quot;skip planning&quot;, **MUST** invoke `$ultragoal` to transition to durable goal execution mode by default; use `$ralph` only when the user explicitly asks for that fallback. Do NOT implement directly in the planning agent.
+- Escalate to the user when there are irreconcilable trade-offs that require a business decision
+&lt;/Escalation_And_Stop_Conditions&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Escalation_And_Stop_Conditions&gt;
+- 當需求已清楚到足以規劃時就停止訪談 -- 不要過度訪談
+- 在共識模式中，經過 5 次 Planner/Architect/Critic 迭代後就停止，並呈現最佳版本
+- 共識模式預設會輸出計畫；使用 `--interactive` 時，使用者可以核准並交接給 ultragoal/team，而 Ralph 只作為明確的舊式／持久單一擁有者路徑
+- 如果使用者說「直接做」或「跳過規劃」，**MUST** 預設呼叫 `$ultragoal` 以轉入持久化目標執行模式；只有在使用者明確要求該備援時才使用 `$ralph`。不要在規劃代理中直接實作。
+- 當存在無法調和且需要商業決策的取捨時，向使用者升級處理
+&lt;/Escalation_And_Stop_Conditions&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Final_Checklist&gt;
+- [ ] Plan has testable acceptance criteria (90%+ concrete)
+- [ ] Plan references specific files/lines where applicable (80%+ claims)
+- [ ] All risks have mitigations identified
+- [ ] No vague terms without metrics (&quot;fast&quot; -&gt; &quot;p99 &lt; 200ms&quot;)
+- [ ] Plan saved to `.omx/plans/`
+- [ ] In consensus mode: RALPLAN-DR summary includes 3-5 principles, top 3 drivers, and &gt;=2 viable options (or explicit invalidation rationale)
+- [ ] In consensus mode final output: ADR section included (Decision / Drivers / Alternatives considered / Why chosen / Consequences / Follow-ups)
+- [ ] In deliberate consensus mode: pre-mortem (3 scenarios) + expanded test plan (unit/integration/e2e/observability) included
+- [ ] In consensus mode with `--interactive`: user explicitly approved before any execution; without `--interactive`: output final plan after Critic approval (no auto-execution)
+&lt;/Final_Checklist&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Final_Checklist&gt;
+- [ ] 計畫具有可測試的接受條件（90% 以上具體）
+- [ ] 計畫在適用處引用特定檔案／行號（80% 以上的主張）
+- [ ] 所有風險都有對應的緩解措施
+- [ ] 不使用沒有量化指標的模糊詞（&quot;fast&quot; -&gt; &quot;p99 &lt; 200ms&quot;）
+- [ ] 計畫已儲存至 `.omx/plans/`
+- [ ] 在共識模式中：RALPLAN-DR 摘要包含 3-5 項原則、前三大驅動因素，以及 &gt;=2 個可行選項（或明確的失效理由）
+- [ ] 在共識模式的最終輸出中：包含 ADR 區段（Decision / Drivers / Alternatives considered / Why chosen / Consequences / Follow-ups）
+- [ ] 在刻意共識模式中：包含 pre-mortem（3 種情境）+ 擴充測試計畫（unit/integration/e2e/observability）
+- [ ] 在帶有 `--interactive` 的共識模式中：使用者在任何執行前已明確核准；沒有 `--interactive` 時：在 Critic 核准後輸出最終計畫（不自動執行）
+&lt;/Final_Checklist&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Advanced&gt;
+## Design Option Presentation</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Advanced&gt;
+## 設計選項呈現</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>When presenting design choices during interviews, chunk them:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在訪談中呈現設計選擇時，將它們分段：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. **Overview** (2-3 sentences)
+2. **Option A** with trade-offs
+3. [Wait for user reaction]
+4. **Option B** with trade-offs
+5. [Wait for user reaction]
+6. **Recommendation** (only after options discussed)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. **概覽**（2-3 句）
+2. **選項 A** 與其取捨
+3. [等待使用者反應]
+4. **選項 B** 與其取捨
+5. [等待使用者反應]
+6. **建議**（僅在討論完選項之後）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Format for each option:
+```
+### Option A: [Name]
+**Approach:** [1 sentence]
+**Pros:** [bullets]
+**Cons:** [bullets]
+
+What's your reaction to this approach?
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>每個選項的格式：
+```
+### 選項 A: [Name]
+**Approach:** [1 sentence]
+**Pros:** [bullets]
+**Cons:** [bullets]
+
+你對這個做法有什麼反應？
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Question Classification</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 問題分類</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Before asking any interview question, classify it:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在提出任何訪談問題之前，先將它分類：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Type | Examples | Action |
+|------|----------|--------|
+| Codebase Fact | &quot;What patterns exist?&quot;, &quot;Where is X?&quot; | Explore first, do not ask user |
+| User Preference | &quot;Priority?&quot;, &quot;Timeline?&quot; | Ask user via the structured question path (`omx question` in attached tmux; native structured input where available) |
+| Scope Decision | &quot;Include feature Y?&quot; | Ask user |
+| Requirement | &quot;Performance constraints?&quot; | Ask user |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 類型 | 範例 | 動作 |
+|------|----------|--------|
+| Codebase Fact | &quot;有哪些模式？&quot;, &quot;X 在哪裡？&quot; | 先探索，不要問使用者 |
+| User Preference | &quot;優先順序？&quot;, &quot;時程？&quot; | 透過結構化問題流程詢問使用者（附加 tmux 中的 `omx question`；可用時使用原生結構化輸入） |
+| Scope Decision | &quot;要包含功能 Y 嗎？&quot; | 問使用者 |
+| Requirement | &quot;效能限制？&quot; | 問使用者 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Review Quality Criteria</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 審查品質 معیار</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Criterion | Standard |
+|-----------|----------|
+| Clarity | 80%+ claims cite file/line |
+| Testability | 90%+ criteria are concrete |
+| Verification | All file refs exist |
+| Specificity | No vague terms |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 準則 | 標準 |
+|-----------|----------|
+| 清晰度 | 80% 以上的主張引用檔案／行號 |
+| 可測試性 | 90% 以上的條件是具體的 |
+| 驗證性 | 所有檔案參照都存在 |
+| 具體性 | 沒有模糊詞 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Deprecation Notice</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 廢止通知</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>The separate `/planner`, `/ralplan`, and `/review` skills have been merged into `$plan`. All workflows (interview, direct, consensus, review) are available through `$plan`.
+&lt;/Advanced&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>獨立的 `/planner`、`/ralplan` 和 `/review` skills 已合併為 `$plan`。所有工作流程（interview、direct、consensus、review）都可透過 `$plan` 使用。
+&lt;/Advanced&gt;</code></pre></div></section>
+</main>
+</body>
+</html>

@@ -1,0 +1,70 @@
+[
+  {
+    "original": "---\nname: agents-directory\ndescription: Developer reference for all 11 Oh My OpenAgent agent definitions, factory patterns, tool restrictions, and model routing.\n---",
+    "zh_tw": "---\nname: agents-directory\ndescription: 供開發者參考的文件，涵蓋 11 個 Oh My OpenAgent agent 定義、工廠模式、工具限制與模型路由。\n---"
+  },
+  {
+    "original": "# src/agents/ — 11 Agent Definitions",
+    "zh_tw": "# src/agents/ — 11 個 Agent 定義"
+  },
+  {
+    "original": "**Generated:** 2026-05-15",
+    "zh_tw": "**生成時間：** 2026-05-15"
+  },
+  {
+    "original": "## OVERVIEW",
+    "zh_tw": "## 概覽"
+  },
+  {
+    "original": "11 built-in agents. Type enum: [`src/config/schema/agent-names.ts`](file:///Users/yeongyu/local-workspaces/omo/src/config/schema/agent-names.ts) `BuiltinAgentNameSchema`. 10 of them register via [`builtin-agents.ts`](file:///Users/yeongyu/local-workspaces/omo/src/agents/builtin-agents.ts) `agentSources` record (factory functions). **Prometheus is special-cased** — it has no `createPrometheusAgent` factory; instead [`prometheus-agent-config-builder.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin-handlers/prometheus-agent-config-builder.ts) constructs its config directly during `agent-config-handler` Phase 3.",
+    "zh_tw": "11 個內建 agent。型別 enum：[`src/config/schema/agent-names.ts`](file:///Users/yeongyu/local-workspaces/omo/src/config/schema/agent-names.ts) `BuiltinAgentNameSchema`。其中 10 個透過 [`builtin-agents.ts`](file:///Users/yeongyu/local-workspaces/omo/src/agents/builtin-agents.ts) 的 `agentSources` record（工廠函式）註冊。**Prometheus 為特殊處理** — 它沒有 `createPrometheusAgent` 工廠；相反地，[`prometheus-agent-config-builder.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin-handlers/prometheus-agent-config-builder.ts) 會在 `agent-config-handler` 第 3 階段直接建構其設定。"
+  },
+  {
+    "original": "All factories follow `createXXXAgent(model) → AgentConfig`. Each carries a static `mode` property (`AgentFactory` type in [`src/agents/types.ts`](file:///Users/yeongyu/local-workspaces/omo/src/agents/types.ts)). Composed via `buildAgent()`.",
+    "zh_tw": "所有工廠都遵循 `createXXXAgent(model) → AgentConfig`。每個工廠都帶有一個靜態 `mode` 屬性（[`src/agents/types.ts`](file:///Users/yeongyu/local-workspaces/omo/src/agents/types.ts) 中的 `AgentFactory` 型別）。透過 `buildAgent()` 組合。"
+  },
+  {
+    "original": "## AGENT INVENTORY",
+    "zh_tw": "## Agent 清單"
+  },
+  {
+    "original": "Modes verified from each agent file's `const MODE: AgentMode = ...` and (for Prometheus) [`prometheus-agent-config-builder.ts:100`](file:///Users/yeongyu/local-workspaces/omo/src/plugin-handlers/prometheus-agent-config-builder.ts#L100). Chains verified from [`src/shared/model-requirements.ts`](file:///Users/yeongyu/local-workspaces/omo/src/shared/model-requirements.ts).",
+    "zh_tw": "模式已由各 agent 檔案中的 `const MODE: AgentMode = ...` 以及（針對 Prometheus）[`prometheus-agent-config-builder.ts:100`](file:///Users/yeongyu/local-workspaces/omo/src/plugin-handlers/prometheus-agent-config-builder.ts#L100) 驗證。鏈已由 [`src/shared/model-requirements.ts`](file:///Users/yeongyu/local-workspaces/omo/src/shared/model-requirements.ts) 驗證。"
+  },
+  {
+    "original": "| Agent | Default Model | Temp | Mode | Fallback (after default) | Purpose |\n|-------|---------------|------|------|--------------------------|---------|\n| **Sisyphus** | claude-opus-4-7 max | (model default) | primary | kimi-k2.6 → k2p5 → kimi-k2.5 → gpt-5.5 medium → glm-5 → big-pickle | Main orchestrator, plans + delegates; `thinking: { type: \"enabled\", budgetTokens: 32000 }` |\n| **Hephaestus** | gpt-5.5 medium | (model default) | primary | (single-entry chain — `requiresProvider`: openai \\| github-copilot \\| venice \\| opencode \\| vercel) | Autonomous deep worker |\n| **Oracle** | gpt-5.5 high | 0.1 | subagent | gemini-3.1-pro high → claude-opus-4-7 max → glm-5.1 | Read-only consultation |\n| **Librarian** | gpt-5.4-mini-fast | 0.1 | subagent | qwen3.5-plus → minimax-m2.7-highspeed → minimax-m2.7 → claude-haiku-4-5 → gpt-5.4-nano | External docs/code search |\n| **Explore** | gpt-5.4-mini-fast | 0.1 | subagent | qwen3.5-plus → minimax-m2.7-highspeed → minimax-m2.7 → claude-haiku-4-5 → gpt-5.4-nano | Contextual grep |\n| **Multimodal-Looker** | gpt-5.5 medium | 0.1 | subagent | kimi-k2.6 → glm-4.6v → gpt-5-nano | PDF/image analysis |\n| **Metis** | claude-sonnet-4-6 | **0.3** | subagent | claude-opus-4-7 max → gpt-5.5 high → glm-5.1 → k2p5 | Pre-planning consultant |\n| **Momus** | gpt-5.5 xhigh | 0.1 | subagent | claude-opus-4-7 max → gemini-3.1-pro high → glm-5.1 | Plan reviewer |\n| **Atlas** | claude-sonnet-4-6 | 0.1 | primary | kimi-k2.6 → gpt-5.5 medium → minimax-m2.7 | Todo-list orchestrator |\n| **Prometheus** | claude-opus-4-7 max | (override-only) | primary | gpt-5.5 high → glm-5.1 → gemini-3.1-pro | Strategic planner (interview); built via `buildPrometheusAgentConfig` (not in `agentSources`) |\n| **Sisyphus-Junior** | claude-sonnet-4-6 | 0.1 (`SISYPHUS_JUNIOR_DEFAULTS`) | subagent | kimi-k2.6 → gpt-5.5 medium → minimax-m2.7 → big-pickle | Category-spawned executor |",
+    "zh_tw": "| Agent | 預設模型 | Temp | 模式 | 後備（在預設之後） | 用途 |\n|-------|---------------|------|------|--------------------------|---------|\n| **Sisyphus** | claude-opus-4-7 max | (模型預設值) | primary | kimi-k2.6 → k2p5 → kimi-k2.5 → gpt-5.5 medium → glm-5 → big-pickle | 主要協調者，負責規劃與委派；`thinking: { type: \"enabled\", budgetTokens: 32000 }` |\n| **Hephaestus** | gpt-5.5 medium | (模型預設值) | primary | （單一項目鏈 — `requiresProvider`: openai \\| github-copilot \\| venice \\| opencode \\| vercel） | 自主深度工作者 |\n| **Oracle** | gpt-5.5 high | 0.1 | subagent | gemini-3.1-pro high → claude-opus-4-7 max → glm-5.1 | 唯讀諮詢 |\n| **Librarian** | gpt-5.4-mini-fast | 0.1 | subagent | qwen3.5-plus → minimax-m2.7-highspeed → minimax-m2.7 → claude-haiku-4-5 → gpt-5.4-nano | 外部文件／程式碼搜尋 |\n| **Explore** | gpt-5.4-mini-fast | 0.1 | subagent | qwen3.5-plus → minimax-m2.7-highspeed → minimax-m2.7 → claude-haiku-4-5 → gpt-5.4-nano | 情境化 grep |\n| **Multimodal-Looker** | gpt-5.5 medium | 0.1 | subagent | kimi-k2.6 → glm-4.6v → gpt-5-nano | PDF／圖片分析 |\n| **Metis** | claude-sonnet-4-6 | **0.3** | subagent | claude-opus-4-7 max → gpt-5.5 high → glm-5.1 → k2p5 | 預先規劃顧問 |\n| **Momus** | gpt-5.5 xhigh | 0.1 | subagent | claude-opus-4-7 max → gemini-3.1-pro high → glm-5.1 | 規劃審閱者 |\n| **Atlas** | claude-sonnet-4-6 | 0.1 | primary | kimi-k2.6 → gpt-5.5 medium → minimax-m2.7 | 待辦清單協調者 |\n| **Prometheus** | claude-opus-4-7 max | (僅覆寫) | primary | gpt-5.5 high → glm-5.1 → gemini-3.1-pro | 策略規劃者（訪談）；透過 `buildPrometheusAgentConfig` 建構（不在 `agentSources` 中） |\n| **Sisyphus-Junior** | claude-sonnet-4-6 | 0.1 (`SISYPHUS_JUNIOR_DEFAULTS`) | subagent | kimi-k2.6 → gpt-5.5 medium → minimax-m2.7 → big-pickle | 類別派生的執行者 |"
+  },
+  {
+    "original": "## TOOL RESTRICTIONS",
+    "zh_tw": "## 工具限制"
+  },
+  {
+    "original": "Defined in [`src/shared/agent-tool-restrictions.ts`](file:///Users/yeongyu/local-workspaces/omo/src/shared/agent-tool-restrictions.ts).",
+    "zh_tw": "定義於 [`src/shared/agent-tool-restrictions.ts`](file:///Users/yeongyu/local-workspaces/omo/src/shared/agent-tool-restrictions.ts)。"
+  },
+  {
+    "original": "| Agent | Denied Tools |\n|-------|-------------|\n| Oracle | write, edit, task, call_omo_agent |\n| Librarian | write, edit, task, call_omo_agent |\n| Explore | write, edit, task, call_omo_agent |\n| Multimodal-Looker | ALL except read |\n| Atlas | task, call_omo_agent |\n| Momus | write, edit, task |\n| Prometheus | enforces `.md`-only writes via `prometheus-md-only` hook (path-based, not tool-based) |",
+    "zh_tw": "| Agent | 禁用工具 |\n|-------|-------------|\n| Oracle | write, edit, task, call_omo_agent |\n| Librarian | write, edit, task, call_omo_agent |\n| Explore | write, edit, task, call_omo_agent |\n| Multimodal-Looker | 除 read 之外的所有工具 |\n| Atlas | task, call_omo_agent |\n| Momus | write, edit, task |\n| Prometheus | 透過 `prometheus-md-only` hook 強制僅能寫入 `.md`（基於路徑，不是基於工具） |"
+  },
+  {
+    "original": "## TEAM-MODE ELIGIBILITY",
+    "zh_tw": "## Team 模式資格"
+  },
+  {
+    "original": "Authoritative registry: [`AGENT_ELIGIBILITY_REGISTRY`](file:///Users/yeongyu/local-workspaces/omo/src/features/team-mode/types.ts) in `team-mode/types.ts`. Three verdict tiers:",
+    "zh_tw": "權威註冊表：`team-mode/types.ts` 中的 [`AGENT_ELIGIBILITY_REGISTRY`](file:///Users/yeongyu/local-workspaces/omo/src/features/team-mode/types.ts)。三種判定層級："
+  },
+  {
+    "original": "| Verdict | Agents |\n|---------|--------|\n| `eligible` | sisyphus, atlas, sisyphus-junior |\n| `conditional` | hephaestus (lacks `teammate: \"allow\"` permission by default — see D-36 / `tool-config-handler.ts`; use `subagent_type: \"sisyphus\"` instead) |\n| `hard-reject` | oracle, librarian, explore, multimodal-looker, metis, momus, prometheus (each with a specific rejection message) |",
+    "zh_tw": "| 判定 | Agents |\n|---------|--------|\n| `eligible` | sisyphus, atlas, sisyphus-junior |\n| `conditional` | hephaestus（預設缺少 `teammate: \"allow\"` 權限 — 參見 D-36 / `tool-config-handler.ts`；請改用 `subagent_type: \"sisyphus\"`） |\n| `hard-reject` | oracle, librarian, explore, multimodal-looker, metis, momus, prometheus（各自都有特定的拒絕訊息） |"
+  },
+  {
+    "original": "Read-only agents are rejected at TeamSpec parse time. For those, the lead delegates via `task` (delegate-task) instead. See [`team-mode/AGENTS.md`](file:///Users/yeongyu/local-workspaces/omo/src/features/team-mode/AGENTS.md).",
+    "zh_tw": "唯讀 agents 會在 TeamSpec 解析時被拒絕。對於這些 agents，主控會改用 `task`（delegate-task）進行委派。請參見 [`team-mode/AGENTS.md`](file:///Users/yeongyu/local-workspaces/omo/src/features/team-mode/AGENTS.md)。"
+  },
+  {
+    "original": "## STRUCTURE",
+    "zh_tw": "## 結構"
+  }
+]

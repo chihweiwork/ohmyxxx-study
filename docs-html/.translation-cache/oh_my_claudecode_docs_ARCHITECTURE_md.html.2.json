@@ -1,0 +1,178 @@
+[
+  {
+    "original": "Keywords are processed in two places:",
+    "zh_tw": "關鍵字會在兩個地方處理："
+  },
+  {
+    "original": "| Source | Role | Customizable |\n|--------|------|--------------|\n| `config.jsonc` `magicKeywords` | 4 categories (ultrawork, search, analyze, ultrathink) | Yes |\n| `keyword-detector` hook | 11+ triggers (autopilot, ralph, ccg, etc.) | No |",
+    "zh_tw": "| 來源 | 角色 | 可自訂 |\n|--------|------|--------------|\n| `config.jsonc` `magicKeywords` | 4 類（ultrawork、search、analyze、ultrathink） | 是 |\n| `keyword-detector` hook | 11+ 個觸發器（autopilot、ralph、ccg 等） | 否 |"
+  },
+  {
+    "original": "The `autopilot`, `ralph`, and `ccg` triggers are hardcoded in the hook and cannot be changed through config.",
+    "zh_tw": "`autopilot`、`ralph` 和 `ccg` 觸發器是硬編碼在 hook 中的，無法透過設定變更。"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Hooks",
+    "zh_tw": "## Hooks"
+  },
+  {
+    "original": "### Overview",
+    "zh_tw": "### 概覽"
+  },
+  {
+    "original": "Hooks are code that reacts to Claude Code lifecycle events. They run automatically when a user submits a prompt, uses a tool, or starts/ends a session. OMC implements agent delegation, keyword detection, and state persistence through this hook system.",
+    "zh_tw": "Hooks 是對 Claude Code 生命週期事件做出反應的程式碼。當使用者提交提示、使用工具或開始/結束工作階段時，它們會自動執行。OMC 透過這個 hook 系統實作 agent 委派、關鍵字偵測與狀態持久化。"
+  },
+  {
+    "original": "### Lifecycle Events",
+    "zh_tw": "### 生命週期事件"
+  },
+  {
+    "original": "Claude Code provides 11 lifecycle events. OMC registers hooks on these events:",
+    "zh_tw": "Claude Code 提供 11 個生命週期事件。OMC 會在這些事件上註冊 hooks："
+  },
+  {
+    "original": "| Event | When It Fires | OMC Usage |\n|-------|---------------|-----------|\n| `UserPromptSubmit` | User submits a prompt | Magic keyword detection, skill injection |\n| `SessionStart` | Session begins | Initial setup, project memory load |\n| `PreToolUse` | Before a tool is used | Permission validation, parallel execution hints |\n| `PermissionRequest` | Permission requested | Bash command permission handling |\n| `PostToolUse` | After a tool is used | Result validation, project memory update |\n| `PostToolUseFailure` | After a tool fails | Error recovery handling |\n| `SubagentStart` | Subagent starts | Agent tracking |\n| `SubagentStop` | Subagent stops | Agent tracking, output verification |\n| `PreCompact` | Before context compaction | Preserve critical information, save project memory |\n| `Stop` | Claude is about to stop | Persistent mode enforcement, code simplification |\n| `SessionEnd` | Session ends | Session data cleanup |",
+    "zh_tw": "| 事件 | 何時觸發 | OMC 用途 |\n|-------|---------------|-----------|\n| `UserPromptSubmit` | 使用者提交提示 | 魔法關鍵字偵測、技能注入 |\n| `SessionStart` | 工作階段開始 | 初始設定、載入專案記憶 |\n| `PreToolUse` | 使用工具之前 | 權限驗證、平行執行提示 |\n| `PermissionRequest` | 請求權限時 | Bash 指令權限處理 |\n| `PostToolUse` | 使用工具之後 | 結果驗證、專案記憶更新 |\n| `PostToolUseFailure` | 工具失敗之後 | 錯誤復原處理 |\n| `SubagentStart` | Subagent 啟動時 | agent 追蹤 |\n| `SubagentStop` | Subagent 停止時 | agent 追蹤、輸出驗證 |\n| `PreCompact` | 在上下文壓縮之前 | 保留關鍵資訊、儲存專案記憶 |\n| `Stop` | Claude 即將停止時 | 持續模式強制、程式碼簡化 |\n| `SessionEnd` | 工作階段結束 | 工作階段資料清理 |"
+  },
+  {
+    "original": "### system-reminder Injection",
+    "zh_tw": "### system-reminder 注入"
+  },
+  {
+    "original": "Hooks inject additional context to Claude via `<system-reminder>` tags:",
+    "zh_tw": "Hooks 會透過 `<system-reminder>` 標籤向 Claude 注入額外上下文："
+  },
+  {
+    "original": "```xml\n<system-reminder>\nhook success: Success\n</system-reminder>\n```",
+    "zh_tw": "```xml\n<system-reminder>\nhook success: Success\n</system-reminder>\n```"
+  },
+  {
+    "original": "Injected pattern meanings:",
+    "zh_tw": "注入的模式含義："
+  },
+  {
+    "original": "| Pattern | Meaning |\n|---------|---------|\n| `hook success: Success` | Hook ran normally, continue as planned |\n| `hook additional context: ...` | Additional context information, take note |\n| `[MAGIC KEYWORD: ...]` | Magic keyword detected, execute indicated skill |\n| `The boulder never stops` | ralph/ultrawork mode is active |",
+    "zh_tw": "| 模式 | 含義 |\n|---------|---------|\n| `hook success: Success` | Hook 正常執行，依計畫繼續 |\n| `hook additional context: ...` | 額外的上下文資訊，請留意 |\n| `[MAGIC KEYWORD: ...]` | 偵測到魔法關鍵字，執行指定技能 |\n| `The boulder never stops` | ralph/ultrawork 模式已啟用 |"
+  },
+  {
+    "original": "### Key Hooks",
+    "zh_tw": "### 主要 Hooks"
+  },
+  {
+    "original": "**keyword-detector** — fires on `UserPromptSubmit`. Detects magic keywords in user input and activates the corresponding skill.",
+    "zh_tw": "**keyword-detector** — 在 `UserPromptSubmit` 時觸發。偵測使用者輸入中的魔法關鍵字，並啟用對應的技能。"
+  },
+  {
+    "original": "**persistent-mode** — fires on `Stop`. When a persistent mode (ralph, ultrawork) is active, prevents Claude from stopping until work is verified complete.",
+    "zh_tw": "**persistent-mode** — 在 `Stop` 時觸發。當持續模式（ralph、ultrawork）啟用時，會阻止 Claude 停止，直到確認工作已完成。"
+  },
+  {
+    "original": "**pre-compact** — fires on `PreCompact`. Saves critical information to the notepad before the context window is compressed.",
+    "zh_tw": "**pre-compact** — 在 `PreCompact` 時觸發。會在上下文視窗壓縮前將關鍵資訊儲存到 notepad。"
+  },
+  {
+    "original": "**subagent-tracker** — fires on `SubagentStart` and `SubagentStop`. Tracks currently running agents; validates output on stop.",
+    "zh_tw": "**subagent-tracker** — 在 `SubagentStart` 和 `SubagentStop` 時觸發。追蹤目前執行中的 agents；在停止時驗證輸出。"
+  },
+  {
+    "original": "**context-guard-stop** — fires on `Stop`. Monitors context usage and warns when approaching the limit.",
+    "zh_tw": "**context-guard-stop** — 在 `Stop` 時觸發。監控上下文使用量，並在接近上限時發出警告。"
+  },
+  {
+    "original": "**code-simplifier** — fires on `Stop`. Disabled by default. When enabled, automatically simplifies modified files when Claude stops.",
+    "zh_tw": "**code-simplifier** — 在 `Stop` 時觸發。預設停用。啟用後，當 Claude 停止時會自動簡化已修改的檔案。"
+  },
+  {
+    "original": "Enable via config:\n```json\n{\n  \"codeSimplifier\": {\n    \"enabled\": true,\n    \"extensions\": [\".ts\", \".tsx\", \".js\", \".jsx\", \".py\", \".go\", \".rs\"],\n    \"maxFiles\": 10\n  }\n}\n```",
+    "zh_tw": "透過設定啟用：\n```json\n{\n  \"codeSimplifier\": {\n    \"enabled\": true,\n    \"extensions\": [\".ts\", \".tsx\", \".js\", \".jsx\", \".py\", \".go\", \".rs\"],\n    \"maxFiles\": 10\n  }\n}\n```"
+  },
+  {
+    "original": "### Hook Registration Structure",
+    "zh_tw": "### Hook 註冊結構"
+  },
+  {
+    "original": "OMC hooks are declared in `hooks.json`. Each hook is a Node.js script with a timeout:",
+    "zh_tw": "OMC hooks 都宣告在 `hooks.json` 中。每個 hook 都是一個帶有逾時設定的 Node.js 腳本："
+  },
+  {
+    "original": "```json\n{\n  \"UserPromptSubmit\": [\n    {\n      \"matcher\": \"*\",\n      \"hooks\": [\n        {\n          \"type\": \"command\",\n          \"command\": \"node scripts/keyword-detector.mjs\",\n          \"timeout\": 5\n        }\n      ]\n    }\n  ]\n}\n```",
+    "zh_tw": "```json\n{\n  \"UserPromptSubmit\": [\n    {\n      \"matcher\": \"*\",\n      \"hooks\": [\n        {\n          \"type\": \"command\",\n          \"command\": \"node scripts/keyword-detector.mjs\",\n          \"timeout\": 5\n        }\n      ]\n    }\n  ]\n}\n```"
+  },
+  {
+    "original": "- `matcher`: Pattern the hook responds to (`*` matches all input)\n- `timeout`: Timeout in seconds\n- `type`: Always `\"command\"` (runs an external command)",
+    "zh_tw": "- `matcher`：hook 回應的模式（`*` 匹配所有輸入）\n- `timeout`：逾時秒數\n- `type`：一律為 `\"command\"`（執行外部指令）"
+  },
+  {
+    "original": "### Disabling Hooks",
+    "zh_tw": "### 停用 Hooks"
+  },
+  {
+    "original": "Disable all hooks:\n```bash\nexport DISABLE_OMC=1\n```",
+    "zh_tw": "停用所有 hooks：\n```bash\nexport DISABLE_OMC=1\n```"
+  },
+  {
+    "original": "Skip specific hooks (comma-separated):\n```bash\nexport OMC_SKIP_HOOKS=\"keyword-detector,persistent-mode\"\n```",
+    "zh_tw": "略過特定 hooks（以逗號分隔）：\n```bash\nexport OMC_SKIP_HOOKS=\"keyword-detector,persistent-mode\"\n```"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## State Management",
+    "zh_tw": "## 狀態管理"
+  },
+  {
+    "original": "### Overview",
+    "zh_tw": "### 概覽"
+  },
+  {
+    "original": "OMC stores task progress and project knowledge in the `.omc/` directory. The state system preserves critical information even when context compaction resets the context window.",
+    "zh_tw": "OMC 會將任務進度與專案知識儲存在 `.omc/` 目錄中。即使上下文壓縮重設了上下文視窗，狀態系統仍會保留關鍵資訊。"
+  },
+  {
+    "original": "### Directory Structure",
+    "zh_tw": "### 目錄結構"
+  },
+  {
+    "original": "```\n.omc/\n├── state/                    # Per-mode state files\n│   ├── autopilot-state.json  # autopilot progress\n│   ├── ralph-state.json      # ralph loop state\n│   ├── team/                 # team task state\n│   ├── interop/              # cross-tool task/message envelopes\n│   └── sessions/             # per-session state\n│       └── {sessionId}/\n├── notepad.md                # Compaction-resistant memo pad\n├── project-memory.json       # Project knowledge store\n├── plans/                    # Execution plans\n├── notepads/                 # Per-plan knowledge capture\n│   └── {plan-name}/\n│       ├── learnings.md\n│       ├── decisions.md\n│       ├── issues.md\n│       └── problems.md\n├── prompts/                  # persisted prompt/response artifacts\n├── autopilot/                # autopilot artifacts\n│   └── spec.md\n├── research/                 # Research results\n└── logs/                     # Execution logs\n```",
+    "zh_tw": "```\n.omc/\n├── state/                    # 各模式的狀態檔案\n│   ├── autopilot-state.json  # autopilot 進度\n│   ├── ralph-state.json      # ralph 迴圈狀態\n│   ├── team/                 # 團隊任務狀態\n│   ├── interop/              # 跨工具任務/訊息封裝\n│   └── sessions/             # 每個 session 的狀態\n│       └── {sessionId}/\n├── notepad.md                # 抗壓縮備忘錄\n├── project-memory.json       # 專案知識儲存庫\n├── plans/                    # 執行計畫\n├── notepads/                 # 每個 plan 的知識擷取\n│   └── {plan-name}/\n│       ├── learnings.md\n│       ├── decisions.md\n│       ├── issues.md\n│       └── problems.md\n├── prompts/                  # 持久化的提示/回應產物\n├── autopilot/                # autopilot 產物\n│   └── spec.md\n├── research/                 # 研究結果\n└── logs/                     # 執行日誌\n```"
+  },
+  {
+    "original": "### Control Plane vs Data Plane",
+    "zh_tw": "### 控制平面與資料平面"
+  },
+  {
+    "original": "OMC keeps orchestration metadata separate from large durable artifacts:",
+    "zh_tw": "OMC 會將協調中繼資料與大型持久化產物分開存放："
+  },
+  {
+    "original": "- **Control plane**: queue state, worker assignment, session state, and cross-tool task/message envelopes under `.omc/state/**`.\n- **Data plane**: plans, specs, prompts, results, traces, and other durable artifacts under paths such as `.omc/plans/`, `.omc/notepads/`, `.omc/prompts/`, and `.omc/state/interop/artifacts/**`.\n- **Concrete handoff examples**:\n  - shared interop state keeps task/message metadata inline while storing oversized task descriptions, task results, and message bodies under `.omc/state/interop/artifacts/**`\n  - prompt persistence stores durable prompt/response files under `.omc/prompts/**` and records descriptor metadata alongside job status",
+    "zh_tw": "- **控制平面**：佇列狀態、worker 指派、session 狀態，以及 `.omc/state/**` 下的跨工具任務/訊息封裝。\n- **資料平面**：計畫、規格、提示、結果、追蹤資訊，以及其他持久化產物，存放於 `.omc/plans/`、`.omc/notepads/`、`.omc/prompts/` 和 `.omc/state/interop/artifacts/**` 等路徑下。\n- **具體交接範例**：\n  - 共用的 interop 狀態會就地保存任務/訊息中繼資料，同時將過大的任務描述、任務結果與訊息內容儲存在 `.omc/state/interop/artifacts/**` 下\n  - 提示持久化會將持久化的 prompt/response 檔案存放於 `.omc/prompts/**` 下，並在 job 狀態旁記錄 descriptor 中繼資料"
+  },
+  {
+    "original": "**Global State:**\n- `~/.omc/state/{name}.json` — user preferences and global config",
+    "zh_tw": "**全域狀態：**\n- `~/.omc/state/{name}.json` — 使用者偏好與全域設定"
+  },
+  {
+    "original": "Legacy locations are auto-migrated on read.",
+    "zh_tw": "讀取時會自動遷移舊版位置。"
+  },
+  {
+    "original": "This separation keeps schedulers and status checks small while allowing richer artifacts to remain durable and inspectable.",
+    "zh_tw": "這種分離讓排程器與狀態檢查維持精簡，同時讓更豐富的產物保持持久且可檢視。"
+  },
+  {
+    "original": "### Artifact Descriptors and Bounded Handoffs",
+    "zh_tw": "### 產物描述子與受限交接"
+  },
+  {
+    "original": "When a handoff needs to reference a large artifact, prefer a descriptor/handle over pasting the full payload inline. The canonical descriptor shape is:",
+    "zh_tw": "當交接需要參照大型產物時，請優先使用 descriptor/handle，而不是直接貼上完整 payload。標準的 descriptor 形式如下："
+  }
+]

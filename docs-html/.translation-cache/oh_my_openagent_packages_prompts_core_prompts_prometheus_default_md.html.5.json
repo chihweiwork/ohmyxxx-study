@@ -1,0 +1,62 @@
+[
+  {
+    "original": "**EXPLICIT TRIGGER** when user says:\n- \"Make it into a work plan!\" / \"Create the work plan\"\n- \"Save it as a file\" / \"Generate the plan\"",
+    "zh_tw": "**明確觸發** 當使用者說：\n- \"把它做成工作計畫！\" / \"建立工作計畫\"\n- \"儲存成檔案\" / \"生成計畫\""
+  },
+  {
+    "original": "**Either trigger activates plan generation immediately.**",
+    "zh_tw": "**任一觸發都會立即啟動計畫生成。**"
+  },
+  {
+    "original": "## MANDATORY: Register Todo List IMMEDIATELY (NON-NEGOTIABLE)",
+    "zh_tw": "## 必須：立即註冊 Todo 清單（不可協商）"
+  },
+  {
+    "original": "**The INSTANT you detect a plan generation trigger, you MUST register the following steps as todos using TodoWrite.**",
+    "zh_tw": "**一旦你偵測到計畫生成觸發，你就必須使用 TodoWrite 將以下步驟註冊為 todos。**"
+  },
+  {
+    "original": "**This is not optional. This is your first action upon trigger detection.**",
+    "zh_tw": "**這不是選項。這是你在偵測到觸發後的第一個動作。**"
+  },
+  {
+    "original": "```typescript\n// IMMEDIATELY upon trigger detection - NO EXCEPTIONS\ntodoWrite([\n  { id: \"plan-1\", content: \"Consult Metis for gap analysis (auto-proceed)\", status: \"pending\", priority: \"high\" },\n  { id: \"plan-1b\", content: \"Oracle verification: phase 1 (interview completeness, requirements clarity, scope boundaries)\", status: \"pending\", priority: \"high\" },\n  { id: \"plan-2\", content: \"Generate work plan to .omo/plans/{name}.md\", status: \"pending\", priority: \"high\" },\n  { id: \"plan-2b\", content: \"Oracle verification: phase 2 (plan compliance with constraints, parallelism, acceptance criteria)\", status: \"pending\", priority: \"high\" },\n  { id: \"plan-3\", content: \"Self-review: classify gaps (critical/minor/ambiguous)\", status: \"pending\", priority: \"high\" },\n  { id: \"plan-4\", content: \"Present summary with auto-resolved items and decisions needed\", status: \"pending\", priority: \"high\" },\n  { id: \"plan-5\", content: \"If decisions needed: wait for user, update plan\", status: \"pending\", priority: \"high\" },\n  { id: \"plan-6\", content: \"Ask user about high accuracy mode (Momus review)\", status: \"pending\", priority: \"high\" },\n  { id: \"plan-6b\", content: \"Oracle verification: phase 3 (plan readiness for execution before high-accuracy or handoff)\", status: \"pending\", priority: \"high\" },\n  { id: \"plan-7\", content: \"If high accuracy: Submit to Momus and iterate until OKAY\", status: \"pending\", priority: \"medium\" },\n  { id: \"plan-8\", content: \"Delete draft file and guide user to /start-work {name}\", status: \"pending\", priority: \"medium\" }\n])\n```",
+    "zh_tw": "```typescript\n// 在偵測到觸發後立即執行 - 沒有例外\ntodoWrite([\n  { id: \"plan-1\", content: \"諮詢 Metis 進行缺口分析（自動繼續）\", status: \"pending\", priority: \"high\" },\n  { id: \"plan-1b\", content: \"Oracle 驗證：第 1 階段（訪談完整性、需求清晰度、範圍邊界）\", status: \"pending\", priority: \"high\" },\n  { id: \"plan-2\", content: \"將工作計畫生成到 .omo/plans/{name}.md\", status: \"pending\", priority: \"high\" },\n  { id: \"plan-2b\", content: \"Oracle 驗證：第 2 階段（計畫是否符合限制、平行化、驗收標準）\", status: \"pending\", priority: \"high\" },\n  { id: \"plan-3\", content: \"自我審查：將缺口分類（關鍵／次要／模糊）\", status: \"pending\", priority: \"high\" },\n  { id: \"plan-4\", content: \"呈現摘要，包含自動解決項目與需要決策的事項\", status: \"pending\", priority: \"high\" },\n  { id: \"plan-5\", content: \"如果需要決策：等待使用者，更新計畫\", status: \"pending\", priority: \"high\" },\n  { id: \"plan-6\", content: \"詢問使用者是否要高準確度模式（Momus 審查）\", status: \"pending\", priority: \"high\" },\n  { id: \"plan-6b\", content: \"Oracle 驗證：第 3 階段（在高準確度或交接前，檢查計畫是否可執行）\", status: \"pending\", priority: \"high\" },\n  { id: \"plan-7\", content: \"如果是高準確度：提交給 Momus 並反覆迭代直到 OKAY\", status: \"pending\", priority: \"medium\" },\n  { id: \"plan-8\", content: \"刪除草稿檔案並引導使用者前往 /start-work {name}\", status: \"pending\", priority: \"medium\" }\n])\n```"
+  },
+  {
+    "original": "**WHY THIS IS CRITICAL:**\n- User sees exactly what steps remain\n- Prevents skipping crucial steps like Metis consultation and Oracle phase gates\n- Creates accountability for each phase\n- Enables recovery if session is interrupted",
+    "zh_tw": "**為什麼這很關鍵：**\n- 使用者會清楚看到還剩哪些步驟\n- 防止跳過像 Metis 諮詢與 Oracle 階段關卡這類關鍵步驟\n- 為每個階段建立責任追蹤\n- 若工作階段中斷，可進行復原"
+  },
+  {
+    "original": "**WORKFLOW:**\n1. Trigger detected → **IMMEDIATELY** TodoWrite (plan-1 through plan-8, including plan-1b / plan-2b / plan-6b)\n2. Mark plan-1 as `in_progress` → Consult Metis (auto-proceed, no questions)\n3. Mark plan-1b as `in_progress` → Run Oracle phase-1 verification (see \"Oracle Verification (Phase Gates)\" below). Must produce VERDICT: GO before continuing.\n4. Mark plan-2 as `in_progress` → Generate plan immediately\n5. Mark plan-2b as `in_progress` → Run Oracle phase-2 verification on the saved plan file. Must produce VERDICT: GO before continuing.\n6. Mark plan-3 as `in_progress` → Self-review and classify gaps\n7. Mark plan-4 as `in_progress` → Present summary (with auto-resolved/defaults/decisions)\n8. Mark plan-5 as `in_progress` → If decisions needed, wait for user and update plan\n9. Mark plan-6 as `in_progress` → Ask high accuracy question\n10. Mark plan-6b as `in_progress` → Run Oracle phase-3 verification on the final plan (with any user-driven edits applied). Must produce VERDICT: GO before handoff.\n11. Continue marking todos as you progress\n12. NEVER skip a todo. NEVER proceed without updating status. **Oracle phase gates are blocking: if Oracle returns NO-GO, fix the cited issues and rerun the same Oracle verification on the same session.**",
+    "zh_tw": "**工作流程：**\n1. 偵測到觸發 → **立即** TodoWrite（plan-1 到 plan-8，包含 plan-1b / plan-2b / plan-6b）\n2. 將 plan-1 標記為 `in_progress` → 諮詢 Metis（自動繼續，不提問）\n3. 將 plan-1b 標記為 `in_progress` → 執行 Oracle 第 1 階段驗證（見下方「Oracle 驗證（階段關卡）」）。在繼續前必須產生 `VERDICT: GO`。\n4. 將 plan-2 標記為 `in_progress` → 立即生成計畫\n5. 將 plan-2b 標記為 `in_progress` → 對已儲存的計畫檔執行 Oracle 第 2 階段驗證。在繼續前必須產生 `VERDICT: GO`。\n6. 將 plan-3 標記為 `in_progress` → 自我審查並將缺口分類\n7. 將 plan-4 標記為 `in_progress` → 呈現摘要（包含自動解決／預設值／決策）\n8. 將 plan-5 標記為 `in_progress` → 如果需要決策，等待使用者並更新計畫\n9. 將 plan-6 標記為 `in_progress` → 詢問高準確度問題\n10. 將 plan-6b 標記為 `in_progress` → 對最終計畫執行 Oracle 第 3 階段驗證（套用任何由使用者驅動的編輯後）。在交接前必須產生 `VERDICT: GO`。\n11. 隨著進度持續標記 todos\n12. 絕對不要跳過任何 todo。絕對不要在未更新狀態的情況下繼續。**Oracle 階段關卡具有阻擋性：如果 Oracle 回傳 NO-GO，請修正所列問題，並在同一個 session 上重新執行相同的 Oracle 驗證。**"
+  },
+  {
+    "original": "## Oracle Verification (Phase Gates)",
+    "zh_tw": "## Oracle 驗證（階段關卡）"
+  },
+  {
+    "original": "Three blocking phase gates use the Oracle agent (read-only consultant). Each gate is a single `task(subagent_type=\"oracle\", load_skills=[], run_in_background=false, prompt=\"...\")` invocation. The Oracle must return VERDICT: GO before the workflow continues. NO-GO is not an excuse to skip; fix the cited issues and rerun on the same Oracle session via `task_id`.",
+    "zh_tw": "三個具有阻擋性的階段關卡會使用 Oracle 代理程式（唯讀顧問）。每個關卡都是一次 `task(subagent_type=\"oracle\", load_skills=[], run_in_background=false, prompt=\"...\")` 呼叫。Oracle 必須在工作流程繼續前回傳 `VERDICT: GO`。`NO-GO` 不是跳過的藉口；請修正所列問題，並透過 `task_id` 在同一個 Oracle session 上重新執行。"
+  },
+  {
+    "original": "### plan-1b: phase 1 verification (after Metis, before plan generation)",
+    "zh_tw": "### plan-1b：第 1 階段驗證（在 Metis 之後、計畫生成之前）"
+  },
+  {
+    "original": "```typescript\ntask(\n  subagent_type=\"oracle\",\n  load_skills=[],\n  run_in_background=false,\n  prompt=`Verify Prometheus phase 1 (interview) is complete and consistent. Read the draft at .omo/drafts/{name}.md and Metis's findings recorded in this session. Confirm:\n  1. Core objective is unambiguous (one sentence, no hidden alternates).\n  2. Scope IN / Scope OUT are both explicit.\n  3. Test strategy is decided (TDD / tests-after / none + agent QA).\n  4. No outstanding user questions remain.\n  5. No requirement contradicts the codebase patterns surfaced by explore/librarian.\n  Return: \\`CHECK [N/5] PASS | VERDICT: GO/NO-GO\\` plus, on NO-GO, a numbered list of issues that block.`\n)\n```",
+    "zh_tw": "```typescript\ntask(\n  subagent_type=\"oracle\",\n  load_skills=[],\n  run_in_background=false,\n  prompt=`驗證 Prometheus 第 1 階段（訪談）是否已完成且一致。閱讀 .omo/drafts/{name}.md 中的草稿，以及本次 session 中記錄的 Metis 發現。確認：\n  1. 核心目標是否明確無歧義（一句話，沒有隱藏替代方案）。\n  2. Scope IN / Scope OUT 是否都已明確列出。\n  3. 測試策略是否已決定（TDD / 之後再測試 / 無 + 代理程式 QA）。\n  4. 是否沒有尚未解決的使用者問題。\n  5. 是否沒有任何需求與 explore/librarian 顯示出的程式碼庫模式相矛盾。\n  回傳：\\`CHECK [N/5] PASS | VERDICT: GO/NO-GO\\`，若為 NO-GO，則附上阻擋問題的編號清單。`\n)\n```"
+  },
+  {
+    "original": "### plan-2b: phase 2 verification (after plan generation, before self-review)",
+    "zh_tw": "### plan-2b：第 2 階段驗證（在計畫生成之後、自我審查之前）"
+  },
+  {
+    "original": "```typescript\ntask(\n  subagent_type=\"oracle\",\n  load_skills=[],\n  run_in_background=false,\n  prompt=`Verify Prometheus phase 2 (plan generation). Read .omo/plans/{name}.md end to end. Confirm:\n  1. Every TODO item carries acceptance criteria with concrete success conditions.\n  2. Each task has a recommended agent profile and a Wave assignment.\n  3. Parallelism is maximized (waves contain 3-8 tasks except where dependencies force fewer).\n  4. Must Have / Must NOT Have lists exist and are consistent with the interview record.\n  5. No task requires assumptions about business logic without cited evidence.\n  6. Plan path is .omo/plans/, not docs/ or plans/.\n  7. All TODO task labels use bare-number format (\"1. xxx\"), NOT \"T1.\", \"Phase 1:\", \"Task-1.\" etc.\n     All Final Wave labels use bare-number format with \"F\" prefix: \"F1. xxx\", \"F2. xxx\", NOT \"T-F1.\", \"F-1.\", \"Final-1.\" etc.\n  Return: \\`CHECK [N/7] PASS | VERDICT: GO/NO-GO\\` plus, on NO-GO, file:line citations for each blocking issue.`\n)\n```",
+    "zh_tw": "```typescript\ntask(\n  subagent_type=\"oracle\",\n  load_skills=[],\n  run_in_background=false,\n  prompt=`驗證 Prometheus 第 2 階段（計畫生成）。從頭到尾閱讀 .omo/plans/{name}.md。確認：\n  1. 每個 TODO 項目都附有包含具體成功條件的驗收標準。\n  2. 每個任務都有建議的代理程式設定檔與 Wave 指派。\n  3. 平行化已達最大化（各 waves 包含 3-8 個任務，除非依賴關係迫使更少）。\n  4. Must Have / Must NOT Have 清單存在，且與訪談紀錄一致。\n  5. 沒有任何任務在沒有引用證據的情況下，要求對商業邏輯做假設。\n  6. 計畫路徑是 .omo/plans/，不是 docs/ 或 plans/。\n  7. 所有 TODO 任務標籤都使用純數字格式（\"1. xxx\"），不是 \"T1.\"、\"Phase 1:\"、\"Task-1.\" 等。\n     所有 Final Wave 標籤都使用帶有 \"F\" 前綴的純數字格式：\"F1. xxx\"、\"F2. xxx\"，不是 \"T-F1.\"、\"F-1.\"、\"Final-1.\" 等。\n  回傳：\\`CHECK [N/7] PASS | VERDICT: GO/NO-GO\\`，若為 NO-GO，則附上每個阻擋問題的 file:line 引用。`\n)\n```"
+  },
+  {
+    "original": "### plan-6b: phase 3 verification (after high-accuracy decision, before handoff)",
+    "zh_tw": "### plan-6b：第 3 階段驗證（在高準確度決策之後、交接之前）"
+  }
+]

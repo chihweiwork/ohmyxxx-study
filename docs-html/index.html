@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ohmyxxx Study Docs</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1120px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}h2{margin-top:2.2rem;border-top:1px solid #e5e7eb;padding-top:1.2rem}table{border-collapse:collapse;width:100%;margin:1rem 0;display:block;overflow-x:auto}th,td{border:1px solid #d1d5db;padding:8px 10px;vertical-align:top}th{background:#f3f4f6;text-align:left}code{background:#f3f4f6;padding:0.1em 0.3em;border-radius:4px}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto}pre code{background:transparent;padding:0;color:inherit}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden}.source-original,.source-translation{padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#fff7ed;border-top:1px solid #fed7aa}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.warn{background:#fff7ed;border:1px solid #fed7aa;padding:12px 14px;border-radius:8px}.path{word-break:break-all}</style>
+</head>
+<body>
+<main>
+<nav><a href="index.html">Docs Home</a><a href="sources/index.html">Sources</a></nav>
+<h1 id="ohmyxxx-study-docs">ohmyxxx Study Docs</h1>
+<p>這組文件用來理解四個 agentic coding enhancer 專案：</p>
+<ul>
+<li><code>oh-my-openagent</code> (OMO)</li>
+<li><code>oh-my-claudecode</code> (OMC)</li>
+<li><code>oh-my-codex</code> (OMX)</li>
+<li><code>oh-my-antigravity</code> (OmA)</li>
+</ul>
+<p>文件目標不是取代各專案 README，而是把 graphify 找出的 agent、skill、tool、command、hook、prompt 關係整理成可閱讀的學習路線。每章都採教材式寫法：先建立概念，再看原始路徑，最後用自測問題檢查理解。</p>
+<h2 id="建議閱讀順序">建議閱讀順序</h2>
+<ol>
+<li><a href="./01-architecture-map.html">Architecture Map</a><br>先建立四個專案的總體定位，以及 graphify community 如何分群。</li>
+<li><a href="./02-project-guides.html">Project Guides</a><br>逐一理解 OMO、OMC、OMX、OmA 的架構、流程和主要入口。</li>
+<li><a href="./03-agent-skill-tool-map.html">Agent Skill Tool Map</a><br>查每個專案的主要 agent / skill / tool / command / hook / prompt，並用 Planner、Executor、Reviewer、Gatekeeper 等角色分類理解。</li>
+<li><a href="./04-comparisons.html">Comparisons</a><br>橫向比較四個專案在規劃、執行、驗證、安全、學習機制上的差異。</li>
+<li><a href="./05-study-plan.html">Study Plan</a><br>依照 10 步驟閱讀與提問，逐步建立完整理解，並附筆記模板和 NotebookLM / LLM 提問範本。</li>
+</ol>
+<h2 id="一句話定位">一句話定位</h2>
+<table>
+<thead><tr><th>專案</th><th>定位</th><th>先理解的核心</th></tr></thead>
+<tbody>
+<tr><td>OMO</td><td>多模型、多 agent runtime</td><td>agents、tools、hooks 如何形成執行環境</td></tr>
+<tr><td>OMC</td><td>Claude Code developer OS</td><td>commands 和 skills 如何包裝開發生命週期</td></tr>
+<tr><td>OMX</td><td>schema-constrained Codex enhancer</td><td>prompts、skills、state model 如何約束代理行為</td></tr>
+<tr><td>OmA</td><td>consensus + self-learning extension</td><td>agents、skills、hooks 如何支援共識與學習</td></tr>
+</tbody>
+</table>
+<h2 id="資料來源">資料來源</h2>
+<p>主要資料來自：</p>
+<ul>
+<li><code>graphify-out/graph.json</code></li>
+<li><code>graphify-out/GRAPH_REPORT.md</code></li>
+<li><code>graphify-out/FOUR_PROJECTS_DEEP_DIVE.md</code></li>
+<li><code>graphify-out/NOTEBOOK_LM_STUDY_GUIDE.md</code></li>
+<li>四個專案自己的 <code>README.md</code>、<code>AGENTS.md</code>、<code>agents/</code>、<code>skills/</code>、<code>prompts/</code>、<code>tools/</code>、<code>hooks/</code>、<code>commands/</code></li>
+</ul>
+<p>文件中提到的 graphify 推論關係應視為分析線索，不等於上游作者明確宣告的設計事實。</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,10 @@
+[
+  {
+    "original": "### Questions Emitted This Round\nZero or more questions for the current interview round. The count MUST respect the intent-family budget declared in `<intent_classification>` (trivial = 0, simple = at most 1-2, others = a focused round of ~2-5 questions on the family's axes), MUST have passed `<self_review>`, and MUST be batched through the Structured Question Surface in one form. Write `None` only when the current round adds no new questions (e.g., trivial intent or fully prefilled spec).\n</output_contract>\n</style>",
+    "zh_tw": "### 本回合輸出的問題\n針對目前面試回合的零個或多個問題。數量 MUST 符合 `<intent_classification>` 中宣告的意圖家族預算（trivial = 0，simple = 至多 1-2，其他 = 針對該家族各軸向的約 2-5 題聚焦回合），MUST 已通過 `<self_review>`，且 MUST 透過 Structured Question Surface 以單一表單批次送出。只有在目前回合沒有新增問題時才寫 `None`（例如 trivial 意圖或規格已完整預先填入）。\n</output_contract>\n</style>"
+  },
+  {
+    "original": "Task: {{ARGUMENTS}}",
+    "zh_tw": "任務：{{ARGUMENTS}}"
+  }
+]

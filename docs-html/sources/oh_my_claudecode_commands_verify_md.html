@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oh-my-claudecode/commands/verify.md</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+</head>
+<body>
+<main>
+<nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
+<h1 class="path">oh-my-claudecode/commands/verify.md</h1><p>被引用於：<code>05-study-plan.md</code></p><p><a href="../../oh-my-claudecode/commands/verify.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---
+description: &quot;&quot;
+---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---
+description: &quot;&quot;
+---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code># OMC verify</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code># OMC verify</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>This compatibility command keeps `/oh-my-claudecode:verify` available without loading the full `verify` skill description in every Claude Code session.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>這個相容性指令會讓 `/oh-my-claudecode:verify` 保持可用，而不必在每個 Claude Code 工作階段都載入完整的 `verify` skill 說明。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Dispatch</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 派發</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Read the full bundled skill instructions from the active OMC plugin/install: `skills/verify/SKILL.md`.
+2. Follow that SKILL.md exactly, treating the user's arguments as:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 從目前啟用的 OMC plugin/install 讀取完整的 bundled skill instructions：`skills/verify/SKILL.md`。
+2. 嚴格遵循該 SKILL.md，並將使用者的參數視為：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```text
+$ARGUMENTS
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```text
+$ARGUMENTS
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>If the file is not directly readable from the current working directory, locate it under the active `CLAUDE_PLUGIN_ROOT`/`OMC_PLUGIN_ROOT`, package root, or installed OMC plugin directory, then continue.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>如果此檔案無法直接從目前工作目錄讀取，請在目前啟用的 `CLAUDE_PLUGIN_ROOT`/`OMC_PLUGIN_ROOT`、套件根目錄，或已安裝的 OMC plugin 目錄中找到它，然後繼續。</code></pre></div></section>
+</main>
+</body>
+</html>

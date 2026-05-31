@@ -1,0 +1,134 @@
+[
+  {
+    "original": "# Architecture",
+    "zh_tw": "# 架構"
+  },
+  {
+    "original": "> How oh-my-claudecode orchestrates multi-agent workflows.",
+    "zh_tw": "> oh-my-claudecode 如何協調多代理工作流程。"
+  },
+  {
+    "original": "## Overview",
+    "zh_tw": "## 概覽"
+  },
+  {
+    "original": "oh-my-claudecode enables Claude Code to orchestrate specialized agents through a skill-based routing system. It is built on four interlocking systems: **Hooks** detect lifecycle events, **Skills** inject behaviors, **Agents** execute specialized work, and **State** tracks progress across context resets.",
+    "zh_tw": "oh-my-claudecode 讓 Claude Code 能透過以技能為基礎的路由系統來協調專門化代理。它建立在四個相互連結的系統之上：**Hooks** 偵測生命週期事件，**Skills** 注入行為，**Agents** 執行專門化工作，而 **State** 會在上下文重置之間追蹤進度。"
+  },
+  {
+    "original": "```\n┌─────────────────────────────────────────────────────────────────────────┐\n│                         OH-MY-CLAUDECODE                                 │\n│                     Intelligent Skill Activation                         │\n└─────────────────────────────────────────────────────────────────────────┘\n\n  User Input                      Skill Detection                 Execution\n  ──────────                      ───────────────                 ─────────\n       │                                │                              │\n       ▼                                ▼                              ▼\n┌─────────────┐              ┌──────────────────┐           ┌─────────────────┐\n│  \"ultrawork │              │   CLAUDE.md      │           │ SKILL ACTIVATED │\n│   refactor  │─────────────▶│   Auto-Routing   │──────────▶│                 │\n│   the API\"  │              │                  │           │ ultrawork +     │\n└─────────────┘              │ Task Type:       │           │ default +       │\n                             │  - Implementation│           │ git-master      │\n                             │  - Multi-file    │           │                 │\n                             │  - Parallel OK   │           │ ┌─────────────┐ │\n                             │                  │           │ │ Parallel    │ │\n                             │ Skills:          │           │ │ agents      │ │\n                             │  - ultrawork ✓   │           │ │ launched    │ │\n                             │  - default ✓     │           │ └─────────────┘ │\n                             │  - git-master ✓  │           │                 │\n                             └──────────────────┘           │ ┌─────────────┐ │\n                                                            │ │ Atomic      │ │\n                                                            │ │ commits     │ │\n                                                            │ └─────────────┘ │\n                                                            └─────────────────┘\n```",
+    "zh_tw": "```\n┌─────────────────────────────────────────────────────────────────────────┐\n│                         OH-MY-CLAUDECODE                                 │\n│                         智慧技能啟用                                     │\n└─────────────────────────────────────────────────────────────────────────┘\n\n  使用者輸入                    技能偵測                     執行\n  ──────────                    ───────────────             ─────────\n       │                                │                          │\n       ▼                                ▼                          ▼\n┌─────────────┐              ┌──────────────────┐         ┌─────────────────┐\n│  \"ultrawork │              │   CLAUDE.md      │         │ 技能已啟用        │\n│   重構 API  │─────────────▶│   自動路由       │──────────▶│                 │\n│   \"         │              │                  │         │ ultrawork +     │\n└─────────────┘              │ 任務類型：       │         │ default +       │\n                             │  - 實作          │         │ git-master      │\n                             │  - 多檔案        │         │                 │\n                             │  - 可並行        │         │ ┌─────────────┐ │\n                             │                  │         │ │ 平行        │ │\n                             │ 技能：           │         │ │ 代理        │ │\n                             │  - ultrawork ✓   │         │ │ 已啟動      │ │\n                             │  - default ✓     │         │ └─────────────┘ │\n                             │  - git-master ✓  │         │                 │\n                             └──────────────────┘         │ ┌─────────────┐ │\n                                                          │ │ 原子        │ │\n                                                          │ │ 提交        │ │\n                                                          │ └─────────────┘ │\n                                                          └─────────────────┘\n```"
+  },
+  {
+    "original": "The four systems flow in sequence:",
+    "zh_tw": "這四個系統依序運作："
+  },
+  {
+    "original": "```\nUser Input --> Hooks (event detection) --> Skills (behavior injection)\n           --> Agents (task execution) --> State (progress tracking)\n```",
+    "zh_tw": "```\n使用者輸入 --> Hooks（事件偵測） --> Skills（行為注入）\n           --> Agents（任務執行） --> State（進度追蹤）\n```"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Agent System",
+    "zh_tw": "## 代理系統"
+  },
+  {
+    "original": "### Overview",
+    "zh_tw": "### 概覽"
+  },
+  {
+    "original": "OMC provides 19 specialized agents organized into 4 lanes. Each agent is invoked as `oh-my-claudecode:<agent-name>` and runs on the appropriate model tier.",
+    "zh_tw": "OMC 提供 19 個專門化代理，組織成 4 條通道。每個代理都以 `oh-my-claudecode:<agent-name>` 的形式呼叫，並在適當的模型層級上執行。"
+  },
+  {
+    "original": "### Build/Analysis Lane",
+    "zh_tw": "### 建置/分析通道"
+  },
+  {
+    "original": "Covers the full development lifecycle from exploration to verification.",
+    "zh_tw": "涵蓋從探索到驗證的完整開發生命週期。"
+  },
+  {
+    "original": "| Agent | Default Model | Role |\n|-------|---------------|------|\n| `explore` | haiku | Codebase discovery, file/symbol mapping |\n| `analyst` | opus | Requirements analysis, hidden constraint discovery |\n| `planner` | opus | Task sequencing, execution plan creation |\n| `architect` | opus | System design, interface definition, trade-off analysis |\n| `debugger` | sonnet | Root-cause analysis, build error resolution |\n| `executor` | sonnet | Code implementation, refactoring |\n| `verifier` | sonnet | Completion verification, test adequacy confirmation |\n| `tracer` | sonnet | Evidence-driven causal tracing, competing hypothesis analysis |",
+    "zh_tw": "| 代理 | 預設模型 | 角色 |\n|-------|---------------|------|\n| `explore` | haiku | 程式碼庫探索、檔案/符號對應 |\n| `analyst` | opus | 需求分析、隱藏限制發現 |\n| `planner` | opus | 任務排序、執行計畫建立 |\n| `architect` | opus | 系統設計、介面定義、取捨分析 |\n| `debugger` | sonnet | 根因分析、建置錯誤解決 |\n| `executor` | sonnet | 程式碼實作、重構 |\n| `verifier` | sonnet | 完成驗證、測試充分性確認 |\n| `tracer` | sonnet | 以證據為導向的因果追蹤、競爭假設分析 |"
+  },
+  {
+    "original": "### Review Lane",
+    "zh_tw": "### 審查通道"
+  },
+  {
+    "original": "Quality gates before handoff. Catches correctness and security issues.",
+    "zh_tw": "交接前的品質關卡。捕捉正確性與安全性問題。"
+  },
+  {
+    "original": "| Agent | Default Model | Role |\n|-------|---------------|------|\n| `security-reviewer` | sonnet | Security vulnerabilities, trust boundaries, authn/authz review |\n| `code-reviewer` | opus | Comprehensive code review, API contracts, backward compatibility |",
+    "zh_tw": "| 代理 | 預設模型 | 角色 |\n|-------|---------------|------|\n| `security-reviewer` | sonnet | 安全漏洞、信任邊界、驗證/授權審查 |\n| `code-reviewer` | opus | 全面程式碼審查、API 契約、向後相容性 |"
+  },
+  {
+    "original": "### Domain Lane",
+    "zh_tw": "### 領域通道"
+  },
+  {
+    "original": "Domain experts called in when needed.",
+    "zh_tw": "在需要時召入領域專家。"
+  },
+  {
+    "original": "| Agent | Default Model | Role |\n|-------|---------------|------|\n| `test-engineer` | sonnet | Test strategy, coverage, flaky-test hardening |\n| `designer` | sonnet | UI/UX architecture, interaction design |\n| `writer` | haiku | Documentation, migration notes |\n| `qa-tester` | sonnet | Interactive CLI/service runtime validation via tmux |\n| `scientist` | sonnet | Data analysis, statistical research |\n| `git-master` | sonnet | Git operations, commits, rebase, history management |\n| `document-specialist` | sonnet | External documentation, API/SDK reference lookup |\n| `code-simplifier` | opus | Code clarity, simplification, maintainability improvement |",
+    "zh_tw": "| 代理 | 預設模型 | 角色 |\n|-------|---------------|------|\n| `test-engineer` | sonnet | 測試策略、覆蓋率、脆弱測試強化 |\n| `designer` | sonnet | UI/UX 架構、互動設計 |\n| `writer` | haiku | 文件、遷移說明 |\n| `qa-tester` | sonnet | 透過 tmux 進行互動式 CLI/服務執行期驗證 |\n| `scientist` | sonnet | 資料分析、統計研究 |\n| `git-master` | sonnet | Git 操作、提交、rebase、歷史管理 |\n| `document-specialist` | sonnet | 外部文件、API/SDK 參考查找 |\n| `code-simplifier` | opus | 程式碼清晰度、簡化、可維護性改進 |"
+  },
+  {
+    "original": "### Coordination Lane",
+    "zh_tw": "### 協調通道"
+  },
+  {
+    "original": "Challenges plans and designs made by other agents. A plan passes only when no gaps can be found.",
+    "zh_tw": "挑戰其他代理所提出的計畫與設計。只有在找不到任何缺口時，計畫才算通過。"
+  },
+  {
+    "original": "| Agent | Default Model | Role |\n|-------|---------------|------|\n| `critic` | opus | Gap analysis of plans and designs, multi-angle review |",
+    "zh_tw": "| 代理 | 預設模型 | 角色 |\n|-------|---------------|------|\n| `critic` | opus | 計畫與設計的缺口分析、多角度審查 |"
+  },
+  {
+    "original": "### Model Routing",
+    "zh_tw": "### 模型路由"
+  },
+  {
+    "original": "OMC uses three model tiers:",
+    "zh_tw": "OMC 使用三個模型層級："
+  },
+  {
+    "original": "| Tier | Model | Characteristics | Cost |\n|------|-------|-----------------|------|\n| LOW | haiku | Fast and inexpensive | Low |\n| MEDIUM | sonnet | Balanced performance and cost | Medium |\n| HIGH | opus | Highest-quality reasoning | High |",
+    "zh_tw": "| 層級 | 模型 | 特性 | 成本 |\n|------|-------|-----------------|------|\n| LOW | haiku | 快速且低成本 | 低 |\n| MEDIUM | sonnet | 性能與成本平衡 | 中 |\n| HIGH | opus | 最高品質推理 | 高 |"
+  },
+  {
+    "original": "Default assignments by role:\n- **haiku**: Fast lookups and simple tasks (`explore`, `writer`)\n- **sonnet**: Code implementation, debugging, testing (`executor`, `debugger`, `test-engineer`)\n- **opus**: Architecture, strategic analysis, review (`architect`, `planner`, `critic`, `code-reviewer`)",
+    "zh_tw": "依角色的預設分配：\n- **haiku**：快速查找與簡單任務（`explore`、`writer`）\n- **sonnet**：程式碼實作、除錯、測試（`executor`、`debugger`、`test-engineer`）\n- **opus**：架構、策略分析、審查（`architect`、`planner`、`critic`、`code-reviewer`）"
+  },
+  {
+    "original": "### Delegation",
+    "zh_tw": "### 委派"
+  },
+  {
+    "original": "Work is delegated through the Task tool with intelligent model routing:",
+    "zh_tw": "工作會透過 Task 工具與智慧模型路由來委派："
+  },
+  {
+    "original": "```typescript\nTask(\n  subagent_type=\"oh-my-claudecode:executor\",\n  model=\"sonnet\",\n  prompt=\"Implement feature...\"\n)\n```",
+    "zh_tw": "```typescript\nTask(\n  subagent_type=\"oh-my-claudecode:executor\",\n  model=\"sonnet\",\n  prompt=\"實作功能...\"\n)\n```"
+  },
+  {
+    "original": "**Delegate to agents when:**\n- Multiple files need to change\n- Refactoring is required\n- Debugging or root-cause analysis is needed\n- Code review or security review is needed\n- Planning or research is required",
+    "zh_tw": "**在以下情況委派給代理：**\n- 需要修改多個檔案\n- 需要重構\n- 需要除錯或根因分析\n- 需要程式碼審查或安全審查\n- 需要規劃或研究"
+  },
+  {
+    "original": "**Handle directly when:**\n- Simple file lookups\n- Straightforward question answering\n- Single-command operations",
+    "zh_tw": "**在以下情況直接處理：**\n- 簡單的檔案查找\n- 直接的問題回答\n- 單一指令操作"
+  },
+  {
+    "original": "### Agent Selection Guide",
+    "zh_tw": "### 代理選擇指南"
+  }
+]

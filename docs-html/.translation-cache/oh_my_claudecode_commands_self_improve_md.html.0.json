@@ -1,0 +1,30 @@
+[
+  {
+    "original": "---\ndescription: \"\"\n---",
+    "zh_tw": "---\ndescription: \"\"\n---"
+  },
+  {
+    "original": "# OMC self-improve",
+    "zh_tw": "# OMC 自我改善"
+  },
+  {
+    "original": "This compatibility command keeps `/oh-my-claudecode:self-improve` available without loading the full `self-improve` skill description in every Claude Code session.",
+    "zh_tw": "這個相容性指令會讓 `/oh-my-claudecode:self-improve` 維持可用，而不必在每個 Claude Code 工作階段都載入完整的 `self-improve` 技能描述。"
+  },
+  {
+    "original": "## Dispatch",
+    "zh_tw": "## 分派"
+  },
+  {
+    "original": "1. Read the full bundled skill instructions from the active OMC plugin/install: `skills/self-improve/SKILL.md`.\n2. Follow that SKILL.md exactly, treating the user's arguments as:",
+    "zh_tw": "1. 從目前啟用的 OMC plugin/install 讀取完整的 bundled skill instructions：`skills/self-improve/SKILL.md`。\n2. 嚴格依照該 SKILL.md 執行，並將使用者的 arguments 視為："
+  },
+  {
+    "original": "```text\n$ARGUMENTS\n```",
+    "zh_tw": "```text\n$ARGUMENTS\n```"
+  },
+  {
+    "original": "If the file is not directly readable from the current working directory, locate it under the active `CLAUDE_PLUGIN_ROOT`/`OMC_PLUGIN_ROOT`, package root, or installed OMC plugin directory, then continue.",
+    "zh_tw": "如果無法從目前工作目錄直接讀取該檔案，請在目前啟用的 `CLAUDE_PLUGIN_ROOT`/`OMC_PLUGIN_ROOT`、package root，或已安裝的 OMC plugin directory 中找到它，然後繼續。"
+  }
+]

@@ -1,0 +1,154 @@
+[
+  {
+    "original": "Use OMX if you already like Codex and want a better day-to-day runtime around it:\n- a standard workflow built around `$deep-interview` -> `$ralplan` -> `$ultragoal`, with `$prometheus-strict` available when plans need stricter interview/critique/synthesis before execution and optional `.omx/plans/prometheus-strict/` artifacts\n- research boundaries: use `$best-practice-research` for ordinary pre-planning official/upstream evidence, `$autoresearch` for bounded validator-gated research artifacts, `$autoresearch-goal` for goal-mode research missions, and feed any research findings into `$ralplan` for architecture synthesis\n- durable multi-goal handoffs with `$ultragoal` and `.omx/ultragoal` artifacts as the default completion path after planning\n- specialist roles and supporting skills when the task needs them\n- project guidance through scoped `AGENTS.md`\n- durable state under `.omx/` for plans, logs, memory, and mode tracking",
+    "zh_tw": "如果你已經喜歡 Codex，並且想要一個更好的日常執行環境，可以使用 OMX：\n- 一套標準工作流程，圍繞 `$deep-interview` -> `$ralplan` -> `$ultragoal` 建立；當計畫在執行前需要更嚴格的訪談／批判／綜合時，可使用 `$prometheus-strict`，並可選擇產出 `.omx/plans/prometheus-strict/` 成果\n- 研究邊界：一般的前置規劃官方／上游證據使用 `$best-practice-research`，有邊界且由驗證器把關的研究成果使用 `$autoresearch`，目標模式的研究任務使用 `$autoresearch-goal`，而任何研究發現都可餵給 `$ralplan` 進行架構綜合\n- 透過 `$ultragoal` 與 `.omx/ultragoal` 成果作為規劃後的預設完成路徑，達成持久的多目標交接\n- 當任務需要時，提供專家角色與支援技能\n- 透過範圍明確的 `AGENTS.md` 提供專案指引\n- 在 `.omx/` 下保存計畫、日誌、記憶與模式追蹤等持久狀態"
+  },
+  {
+    "original": "If you want plain Codex with no extra workflow layer, you probably do not need OMX.",
+    "zh_tw": "如果你只想要純粹的 Codex，不需要額外的工作流程層，那你大概不需要 OMX。"
+  },
+  {
+    "original": "## Quick start",
+    "zh_tw": "## 快速開始"
+  },
+  {
+    "original": "### Requirements",
+    "zh_tw": "### 需求"
+  },
+  {
+    "original": "- Node.js 20+\n- Codex CLI installed, verified with `codex --version`, and authenticated (Homebrew or npm are both fine; do not reinstall `@openai/codex` with npm if Homebrew already owns `codex`)\n- Codex auth configured and visible in the same shell/profile that will run OMX\n- `tmux` on macOS/Linux if you want the recommended durable team runtime\n- `psmux` on native Windows only if you intentionally want the less-supported Windows team path",
+    "zh_tw": "- Node.js 20+\n- 已安裝 Codex CLI，並已用 `codex --version` 驗證且完成驗證（Homebrew 或 npm 都可以；如果 Homebrew 已經管理 `codex`，就不要再用 npm 重新安裝 `@openai/codex`）\n- Codex 驗證已設定，且在將執行 OMX 的同一個 shell/profile 中可見\n- 如果你想要建議的持久團隊執行環境，在 macOS/Linux 上使用 `tmux`\n- 只有在你刻意想要較不受支援的 Windows 團隊路徑時，才在原生 Windows 上使用 `psmux`"
+  },
+  {
+    "original": "### A good first session",
+    "zh_tw": "### 第一次使用的好做法"
+  },
+  {
+    "original": "After install, check both boundaries:",
+    "zh_tw": "安裝後，請檢查這兩個邊界："
+  },
+  {
+    "original": "```bash\nomx doctor\ncodex login status\nomx exec --skip-git-repo-check -C . \"Reply with exactly OMX-EXEC-OK\"\n```",
+    "zh_tw": "```bash\nomx doctor\ncodex login status\nomx exec --skip-git-repo-check -C . \"Reply with exactly OMX-EXEC-OK\"\n```"
+  },
+  {
+    "original": "`omx doctor` catches missing OMX files, hooks, and runtime prerequisites. The real smoke test catches auth, profile, and provider/base-URL problems that only appear when Codex performs an actual request.",
+    "zh_tw": "`omx doctor` 會檢查缺少的 OMX 檔案、hooks 與執行時前置條件。真正的煙霧測試則會找出只有在 Codex 發出實際請求時才會出現的驗證、設定檔與供應商／base URL 問題。"
+  },
+  {
+    "original": "Launch OMX the recommended way from a git project:",
+    "zh_tw": "從 git 專案中，以建議的方式啟動 OMX："
+  },
+  {
+    "original": "```bash\nomx --worktree=feat/task --madmax --high\n```",
+    "zh_tw": "```bash\nomx --worktree=feat/task --madmax --high\n```"
+  },
+  {
+    "original": "On macOS/Linux interactive terminals with `tmux` available, this starts the\nleader in OMX-managed detached tmux by default so the HUD/runtime panes can be\ncreated and recovered. `--worktree` also moves the launch into a separate git\ncheckout, which is the safer default when using `--madmax`. Replace\n`feat/task` with a branch-like name for the task.",
+    "zh_tw": "在 macOS/Linux 的互動式終端機且可用 `tmux` 的情況下，這會預設在 OMX 管理的 detached tmux 中啟動 leader，讓 HUD／執行階段窗格可以建立與復原。`--worktree` 也會把啟動移到獨立的 git checkout，這在使用 `--madmax` 時是較安全的預設。將 `feat/task` 換成符合分支風格的任務名稱。"
+  },
+  {
+    "original": "### Madmax and worktree launch safety",
+    "zh_tw": "### Madmax 與 worktree 啟動安全性"
+  },
+  {
+    "original": "`--madmax` is OMX shorthand for Codex\n`--dangerously-bypass-approvals-and-sandbox`. It removes the normal approval and\nsandbox guardrails, so only use it in trusted repositories and environments.\n`--high` is shorthand for `-c model_reasoning_effort=\"high\"`.",
+    "zh_tw": "`--madmax` 是 OMX 對 Codex\n`--dangerously-bypass-approvals-and-sandbox` 的簡寫。它會移除一般的核准與\nsandbox 防護，所以只應在受信任的儲存庫與環境中使用。\n`--high` 是 `-c model_reasoning_effort=\"high\"` 的簡寫。"
+  },
+  {
+    "original": "When you use `--madmax` from a git repository, prefer a worktree launch instead\nof running directly in the current checkout. For repeatable or concurrent work,\nuse a named worktree:",
+    "zh_tw": "當你在 git 儲存庫中使用 `--madmax` 時，請優先採用 worktree 啟動，而不是直接在目前的 checkout 中執行。若是可重複或並行的工作，請使用具名 worktree："
+  },
+  {
+    "original": "```bash\nomx --worktree=feature/auth --madmax --high\n```",
+    "zh_tw": "```bash\nomx --worktree=feature/auth --madmax --high\n```"
+  },
+  {
+    "original": "If you are outside a git repository, omit `--worktree`; worktree launches\nrequire Git.",
+    "zh_tw": "如果你不在 git 儲存庫內，就省略 `--worktree`；worktree 啟動需要 Git。"
+  },
+  {
+    "original": "For concurrent `--madmax` sessions, do **not** run them all in the same\ndirectory. Give each session its own named worktree:",
+    "zh_tw": "對於並行的 `--madmax` 工作階段，**不要**把它們全部放在同一個\ndirectory 中執行。請為每個工作階段指派自己的具名 worktree："
+  },
+  {
+    "original": "```bash\nomx --worktree=feature/auth --madmax --high\nomx --worktree=fix/flaky-tests --madmax --high\n```",
+    "zh_tw": "```bash\nomx --worktree=feature/auth --madmax --high\nomx --worktree=fix/flaky-tests --madmax --high\n```"
+  },
+  {
+    "original": "`--worktree` / `-w` with no name creates or reuses a detached launch worktree at\n`../<repo>.omx-worktrees/launch-detached`. `--worktree=<name>`,\n`--worktree <name>`, or `-w <name>` creates or reuses a named launch worktree\nunder `../<repo>.omx-worktrees/` and checks out that branch name. OMX consumes\nthe worktree flag before starting Codex; it is not forwarded to Codex itself.\nTreat the unnamed detached form as a one-off convenience: if the source checkout\nadvances after that worktree is created, a later unnamed launch can fail with\n`worktree_target_mismatch` because `launch-detached` still points at the old\nHEAD. Use a named worktree for repeated work, or remove the old detached\nworktree before retrying.\nIf the target launch worktree is already dirty, OMX warns and launches as-is, so\nclean, commit, or stash that worktree before relying on it for isolation.",
+    "zh_tw": "沒有名稱的 `--worktree` / `-w` 會在\n`../<repo>.omx-worktrees/launch-detached` 建立或重用一個 detached 啟動 worktree。`--worktree=<name>`、\n`--worktree <name>` 或 `-w <name>` 會在 `../<repo>.omx-worktrees/` 底下建立或重用一個具名啟動 worktree，\n並 checkout 該分支名稱。OMX 會在啟動 Codex 之前先處理 worktree 參數；它不會再轉交給 Codex 本身。\n請把未命名的 detached 形式視為一次性的便利功能：如果來源 checkout 在該 worktree 建立後又往前推進，之後再次使用未命名啟動可能會因為 `launch-detached` 仍指向舊的\nHEAD 而失敗，並出現 `worktree_target_mismatch`。若需要重複工作，請使用具名 worktree，或先移除舊的 detached\nworktree 再重試。\n如果目標啟動 worktree 已經是 dirty，OMX 會警告並照樣啟動，所以在依賴它作為隔離環境之前，請先把該 worktree 清理、提交或 stash。"
+  },
+  {
+    "original": "For `omx team`, workers already use dedicated worktrees automatically by\ndefault; `--worktree` on `omx team` is only a legacy-compatible override.",
+    "zh_tw": "對 `omx team` 而言，worker 預設就已經會自動使用專用 worktree；`omx team` 上的 `--worktree` 只是一個相容舊版的覆寫選項。"
+  },
+  {
+    "original": "If you want a one-off launch with no OMX tmux/HUD management, use `--direct`:",
+    "zh_tw": "如果你想要一次性的啟動，而且不需要 OMX 管理 tmux/HUD，請使用 `--direct`："
+  },
+  {
+    "original": "```bash\nomx --direct --yolo\n```",
+    "zh_tw": "```bash\nomx --direct --yolo\n```"
+  },
+  {
+    "original": "For a persistent shell/profile preference, set an environment policy:",
+    "zh_tw": "如果要在 shell/profile 中持久保留偏好，請設定環境原則："
+  },
+  {
+    "original": "```bash\nOMX_LAUNCH_POLICY=direct omx --yolo\n```",
+    "zh_tw": "```bash\nOMX_LAUNCH_POLICY=direct omx --yolo\n```"
+  },
+  {
+    "original": "Return to the auto/default behavior with:",
+    "zh_tw": "若要回到自動／預設行為，請使用："
+  },
+  {
+    "original": "```bash\nunset OMX_LAUNCH_POLICY\n```",
+    "zh_tw": "```bash\nunset OMX_LAUNCH_POLICY\n```"
+  },
+  {
+    "original": "CLI policy flags win over the environment, and the last CLI policy flag before\n`--` wins:",
+    "zh_tw": "CLI 原則旗標會優先於環境變數，而在 `--` 之前最後一個 CLI 原則旗標會勝出："
+  },
+  {
+    "original": "```bash\nOMX_LAUNCH_POLICY=direct omx --tmux --yolo\n```",
+    "zh_tw": "```bash\nOMX_LAUNCH_POLICY=direct omx --tmux --yolo\n```"
+  },
+  {
+    "original": "Use `OMX_LAUNCH_POLICY=direct|tmux|detached-tmux|auto`. This iteration only\nadds CLI and environment controls; it intentionally does not add a config-file\nsetting. If you run `--direct` from inside an existing tmux pane, OMX will not\ncreate HUD splits, enable mouse mode, or wrap extended-key handling, but the\nprocess still runs inside that already-open terminal pane.",
+    "zh_tw": "請使用 `OMX_LAUNCH_POLICY=direct|tmux|detached-tmux|auto`。這一版只\n加入 CLI 與環境變數控制；它刻意不加入 config 檔設定。如果你是在既有的 tmux pane 內執行 `--direct`，OMX 不會\n建立 HUD 分割窗格、啟用滑鼠模式，也不會包裝 extended-key 處理，但\n程序仍然會在那個已開啟的終端機 pane 中執行。"
+  },
+  {
+    "original": "Then try the canonical workflow:",
+    "zh_tw": "接著試試標準工作流程："
+  },
+  {
+    "original": "```text\n$deep-interview \"clarify the authentication change\"\n$ralplan \"approve the safest implementation path\"\n$ultragoal \"turn the approved path into durable Codex goals\"\n```",
+    "zh_tw": "```text\n$deep-interview \"clarify the authentication change\"\n$ralplan \"approve the safest implementation path\"\n$ultragoal \"turn the approved path into durable Codex goals\"\n```"
+  },
+  {
+    "original": "Use `$team` when an active Ultragoal story needs coordinated parallel work, or `$ralph` when one persistent owner should keep pushing to completion without a multi-goal ledger.",
+    "zh_tw": "當一個進行中的 Ultragoal 故事需要協調式並行工作時，請使用 `$team`；若希望由單一持續的負責人一路推進到完成，而不需要多目標帳本，則使用 `$ralph`。"
+  },
+  {
+    "original": "## A simple mental model",
+    "zh_tw": "## 簡單心智模型"
+  },
+  {
+    "original": "OMX does **not** replace Codex.",
+    "zh_tw": "OMX **不會**取代 Codex。"
+  },
+  {
+    "original": "It adds a better working layer around it:\n- **Codex** does the actual agent work\n- **OMX role keywords** make useful roles reusable\n- **OMX skills** make common workflows reusable\n- **`.omx/`** stores plans, logs, memory, and runtime state",
+    "zh_tw": "它是在外層加上一個更好的工作層：\n- **Codex** 負責實際的 agent 工作\n- **OMX role keywords** 讓實用角色可以重複使用\n- **OMX skills** 讓常見工作流程可以重複使用\n- **`.omx/`** 儲存計畫、日誌、記憶與執行階段狀態"
+  },
+  {
+    "original": "Most users should think of OMX as **better task routing + better workflow + better runtime**, not as a command surface to operate manually all day.",
+    "zh_tw": "大多數使用者應該把 OMX 看成是 **更好的任務路由 + 更好的工作流程 + 更好的執行環境**，而不是一個需要整天手動操作的命令介面。"
+  },
+  {
+    "original": "## Start here if you are new",
+    "zh_tw": "## 如果你是新手，從這裡開始"
+  }
+]

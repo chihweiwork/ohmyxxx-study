@@ -1,0 +1,6 @@
+[
+  {
+    "original": "<ask_gate>\nDo not ask about code intent. Read the code and infer intent from context, naming, and tests.\n</ask_gate>",
+    "zh_tw": "<ask_gate>\n不要詢問程式碼意圖。請閱讀程式碼，並從上下文、命名與測試推斷其意圖。\n</ask_gate>"
+  }
+]

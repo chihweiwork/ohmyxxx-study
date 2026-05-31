@@ -1,0 +1,70 @@
+[
+  {
+    "original": "---\nname: omc-plan\ndescription: Strategic planning with optional interview workflow\nargument-hint: \"[--direct|--consensus|--review] [--interactive] [--deliberate] <task description>\"\npipeline: [deep-interview]\nhandoff-policy: approval-required\nhandoff: .omc/plans/ralplan-*.md\nlevel: 4\n---",
+    "zh_tw": "---\nname: omc-plan\ndescription: 具備可選訪談流程的策略性規劃\nargument-hint: \"[--direct|--consensus|--review] [--interactive] [--deliberate] <task description>\"\npipeline: [deep-interview]\nhandoff-policy: approval-required\nhandoff: .omc/plans/ralplan-*.md\nlevel: 4\n---"
+  },
+  {
+    "original": "<Purpose>\nPlan creates comprehensive, actionable work plans through intelligent interaction. It auto-detects whether to interview the user (broad requests) or plan directly (detailed requests), and supports consensus mode (iterative Planner/Architect/Critic loop with RALPLAN-DR structured deliberation) and review mode (Critic evaluation of existing plans).\n</Purpose>",
+    "zh_tw": "<Purpose>\nPlan 透過智慧互動建立完整、可執行的工作計畫。它會自動偵測是否要訪談使用者（廣泛請求）或直接規劃（詳細請求），並支援共識模式（具備 RALPLAN-DR 結構化討論的迭代式 Planner/Architect/Critic 迴圈）以及審查模式（對既有計畫進行 Critic 評估）。\n</Purpose>"
+  },
+  {
+    "original": "<Use_When>",
+    "zh_tw": "<Use_When>"
+  },
+  {
+    "original": "- User wants to plan before implementing -- \"plan this\", \"plan the\", \"let's plan\"\n- User wants structured requirements gathering for a vague idea\n- User wants an existing plan reviewed -- \"review this plan\", `--review`\n- User wants multi-perspective consensus on a plan -- `--consensus`, \"ralplan\"\n- Task is broad or vague and needs scoping before any code is written\n  </Use_When>",
+    "zh_tw": "- 使用者想在實作前先規劃 -- \"plan this\", \"plan the\", \"let's plan\"\n- 使用者想為模糊的想法進行有結構的需求蒐集\n- 使用者想要審查既有計畫 -- \"review this plan\", `--review`\n- 使用者想要對計畫取得多觀點共識 -- `--consensus`, \"ralplan\"\n- 任務範圍廣泛或模糊，且在撰寫任何程式碼之前需要先界定範圍\n  </Use_When>"
+  },
+  {
+    "original": "<Do_Not_Use_When>",
+    "zh_tw": "<Do_Not_Use_When>"
+  },
+  {
+    "original": "- User wants autonomous end-to-end execution -- use `autopilot` instead\n- User wants to start coding immediately with a clear task -- use `ralph` or delegate to executor\n- User asks a simple question that can be answered directly -- just answer it\n- Task is a single focused fix with obvious scope -- use an execution skill instead of running it from this planning module\n  </Do_Not_Use_When>",
+    "zh_tw": "- 使用者想要自主的端到端執行 -- 改用 `autopilot`\n- 使用者想要以明確任務立即開始撰寫程式 -- 改用 `ralph` 或委派給 executor\n- 使用者提出可直接回答的簡單問題 -- 直接回答即可\n- 任務是範圍明確的單一聚焦修正 -- 改用執行技能，而不是從此規劃模組執行\n  </Do_Not_Use_When>"
+  },
+  {
+    "original": "<Why_This_Exists>\nJumping into code without understanding requirements leads to rework, scope creep, and missed edge cases. Plan provides structured requirements gathering, expert analysis, and quality-gated plans so that execution starts from a solid foundation. The consensus mode adds multi-perspective validation for high-stakes projects.\n</Why_This_Exists>",
+    "zh_tw": "<Why_This_Exists>\n在不了解需求的情況下直接投入程式碼會導致返工、範圍膨脹，以及漏掉邊界情況。Plan 提供結構化的需求蒐集、專家分析與有品質門檻的計畫，讓執行能從穩固的基礎開始。共識模式則為高風險專案加入多觀點驗證。\n</Why_This_Exists>"
+  },
+  {
+    "original": "<Execution_Policy>",
+    "zh_tw": "<Execution_Policy>"
+  },
+  {
+    "original": "- Auto-detect interview vs direct mode based on request specificity\n- Ask one question at a time during interviews -- never batch multiple questions\n- Gather codebase facts via `explore` agent before asking the user about them\n- Plans must meet quality standards: 80%+ claims cite file/line, 90%+ criteria are testable\n- Consensus mode runs fully automated by default; add `--interactive` to enable user prompts at draft review and final approval steps\n- Consensus mode uses RALPLAN-DR short mode by default; switch to deliberate mode with `--deliberate` or when the request explicitly signals high risk (auth/security, data migration, destructive/irreversible changes, production incident, compliance/PII, public API breakage)\n- **Planning/execution boundary:** planning modes inspect context and produce plans/specs/proposals only. They MUST mark artifacts as `pending approval` unless the user has explicitly opted into execution in the current turn or via the structured approval UI. Before explicit execution approval, planning modes MUST NOT run mutation-oriented shell commands, edit source files, commit, push, open PRs, invoke execution skills, or delegate implementation tasks.\n- **Goal workflow boundary:** when a plan compares Claude Code `/goal`, Ralph, Team, UltraQA, or artifact-only Ultragoal, identify exactly one primary loop authority and use the deterministic conflict policies `refuse`, `adopt_existing`, and `artifact_only` rather than non-deterministic warning handling. `/goal` facts must cite Claude Code/Anthropic sources only (Claude Code `/goal` docs: https://code.claude.com/docs/en/goal; Anthropic Claude Code changelog: https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md), and plans MUST NOT claim the `/goal` evaluator independently runs commands or reads files; require surfaced proof evidence before any completion claim.\n- **Goal workflow doc target:** for user-facing comparisons, keep examples aligned with `docs/shared/mode-selection-guide.md#goal-oriented-workflow-selection` and `docs/REFERENCE.md#goal-workflow-ux-goal-ralph-team-ultraqa-ultragoal`.\n  </Execution_Policy>",
+    "zh_tw": "- 根據請求的具體程度，自動偵測訪談模式與直接模式\n- 在訪談期間一次只問一個問題 -- 絕不一次批次提出多個問題\n- 在向使用者詢問之前，先透過 `explore` agent 蒐集程式碼庫事實\n- 計畫必須符合品質標準：80% 以上的主張需引用檔案/行號，90% 以上的條件必須可測試\n- 共識模式預設完全自動執行；加入 `--interactive` 以在草案審查與最終核准步驟啟用使用者提示\n- 共識模式預設使用 RALPLAN-DR 短模式；可用 `--deliberate` 切換為審慎模式，或當請求明確顯示高風險（驗證/安全、資料遷移、破壞性/不可逆變更、正式環境事件、法規遵循/PII、公開 API 中斷）時切換\n- **規劃/執行邊界：**規劃模式只會檢視上下文並產出計畫、規格、提案。除非使用者已在本輪明確選擇執行，或透過結構化核准 UI 選擇執行，否則它們必須將產物標記為 `pending approval`。在明確獲得執行核准之前，規劃模式不得執行會造成變更的 shell 指令、編輯原始碼檔案、commit、push、開啟 PR、呼叫執行技能，或委派實作任務。\n- **目標工作流程邊界：**當計畫比較 Claude Code `/goal`、Ralph、Team、UltraQA，或僅產出 artifact 的 Ultragoal 時，請辨識唯一一個主要迴圈權威，並使用決定性衝突政策 `refuse`、`adopt_existing`、`artifact_only`，而不是非決定性的警告處理。`/goal` 事實必須只引用 Claude Code/Anthropic 來源（Claude Code `/goal` 文件：https://code.claude.com/docs/en/goal；Anthropic Claude Code 更新紀錄：https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md），且計畫不得聲稱 `/goal` 評估器會獨立執行命令或讀取檔案；在任何完成聲明之前都必須提出可見的證據。\n- **目標工作流程文件目標：**對於使用者可見的比較，請讓範例與 `docs/shared/mode-selection-guide.md#goal-oriented-workflow-selection` 以及 `docs/REFERENCE.md#goal-workflow-ux-goal-ralph-team-ultraqa-ultragoal` 保持一致。\n  </Execution_Policy>"
+  },
+  {
+    "original": "<Steps>",
+    "zh_tw": "<Steps>"
+  },
+  {
+    "original": "### Mode Selection",
+    "zh_tw": "### 模式選擇"
+  },
+  {
+    "original": "| Mode      | Trigger                         | Behavior                                                                                                                                                                                                       |\n| --------- | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| Interview | Default for broad requests      | Interactive requirements gathering                                                                                                                                                                             |\n| Direct    | `--direct`, or detailed request | Skip interview, generate plan directly                                                                                                                                                                         |\n| Consensus | `--consensus`, \"ralplan\"        | Planner -> Architect -> Critic loop until agreement with RALPLAN-DR structured deliberation (short by default, `--deliberate` for high-risk); add `--interactive` for user prompts at draft and approval steps |\n| Review    | `--review`, \"review this plan\"  | Critic evaluation of existing plan                                                                                                                                                                             |",
+    "zh_tw": "| 模式      | 觸發條件                        | 行為                                                                                                                                                                                                       |\n| --------- | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| 訪談      | 廣泛請求的預設模式              | 互動式需求蒐集                                                                                                                                                                             |\n| 直接      | `--direct`，或詳細請求         | 跳過訪談，直接產生計畫                                                                                                                                                                         |\n| 共識      | `--consensus`, \"ralplan\"        | Planner -> Architect -> Critic 迴圈，直到與 RALPLAN-DR 結構化討論達成一致（預設為短模式，高風險時使用 `--deliberate`）；加入 `--interactive` 可在草案與核准步驟啟用使用者提示 |\n| 審查      | `--review`, \"review this plan\"  | 對既有計畫進行 Critic 評估                                                                                                                                                                             |"
+  },
+  {
+    "original": "### Interview Mode (broad/vague requests)",
+    "zh_tw": "### 訪談模式（廣泛/模糊請求）"
+  },
+  {
+    "original": "1. **Classify the request**: Broad (vague verbs, no specific files, touches 3+ areas) triggers interview mode\n2. **Ask one focused question** using `AskUserQuestion` for preferences, scope, and constraints\n3. **Gather codebase facts first**: Before asking \"what patterns does your code use?\", spawn an `explore` agent to find out, then ask informed follow-up questions\n4. **Build on answers**: Each question builds on the previous answer\n5. **Consult Analyst** (Opus) for hidden requirements, edge cases, and risks\n6. **Create plan** when the user signals readiness: \"create the plan\", \"I'm ready\", \"make it a work plan\"",
+    "zh_tw": "1. **分類請求**：廣泛請求（動詞模糊、沒有特定檔案、涉及 3 個以上區域）會觸發訪談模式\n2. **提出一個聚焦問題**，使用 `AskUserQuestion` 詢問偏好、範圍與限制\n3. **先蒐集程式碼庫事實**：在詢問「你的程式碼使用哪些模式？」之前，先啟動一個 `explore` agent 來找出答案，然後提出有根據的後續問題\n4. **根據答案逐步推進**：每個問題都建立在前一個答案之上\n5. **諮詢 Analyst**（Opus）以找出隱藏需求、邊界情況與風險\n6. **建立計畫**：當使用者表示已準備好時，例如「create the plan」、「I'm ready」、「make it a work plan」"
+  },
+  {
+    "original": "### Direct Mode (detailed requests)",
+    "zh_tw": "### 直接模式（詳細請求）"
+  },
+  {
+    "original": "1. **Quick Analysis**: Optional brief Analyst consultation\n2. **Create plan**: Generate comprehensive work plan immediately\n3. **Review** (optional): Critic review if requested",
+    "zh_tw": "1. **快速分析**：可選的簡短 Analyst 諮詢\n2. **建立計畫**：立即產生完整的工作計畫\n3. **審查**（可選）：若有要求則進行 Critic 審查"
+  },
+  {
+    "original": "### Consensus Mode (`--consensus` / \"ralplan\")",
+    "zh_tw": "### 共識模式（`--consensus` / \"ralplan\"）"
+  }
+]

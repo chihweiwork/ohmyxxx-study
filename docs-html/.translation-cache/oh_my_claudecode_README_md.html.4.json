@@ -1,0 +1,130 @@
+[
+  {
+    "original": "```json\n{\n  \"enabled\": true,\n  \"gateways\": {\n    \"my-gateway\": {\n      \"url\": \"https://your-gateway.example.com/wake\",\n      \"headers\": { \"Authorization\": \"Bearer YOUR_TOKEN\" },\n      \"method\": \"POST\",\n      \"timeout\": 10000\n    }\n  },\n  \"hooks\": {\n    \"session-start\": {\n      \"gateway\": \"my-gateway\",\n      \"instruction\": \"Session started for {{projectName}}\",\n      \"enabled\": true\n    },\n    \"stop\": {\n      \"gateway\": \"my-gateway\",\n      \"instruction\": \"Session stopping for {{projectName}}\",\n      \"enabled\": true\n    }\n  }\n}\n```",
+    "zh_tw": "```json\n{\n  \"enabled\": true,\n  \"gateways\": {\n    \"my-gateway\": {\n      \"url\": \"https://your-gateway.example.com/wake\",\n      \"headers\": { \"Authorization\": \"Bearer YOUR_TOKEN\" },\n      \"method\": \"POST\",\n      \"timeout\": 10000\n    }\n  },\n  \"hooks\": {\n    \"session-start\": {\n      \"gateway\": \"my-gateway\",\n      \"instruction\": \"工作階段已為 {{projectName}} 開始\",\n      \"enabled\": true\n    },\n    \"stop\": {\n      \"gateway\": \"my-gateway\",\n      \"instruction\": \"工作階段正在為 {{projectName}} 結束\",\n      \"enabled\": true\n    }\n  }\n}\n```"
+  },
+  {
+    "original": "**Environment variables:**",
+    "zh_tw": "**環境變數：**"
+  },
+  {
+    "original": "| Variable                                   | Description               |\n| ------------------------------------------ | ------------------------- |\n| `OMC_OPENCLAW=1`                           | Enable OpenClaw           |\n| `OMC_OPENCLAW_DEBUG=1`                     | Enable debug logging      |\n| `OMC_OPENCLAW_CONFIG=/path/to/config.json` | Override config file path |",
+    "zh_tw": "| Variable                                   | Description               |\n| ------------------------------------------ | ------------------------- |\n| `OMC_OPENCLAW=1`                           | 啟用 OpenClaw             |\n| `OMC_OPENCLAW_DEBUG=1`                     | 啟用除錯記錄              |\n| `OMC_OPENCLAW_CONFIG=/path/to/config.json` | 覆寫設定檔路徑           |"
+  },
+  {
+    "original": "**Supported hook events (6 active in bridge.ts):**",
+    "zh_tw": "**支援的 hook 事件（bridge.ts 中有 6 個啟用中）：**"
+  },
+  {
+    "original": "| Event               | Trigger                                 | Key template variables                                |\n| ------------------- | --------------------------------------- | ----------------------------------------------------- |\n| `session-start`     | Session begins                          | `{{sessionId}}`, `{{projectName}}`, `{{projectPath}}` |\n| `stop`              | Claude response completes               | `{{sessionId}}`, `{{projectName}}`                    |\n| `keyword-detector`  | Every prompt submission                 | `{{prompt}}`, `{{sessionId}}`                         |\n| `ask-user-question` | Claude requests user input              | `{{question}}`, `{{sessionId}}`                       |\n| `pre-tool-use`      | Before tool invocation (high frequency) | `{{toolName}}`, `{{sessionId}}`                       |\n| `post-tool-use`     | After tool invocation (high frequency)  | `{{toolName}}`, `{{sessionId}}`                       |",
+    "zh_tw": "| Event               | Trigger                                 | Key template variables                                |\n| ------------------- | --------------------------------------- | ----------------------------------------------------- |\n| `session-start`     | 工作階段開始                          | `{{sessionId}}`, `{{projectName}}`, `{{projectPath}}` |\n| `stop`              | Claude 回應完成                       | `{{sessionId}}`, `{{projectName}}`                    |\n| `keyword-detector`  | 每次提示提交                          | `{{prompt}}`, `{{sessionId}}`                         |\n| `ask-user-question` | Claude 請求使用者輸入                | `{{question}}`, `{{sessionId}}`                       |\n| `pre-tool-use`      | 在工具呼叫之前（高頻率）            | `{{toolName}}`, `{{sessionId}}`                       |\n| `post-tool-use`     | 在工具呼叫之後（高頻率）            | `{{toolName}}`, `{{sessionId}}`                       |"
+  },
+  {
+    "original": "**Reply channel environment variables:**",
+    "zh_tw": "**回覆通道環境變數：**"
+  },
+  {
+    "original": "| Variable                 | Description                    |\n| ------------------------ | ------------------------------ |\n| `OPENCLAW_REPLY_CHANNEL` | Reply channel (e.g. `discord`) |\n| `OPENCLAW_REPLY_TARGET`  | Channel ID                     |\n| `OPENCLAW_REPLY_THREAD`  | Thread ID                      |",
+    "zh_tw": "| Variable                 | Description                    |\n| ------------------------ | ------------------------------ |\n| `OPENCLAW_REPLY_CHANNEL` | 回覆通道（例如 `discord`）    |\n| `OPENCLAW_REPLY_TARGET`  | 頻道 ID                       |\n| `OPENCLAW_REPLY_THREAD`  | 討論串 ID                    |"
+  },
+  {
+    "original": "See `scripts/openclaw-gateway-demo.mjs` for a reference gateway that relays OpenClaw payloads to Discord via ClawdBot.",
+    "zh_tw": "請參閱 `scripts/openclaw-gateway-demo.mjs`，其中有一個參考用的 gateway，會透過 ClawdBot 將 OpenClaw 載荷轉送到 Discord。"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Documentation",
+    "zh_tw": "## 文件"
+  },
+  {
+    "original": "- **[Full Reference](docs/REFERENCE.md)** - Complete feature documentation\n- **[CLI Reference](https://yeachan-heo.github.io/oh-my-claudecode-website/docs/#cli-reference)** - All `omc` commands, flags, and tools\n- **[Notifications Guide](https://yeachan-heo.github.io/oh-my-claudecode-website/docs/#notifications)** - Discord, Telegram, Slack, and webhook setup\n- **[Recommended Workflows](https://yeachan-heo.github.io/oh-my-claudecode-website/docs/#workflows)** - Battle-tested skill chains for common tasks\n- **[Release Notes](https://yeachan-heo.github.io/oh-my-claudecode-website/docs/#release-notes)** - What's new in each version\n- **[Website](https://yeachan-heo.github.io/oh-my-claudecode-website)** - Interactive guides and examples\n- **[Migration Guide](docs/MIGRATION.md)** - Upgrade from v2.x\n- **[Architecture](docs/ARCHITECTURE.md)** - How it works under the hood\n- **[Performance Monitoring](docs/PERFORMANCE-MONITORING.md)** - Agent tracking, debugging, and optimization\n- **[Model × Agent Compatibility Matrix](docs/agents/model-compatibility.md)** - Which model to pair with each agent (premium / balanced / budget presets)\n- **[Security Guide](SECURITY.md)** - Enterprise deployment and hardening",
+    "zh_tw": "- **[完整參考](docs/REFERENCE.md)** - 完整的功能文件\n- **[CLI 參考](https://yeachan-heo.github.io/oh-my-claudecode-website/docs/#cli-reference)** - 所有 `omc` 命令、旗標與工具\n- **[通知指南](https://yeachan-heo.github.io/oh-my-claudecode-website/docs/#notifications)** - Discord、Telegram、Slack 與 webhook 設定\n- **[推薦工作流程](https://yeachan-heo.github.io/oh-my-claudecode-website/docs/#workflows)** - 經過實戰驗證的常見任務技能鏈\n- **[版本說明](https://yeachan-heo.github.io/oh-my-claudecode-website/docs/#release-notes)** - 每個版本的新內容\n- **[網站](https://yeachan-heo.github.io/oh-my-claudecode-website)** - 互動式指南與範例\n- **[遷移指南](docs/MIGRATION.md)** - 從 v2.x 升級\n- **[架構](docs/ARCHITECTURE.md)** - 底層如何運作\n- **[效能監控](docs/PERFORMANCE-MONITORING.md)** - Agent 追蹤、除錯與最佳化\n- **[模型 × Agent 相容性矩陣](docs/agents/model-compatibility.md)** - 每個 agent 要搭配哪個模型（高階／平衡／經濟預設）\n- **[安全指南](SECURITY.md)** - 企業部署與加固"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Requirements",
+    "zh_tw": "## 需求"
+  },
+  {
+    "original": "- [Claude Code](https://docs.anthropic.com/claude-code) CLI\n- Claude Max/Pro subscription OR Anthropic API key",
+    "zh_tw": "- [Claude Code](https://docs.anthropic.com/claude-code) CLI\n- Claude Max/Pro 訂閱方案或 Anthropic API 金鑰"
+  },
+  {
+    "original": "### Platform & tmux",
+    "zh_tw": "### 平台與 tmux"
+  },
+  {
+    "original": "OMC features like `omc team` and rate-limit detection require **tmux**:",
+    "zh_tw": "OMC 的功能，例如 `omc team` 和速率限制偵測，需要 **tmux**："
+  },
+  {
+    "original": "| Platform       | tmux provider                                         | Install                 |\n| -------------- | ----------------------------------------------------- | ----------------------- |\n| macOS          | [tmux](https://github.com/tmux/tmux)                  | `brew install tmux`     |\n| Ubuntu/Debian  | tmux                                                  | `sudo apt install tmux` |\n| Fedora         | tmux                                                  | `sudo dnf install tmux` |\n| Arch           | tmux                                                  | `sudo pacman -S tmux`   |\n| Windows        | [psmux](https://github.com/marlocarlo/psmux) (native) | `winget install psmux`  |\n| Windows (WSL2) | tmux (inside WSL)                                     | `sudo apt install tmux` |",
+    "zh_tw": "| Platform       | tmux 提供者                                        | 安裝                    |\n| -------------- | ----------------------------------------------------- | ----------------------- |\n| macOS          | [tmux](https://github.com/tmux/tmux)                  | `brew install tmux`     |\n| Ubuntu/Debian  | tmux                                                  | `sudo apt install tmux` |\n| Fedora         | tmux                                                  | `sudo dnf install tmux` |\n| Arch           | tmux                                                  | `sudo pacman -S tmux`   |\n| Windows        | [psmux](https://github.com/marlocarlo/psmux)（原生）  | `winget install psmux`  |\n| Windows (WSL2) | tmux（在 WSL 內）                                     | `sudo apt install tmux` |"
+  },
+  {
+    "original": "> **Windows users:** [psmux](https://github.com/marlocarlo/psmux) provides a native `tmux` binary for Windows with 76 tmux-compatible commands. No WSL required.",
+    "zh_tw": "> **Windows 使用者：** [psmux](https://github.com/marlocarlo/psmux) 提供 Windows 原生的 `tmux` 二進位檔，支援 76 個相容於 tmux 的命令。不需要 WSL。"
+  },
+  {
+    "original": "### Optional: Multi-AI Orchestration",
+    "zh_tw": "### 選用：多 AI 協調"
+  },
+  {
+    "original": "OMC can optionally orchestrate external AI providers for cross-validation and design consistency. These are **not required** — OMC works fully without them.",
+    "zh_tw": "OMC 可選擇編排外部 AI 提供者，以進行交叉驗證與設計一致性檢查。這些**不是必要條件**，OMC 在沒有它們的情況下也能完整運作。"
+  },
+  {
+    "original": "| Provider                                                  | Install                             | What it enables                                  |\n| --------------------------------------------------------- | ----------------------------------- | ------------------------------------------------ |\n| [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `npm install -g @google/gemini-cli` | Design review, UI consistency (1M token context) |\n| [Codex CLI](https://github.com/openai/codex)              | `npm install -g @openai/codex`      | Architecture validation, code review cross-check |",
+    "zh_tw": "| Provider                                                  | Install                             | 可啟用的功能                                     |\n| --------------------------------------------------------- | ----------------------------------- | ------------------------------------------------ |\n| [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `npm install -g @google/gemini-cli` | 設計審查、UI 一致性（1M token 上下文）          |\n| [Codex CLI](https://github.com/openai/codex)              | `npm install -g @openai/codex`      | 架構驗證、程式碼審查交叉檢查                    |"
+  },
+  {
+    "original": "**Cost:** 3 Pro plans (Claude + Gemini + ChatGPT) cover everything for ~$60/month.",
+    "zh_tw": "**成本：** 3 個 Pro 方案（Claude + Gemini + ChatGPT）即可涵蓋全部，約每月 60 美元。"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## License",
+    "zh_tw": "## 授權"
+  },
+  {
+    "original": "MIT",
+    "zh_tw": "MIT"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "<div align=\"center\">",
+    "zh_tw": "<div align=\"center\">"
+  },
+  {
+    "original": "**Inspired by:** [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) • [claude-hud](https://github.com/ryanjoachim/claude-hud) • [Superpowers](https://github.com/obra/superpowers) • [everything-claude-code](https://github.com/affaan-m/everything-claude-code) • [Ouroboros](https://github.com/Q00/ouroboros)",
+    "zh_tw": "**靈感來源：** [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) • [claude-hud](https://github.com/ryanjoachim/claude-hud) • [Superpowers](https://github.com/obra/superpowers) • [everything-claude-code](https://github.com/affaan-m/everything-claude-code) • [Ouroboros](https://github.com/Q00/ouroboros)"
+  },
+  {
+    "original": "**Zero learning curve. Maximum power.**",
+    "zh_tw": "**零學習曲線。最大威力。**"
+  },
+  {
+    "original": "</div>",
+    "zh_tw": "</div>"
+  },
+  {
+    "original": "<!-- OMC:FEATURED-CONTRIBUTORS:START -->\n## Featured by OmC Contributors",
+    "zh_tw": "<!-- OMC:FEATURED-CONTRIBUTORS:START -->\n## OmC 貢獻者精選"
+  },
+  {
+    "original": "Top personal non-fork, non-archived repos from all-time OMC contributors (100+ GitHub stars).",
+    "zh_tw": "來自歷來 OMC 貢獻者的個人最佳、非 fork、未封存倉庫（GitHub 星數 100+）。"
+  }
+]

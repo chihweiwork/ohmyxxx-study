@@ -1,0 +1,98 @@
+[
+  {
+    "original": "**Bounded retry contract**: after Oracle synthesizes in §4, re-invoke Momus on the synthesized plan to verify that Oracle's resolutions did not introduce new risks (scope addition without matching verification, lane split that creates dependency cycles, safety reinforcement that contradicts stop conditions). Repeat the Momus → Oracle re-synthesis cycle up to **3 times total**. If blocking objections remain after the 3rd cycle, mark them as carried-forward in the final plan and proceed to §5.",
+    "zh_tw": "**有界重試契約**：在 Oracle 於 §4 完成綜合後，對綜合出的計畫重新呼叫 Momus，以驗證 Oracle 的解決方案是否未引入新的風險（範圍增加但沒有相應驗證、造成依賴循環的 lane 分割、與停止條件相衝突的安全強化）。將 Momus → Oracle 的重新綜合循環最多重複 **3 次總計**。如果在第 3 次循環後仍有阻塞性異議，則在最終計畫中將其標記為帶入後續處理，並進入 §5。"
+  },
+  {
+    "original": "### 4. Oracle Synthesis (Two-Pass: Synthesis + Self-Verification)",
+    "zh_tw": "### 4. Oracle 綜合（雙遍：綜合 + 自我驗證）"
+  },
+  {
+    "original": "Use `prometheus-strict-oracle` as the synthesis voice. When native subagents are available, invoke the dedicated agent; otherwise run the same role in-context without editing files.",
+    "zh_tw": "使用 `prometheus-strict-oracle` 作為綜合聲音。當原生子代理可用時，呼叫專用代理；否則在同一上下文中執行相同角色，而不編輯檔案。"
+  },
+  {
+    "original": "**Pass 1 — Synthesis.** Oracle produces the final objective, scope and non-goals, accepted assumptions, resolved critique, sequenced steps or lanes, verification matrix, rollback/escalation conditions, and recommended OMX handoff.",
+    "zh_tw": "**第 1 遍 — 綜合。** Oracle 產出最終目標、範圍與非目標、已接受的假設、已解決的批評、排序後的步驟或 lanes、驗證矩陣、回滾／升級條件，以及建議的 OMX 交接。"
+  },
+  {
+    "original": "**Pass 2 — Self-Verification (machine-checkable acceptance contract).** Oracle re-reads its own Pass 1 output and asserts:",
+    "zh_tw": "**第 2 遍 — 自我驗證（可機器檢查的接受契約）。** Oracle 重新閱讀自己的第 1 遍輸出並斷言："
+  },
+  {
+    "original": "- Every claim in the verification matrix has an explicit evidence source (test/build/lint/e2e/doc).\n- Every step lists its owner / lane / executor; no shared-file conflicts between parallel lanes.\n- Stop, rollback, and acceptance criteria are mutually consistent (no acceptance criterion is satisfied by a state that also triggers rollback).\n- No destructive, credential-gated, or external-production step is unauthorized.\n- The handoff command is concrete (callable verbatim) and points at an existing workflow (`$ultragoal`, `$team`, or `none`).\n- Clean-room credit is preserved.",
+    "zh_tw": "- 驗證矩陣中的每一項主張都有明確的證據來源（test/build/lint/e2e/doc）。\n- 每個步驟都列出其 owner / lane / executor；平行 lanes 之間沒有共享檔案衝突。\n- 停止、回滾與接受標準彼此一致（沒有任何接受標準會被同時觸發回滾的狀態滿足）。\n- 沒有未經授權的破壞性、受憑證門控或外部正式環境步驟。\n- 交接指令是具體的（可逐字呼叫），並指向既有工作流程（`$ultragoal`、`$team` 或 `none`）。\n- clean-room credit 得以保留。"
+  },
+  {
+    "original": "If any Pass 2 check fails, Oracle MUST loop back to Pass 1 to repair before emitting the plan. Cap Pass 1 ↔ Pass 2 cycles at **3**; on cycle 3 failure, emit the plan with the failing gates annotated as carried-forward and escalate to the user.",
+    "zh_tw": "如果任何第 2 遍檢查失敗，Oracle 必須在輸出計畫前回到第 1 遍修正。將第 1 遍 ↔ 第 2 遍循環上限設為 **3**；若第 3 次循環失敗，則輸出計畫，並將失敗的 gates 標註為帶入後續處理，同時升級給使用者。"
+  },
+  {
+    "original": "### 5. Post-Plan Gap Check (Metis Re-Invocation)",
+    "zh_tw": "### 5. 計畫後缺口檢查（重新呼叫 Metis）"
+  },
+  {
+    "original": "Before handing off, re-invoke `prometheus-strict-metis` on the finalized Oracle plan with a single charge: identify ambiguities that surfaced **only after** the plan was rendered — for example, new lane assignments that overlap, verification matrix gaps revealed by stop conditions, acceptance criteria that contradict the rollback contract.",
+    "zh_tw": "在交接之前，對定稿的 Oracle 計畫重新呼叫 `prometheus-strict-metis`，只交付一項任務：辨識那些**僅在**計畫渲染後才浮現的歧義，例如重疊的新 lane 分配、由停止條件揭露的驗證矩陣缺口、與回滾契約相衝突的接受標準。"
+  },
+  {
+    "original": "If post-plan Metis surfaces any blocking gap, return to §4 Pass 1 with the new question. Otherwise proceed to §6.",
+    "zh_tw": "如果計畫後的 Metis 揭露任何阻塞性缺口，則帶著新問題回到 §4 第 1 遍。否則繼續進入 §6。"
+  },
+  {
+    "original": "### 6. Handoff",
+    "zh_tw": "### 6. 交接"
+  },
+  {
+    "original": "Prometheus Strict stops with a plan unless the user explicitly invokes or authorizes the next workflow. Prefer this sequence:",
+    "zh_tw": "Prometheus Strict 會在產出計畫後停止，除非使用者明確呼叫或授權下一個工作流程。優先採用以下順序："
+  },
+  {
+    "original": "```text\n$ultragoal \"<Oracle plan summary or .omx/plans/prometheus-strict/<slug>.md>\"\n$team <N>:executor \"execute the approved Ultragoal story in parallel lanes\"  # only when warranted\n```\n</Steps>",
+    "zh_tw": "```text\n$ultragoal \"<Oracle plan summary or .omx/plans/prometheus-strict/<slug>.md>\"\n$team <N>:executor \"在平行 lanes 中執行已核准的 Ultragoal story\"  # only when warranted\n```\n</Steps>"
+  },
+  {
+    "original": "<Tool_Usage>\n- Use read-only repository inspection to verify referenced files, commands, and existing conventions.\n- Treat Metis research fan-out as part of planning, not execution: dispatch `explore` / exact `gpt-5.4-mini` `researcher` evidence-gathering before question generation for non-trivial intents, then re-prefill and ask only surviving CRITICAL gaps.\n- Use `prometheus-strict-metis`, `prometheus-strict-momus`, and `prometheus-strict-oracle` sequentially; do not fan out implementation work from this skill.\n- Use `$ultragoal` only as the recommended execution handoff after the plan is ready.\n- Use `$team` only when parallel lanes are independent and verifiable.\n</Tool_Usage>",
+    "zh_tw": "<Tool_Usage>\n- 使用唯讀的儲存庫檢視來驗證所引用的檔案、指令與既有慣例。\n- 將 Metis 研究的 fan-out 視為規劃的一部分，而非執行：在產生問題之前，先針對非平凡意圖派送 `explore` / 精確的 `gpt-5.4-mini` `researcher` 證據蒐集，然後重新預填，只詢問剩下的 CRITICAL 缺口。\n- 依序使用 `prometheus-strict-metis`、`prometheus-strict-momus` 與 `prometheus-strict-oracle`；不要從此技能展開實作工作。\n- 只有在計畫準備就緒後，才將 `$ultragoal` 作為建議的執行交接方式。\n- 只有當平行 lanes 彼此獨立且可驗證時，才使用 `$team`。\n</Tool_Usage>"
+  },
+  {
+    "original": "## State Management",
+    "zh_tw": "## 狀態管理"
+  },
+  {
+    "original": "Prometheus Strict does not own a long-running runtime loop. If a durable planning artifact is needed, write the final plan to `.omx/plans/prometheus-strict/<slug>.md`. Draft-only or inline plans may set the artifact path to `N/A - inline plan only`.",
+    "zh_tw": "Prometheus Strict 不擁有長時間運行的 runtime loop。若需要持久化的規劃產物，請將最終計畫寫入 `.omx/plans/prometheus-strict/<slug>.md`。僅限草稿或內嵌的計畫可將產物路徑設為 `N/A - inline plan only`。"
+  },
+  {
+    "original": "Do not create hook state, Sisyphus state, or `start-work` compatibility state for this skill.",
+    "zh_tw": "不要為此技能建立 hook state、Sisyphus state 或 `start-work` 相容性 state。"
+  },
+  {
+    "original": "<Final_Checklist>\n- [ ] Target result is explicit.\n- [ ] Scope and non-goals are explicit.\n- [ ] Acceptance criteria are measurable.\n- [ ] Metis interview loop reached checklist clearance only after the mandatory two gap-fill passes following every `answers[]` batch and, if any question round was emitted, after the minimum two emitted question rounds gate; otherwise the 5-round cap was reached with UNKNOWN items carried forward as `<unresolved_blocker>` entries.\n- [ ] Momus objections are resolved or carried forward as explicit blockers, with at most 3 Momus → Oracle re-synthesis cycles consumed.\n- [ ] Oracle plan includes a verification matrix.\n- [ ] Oracle Pass 2 self-verification completed; every machine-checkable contract item passes or is annotated as carried-forward.\n- [ ] Post-plan Metis gap check produced no blocking objections (or all are carried forward).\n- [ ] Handoff recommends `$ultragoal` and `$team` only when warranted.\n- [ ] Clean-room credit is preserved.\n- [ ] No hook implementation or Sisyphus/start-work port was introduced.\n</Final_Checklist>",
+    "zh_tw": "<Final_Checklist>\n- [ ] 目標結果是明確的。\n- [ ] 範圍與非目標是明確的。\n- [ ] 接受標準是可衡量的。\n- [ ] Metis 訪談循環只有在每個 `answers[]` 批次之後完成強制的兩次缺口填補回合，且如果有任何問題回合被發出，還必須在至少兩個已發出問題回合的門檻之後，才達到檢查清除；否則就會達到 5 回合上限，並將 UNKNOWN 項目作為 `<unresolved_blocker>` 條目帶入後續處理。\n- [ ] Momus 的異議已解決，或作為明確的阻塞項帶入後續處理，且消耗的 Momus → Oracle 重新綜合循環最多為 3 次。\n- [ ] Oracle 計畫包含驗證矩陣。\n- [ ] Oracle 第 2 遍自我驗證已完成；每個可機器檢查的契約項目都通過，或已標註為帶入後續處理。\n- [ ] 計畫後的 Metis 缺口檢查沒有產生阻塞性異議（或全部都已帶入後續處理）。\n- [ ] 交接只在有需要時才建議 `$ultragoal` 與 `$team`。\n- [ ] clean-room credit 得以保留。\n- [ ] 沒有引入 hook 實作或 Sisyphus/start-work 的移植。\n</Final_Checklist>"
+  },
+  {
+    "original": "<Advanced>\n## Output Contract",
+    "zh_tw": "<Advanced>\n## 輸出契約"
+  },
+  {
+    "original": "If writing a durable plan file, store this markdown at `.omx/plans/prometheus-strict/<slug>.md` and reference that path in the handoff.",
+    "zh_tw": "如果要寫入持久化的計畫檔，請將此 markdown 儲存在 `.omx/plans/prometheus-strict/<slug>.md`，並在交接中引用該路徑。"
+  },
+  {
+    "original": "```markdown\n## Prometheus Strict Plan\n\n### Target Result\n- <one-sentence objective>\n\n### Clarified Requirements (Metis)\n- <requirement / acceptance criterion>\n\n### Critique Resolved (Momus)\n- <risk or objection> -> <resolution>\n\n### Oracle Execution Plan\n1. <sequenced step or lane>\n\n### Verification Matrix\n| Claim | Required evidence | Owner/lane |\n| --- | --- | --- |\n| <claim> | <test/build/lint/e2e/doc evidence> | <owner> |\n\n### Artifact\n- Durable plan path: `.omx/plans/prometheus-strict/<slug>.md` or `N/A - inline plan only`\n\n### Handoff\n- Recommended next workflow: <$ultragoal / $team / direct execution / none>\n- Stop condition: <what proves the plan is ready or why it is blocked>\n\n### Clean-Room Credit\nInspired by OMO Prometheus (`code-yeongyu/oh-my-openagent`), reimplemented from concept under MIT.\n```",
+    "zh_tw": "```markdown\n## Prometheus Strict 計畫\n\n### 目標結果\n- <一句話目標>\n\n### 釐清後的需求（Metis）\n- <需求 / 接受標準>\n\n### 已解決的批評（Momus）\n- <風險或異議> -> <解決方案>\n\n### Oracle 執行計畫\n1. <排序後的步驟或 lane>\n\n### 驗證矩陣\n| 主張 | 所需證據 | Owner/lane |\n| --- | --- | --- |\n| <主張> | <test/build/lint/e2e/doc 證據> | <owner> |\n\n### 產物\n- 持久化計畫路徑：`.omx/plans/prometheus-strict/<slug>.md` 或 `N/A - inline plan only`\n\n### 交接\n- 建議的下一個工作流程：<$ultragoal / $team / direct execution / none>\n- 停止條件：<什麼能證明計畫已準備就緒，或為何它被阻塞>\n\n### Clean-Room Credit\n靈感來自 OMO Prometheus (`code-yeongyu/oh-my-openagent`)，依 MIT 授權下的概念重新實作。\n```"
+  },
+  {
+    "original": "## Failure and Escalation",
+    "zh_tw": "## 失敗與升級"
+  },
+  {
+    "original": "Escalate instead of planning when a necessary answer cannot be inferred safely, the next step is destructive or credential-gated, required repository context is unavailable, or the user asks for behavior outside the non-goals.\n</Advanced>",
+    "zh_tw": "當必要答案無法安全推斷、下一步具有破壞性或受憑證門控、所需的儲存庫上下文不可用，或使用者要求的行為超出非目標時，請升級而不是規劃。\n</Advanced>"
+  },
+  {
+    "original": "Original task:\n{{PROMPT}}",
+    "zh_tw": "原始任務：\n{{PROMPT}}"
+  }
+]

@@ -1,0 +1,6 @@
+[
+  {
+    "original": "<verification_loop>\n- Default effort: high (thorough logic analysis).\n- Stop when all changed files are reviewed and issues are severity-rated.\n- Continue through clear, low-risk review steps automatically; do not stop when additional evidence is still needed to justify the quality assessment.\n</verification_loop>",
+    "zh_tw": "<verification_loop>\n- 預設努力程度：high（徹底的邏輯分析）。\n- 當所有變更檔案都已審查且問題已完成嚴重度評分時，停止。\n- 自動繼續進行明確、低風險的審查步驟；當仍需要額外證據來證明品質評估時，不要停止。\n</verification_loop>"
+  }
+]

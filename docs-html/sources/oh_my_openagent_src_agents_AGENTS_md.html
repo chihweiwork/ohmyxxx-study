@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oh-my-openagent/src/agents/AGENTS.md</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+</head>
+<body>
+<main>
+<nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
+<h1 class="path">oh-my-openagent/src/agents/AGENTS.md</h1><p>被引用於：<code>01-architecture-map.md</code>、<code>02-project-guides.md</code>、<code>03-agent-skill-tool-map.md</code>、<code>05-study-plan.md</code></p><p><a href="../../oh-my-openagent/src/agents/AGENTS.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---
+name: agents-directory
+description: Developer reference for all 11 Oh My OpenAgent agent definitions, factory patterns, tool restrictions, and model routing.
+---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---
+name: agents-directory
+description: 供開發者參考的文件，涵蓋 11 個 Oh My OpenAgent agent 定義、工廠模式、工具限制與模型路由。
+---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code># src/agents/ — 11 Agent Definitions</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code># src/agents/ — 11 個 Agent 定義</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Generated:** 2026-05-15</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**生成時間：** 2026-05-15</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## OVERVIEW</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 概覽</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>11 built-in agents. Type enum: [`src/config/schema/agent-names.ts`](file:///Users/yeongyu/local-workspaces/omo/src/config/schema/agent-names.ts) `BuiltinAgentNameSchema`. 10 of them register via [`builtin-agents.ts`](file:///Users/yeongyu/local-workspaces/omo/src/agents/builtin-agents.ts) `agentSources` record (factory functions). **Prometheus is special-cased** — it has no `createPrometheusAgent` factory; instead [`prometheus-agent-config-builder.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin-handlers/prometheus-agent-config-builder.ts) constructs its config directly during `agent-config-handler` Phase 3.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>11 個內建 agent。型別 enum：[`src/config/schema/agent-names.ts`](file:///Users/yeongyu/local-workspaces/omo/src/config/schema/agent-names.ts) `BuiltinAgentNameSchema`。其中 10 個透過 [`builtin-agents.ts`](file:///Users/yeongyu/local-workspaces/omo/src/agents/builtin-agents.ts) 的 `agentSources` record（工廠函式）註冊。**Prometheus 為特殊處理** — 它沒有 `createPrometheusAgent` 工廠；相反地，[`prometheus-agent-config-builder.ts`](file:///Users/yeongyu/local-workspaces/omo/src/plugin-handlers/prometheus-agent-config-builder.ts) 會在 `agent-config-handler` 第 3 階段直接建構其設定。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>All factories follow `createXXXAgent(model) → AgentConfig`. Each carries a static `mode` property (`AgentFactory` type in [`src/agents/types.ts`](file:///Users/yeongyu/local-workspaces/omo/src/agents/types.ts)). Composed via `buildAgent()`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>所有工廠都遵循 `createXXXAgent(model) → AgentConfig`。每個工廠都帶有一個靜態 `mode` 屬性（[`src/agents/types.ts`](file:///Users/yeongyu/local-workspaces/omo/src/agents/types.ts) 中的 `AgentFactory` 型別）。透過 `buildAgent()` 組合。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## AGENT INVENTORY</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## Agent 清單</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Modes verified from each agent file's `const MODE: AgentMode = ...` and (for Prometheus) [`prometheus-agent-config-builder.ts:100`](file:///Users/yeongyu/local-workspaces/omo/src/plugin-handlers/prometheus-agent-config-builder.ts#L100). Chains verified from [`src/shared/model-requirements.ts`](file:///Users/yeongyu/local-workspaces/omo/src/shared/model-requirements.ts).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>模式已由各 agent 檔案中的 `const MODE: AgentMode = ...` 以及（針對 Prometheus）[`prometheus-agent-config-builder.ts:100`](file:///Users/yeongyu/local-workspaces/omo/src/plugin-handlers/prometheus-agent-config-builder.ts#L100) 驗證。鏈已由 [`src/shared/model-requirements.ts`](file:///Users/yeongyu/local-workspaces/omo/src/shared/model-requirements.ts) 驗證。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Agent | Default Model | Temp | Mode | Fallback (after default) | Purpose |
+|-------|---------------|------|------|--------------------------|---------|
+| **Sisyphus** | claude-opus-4-7 max | (model default) | primary | kimi-k2.6 → k2p5 → kimi-k2.5 → gpt-5.5 medium → glm-5 → big-pickle | Main orchestrator, plans + delegates; `thinking: { type: &quot;enabled&quot;, budgetTokens: 32000 }` |
+| **Hephaestus** | gpt-5.5 medium | (model default) | primary | (single-entry chain — `requiresProvider`: openai \| github-copilot \| venice \| opencode \| vercel) | Autonomous deep worker |
+| **Oracle** | gpt-5.5 high | 0.1 | subagent | gemini-3.1-pro high → claude-opus-4-7 max → glm-5.1 | Read-only consultation |
+| **Librarian** | gpt-5.4-mini-fast | 0.1 | subagent | qwen3.5-plus → minimax-m2.7-highspeed → minimax-m2.7 → claude-haiku-4-5 → gpt-5.4-nano | External docs/code search |
+| **Explore** | gpt-5.4-mini-fast | 0.1 | subagent | qwen3.5-plus → minimax-m2.7-highspeed → minimax-m2.7 → claude-haiku-4-5 → gpt-5.4-nano | Contextual grep |
+| **Multimodal-Looker** | gpt-5.5 medium | 0.1 | subagent | kimi-k2.6 → glm-4.6v → gpt-5-nano | PDF/image analysis |
+| **Metis** | claude-sonnet-4-6 | **0.3** | subagent | claude-opus-4-7 max → gpt-5.5 high → glm-5.1 → k2p5 | Pre-planning consultant |
+| **Momus** | gpt-5.5 xhigh | 0.1 | subagent | claude-opus-4-7 max → gemini-3.1-pro high → glm-5.1 | Plan reviewer |
+| **Atlas** | claude-sonnet-4-6 | 0.1 | primary | kimi-k2.6 → gpt-5.5 medium → minimax-m2.7 | Todo-list orchestrator |
+| **Prometheus** | claude-opus-4-7 max | (override-only) | primary | gpt-5.5 high → glm-5.1 → gemini-3.1-pro | Strategic planner (interview); built via `buildPrometheusAgentConfig` (not in `agentSources`) |
+| **Sisyphus-Junior** | claude-sonnet-4-6 | 0.1 (`SISYPHUS_JUNIOR_DEFAULTS`) | subagent | kimi-k2.6 → gpt-5.5 medium → minimax-m2.7 → big-pickle | Category-spawned executor |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| Agent | 預設模型 | Temp | 模式 | 後備（在預設之後） | 用途 |
+|-------|---------------|------|------|--------------------------|---------|
+| **Sisyphus** | claude-opus-4-7 max | (模型預設值) | primary | kimi-k2.6 → k2p5 → kimi-k2.5 → gpt-5.5 medium → glm-5 → big-pickle | 主要協調者，負責規劃與委派；`thinking: { type: &quot;enabled&quot;, budgetTokens: 32000 }` |
+| **Hephaestus** | gpt-5.5 medium | (模型預設值) | primary | （單一項目鏈 — `requiresProvider`: openai \| github-copilot \| venice \| opencode \| vercel） | 自主深度工作者 |
+| **Oracle** | gpt-5.5 high | 0.1 | subagent | gemini-3.1-pro high → claude-opus-4-7 max → glm-5.1 | 唯讀諮詢 |
+| **Librarian** | gpt-5.4-mini-fast | 0.1 | subagent | qwen3.5-plus → minimax-m2.7-highspeed → minimax-m2.7 → claude-haiku-4-5 → gpt-5.4-nano | 外部文件／程式碼搜尋 |
+| **Explore** | gpt-5.4-mini-fast | 0.1 | subagent | qwen3.5-plus → minimax-m2.7-highspeed → minimax-m2.7 → claude-haiku-4-5 → gpt-5.4-nano | 情境化 grep |
+| **Multimodal-Looker** | gpt-5.5 medium | 0.1 | subagent | kimi-k2.6 → glm-4.6v → gpt-5-nano | PDF／圖片分析 |
+| **Metis** | claude-sonnet-4-6 | **0.3** | subagent | claude-opus-4-7 max → gpt-5.5 high → glm-5.1 → k2p5 | 預先規劃顧問 |
+| **Momus** | gpt-5.5 xhigh | 0.1 | subagent | claude-opus-4-7 max → gemini-3.1-pro high → glm-5.1 | 規劃審閱者 |
+| **Atlas** | claude-sonnet-4-6 | 0.1 | primary | kimi-k2.6 → gpt-5.5 medium → minimax-m2.7 | 待辦清單協調者 |
+| **Prometheus** | claude-opus-4-7 max | (僅覆寫) | primary | gpt-5.5 high → glm-5.1 → gemini-3.1-pro | 策略規劃者（訪談）；透過 `buildPrometheusAgentConfig` 建構（不在 `agentSources` 中） |
+| **Sisyphus-Junior** | claude-sonnet-4-6 | 0.1 (`SISYPHUS_JUNIOR_DEFAULTS`) | subagent | kimi-k2.6 → gpt-5.5 medium → minimax-m2.7 → big-pickle | 類別派生的執行者 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## TOOL RESTRICTIONS</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 工具限制</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Defined in [`src/shared/agent-tool-restrictions.ts`](file:///Users/yeongyu/local-workspaces/omo/src/shared/agent-tool-restrictions.ts).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>定義於 [`src/shared/agent-tool-restrictions.ts`](file:///Users/yeongyu/local-workspaces/omo/src/shared/agent-tool-restrictions.ts)。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Agent | Denied Tools |
+|-------|-------------|
+| Oracle | write, edit, task, call_omo_agent |
+| Librarian | write, edit, task, call_omo_agent |
+| Explore | write, edit, task, call_omo_agent |
+| Multimodal-Looker | ALL except read |
+| Atlas | task, call_omo_agent |
+| Momus | write, edit, task |
+| Prometheus | enforces `.md`-only writes via `prometheus-md-only` hook (path-based, not tool-based) |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| Agent | 禁用工具 |
+|-------|-------------|
+| Oracle | write, edit, task, call_omo_agent |
+| Librarian | write, edit, task, call_omo_agent |
+| Explore | write, edit, task, call_omo_agent |
+| Multimodal-Looker | 除 read 之外的所有工具 |
+| Atlas | task, call_omo_agent |
+| Momus | write, edit, task |
+| Prometheus | 透過 `prometheus-md-only` hook 強制僅能寫入 `.md`（基於路徑，不是基於工具） |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## TEAM-MODE ELIGIBILITY</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## Team 模式資格</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Authoritative registry: [`AGENT_ELIGIBILITY_REGISTRY`](file:///Users/yeongyu/local-workspaces/omo/src/features/team-mode/types.ts) in `team-mode/types.ts`. Three verdict tiers:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>權威註冊表：`team-mode/types.ts` 中的 [`AGENT_ELIGIBILITY_REGISTRY`](file:///Users/yeongyu/local-workspaces/omo/src/features/team-mode/types.ts)。三種判定層級：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Verdict | Agents |
+|---------|--------|
+| `eligible` | sisyphus, atlas, sisyphus-junior |
+| `conditional` | hephaestus (lacks `teammate: &quot;allow&quot;` permission by default — see D-36 / `tool-config-handler.ts`; use `subagent_type: &quot;sisyphus&quot;` instead) |
+| `hard-reject` | oracle, librarian, explore, multimodal-looker, metis, momus, prometheus (each with a specific rejection message) |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 判定 | Agents |
+|---------|--------|
+| `eligible` | sisyphus, atlas, sisyphus-junior |
+| `conditional` | hephaestus（預設缺少 `teammate: &quot;allow&quot;` 權限 — 參見 D-36 / `tool-config-handler.ts`；請改用 `subagent_type: &quot;sisyphus&quot;`） |
+| `hard-reject` | oracle, librarian, explore, multimodal-looker, metis, momus, prometheus（各自都有特定的拒絕訊息） |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Read-only agents are rejected at TeamSpec parse time. For those, the lead delegates via `task` (delegate-task) instead. See [`team-mode/AGENTS.md`](file:///Users/yeongyu/local-workspaces/omo/src/features/team-mode/AGENTS.md).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>唯讀 agents 會在 TeamSpec 解析時被拒絕。對於這些 agents，主控會改用 `task`（delegate-task）進行委派。請參見 [`team-mode/AGENTS.md`](file:///Users/yeongyu/local-workspaces/omo/src/features/team-mode/AGENTS.md)。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## STRUCTURE</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 結構</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+agents/
+├── sisyphus.ts                                # Main orchestrator router
+├── sisyphus/                                  # Model-specific variant prompts
+│   ├── default.ts, gemini.ts, gpt-5-4.ts, gpt-5-5.ts
+├── hephaestus.ts                              # Routes to model variant
+├── hephaestus/                                # gpt.ts, gpt-5-3-codex.ts, gpt-5-4.ts, gpt-5-5.ts
+├── oracle.ts                                  # Read-only consultant
+├── librarian.ts                               # External search
+├── explore.ts                                 # Codebase grep
+├── multimodal-looker.ts                       # Vision/PDF
+├── metis.ts                                   # Pre-planning
+├── momus.ts                                   # Plan review
+├── atlas/agent.ts                             # Todo orchestrator
+├── prometheus/                                # Strategic planner thin loaders: system-prompt.ts, gemini.ts, gpt.ts; prompt content in packages/prompts-core/prompts/prometheus/
+├── types.ts                                   # BuiltinAgentName, AgentMode, AgentConfig
+├── builtin-agents.ts                          # agentSources registry (10 → 11 with sisyphus-junior)
+├── builtin-agents/                            # maybeCreateXXXConfig conditional factories + general-agents.ts + available-skills.ts
+├── agent-builder.ts                           # buildAgent() composition
+├── utils.ts                                   # agent utilities
+├── env-context.ts                             # environment context for prompts
+├── custom-agent-summaries.ts                  # custom-agent prompt summaries
+├── dynamic-agent-prompt-builder.ts            # dynamic prompt builder
+├── dynamic-agent-core-sections.ts             # core prompt sections
+├── dynamic-agent-policy-sections.ts           # policy sections
+├── dynamic-agent-tool-categorization.ts       # tool categorization for prompt
+└── dynamic-agent-category-skills-guide.ts     # category-skill guidance
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+agents/
+├── sisyphus.ts                                # 主協調器路由
+├── sisyphus/                                  # 模型特定變體提示詞
+│   ├── default.ts, gemini.ts, gpt-5-4.ts, gpt-5-5.ts
+├── hephaestus.ts                              # 路由至模型變體
+├── hephaestus/                                # gpt.ts, gpt-5-3-codex.ts, gpt-5-4.ts, gpt-5-5.ts
+├── oracle.ts                                  # 唯讀顧問
+├── librarian.ts                               # 外部搜尋
+├── explore.ts                                 # 程式碼庫搜尋
+├── multimodal-looker.ts                       # 視覺/PDF
+├── metis.ts                                   # 事前規劃
+├── momus.ts                                   # 計畫審查
+├── atlas/agent.ts                             # 待辦事項協調器
+├── prometheus/                                # 策略規劃器的薄載入器：system-prompt.ts、gemini.ts、gpt.ts；提示詞內容位於 packages/prompts-core/prompts/prometheus/
+├── types.ts                                   # BuiltinAgentName、AgentMode、AgentConfig
+├── builtin-agents.ts                          # agentSources 登錄表（隨 sisyphus-junior 從 10 → 11）
+├── builtin-agents/                            # maybeCreateXXXConfig 條件式工廠 + general-agents.ts + available-skills.ts
+├── agent-builder.ts                           # buildAgent() 組合
+├── utils.ts                                   # 代理工具函式
+├── env-context.ts                             # 提示詞的環境脈絡
+├── custom-agent-summaries.ts                  # 自訂代理提示詞摘要
+├── dynamic-agent-prompt-builder.ts            # 動態提示詞建構器
+├── dynamic-agent-core-sections.ts             # 核心提示詞區段
+├── dynamic-agent-policy-sections.ts           # 政策區段
+├── dynamic-agent-tool-categorization.ts       # 提示詞的工具分類
+└── dynamic-agent-category-skills-guide.ts     # 類別與技能指引
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## FACTORY PATTERN</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 工廠模式</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```typescript
+const createXXXAgent: AgentFactory = (model: string) =&gt; ({
+  instructions: &quot;...&quot;,
+  model,
+  temperature: 0.1,
+  // ...config
+})
+createXXXAgent.mode = &quot;subagent&quot; // or &quot;primary&quot; or &quot;all&quot;
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```typescript
+const createXXXAgent: AgentFactory = (model: string) =&gt; ({
+  instructions: &quot;...&quot;,
+  model,
+  temperature: 0.1,
+  // ...config
+})
+createXXXAgent.mode = &quot;subagent&quot; // 或 &quot;primary&quot; 或 &quot;all&quot;
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Model resolution: 4-step pipeline → override → category-default → provider-fallback → system-default. Defined in [`shared/model-resolution-pipeline.ts`](file:///Users/yeongyu/local-workspaces/omo/src/shared/model-resolution-pipeline.ts).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>模型解析：4 步驟管線 → override → category-default → provider-fallback → system-default。定義於 [`shared/model-resolution-pipeline.ts`](file:///Users/yeongyu/local-workspaces/omo/src/shared/model-resolution-pipeline.ts)。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## MODES</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 模式</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Definition (from [`src/agents/types.ts`](file:///Users/yeongyu/local-workspaces/omo/src/agents/types.ts)):</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>定義（來自 [`src/agents/types.ts`](file:///Users/yeongyu/local-workspaces/omo/src/agents/types.ts)）：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **`primary`** — respects user's UI-selected model. Used by: sisyphus, hephaestus, atlas, prometheus.
+- **`subagent`** — uses own fallback chain, ignores UI selection. Used by: oracle, librarian, explore, multimodal-looker, metis, momus, sisyphus-junior.
+- **`all`** — declared in the type for OpenCode compatibility but no built-in agent currently uses it.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **`primary`** — 尊重使用者在 UI 中選取的模型。用於：sisyphus、hephaestus、atlas、prometheus。
+- **`subagent`** — 使用自己的回退鏈，忽略 UI 選擇。用於：oracle、librarian、explore、multimodal-looker、metis、momus、sisyphus-junior。
+- **`all`** — 已在型別中宣告以相容 OpenCode，但目前沒有任何內建代理使用它。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## CANONICAL ORDER</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 標準順序</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>`Sisyphus → Hephaestus → Prometheus → Atlas` (primary core agents) then alphabetical for the rest. Enforced by [`installAgentSortShim()`](file:///Users/yeongyu/local-workspaces/omo/src/shared/agent-sort-shim.ts) — patches `Array.prototype.{toSorted,sort}` narrowly when ≥2 canonical core agents are in the array. See [`src/plugin-handlers/AGENTS.md`](file:///Users/yeongyu/local-workspaces/omo/src/plugin-handlers/AGENTS.md) for the full history.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>`Sisyphus → Hephaestus → Prometheus → Atlas`（主要核心代理）之後，其餘依字母順序排列。由 [`installAgentSortShim()`](file:///Users/yeongyu/local-workspaces/omo/src/shared/agent-sort-shim.ts) 強制執行，會在陣列中有 ≥2 個標準核心代理時，限定性地修補 `Array.prototype.{toSorted,sort}`。完整歷史請見 [`src/plugin-handlers/AGENTS.md`](file:///Users/yeongyu/local-workspaces/omo/src/plugin-handlers/AGENTS.md)。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## DYNAMIC PROMPT BUILDER</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 動態提示詞建構器</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>`dynamic-agent-prompt-builder.ts` composes per-agent system prompts at runtime by stitching:
+- Core sections (identity, mode, restrictions)
+- Policy sections (citation, verification, anti-patterns)
+- Tool categorization (per-domain tool guidance)
+- Category-skills guide (which skills load with which categories)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>`dynamic-agent-prompt-builder.ts` 會在執行期間透過拼接以下內容來組成每個代理的系統提示詞：
+- 核心區段（身分、模式、限制）
+- 政策區段（引用、驗證、反模式）
+- 工具分類（各領域的工具指引）
+- 類別與技能指引（各類別會載入哪些技能）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>This is what the Sisyphus prompt's &quot;AGENTS / CATEGORY + SKILLS&quot; tables come from.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>這就是 Sisyphus 提示詞中的 &quot;AGENTS / CATEGORY + SKILLS&quot; 表格的來源。</code></pre></div></section>
+</main>
+</body>
+</html>

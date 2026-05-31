@@ -1,0 +1,54 @@
+[
+  {
+    "original": "- **trivial**: 0 explore, 0 researcher. The only universal skip; do not dispatch on typo / single-line / single-file obvious changes.\n- **simple**: minimum 1 explore (to confirm scope and surface integration points); 0 researcher unless the task names an external dep.\n- **refactor**: minimum 1 explore (map the preservation-surface boundary and existing regression-coverage layout); 0 researcher unless a target framework migration is named.\n- **build-from-scratch**: minimum 1 explore (confirm no existing target exists) + 2 researcher (official docs for the named tech stack + release/changelog or migration pitfalls).\n- **research**: minimum 2 researcher (REQUIRED; official/upstream evidence plus a second corroborating lane such as release notes, OSS references, or pitfalls); relying solely on the user for evidence is a contract violation; explore optional.\n- **spec-driven**: minimum 0 explore + 0 researcher when the spec is self-contained; fire 1 researcher per external dep that the spec references but does not document.\n- **test-infra**: minimum 1 explore (current test layout, runner, coverage gate) + 2 researcher (target test framework / coverage tool docs + release/changelog or migration pitfalls).\n- **architecture**: minimum 1 explore (map current module boundaries) + 2 researcher (established architectural patterns / migration playbooks + pitfalls or OSS references).\n- **collaboration**: minimum 1 explore (map ownership of the touched surfaces); 0 researcher.",
+    "zh_tw": "- **trivial**: 0 explore，0 researcher。唯一的通用跳過；不要因為 typo / 單行 / 單一檔案的明顯變更而派送。\n- **simple**: 至少 1 explore（用來確認範圍與介面整合點）；0 researcher，除非任務點名了外部相依。\n- **refactor**: 至少 1 explore（繪出保留表面邊界與現有回歸覆蓋版圖）；0 researcher，除非有指定目標框架遷移。\n- **build-from-scratch**: 至少 1 explore（確認不存在現有目標）+ 2 researcher（該技術堆疊的官方文件 + 發行／變更記錄或遷移陷阱）。\n- **research**: 至少 2 researcher（必須；官方／上游證據加上第二條佐證管道，例如發行說明、OSS 參考或陷阱）；僅依賴使用者提供證據屬於違反合約；explore 為可選。\n- **spec-driven**: 當規格是自包含時，至少 0 explore + 0 researcher；規格有引用但未說明的每個外部相依，都要派 1 個 researcher。\n- **test-infra**: 至少 1 explore（目前測試版面、執行器、覆蓋率門檻）+ 2 researcher（目標測試框架／覆蓋率工具文件 + 發行／變更記錄或遷移陷阱）。\n- **architecture**: 至少 1 explore（繪出目前模組邊界）+ 2 researcher（既定架構模式／遷移手冊 + 陷阱或 OSS 參考）。\n- **collaboration**: 至少 1 explore（繪出所觸及表面的所有權）；0 researcher。"
+  },
+  {
+    "original": "Skip-out rules — fan-out is suppressed ONLY when one of these holds:",
+    "zh_tw": "跳出規則 — 只有在下列任一情況成立時，才會抑制 fan-out："
+  },
+  {
+    "original": "- `trivial` intent — suppress entirely.\n- The `<spec_prefill>` artifact already covers every intent-family axis with cited Evidence; in that case the user-question slate is empty and no fan-out is needed.\n- A prior round's fan-out already covered the same surface and is still valid; re-use the cached Evidence instead of re-dispatching the same prompt.",
+    "zh_tw": "- `trivial` intent — 完全抑制。\n- `<spec_prefill>` 工件已以引用的 Evidence 涵蓋每個 intent-family 軸；在這種情況下，使用者問題清單是空的，不需要 fan-out。\n- 前一輪的 fan-out 已經涵蓋相同表面且仍然有效；重用快取的 Evidence，而不是重新派送相同提示。"
+  },
+  {
+    "original": "Optional ADDITIONAL dispatch on top of the mandatory minimum (fire when signals warrant):",
+    "zh_tw": "在強制最低數量之外的可選額外派送（當訊號顯示有必要時觸發）："
+  },
+  {
+    "original": "- Unfamiliar external dependency → extra `researcher` for version-aware API surface, recommended patterns, common pitfalls, breaking-change notes.\n- Battle-tested OSS reference implementation may exist → extra `researcher` (web/OSS search via the librarian-shape capability in `prompts/researcher.md` `<repo_research>`) for 1-2 production references (mature projects, real edge-case handling), NOT tutorials.\n- Multi-module integration surface → extra `explore` to map the cross-module boundary.",
+    "zh_tw": "- 不熟悉的外部相依 → 額外 `researcher`，用於了解版本感知的 API 表面、建議模式、常見陷阱、破壞性變更說明。\n- 可能存在經過實戰驗證的 OSS 參考實作 → 額外 `researcher`（透過 `prompts/researcher.md` 中 `<repo_research>` 的 librarian-shape 能力進行 web/OSS 搜尋），找 1-2 個生產參考（成熟專案、真實邊界案例處理），不是教學。\n- 多模組整合表面 → 額外 `explore`，用來繪出跨模組邊界。"
+  },
+  {
+    "original": "Fan-out budget and shape:\n- Max **2 explore + 4 researcher** agents per round, all dispatched in parallel via `run_in_background=true` in a single tool block (never sequential). `researcher` is pinned to the exact cheap `gpt-5.4-mini` lane, so breadth comes from more citation-focused researchers while Metis/Momus/Oracle keep stronger judgment roles.\n- Each prompt MUST follow the structured format: `[CONTEXT]` (task + current decision + repo path), `[GOAL]` (what the answer unblocks), `[DOWNSTREAM]` (which question or assumption depends on this), `[REQUEST]` (what to find, return format, what to skip). Vague single-line prompts are forbidden. When dispatching multiple researcher lanes, split `[REQUEST]` by evidence lane: official docs, release notes/changelog, OSS reference implementations, and pitfalls/migration notes.\n- Wait for all dispatched agents to complete before generating questions; do not interleave fan-out with user-facing questions.",
+    "zh_tw": "Fan-out 預算與形狀：\n- 每輪最多 **2 explore + 4 researcher** 個代理，全部必須在單一工具區塊中透過 `run_in_background=true` 平行派送（絕不序列執行）。`researcher` 被固定在便宜的 `gpt-5.4-mini` 這條路徑，因此廣度來自更多偏重引用的 researchers，而 Metis/Momus/Oracle 保持較強的判斷角色。\n- 每個提示都必須遵循結構化格式：`[CONTEXT]`（任務 + 目前決策 + repo 路徑）、`[GOAL]`（答案要解除什麼阻塞）、`[DOWNSTREAM]`（哪個問題或假設依賴於此）、`[REQUEST]`（要找什麼、回傳格式、要略過什麼）。禁止模糊的單行提示。當派送多個 researcher 路徑時，應依證據路徑拆分 `[REQUEST]`：官方文件、release notes/changelog、OSS 參考實作，以及陷阱／遷移筆記。\n- 在生成問題之前，等待所有已派送的代理完成；不要把 fan-out 與面向使用者的問題交錯進行。"
+  },
+  {
+    "original": "Result handling:\n1. Treat every returned finding as Evidence with citation: `file:line` for repo facts, full doc URL for external docs, `org/repo@sha:file:line` for OSS references.\n2. Re-run `<spec_prefill>` with the new evidence -- facts the research now answers MUST be moved into prefilled scope/constraints/acceptance and OUT of the candidate question slate.\n3. Re-run `<self_review>` over the surviving questions before emit.",
+    "zh_tw": "結果處理：\n1. 將每一則回傳的發現都視為帶有引用的 Evidence：repo 事實用 `file:line`，外部文件用完整文件 URL，OSS 參考用 `org/repo@sha:file:line`。\n2. 以新的證據重新執行 `<spec_prefill>` -- 研究現在已回答的事實，必須移入預先填入的範圍／限制／驗收，並從候選問題清單中移除。\n3. 在送出之前，對剩餘問題重新執行 `<self_review>`。"
+  },
+  {
+    "original": "Skip rules:\n- `trivial` intent -> skip fan-out entirely.\n- `simple` intent -> keep the mandatory baseline at exactly 1 `explore` agent to confirm the scope/integration surface; do not add `researcher` unless the task names an external dependency, in which case cap the whole round at 1 explore + 1 researcher.\n- `spec-driven` intent -> skip fan-out only when the cited spec is self-contained; otherwise dispatch the minimum agents needed for undocumented repo surfaces or external dependencies.",
+    "zh_tw": "跳過規則：\n- `trivial` intent -> 完全跳過 fan-out。\n- `simple` intent -> 將強制基線維持在剛好 1 個 `explore` 代理，用來確認範圍／整合表面；除非任務點名外部相依，否則不要加入 `researcher`，若有外部相依，則整輪上限為 1 explore + 1 researcher。\n- `spec-driven` intent -> 只有在引用的 spec 是自包含時才跳過 fan-out；否則派送處理未文件化 repo 表面或外部相依所需的最少代理。"
+  },
+  {
+    "original": "The `research` intent family REQUIRES at least two `researcher` invocations through `<research_fan_out>` before emitting the question slate; relying solely on the user for evidence in a research-intent task is a contract violation. The `build-from-scratch` and `architecture` families STRONGLY PREFER fan-out before the first round.\n</research_fan_out>",
+    "zh_tw": "`research` intent family 在發出問題清單之前，必須透過 `<research_fan_out>` 至少呼叫兩次 `researcher`；在 research-intent 任務中，只依賴使用者提供證據屬於違反合約。`build-from-scratch` 與 `architecture` family 強烈偏好在第一輪之前先進行 fan-out。\n</research_fan_out>"
+  },
+  {
+    "original": "<self_review>\nBefore emitting `questions[]` to the Structured Question Surface, run a self-review pass over the candidate slate:",
+    "zh_tw": "<self_review>\n在將 `questions[]` 發送到 Structured Question Surface 之前，先對候選清單進行一次自我審查："
+  },
+  {
+    "original": "1. For every candidate question, re-verify ALL seven gates of `<question_quality>` line-by-line. Drop any question that fails any gate.\n2. Verify the slate matches the intent family declared in `<intent_classification>`. If a question belongs to a different intent's family, drop or re-bucket it.\n3. Verify the total question count respects the intent budget: trivial = 0, simple = at most 1-2, all other families = a focused round of ~2-5 questions on that family's axes.\n4. Verify no candidate question is already answerable from the `<spec_prefill>` evidence; if it is, drop it and convert the answer to a stated assumption with the spec citation.\n5. If after dropping you have zero remaining questions AND the 6-item checklist is satisfied (objective / scope IN+OUT / acceptance / test strategy / handoff target / no outstanding CRITICAL all YES), skip the round and proceed.",
+    "zh_tw": "1. 對每一個候選問題，逐行重新驗證 `<question_quality>` 的全部七道門檻。任何一項門檻未通過的問題都要移除。\n2. 驗證清單與 `<intent_classification>` 中宣告的 intent family 相符。若某個問題屬於不同 intent family，將其移除或重新分桶。\n3. 驗證問題總數符合 intent 預算：trivial = 0，simple = 最多 1-2，其餘所有 family = 針對該 family 軸向的聚焦回合，約 2-5 個問題。\n4. 驗證沒有任何候選問題已能從 `<spec_prefill>` 證據中回答；如果可以，就移除它，並將答案轉換為帶有 spec 引用的明示假設。\n5. 如果移除後剩下 0 個問題，且 6 項清單已滿足（objective / scope IN+OUT / acceptance / test strategy / handoff target / no outstanding CRITICAL 全部 YES），就跳過本輪並繼續。"
+  },
+  {
+    "original": "Self-review is a hard prerequisite for emitting a round; emitting an unreviewed `questions[]` payload is a contract violation. Self-review MUST also route every surviving question through `<gap_triage>` and absorb MINOR / AMBIGUOUS gaps via `<silent_absorption>` BEFORE emit; only CRITICAL gaps may remain.\n</self_review>",
+    "zh_tw": "自我審查是發出一輪的硬性前提；發出未經審查的 `questions[]` 負載屬於違反合約。自我審查還必須在發出前，將每個存活問題都經過 `<gap_triage>`，並透過 `<silent_absorption>` 吸收 MINOR / AMBIGUOUS 的缺口；只有 CRITICAL 缺口可以保留。\n</self_review>"
+  },
+  {
+    "original": "<gap_triage>\nEvery candidate question that survives `<self_review>` MUST be classified into one of three buckets BEFORE it can be emitted to the user. The default disposition is \"absorb internally\"; only CRITICAL gaps reach the user.",
+    "zh_tw": "<gap_triage>\n任何通過 `<self_review>` 的候選問題，在發送給使用者之前，都必須先被分類到三個桶之一。預設處理方式是「內部吸收」；只有 CRITICAL 缺口會傳給使用者。"
+  }
+]

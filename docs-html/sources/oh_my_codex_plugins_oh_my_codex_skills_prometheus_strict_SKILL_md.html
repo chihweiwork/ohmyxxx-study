@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oh-my-codex/plugins/oh-my-codex/skills/prometheus-strict/SKILL.md</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+</head>
+<body>
+<main>
+<nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
+<h1 class="path">oh-my-codex/plugins/oh-my-codex/skills/prometheus-strict/SKILL.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-codex/plugins/oh-my-codex/skills/prometheus-strict/SKILL.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---
+name: prometheus-strict
+description: &quot;[OMX] Clean-room interview-driven planner: Metis clarifies, Momus challenges, Oracle synthesizes, then hands off to $ultragoal/$team.&quot;
+argument-hint: &quot;&lt;goal or problem statement&gt;&quot;
+---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---
+name: prometheus-strict
+description: &quot;[OMX] 乾淨室式、以訪談驅動的規劃器：Metis 釐清需求，Momus 挑戰假設，Oracle 綜合整理，然後交接給 $ultragoal/$team。&quot;
+argument-hint: &quot;&lt;目標或問題陳述&gt;&quot;
+---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code># Prometheus Strict</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code># Prometheus 嚴格版</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Clean-room OMX planning workflow inspired by the high-level OMO Prometheus concept only. This skill does not copy implementation, prompts, wording, control flow, or runtime code from OMO. It reimplements the idea under this repository's MIT-licensed skill conventions.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>僅受高層級 OMO Prometheus 概念啟發的乾淨室 OMX 規劃工作流程。此技能不會從 OMO 複製實作、提示詞、措辭、控制流程或執行階段程式碼。它依照本儲存庫的 MIT 授權技能慣例重新實作這個概念。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Credit: Inspired by OMO Prometheus (`code-yeongyu/oh-my-openagent`), reimplemented from concept under MIT.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>致謝：受 OMO Prometheus（`code-yeongyu/oh-my-openagent`）啟發，依 MIT 授權下的概念重新實作。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Purpose&gt;
+Prometheus Strict creates a rigorous plan before execution when ambiguity is still risky. It separates three planning voices: Metis clarifies requirements, Momus challenges assumptions and validation gaps, and Oracle synthesizes the handoff-ready OMX-native plan.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Purpose&gt;
+Prometheus Strict 會在執行前於仍具風險的模糊情況下建立一份嚴謹的計畫。它將三種規劃聲音分開：Metis 釐清需求，Momus 挑戰假設與驗證缺口，而 Oracle 則綜合出可交接的、原生於 OMX 的計畫。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>The output is a planning-only artifact for `$ultragoal` and, when independent lanes are justified, `$team`. When a durable artifact is useful, store or request the final plan under `.omx/plans/prometheus-strict/`.
+&lt;/Purpose&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>輸出是一個僅供規劃的產物，供 `$ultragoal` 使用，且在有正當理由需要獨立分工時也可供 `$team` 使用。當需要持久化產物時，請將最終計畫儲存於 `.omx/plans/prometheus-strict/` 下或請求將其儲存於該處。
+&lt;/Purpose&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Use_When&gt;
+- The task is important enough that a shallow plan could produce wrong work.
+- Requirements are partially known but acceptance criteria, boundaries, risks, or validation are incomplete.
+- The user wants a strict interview before execution.
+- A future `$ultragoal` story needs durable scope, tests, and handoff sequencing.
+- A team split may be needed, but the lanes are not yet safe to assign.
+&lt;/Use_When&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Use_When&gt;
+- 這項任務重要到足以讓淺層計畫導致錯誤工作。
+- 需求只知道一部分，但驗收標準、邊界、風險或驗證方式尚未完整。
+- 使用者希望在執行前先進行嚴格訪談。
+- 未來的 `$ultragoal` 故事需要持久化的範圍、測試與交接順序。
+- 可能需要團隊拆分，但目前各分工還不足以安全指派。
+&lt;/Use_When&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Do_Not_Use_When&gt;
+- The user asks for immediate implementation of a clear, low-risk change; use the normal executor path.
+- The task is only a repository lookup or explanation; use `explore`/`analyze` as appropriate.
+- The user needs adversarial execution QA after code changes; use `$ultraqa`.
+- The user wants hook behavior, Sisyphus behavior, or a `start-work` port. Those are explicit non-goals.
+&lt;/Do_Not_Use_When&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Do_Not_Use_When&gt;
+- 使用者要求立即實作一個清楚且低風險的變更；請使用一般執行路徑。
+- 任務只是查詢或說明儲存庫；請視情況使用 `explore`/`analyze`。
+- 使用者在程式碼變更後需要對抗式執行 QA；請使用 `$ultraqa`。
+- 使用者想要 hook 行為、Sisyphus 行為，或 `start-work` 移植。這些都是明確的非目標。
+&lt;/Do_Not_Use_When&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Why_This_Exists&gt;
+OMX already has `$plan`, `$ralplan`, and `$deep-interview`. Prometheus Strict exists for a narrower case: an explicit clean-room strict-planning lane with named clarification, critique, and synthesis roles, plus a durable `.omx/plans/prometheus-strict/` handoff contract. It is not a replacement for execution workflows.
+&lt;/Why_This_Exists&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Why_This_Exists&gt;
+OMX 已經有 `$plan`、`$ralplan` 和 `$deep-interview`。Prometheus Strict 的存在是為了更窄的情境：一條明確的乾淨室嚴格規劃路徑，具有命名清楚的釐清、批判與綜合角色，並附帶一份持久化的 `.omx/plans/prometheus-strict/` 交接契約。它不是執行工作流程的替代品。
+&lt;/Why_This_Exists&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Execution_Policy&gt;
+- Stay planning-only. Do not edit source code during this skill unless the user starts a separate execution workflow afterward.
+- Preserve clean-room boundaries. Do not copy or imitate OMO wording, source, prompts, runtime behavior, or control flow.
+- Keep non-goals visible: No hook implementation. No Sisyphus/start-work port. No automatic external-production actions.
+- Ask high-leverage questions as a batched round when the answers materially change scope, safety, or validation. Reserve one-at-a-time questioning only for dependent question chains where the next question depends on the previous answer.
+- If a safe assumption is available, state it and continue.
+- Use repository reads when needed to make paths, tests, and handoff commands concrete.
+- During Metis planning, run pre-question research fan-out for every non-trivial intent unless the task is trivial, the cited spec is self-contained, or cached evidence already covers the same surface; use `explore` for repo facts and the exact cheap `gpt-5.4-mini` `researcher` lane for external docs / OSS references before asking the user. Prometheus Strict may fan out up to `2 explore + 4 researcher` agents per round so breadth comes from more citation-focused mini researchers while Metis/Momus/Oracle keep stronger judgment roles.
+- Recommend `$team` only when Oracle identifies independent, bounded, verifiable lanes.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Execution_Policy&gt;
+- 保持僅限規劃。除非使用者之後另行啟動獨立的執行工作流程，否則在此技能期間不要編輯原始碼。
+- 保持乾淨室邊界。不要複製或模仿 OMO 的措辭、原始碼、提示詞、執行期行為或控制流程。
+- 讓非目標保持可見：不要實作 hook。不要移植 Sisyphus/start-work。不要自動進行外部生產環境操作。
+- 當答案會實質改變範圍、安全性或驗證方式時，將高影響問題批次提出。只有在相依問題鏈中，下一個問題取決於前一個答案時，才保留一次一問。
+- 如果有安全的假設可用，就先說明並繼續。
+- 需要時使用儲存庫讀取，以便讓路徑、測試與交接命令具體化。
+- 在 Metis 規劃期間，除非任務很簡單、所引用的規格是自洽的，或快取證據已涵蓋相同範圍，否則對每個非平凡意圖都要先進行提問前的研究分流；在詢問使用者前，使用 `explore` 取得儲存庫事實，並使用精確且便宜的 `gpt-5.4-mini` `researcher` 路徑查詢外部文件 / OSS 參考。Prometheus Strict 每輪最多可分流 `2 explore + 4 researcher` 個代理，讓廣度來自更偏重引文的 mini researcher，而 Metis/Momus/Oracle 則保留更強的判斷角色。
+- 只有在 Oracle 識別出獨立、範圍明確、可驗證的分工時，才建議使用 `$team`。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Structured Question Surface</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 結構化提問介面</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Every Metis/Momus/Oracle question to the user MUST go through the surface-appropriate structured question path. Plain prose questioning is the last fallback, not the default.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>對使用者的每一個 Metis/Momus/Oracle 問題都 MUST 經由適合該介面的結構化提問路徑。一般散文式提問是最後的備援，不是預設做法。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- In attached-tmux OMX runtime, use `omx question` as the OMX-owned structured question surface (this is the `AskUserQuestion` equivalent for Prometheus Strict). From attached-tmux Bash/tool paths, prefix the command with `OMX_QUESTION_RETURN_PANE=$TMUX_PANE` (or a concrete `%pane` value) so the leader-pane return target is preserved.
+- **Batch independent high-leverage questions into a single `questions[]` array call**: scope, constraints, non-goals, deliverables, safety bounds, and acceptance criteria are normally independent and MUST be batched into one structured form so the user answers them in a single panel. Reserve one-at-a-time only for dependent question chains where the next question depends on the previous answer.
+- Wait for the `omx question` JSON answer before checking the clearance rule, asking another round, or handing off; prefer `answers[]` / `answers[i].answer`, and use the legacy top-level `answer` only as a compatibility fallback. After every `answers[]` batch, run at least **two gap-fill passes** before another question or handoff: Pass 1 assimilates user answers into the checklist; Pass 2 re-scans repo context, prior turns, research fan-out evidence, and conservative defaults to absorb non-CRITICAL residual gaps.
+- Minimum two emitted question rounds: when Metis emits any user-facing question round, do not hand off after Round 1 unless hostility/`&lt;turn_aborted&gt;` or the round-5 cap forces exit; handoff is allowed only after Round 2 has been emitted and processed. Zero-question complete-checklist handoff remains valid when no questions were emitted.
+- Between-round planning must actively use evidence: after Round 1 answers and the two gap-fill passes, refresh or reuse `&lt;research_fan_out&gt;` explore/researcher evidence, re-run spec prefill, and build Round 2 from residual CRITICAL gaps only.
+- Outside tmux, use the native structured input tool when one is available.
+- When neither structured surface can render (non-tmux Codex CLI, piped runs, CI), list the round's independent questions as a numbered prose block (`Q1: ... Q2: ... Q3: ...`) and wait for all answers in one user turn; do not split into separate round-trips.
+- Multiple interview rounds ARE expected when clearance is not yet reached; each round is one batched form (or its prose fallback), never split across forms.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 在附加的 tmux OMX 執行環境中，使用 `omx question` 作為 OMX 擁有的結構化提問介面（這相當於 Prometheus Strict 的 `AskUserQuestion` 對應物）。從附加的 tmux Bash／工具路徑執行時，請在命令前加上 `OMX_QUESTION_RETURN_PANE=$TMUX_PANE`（或具體的 `%pane` 值），以保留 leader pane 的返回目標。
+- **將彼此獨立且高影響的問題批次放入單一 `questions[]` 陣列呼叫中**：範圍、限制、非目標、交付物、安全邊界與驗收標準通常彼此獨立，且 MUST 批次成一個結構化表單，讓使用者在同一個面板中一次回答。只有在相依問題鏈中，下一個問題依賴前一個答案時，才保留一次一問。
+- 在檢查 clearance 規則、提出下一輪問題或交接之前，必須等待 `omx question` 的 JSON 答案；優先使用 `answers[]` / `answers[i].answer`，只有在相容性需求下才使用舊式頂層 `answer` 作為備援。每完成一批 `answers[]` 後，在提出下一個問題或交接之前至少執行 **兩次補缺輪次**：第 1 輪將使用者答案納入檢查清單；第 2 輪重新掃描儲存庫上下文、前面回合、研究分流證據與保守預設，以吸收非 CRITICAL 的殘餘缺口。
+- 至少要有兩輪發出的提問：當 Metis 發出任何面向使用者的提問輪次時，除非因敵意／`&lt;turn_aborted&gt;` 或第 5 輪上限迫使結束，否則不能在第 1 輪後交接；只有在第 2 輪已發出並處理後才允許交接。若未發出任何問題，則零問題的完整檢查清單交接仍然有效。
+- 輪與輪之間的規劃必須主動使用證據：在第 1 輪答案與兩次補缺輪次之後，刷新或重用 `&lt;research_fan_out&gt;` 的 `explore`／`researcher` 證據，重新執行規格預填，並且只根據殘餘的 CRITICAL 缺口建立第 2 輪。
+- 在 tmux 之外，若有可用的原生結構化輸入工具就使用它。
+- 當兩種結構化介面都無法呈現時（非 tmux 的 Codex CLI、管線輸入、CI），請將該輪的獨立問題列成編號散文區塊（`Q1: ... Q2: ... Q3: ...`），並在同一個使用者回合中等待全部答案；不要拆成多次往返。
+- 當 clearance 尚未達成時，預期會有多輪訪談；每一輪都是一個批次表單（或其散文備援），絕不能拆成多個表單。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Checklist Clearance</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 檢查清單 clearance</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>The interview is governed by deterministic checklist clearance, not by subjective &quot;feels enough&quot; judgement. Exit the Metis interview loop when the 6-item checklist is fully YES: objective / scope IN+OUT / acceptance / test strategy / handoff target / no outstanding CRITICAL. Each item is evaluated with the tri-state defined in `&lt;Turn_Termination_Rules&gt;`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>這場訪談由可決定性的檢查清單通過機制所約束，而不是由主觀的「感覺差不多了」判斷。當 6 項檢查清單全部為 YES 時，退出 Metis 訪談迴圈：objective / scope IN+OUT / acceptance / test strategy / handoff target / no outstanding CRITICAL。每一項都依照 `&lt;Turn_Termination_Rules&gt;` 中定義的三態進行評估。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Cap interview rounds at **5** to prevent runaway. If checklist clearance is not reached by round 5, hand the remaining UNKNOWN items to Oracle as explicitly carried-forward `&lt;unresolved_blocker&gt;` entries.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>將訪談輪次上限設為 **5**，以防止失控。如果到第 5 輪仍未達到檢查清單通過，則將剩餘的 UNKNOWN 項目以明確延續的 `&lt;unresolved_blocker&gt;` 條目交給 Oracle。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Hostility / non-answer exit**: if the user's responses for a round contain refusal signals (1-2 character non-answers, dismissive `알아서` / &quot;you decide&quot; / &quot;whatever&quot; patterns, profanity-laden responses, or a `&lt;turn_aborted&gt;` on the prior turn), the round invalidates the answers — it does NOT advance any checklist item to YES, exits the interview loop immediately, and routes the unresolved gaps either to `&lt;silent_absorption&gt;` (for dismissive delegation) or back to the user via `hostility_exit` (for anger / aborted turns). See `prometheus-strict-metis` `&lt;hostility_detection&gt;` for the full pattern list and routing rules.
+&lt;/Execution_Policy&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**敵意 / 不作答退出**：如果使用者在某一輪的回應包含拒答訊號（1 到 2 個字元的不作答、輕蔑的 `알아서` / &quot;you decide&quot; / &quot;whatever&quot; 模式、帶有髒話的回應，或前一輪出現 `&lt;turn_aborted&gt;`），則該輪會使答案失效——它不會將任何檢查清單項目推進為 YES，會立即退出訪談迴圈，並將未解決的缺口導向 `&lt;silent_absorption&gt;`（用於輕蔑式委派）或透過 `hostility_exit` 返回給使用者（用於憤怒 / 中止的輪次）。完整模式清單與路由規則請參見 `prometheus-strict-metis` 的 `&lt;hostility_detection&gt;`。
+&lt;/Execution_Policy&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Turn_Termination_Rules&gt;
+Every Prometheus Strict turn ends with EXACTLY ONE of the following terminations. Bare summaries and &quot;I think we're done&quot; are forbidden.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Turn_Termination_Rules&gt;
+每個 Prometheus Strict 輪次都必須且僅能以以下其中一種終止方式結束。禁止只給摘要或說「I think we're done」。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>The 6-item checklist is: objective / scope IN+OUT / acceptance / test strategy / handoff target / no outstanding CRITICAL. A checklist item is YES when it is USER_ANSWERED ∪ ABSORBED_WITH_CITATION ∪ INFERRED_FROM_SPEC. Only UNKNOWN (no answer, no citation, no spec inference) counts as NO.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>6 項檢查清單為：objective / scope IN+OUT / acceptance / test strategy / handoff target / no outstanding CRITICAL。當某一項屬於 USER_ANSWERED ∪ ABSORBED_WITH_CITATION ∪ INFERRED_FROM_SPEC 時，該檢查項目即為 YES。只有 UNKNOWN（沒有答案、沒有引用、也無法從規格推論）才算 NO。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- (a) `omx question` batch: use when at least one CRITICAL question survives `&lt;gap_triage&gt;` and `&lt;self_review&gt;`. The batch is the round; the turn waits for `answers[]` before continuing.
+- (b) explicit handoff: use when the 6-item checklist is fully YES. Hand off Metis → Momus after clearance, Momus → Oracle after critique, and Oracle → user or `&lt;unresolved_blocker&gt;` carry-forward after Pass 2 synthesis.
+- (c) stop-blocker: use when hostility/`&lt;turn_aborted&gt;` is detected via `&lt;hostility_detection&gt;` with subtype `hostility_exit`, or when the next action is destructive, credential-gated, external-production, and cannot be defaulted safely.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- (a) `omx question` 批次：當至少有一個 CRITICAL 問題在 `&lt;gap_triage&gt;` 和 `&lt;self_review&gt;` 之後仍然存在時使用。此批次即為該輪；在繼續之前，該輪會等待 `answers[]`。
+- (b) 明確交接：當 6 項檢查清單全部為 YES 時使用。在通過檢查後，將 Metis 交給 Momus；在批判後，將 Momus 交給 Oracle；在 Pass 2 綜合後，將 Oracle 交給使用者，或以 `&lt;unresolved_blocker&gt;` 延續。
+- (c) stop-blocker：當透過 `&lt;hostility_detection&gt;` 偵測到敵意/`&lt;turn_aborted&gt;` 且子類型為 `hostility_exit` 時使用，或當下一步操作具有破壞性、需要憑證、屬於外部生產環境，且無法安全地預設時使用。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Edge cases:
+1. Zero-questions-but-complete-checklist → option (b) explicit handoff. Do not emit an empty `omx question` form.
+2. Round-5-cap with incomplete checklist → option (a) emit one more question batch with surviving UNKNOWN items annotated, OR option (b) handoff with UNKNOWN items carried forward to Oracle as `&lt;unresolved_blocker&gt;` entries.
+3. Hostility/`&lt;turn_aborted&gt;` → option (c) for anger, profanity, or aborted-turn via `hostility_exit`; option (b) for dismissive-delegation (`알아서` / &quot;you decide&quot;) with absorbed gaps annotated.
+&lt;/Turn_Termination_Rules&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>邊界情況：
+1. 零問題但檢查清單完整 → 選項 (b) 明確交接。不要輸出空的 `omx question` 表單。
+2. 第 5 輪上限且檢查清單不完整 → 選項 (a) 再發出一批問題，並標註仍然存在的 UNKNOWN 項目，或選項 (b) 以 `&lt;unresolved_blocker&gt;` 條目將 UNKNOWN 項目延續給 Oracle。
+3. 敵意/`&lt;turn_aborted&gt;` → 若為憤怒、髒話或透過 `hostility_exit` 的中止輪次，使用選項 (c)；若為輕蔑式委派（`알아서` / &quot;you decide&quot;）且已吸收缺口，則使用選項 (b)。
+&lt;/Turn_Termination_Rules&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Steps&gt;
+### 1. Intake and Safety Bounds</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Steps&gt;
+### 1. 輸入與安全邊界</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Restate the target result, known constraints, deliverables, validation expectations, and stop condition. Identify whether this turn is planning-only or whether the user also requested downstream execution.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>重新陳述目標結果、已知限制、交付物、驗證期望，以及停止條件。確認這一輪是僅限規劃，還是使用者也要求後續執行。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>If the prompt contains destructive, credential-gated, external-production, or materially scope-changing decisions, hold those decisions for explicit user confirmation. Otherwise, continue through the planning loop.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>如果提示包含具破壞性、需要憑證、外部生產環境，或會實質改變範圍的決策，則將這些決策保留給使用者明確確認。否則，繼續進行規劃迴圈。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### 2. Metis Interview (Iterative, Checklist Clearance)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 2. Metis 訪談（迭代式，檢查清單通過）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Use `prometheus-strict-metis` as the interview voice. When native subagents are available, invoke the dedicated agent; otherwise run the same role in-context without editing files.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>使用 `prometheus-strict-metis` 作為訪談聲音。當可使用原生子代理時，呼叫專用代理；否則在目前情境中執行相同角色，但不要編輯檔案。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Metis discovers success criteria, non-goals, evidence versus assumptions, required artifacts, likely execution lanes, and missing decisions. Before the first user-facing question batch, Metis must actively fan out repo/external research per intent: `explore` maps local surfaces and exact `gpt-5.4-mini` `researcher` lanes gather official/upstream or OSS-reference evidence. Research-heavy intents use more cheap researchers rather than downgrading Metis/Momus/Oracle judgment.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Metis 會探索成功標準、非目標、證據與假設之間的差異、所需產物、可能的執行路徑，以及缺失的決策。在第一批面向使用者的問題之前，Metis 必須依照意圖主動展開 repo/外部研究：`explore` 會對應本地表面，精確的 `gpt-5.4-mini` `researcher` 路線會蒐集官方/上游或 OSS 參考證據。研究量大的意圖應使用更多廉價 researcher，而不是降低 Metis/Momus/Oracle 的判斷層級。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Run the interview as a bounded loop:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>將訪談作為有界迴圈執行：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Identify every currently-UNKNOWN checklist item and every CRITICAL question whose answers would materially change scope, safety, or validation.
+2. Batch the round's independent questions into a single Structured Question Surface call (`questions[]` array, or numbered prose fallback outside tmux).
+3. Collect the structured `answers[]`, then run **Gap-fill Pass 1 — answer assimilation**: update evidence vs. assumption and mark checklist items YES only when USER_ANSWERED, ABSORBED_WITH_CITATION, or INFERRED_FROM_SPEC.
+4. Run **Gap-fill Pass 2 — residual adversarial scan**: re-check every remaining UNKNOWN against repo context, prior turns, research fan-out evidence, framework/industry defaults, and conservative reversible defaults; absorb non-CRITICAL gaps with citations/assumptions and leave only CRITICAL blockers.
+5. Run **between-round planning** after Round 1: refresh or reuse `&lt;research_fan_out&gt;` explore/researcher evidence, re-run spec prefill, and prepare Round 2 from residual CRITICAL gaps only.
+6. Evaluate the 6-item checklist (`&lt;Turn_Termination_Rules&gt;` tri-state) only after BOTH gap-fill passes and the minimum two emitted question rounds gate; exit when ALL YES and either no questions were emitted or Round 2 has been emitted and processed.
+7. If checklist clearance is not reached, or only Round 1 has been processed, return to step 1 with the next round. Cap at 5 rounds; on cap, carry remaining UNKNOWN items forward to Oracle as explicit `&lt;unresolved_blocker&gt;` entries.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 識別所有目前仍為 UNKNOWN 的檢查清單項目，以及所有其答案會實質改變範圍、安全性或驗證的 CRITICAL 問題。
+2. 將該輪的獨立問題批次化為單一 Structured Question Surface 呼叫（`questions[]` 陣列，或在 tmux 之外使用帶編號的文字備援）。
+3. 收集結構化的 `answers[]`，然後執行 **Gap-fill Pass 1 — answer assimilation**：更新證據與假設的狀態，並且只有在 USER_ANSWERED、ABSORBED_WITH_CITATION 或 INFERRED_FROM_SPEC 時才將檢查清單項目標記為 YES。
+4. 執行 **Gap-fill Pass 2 — residual adversarial scan**：將所有剩餘的 UNKNOWN 與 repo 情境、前幾輪內容、研究展開證據、框架/業界預設，以及保守且可回復的預設值重新比對；以引用/假設吸收非 CRITICAL 的缺口，並且只保留 CRITICAL blocker。
+5. 在第 1 輪之後執行 **between-round planning**：更新或重用 `&lt;research_fan_out&gt;` explore/researcher 證據，重新執行 spec prefill，並且只根據剩餘的 CRITICAL 缺口準備第 2 輪。
+6. 只有在完成兩次 gap-fill passes，且至少已發出兩輪問題之後，才評估 6 項檢查清單（`&lt;Turn_Termination_Rules&gt;` 三態）；當全部為 YES，且不是沒有發出任何問題，就是已發出並處理完第 2 輪時，則退出。
+7. 如果尚未達到檢查清單通過，或只處理了第 1 輪，就回到步驟 1 進行下一輪。最多 5 輪；達到上限時，將剩餘的 UNKNOWN 項目以明確的 `&lt;unresolved_blocker&gt;` 條目延續給 Oracle。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### 3. Momus Challenge (Bounded Retry)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 3. Momus 挑戰（有界重試）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Use `prometheus-strict-momus` as the adversarial critique voice. When native subagents are available, invoke the dedicated agent; otherwise run the same role in-context without editing files.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>使用 `prometheus-strict-momus` 作為對抗式批判聲音。當可使用原生子代理時，呼叫專用代理；否則在目前情境中執行相同角色，但不要編輯檔案。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Momus challenges underspecified acceptance criteria, unsafe assumptions, hidden destructive steps, overbroad scope, missing verification, ownership conflicts, and `$ultragoal`/`$team` handoff ambiguity.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Momus 會挑戰定義不足的接受標準、不安全的假設、隱藏的破壞性步驟、過於寬泛的範圍、缺失的驗證、所有權衝突，以及 `$ultragoal`/`$team` 交接的歧義。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Bounded retry contract**: after Oracle synthesizes in §4, re-invoke Momus on the synthesized plan to verify that Oracle's resolutions did not introduce new risks (scope addition without matching verification, lane split that creates dependency cycles, safety reinforcement that contradicts stop conditions). Repeat the Momus → Oracle re-synthesis cycle up to **3 times total**. If blocking objections remain after the 3rd cycle, mark them as carried-forward in the final plan and proceed to §5.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**有界重試契約**：在 Oracle 於 §4 完成綜合後，對綜合出的計畫重新呼叫 Momus，以驗證 Oracle 的解決方案是否未引入新的風險（範圍增加但沒有相應驗證、造成依賴循環的 lane 分割、與停止條件相衝突的安全強化）。將 Momus → Oracle 的重新綜合循環最多重複 **3 次總計**。如果在第 3 次循環後仍有阻塞性異議，則在最終計畫中將其標記為帶入後續處理，並進入 §5。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### 4. Oracle Synthesis (Two-Pass: Synthesis + Self-Verification)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 4. Oracle 綜合（雙遍：綜合 + 自我驗證）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Use `prometheus-strict-oracle` as the synthesis voice. When native subagents are available, invoke the dedicated agent; otherwise run the same role in-context without editing files.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>使用 `prometheus-strict-oracle` 作為綜合聲音。當原生子代理可用時，呼叫專用代理；否則在同一上下文中執行相同角色，而不編輯檔案。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Pass 1 — Synthesis.** Oracle produces the final objective, scope and non-goals, accepted assumptions, resolved critique, sequenced steps or lanes, verification matrix, rollback/escalation conditions, and recommended OMX handoff.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**第 1 遍 — 綜合。** Oracle 產出最終目標、範圍與非目標、已接受的假設、已解決的批評、排序後的步驟或 lanes、驗證矩陣、回滾／升級條件，以及建議的 OMX 交接。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Pass 2 — Self-Verification (machine-checkable acceptance contract).** Oracle re-reads its own Pass 1 output and asserts:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**第 2 遍 — 自我驗證（可機器檢查的接受契約）。** Oracle 重新閱讀自己的第 1 遍輸出並斷言：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- Every claim in the verification matrix has an explicit evidence source (test/build/lint/e2e/doc).
+- Every step lists its owner / lane / executor; no shared-file conflicts between parallel lanes.
+- Stop, rollback, and acceptance criteria are mutually consistent (no acceptance criterion is satisfied by a state that also triggers rollback).
+- No destructive, credential-gated, or external-production step is unauthorized.
+- The handoff command is concrete (callable verbatim) and points at an existing workflow (`$ultragoal`, `$team`, or `none`).
+- Clean-room credit is preserved.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 驗證矩陣中的每一項主張都有明確的證據來源（test/build/lint/e2e/doc）。
+- 每個步驟都列出其 owner / lane / executor；平行 lanes 之間沒有共享檔案衝突。
+- 停止、回滾與接受標準彼此一致（沒有任何接受標準會被同時觸發回滾的狀態滿足）。
+- 沒有未經授權的破壞性、受憑證門控或外部正式環境步驟。
+- 交接指令是具體的（可逐字呼叫），並指向既有工作流程（`$ultragoal`、`$team` 或 `none`）。
+- clean-room credit 得以保留。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>If any Pass 2 check fails, Oracle MUST loop back to Pass 1 to repair before emitting the plan. Cap Pass 1 ↔ Pass 2 cycles at **3**; on cycle 3 failure, emit the plan with the failing gates annotated as carried-forward and escalate to the user.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>如果任何第 2 遍檢查失敗，Oracle 必須在輸出計畫前回到第 1 遍修正。將第 1 遍 ↔ 第 2 遍循環上限設為 **3**；若第 3 次循環失敗，則輸出計畫，並將失敗的 gates 標註為帶入後續處理，同時升級給使用者。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### 5. Post-Plan Gap Check (Metis Re-Invocation)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 5. 計畫後缺口檢查（重新呼叫 Metis）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Before handing off, re-invoke `prometheus-strict-metis` on the finalized Oracle plan with a single charge: identify ambiguities that surfaced **only after** the plan was rendered — for example, new lane assignments that overlap, verification matrix gaps revealed by stop conditions, acceptance criteria that contradict the rollback contract.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在交接之前，對定稿的 Oracle 計畫重新呼叫 `prometheus-strict-metis`，只交付一項任務：辨識那些**僅在**計畫渲染後才浮現的歧義，例如重疊的新 lane 分配、由停止條件揭露的驗證矩陣缺口、與回滾契約相衝突的接受標準。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>If post-plan Metis surfaces any blocking gap, return to §4 Pass 1 with the new question. Otherwise proceed to §6.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>如果計畫後的 Metis 揭露任何阻塞性缺口，則帶著新問題回到 §4 第 1 遍。否則繼續進入 §6。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### 6. Handoff</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 6. 交接</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Prometheus Strict stops with a plan unless the user explicitly invokes or authorizes the next workflow. Prefer this sequence:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Prometheus Strict 會在產出計畫後停止，除非使用者明確呼叫或授權下一個工作流程。優先採用以下順序：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```text
+$ultragoal &quot;&lt;Oracle plan summary or .omx/plans/prometheus-strict/&lt;slug&gt;.md&gt;&quot;
+$team &lt;N&gt;:executor &quot;execute the approved Ultragoal story in parallel lanes&quot;  # only when warranted
+```
+&lt;/Steps&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```text
+$ultragoal &quot;&lt;Oracle plan summary or .omx/plans/prometheus-strict/&lt;slug&gt;.md&gt;&quot;
+$team &lt;N&gt;:executor &quot;在平行 lanes 中執行已核准的 Ultragoal story&quot;  # only when warranted
+```
+&lt;/Steps&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Tool_Usage&gt;
+- Use read-only repository inspection to verify referenced files, commands, and existing conventions.
+- Treat Metis research fan-out as part of planning, not execution: dispatch `explore` / exact `gpt-5.4-mini` `researcher` evidence-gathering before question generation for non-trivial intents, then re-prefill and ask only surviving CRITICAL gaps.
+- Use `prometheus-strict-metis`, `prometheus-strict-momus`, and `prometheus-strict-oracle` sequentially; do not fan out implementation work from this skill.
+- Use `$ultragoal` only as the recommended execution handoff after the plan is ready.
+- Use `$team` only when parallel lanes are independent and verifiable.
+&lt;/Tool_Usage&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Tool_Usage&gt;
+- 使用唯讀的儲存庫檢視來驗證所引用的檔案、指令與既有慣例。
+- 將 Metis 研究的 fan-out 視為規劃的一部分，而非執行：在產生問題之前，先針對非平凡意圖派送 `explore` / 精確的 `gpt-5.4-mini` `researcher` 證據蒐集，然後重新預填，只詢問剩下的 CRITICAL 缺口。
+- 依序使用 `prometheus-strict-metis`、`prometheus-strict-momus` 與 `prometheus-strict-oracle`；不要從此技能展開實作工作。
+- 只有在計畫準備就緒後，才將 `$ultragoal` 作為建議的執行交接方式。
+- 只有當平行 lanes 彼此獨立且可驗證時，才使用 `$team`。
+&lt;/Tool_Usage&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## State Management</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 狀態管理</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Prometheus Strict does not own a long-running runtime loop. If a durable planning artifact is needed, write the final plan to `.omx/plans/prometheus-strict/&lt;slug&gt;.md`. Draft-only or inline plans may set the artifact path to `N/A - inline plan only`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Prometheus Strict 不擁有長時間運行的 runtime loop。若需要持久化的規劃產物，請將最終計畫寫入 `.omx/plans/prometheus-strict/&lt;slug&gt;.md`。僅限草稿或內嵌的計畫可將產物路徑設為 `N/A - inline plan only`。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Do not create hook state, Sisyphus state, or `start-work` compatibility state for this skill.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>不要為此技能建立 hook state、Sisyphus state 或 `start-work` 相容性 state。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Final_Checklist&gt;
+- [ ] Target result is explicit.
+- [ ] Scope and non-goals are explicit.
+- [ ] Acceptance criteria are measurable.
+- [ ] Metis interview loop reached checklist clearance only after the mandatory two gap-fill passes following every `answers[]` batch and, if any question round was emitted, after the minimum two emitted question rounds gate; otherwise the 5-round cap was reached with UNKNOWN items carried forward as `&lt;unresolved_blocker&gt;` entries.
+- [ ] Momus objections are resolved or carried forward as explicit blockers, with at most 3 Momus → Oracle re-synthesis cycles consumed.
+- [ ] Oracle plan includes a verification matrix.
+- [ ] Oracle Pass 2 self-verification completed; every machine-checkable contract item passes or is annotated as carried-forward.
+- [ ] Post-plan Metis gap check produced no blocking objections (or all are carried forward).
+- [ ] Handoff recommends `$ultragoal` and `$team` only when warranted.
+- [ ] Clean-room credit is preserved.
+- [ ] No hook implementation or Sisyphus/start-work port was introduced.
+&lt;/Final_Checklist&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Final_Checklist&gt;
+- [ ] 目標結果是明確的。
+- [ ] 範圍與非目標是明確的。
+- [ ] 接受標準是可衡量的。
+- [ ] Metis 訪談循環只有在每個 `answers[]` 批次之後完成強制的兩次缺口填補回合，且如果有任何問題回合被發出，還必須在至少兩個已發出問題回合的門檻之後，才達到檢查清除；否則就會達到 5 回合上限，並將 UNKNOWN 項目作為 `&lt;unresolved_blocker&gt;` 條目帶入後續處理。
+- [ ] Momus 的異議已解決，或作為明確的阻塞項帶入後續處理，且消耗的 Momus → Oracle 重新綜合循環最多為 3 次。
+- [ ] Oracle 計畫包含驗證矩陣。
+- [ ] Oracle 第 2 遍自我驗證已完成；每個可機器檢查的契約項目都通過，或已標註為帶入後續處理。
+- [ ] 計畫後的 Metis 缺口檢查沒有產生阻塞性異議（或全部都已帶入後續處理）。
+- [ ] 交接只在有需要時才建議 `$ultragoal` 與 `$team`。
+- [ ] clean-room credit 得以保留。
+- [ ] 沒有引入 hook 實作或 Sisyphus/start-work 的移植。
+&lt;/Final_Checklist&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Advanced&gt;
+## Output Contract</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Advanced&gt;
+## 輸出契約</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>If writing a durable plan file, store this markdown at `.omx/plans/prometheus-strict/&lt;slug&gt;.md` and reference that path in the handoff.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>如果要寫入持久化的計畫檔，請將此 markdown 儲存在 `.omx/plans/prometheus-strict/&lt;slug&gt;.md`，並在交接中引用該路徑。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```markdown
+## Prometheus Strict Plan
+
+### Target Result
+- &lt;one-sentence objective&gt;
+
+### Clarified Requirements (Metis)
+- &lt;requirement / acceptance criterion&gt;
+
+### Critique Resolved (Momus)
+- &lt;risk or objection&gt; -&gt; &lt;resolution&gt;
+
+### Oracle Execution Plan
+1. &lt;sequenced step or lane&gt;
+
+### Verification Matrix
+| Claim | Required evidence | Owner/lane |
+| --- | --- | --- |
+| &lt;claim&gt; | &lt;test/build/lint/e2e/doc evidence&gt; | &lt;owner&gt; |
+
+### Artifact
+- Durable plan path: `.omx/plans/prometheus-strict/&lt;slug&gt;.md` or `N/A - inline plan only`
+
+### Handoff
+- Recommended next workflow: &lt;$ultragoal / $team / direct execution / none&gt;
+- Stop condition: &lt;what proves the plan is ready or why it is blocked&gt;
+
+### Clean-Room Credit
+Inspired by OMO Prometheus (`code-yeongyu/oh-my-openagent`), reimplemented from concept under MIT.
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```markdown
+## Prometheus Strict 計畫
+
+### 目標結果
+- &lt;一句話目標&gt;
+
+### 釐清後的需求（Metis）
+- &lt;需求 / 接受標準&gt;
+
+### 已解決的批評（Momus）
+- &lt;風險或異議&gt; -&gt; &lt;解決方案&gt;
+
+### Oracle 執行計畫
+1. &lt;排序後的步驟或 lane&gt;
+
+### 驗證矩陣
+| 主張 | 所需證據 | Owner/lane |
+| --- | --- | --- |
+| &lt;主張&gt; | &lt;test/build/lint/e2e/doc 證據&gt; | &lt;owner&gt; |
+
+### 產物
+- 持久化計畫路徑：`.omx/plans/prometheus-strict/&lt;slug&gt;.md` 或 `N/A - inline plan only`
+
+### 交接
+- 建議的下一個工作流程：&lt;$ultragoal / $team / direct execution / none&gt;
+- 停止條件：&lt;什麼能證明計畫已準備就緒，或為何它被阻塞&gt;
+
+### Clean-Room Credit
+靈感來自 OMO Prometheus (`code-yeongyu/oh-my-openagent`)，依 MIT 授權下的概念重新實作。
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Failure and Escalation</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 失敗與升級</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Escalate instead of planning when a necessary answer cannot be inferred safely, the next step is destructive or credential-gated, required repository context is unavailable, or the user asks for behavior outside the non-goals.
+&lt;/Advanced&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當必要答案無法安全推斷、下一步具有破壞性或受憑證門控、所需的儲存庫上下文不可用，或使用者要求的行為超出非目標時，請升級而不是規劃。
+&lt;/Advanced&gt;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Original task:
+{{PROMPT}}</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>原始任務：
+{{PROMPT}}</code></pre></div></section>
+</main>
+</body>
+</html>

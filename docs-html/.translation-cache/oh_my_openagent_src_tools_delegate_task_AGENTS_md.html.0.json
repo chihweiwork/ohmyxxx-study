@@ -1,0 +1,82 @@
+[
+  {
+    "original": "# src/tools/delegate-task/ — Task Delegation Engine",
+    "zh_tw": "# src/tools/delegate-task/ — 任務委派引擎"
+  },
+  {
+    "original": "**Generated:** 2026-05-15",
+    "zh_tw": "**產生日期：** 2026-05-15"
+  },
+  {
+    "original": "## OVERVIEW",
+    "zh_tw": "## 概覽"
+  },
+  {
+    "original": "49 files. The `task` tool implementation — delegates work to subagents via background or sync sessions. Resolves categories, models, skills, and manages both async and synchronous execution flows. 8+ built-in categories.",
+    "zh_tw": "49 個檔案。`task` 工具的實作 - 透過背景或同步工作階段將工作委派給子代理。負責解析類別、模型、技能，並管理非同步與同步的執行流程。內建 8 種以上類別。"
+  },
+  {
+    "original": "## TWO EXECUTION MODES",
+    "zh_tw": "## 兩種執行模式"
+  },
+  {
+    "original": "| Mode | Flow | Use Case |\n|------|------|----------|\n| **Background** (`run_in_background=true`) | Launch → BackgroundManager → poll → notify parent | Explore, librarian, parallel work |\n| **Sync** (`run_in_background=false`) | Create session → send prompt → poll until idle → return result | Sequential tasks needing immediate result |",
+    "zh_tw": "| 模式 | 流程 | 使用情境 |\n|------|------|----------|\n| **背景** (`run_in_background=true`) | 啟動 → BackgroundManager → 輪詢 → 通知父層 | 探索、librarian、平行工作 |\n| **同步** (`run_in_background=false`) | 建立工作階段 → 傳送提示 → 輪詢直到閒置 → 回傳結果 | 需要立即結果的順序型任務 |"
+  },
+  {
+    "original": "## KEY FILES",
+    "zh_tw": "## 主要檔案"
+  },
+  {
+    "original": "| File | Purpose |\n|------|---------|\n| `tools.ts` | `createDelegateTask()` factory — main entry point |\n| `executor.ts` | Route to background or sync execution |\n| `types.ts` | `DelegateTaskArgs`, `DelegateTaskToolOptions`, `ToolContextWithMetadata` |\n| `category-resolver.ts` | Map category name → model + config |\n| `subagent-resolver.ts` | Map subagent_type → agent + model |\n| `model-selection.ts` | Model availability checking + fallback |\n| `skill-resolver.ts` | Resolve `load_skills[]` → skill content for injection |\n| `prompt-builder.ts` | Build system/user prompt with skill content, categories |",
+    "zh_tw": "| 檔案 | 用途 |\n|------|---------|\n| `tools.ts` | `createDelegateTask()` 工廠 - 主要進入點 |\n| `executor.ts` | 路由到背景或同步執行 |\n| `types.ts` | `DelegateTaskArgs`、`DelegateTaskToolOptions`、`ToolContextWithMetadata` |\n| `category-resolver.ts` | 將類別名稱對應到 model + config |\n| `subagent-resolver.ts` | 將 subagent_type 對應到 agent + model |\n| `model-selection.ts` | 檢查模型可用性 + fallback |\n| `skill-resolver.ts` | 解析 `load_skills[]` → 要注入的技能內容 |\n| `prompt-builder.ts` | 使用技能內容、類別建立 system/user prompt |"
+  },
+  {
+    "original": "## SYNC EXECUTION CHAIN",
+    "zh_tw": "## 同步執行鏈"
+  },
+  {
+    "original": "```\nsync-task.ts → sync-session-creator.ts → sync-prompt-sender.ts → sync-session-poller.ts → sync-result-fetcher.ts\n```",
+    "zh_tw": "```\nsync-task.ts → sync-session-creator.ts → sync-prompt-sender.ts → sync-session-poller.ts → sync-result-fetcher.ts\n```"
+  },
+  {
+    "original": "Each file handles one step. `sync-continuation.ts` handles session continuation (resume with task_id).",
+    "zh_tw": "每個檔案處理一個步驟。`sync-continuation.ts` 處理工作階段延續（以 task_id 重新開始）。"
+  },
+  {
+    "original": "## BACKGROUND EXECUTION",
+    "zh_tw": "## 背景執行"
+  },
+  {
+    "original": "```\nbackground-task.ts → BackgroundManager.launch() → (async polling) → background-continuation.ts\n```",
+    "zh_tw": "```\nbackground-task.ts → BackgroundManager.launch() → (async polling) → background-continuation.ts\n```"
+  },
+  {
+    "original": "`background-continuation.ts` handles `task_id` resume for existing background tasks.",
+    "zh_tw": "`background-continuation.ts` 處理現有背景任務以 `task_id` 續接。"
+  },
+  {
+    "original": "## CATEGORY RESOLUTION",
+    "zh_tw": "## 類別解析"
+  },
+  {
+    "original": "1. Check user-defined categories (`pluginConfig.categories`)\n2. Fall back to built-in 8 categories\n3. Resolve model from category config\n4. Check model availability → fallback if unavailable",
+    "zh_tw": "1. 檢查使用者定義的類別（`pluginConfig.categories`）\n2. 回退到內建的 8 種類別\n3. 從類別設定解析 model\n4. 檢查模型可用性 → 若不可用則回退"
+  },
+  {
+    "original": "## MODEL STRING PARSER",
+    "zh_tw": "## 模型字串解析器"
+  },
+  {
+    "original": "`model-string-parser.ts` handles `\"model variant\"` format (e.g., `\"gpt-5.3-codex medium\"` → model=`gpt-5.3-codex`, variant=`medium`).",
+    "zh_tw": "`model-string-parser.ts` 處理 `\"model variant\"` 格式（例如，`\"gpt-5.3-codex medium\"` → model=`gpt-5.3-codex`，variant=`medium`）。"
+  },
+  {
+    "original": "## UNSTABLE AGENT TRACKING",
+    "zh_tw": "## 不穩定代理追蹤"
+  },
+  {
+    "original": "`unstable-agent-task.ts` marks tasks from categories/agents known to be unstable (e.g., free models). Enables `unstableAgentBabysitter` hook monitoring.",
+    "zh_tw": "`unstable-agent-task.ts` 會標記來自已知不穩定之類別/代理的任務（例如免費模型）。啟用 `unstableAgentBabysitter` hook 監控。"
+  }
+]

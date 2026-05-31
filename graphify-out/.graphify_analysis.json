@@ -1,0 +1,585 @@
+{
+  "communities": {
+    "0": [
+      "oh_my_antigravity_README_es_README_es",
+      "oh_my_antigravity_README_fr_README_fr",
+      "oh_my_antigravity_README_ja_README_ja",
+      "oh_my_antigravity_README_ko_README_ko",
+      "oh_my_antigravity_README_zh_README_zh",
+      "oh_my_antigravity_architect_architect",
+      "oh_my_antigravity_blueprint_skill",
+      "oh_my_antigravity_consensus_consensus",
+      "oh_my_antigravity_consultant_consultant",
+      "oh_my_antigravity_context-optimize_skill",
+      "oh_my_antigravity_debugger_debugger",
+      "oh_my_antigravity_deep-dive_skill",
+      "oh_my_antigravity_director_director",
+      "oh_my_antigravity_editor_editor",
+      "oh_my_antigravity_execute_skill",
+      "oh_my_antigravity_executor_executor",
+      "oh_my_antigravity_interview_interview",
+      "oh_my_antigravity_learn_skill",
+      "oh_my_antigravity_oh-my-antigravity_readme",
+      "oh_my_antigravity_oma-plan_skill",
+      "oh_my_antigravity_plan_skill",
+      "oh_my_antigravity_planner_planner",
+      "oh_my_antigravity_prd_skill",
+      "oh_my_antigravity_product_product",
+      "oh_my_antigravity_quick_quick",
+      "oh_my_antigravity_ralplan_skill",
+      "oh_my_antigravity_researcher_researcher",
+      "oh_my_antigravity_reviewer_reviewer",
+      "oh_my_antigravity_ultragoal_skill",
+      "oh_my_antigravity_verifier_verifier",
+      "oh_my_codex_AGENTS_AGENTS",
+      "oh_my_codex_README.zh-TW_README.zh-TW",
+      "oh_my_codex_STATE_MODEL_STATE_MODEL",
+      "oh_my_codex_ai-slop-cleaner_skill",
+      "oh_my_codex_autopilot_skill",
+      "oh_my_codex_cancel_skill",
+      "oh_my_codex_code-review_skill",
+      "oh_my_codex_deep-interview_skill",
+      "oh_my_codex_doctor_skill",
+      "oh_my_codex_ecomode_skill",
+      "oh_my_codex_help_skill",
+      "oh_my_codex_hud_skill",
+      "oh_my_codex_note_skill",
+      "oh_my_codex_pipeline_skill",
+      "oh_my_codex_plan_skill",
+      "oh_my_codex_prometheus-strict_readme",
+      "oh_my_codex_prometheus-strict_skill",
+      "oh_my_codex_ralph_skill",
+      "oh_my_codex_ralplan_skill",
+      "oh_my_codex_readme_readme",
+      "oh_my_codex_review_skill",
+      "oh_my_codex_skills-agents-bloat-audit_readme",
+      "oh_my_codex_team_skill",
+      "oh_my_codex_templates_readme",
+      "oh_my_codex_trace_skill",
+      "oh_my_codex_ultragoal_skill",
+      "oh_my_codex_ultraqa_skill",
+      "oh_my_codex_ultrawork_skill",
+      "oh_my_codex_worker_skill"
+    ],
+    "1": [
+      "agent_atlas",
+      "agent_browser_skill",
+      "anthropic_context_window_limit_recovery_agents",
+      "atlas_agents",
+      "background_agent_agents",
+      "boulder_state_agents",
+      "builtin_commands_agents",
+      "builtin_skills_agents",
+      "claude_code_agent_loader_agents",
+      "claude_code_hooks_agents",
+      "claude_code_mcp_loader_agents",
+      "claude_code_plugin_loader_agents",
+      "claude_tasks_agents",
+      "cli_agents",
+      "cli_config_manager_agents",
+      "cli_doctor_agents",
+      "cli_run_agents",
+      "comment_checker_agents",
+      "compaction_context_injector_agents",
+      "config_agents",
+      "dev_browser_installation",
+      "dev_browser_scraping",
+      "dev_browser_skill",
+      "diagnostics_agents",
+      "features_agents",
+      "frontend_ui_ux_skill",
+      "git_master_skill",
+      "hooks_agents",
+      "lsp_agents",
+      "mcp_agents",
+      "mcp_oauth_agents",
+      "opencode_skill_loader_agents",
+      "plugin_agents",
+      "ralph_loop_agents",
+      "rules_injector_agents",
+      "runtime_fallback_agents",
+      "session_recovery_agents",
+      "setup_readme",
+      "shared_agents",
+      "skill_mcp_manager_agents",
+      "src_agents",
+      "team_mode_agents",
+      "tmux_subagent_agents",
+      "tools_agents"
+    ],
+    "2": [
+      "agent_explore",
+      "agent_hephaestus",
+      "agent_librarian",
+      "agent_metis",
+      "agent_momus",
+      "agent_multimodal_looker",
+      "agent_oracle",
+      "agent_prometheus",
+      "agent_sisyphus",
+      "agent_sisyphus_junior",
+      "agents_agents",
+      "ai_slop_cleaner_skill",
+      "autopilot_skill",
+      "builtin_agents_agents",
+      "deep_interview_skill",
+      "deepinit_skill",
+      "hephaestus_agents",
+      "hud_skill",
+      "learner_skill",
+      "mcp_setup_skill",
+      "omc_setup_phases_01_install_claude_md",
+      "omc_setup_phases_02_configure",
+      "omc_setup_phases_03_integrations",
+      "omc_setup_phases_04_welcome",
+      "omc_setup_skill",
+      "omc_teams_skill",
+      "omx-setup_skill",
+      "plan_skill",
+      "prometheus_agents",
+      "ralph_skill",
+      "sciomc_skill",
+      "sisyphus_agents",
+      "sisyphus_junior_agents",
+      "skill_skill",
+      "skillify_skill",
+      "team_skill",
+      "ultraqa_skill",
+      "ultrawork_skill",
+      "visual_verdict_skill"
+    ],
+    "3": [
+      "omc_agents_analyst",
+      "omc_agents_architect",
+      "omc_agents_code_reviewer",
+      "omc_agents_code_simplifier",
+      "omc_agents_critic",
+      "omc_agents_debugger",
+      "omc_agents_designer",
+      "omc_agents_document_specialist",
+      "omc_agents_executor",
+      "omc_agents_explore",
+      "omc_agents_git_master",
+      "omc_agents_planner",
+      "omc_agents_qa_tester",
+      "omc_agents_scientist",
+      "omc_agents_security_reviewer",
+      "omc_agents_test_engineer",
+      "omc_agents_tracer",
+      "omc_agents_verifier",
+      "omc_agents_writer",
+      "omc_src_agents_agents_md",
+      "omc_src_agents_templates_exploration_template",
+      "omc_src_agents_templates_implementation_template",
+      "omc_src_features_delegation_categories_readme",
+      "omc_src_features_verification_readme",
+      "omx_prompts_api_reviewer",
+      "omx_prompts_architect",
+      "omx_prompts_designer",
+      "omx_prompts_prometheus_strict_metis",
+      "omx_prompts_prometheus_strict_momus",
+      "omx_prompts_prometheus_strict_oracle",
+      "omx_prompts_qa_tester",
+      "omx_prompts_quality_reviewer",
+      "omx_prompts_researcher",
+      "omx_prompts_scholastic",
+      "omx_prompts_team_orchestrator",
+      "omx_readme"
+    ],
+    "4": [
+      "ai-slop-cleaner_skill",
+      "analyst_analyst",
+      "autoresearch_skill",
+      "best-practice-research_skill",
+      "build-fixer_build-fixer",
+      "code-review_skill",
+      "code-reviewer_code-reviewer",
+      "code-simplifier_code-simplifier",
+      "critic_critic",
+      "debugger_debugger",
+      "deep-interview_skill",
+      "dependency-expert_dependency-expert",
+      "doctor_skill",
+      "executor_executor",
+      "explore-harness_explore-harness",
+      "explore_explore",
+      "git-master_git-master",
+      "information-architect_information-architect",
+      "performance-reviewer_performance-reviewer",
+      "planner_planner",
+      "product-analyst_product-analyst",
+      "product-manager_product-manager",
+      "prometheus-strict_readme",
+      "prometheus-strict_skill",
+      "quality-strategist_quality-strategist",
+      "ralplan_skill",
+      "security-reviewer_security-reviewer",
+      "sisyphus-lite_sisyphus-lite",
+      "style-reviewer_style-reviewer",
+      "team-executor_team-executor",
+      "test-engineer_test-engineer",
+      "ux-researcher_ux-researcher",
+      "verifier_verifier",
+      "vision_vision",
+      "writer_writer"
+    ],
+    "5": [
+      "agents",
+      "claude",
+      "command_ask",
+      "command_autoresearch",
+      "command_ccg",
+      "command_configure_notifications",
+      "command_debug",
+      "command_deep_dive",
+      "command_deepinit",
+      "command_external_context",
+      "command_hud",
+      "command_learner",
+      "command_mcp_setup",
+      "command_omc_doctor",
+      "command_omc_setup",
+      "command_omc_teams",
+      "command_project_session_manager",
+      "command_psm",
+      "command_release",
+      "command_remember",
+      "command_sciomc",
+      "command_self_improve",
+      "command_skill",
+      "command_skillify",
+      "command_trace",
+      "command_verify",
+      "command_visual_verdict",
+      "command_wiki",
+      "command_writer_memory",
+      "readme"
+    ],
+    "6": [
+      "agents_auto_update_checker",
+      "agents_background_task",
+      "agents_call_omo_agent",
+      "agents_delegate_task",
+      "agents_docs",
+      "agents_hashline_edit",
+      "agents_hooks",
+      "agents_keyword_detector",
+      "agents_look_at",
+      "agents_openclaw",
+      "agents_packages",
+      "agents_plugin_handlers",
+      "agents_root",
+      "agents_script",
+      "agents_skill",
+      "agents_src",
+      "agents_todo_continuation_enforcer",
+      "agents_tools",
+      "agents_web",
+      "analyze_mode_prompt",
+      "default_ultrawork_prompt",
+      "design_web",
+      "gemini_ultrawork_prompt",
+      "gpt_ultrawork_prompt",
+      "hyperplan_mode_prompt",
+      "planner_ultrawork_prompt",
+      "readme_root",
+      "search_mode_prompt",
+      "team_mode_prompt"
+    ],
+    "7": [
+      "oh_my_codex_analyze_skill",
+      "oh_my_codex_ask-claude_skill",
+      "oh_my_codex_ask-gemini_skill",
+      "oh_my_codex_ask_skill",
+      "oh_my_codex_build-fix_skill",
+      "oh_my_codex_configure-notifications_skill",
+      "oh_my_codex_deepsearch_skill",
+      "oh_my_codex_design_skill",
+      "oh_my_codex_frontend-ui-ux_skill",
+      "oh_my_codex_git-master_skill",
+      "oh_my_codex_omx-setup_skill",
+      "oh_my_codex_performance-goal_skill",
+      "oh_my_codex_ralph-init_skill",
+      "oh_my_codex_security-review_skill",
+      "oh_my_codex_skill_skill",
+      "oh_my_codex_swarm_skill",
+      "oh_my_codex_tdd_skill",
+      "oh_my_codex_visual-ralph_skill",
+      "oh_my_codex_visual-verdict_skill",
+      "oh_my_codex_web-clone_skill"
+    ],
+    "8": [
+      "design_claude_code_goal_adapter",
+      "docs_architecture",
+      "docs_claude",
+      "skills_ask",
+      "skills_cancel",
+      "skills_deep_dive",
+      "skills_external_context",
+      "skills_omc_doctor",
+      "skills_omc_reference",
+      "skills_project_session_manager",
+      "skills_release",
+      "skills_setup",
+      "skills_ultragoal",
+      "skills_verify",
+      "skills_writer_memory",
+      "templates_feature",
+      "templates_issue_fix",
+      "templates_pr_review",
+      "templates_synopsis"
+    ],
+    "9": [
+      "self_improve_data_contracts",
+      "self_improve_si_benchmark_builder",
+      "self_improve_si_goal_clarifier",
+      "self_improve_si_researcher",
+      "self_improve_skill",
+      "self_improve_templates_goal",
+      "self_improve_templates_harness",
+      "self_improve_templates_idea"
+    ],
+    "10": [
+      "oh_my_antigravity_research_skill",
+      "oh_my_codex_autoresearch-goal_skill",
+      "oh_my_codex_autoresearch_skill",
+      "oh_my_codex_best-practice-research_skill",
+      "oh_my_codex_missions_readme",
+      "oh_my_codex_playground_readme"
+    ],
+    "11": [
+      "default_atlas_prompt",
+      "gemini_atlas_prompt",
+      "gpt_atlas_prompt",
+      "kimi_atlas_prompt",
+      "opus_atlas_prompt"
+    ],
+    "12": [
+      "agent_templates_readme",
+      "agents_model_compatibility",
+      "design_tiered_agents_v2",
+      "docs_agents"
+    ],
+    "13": [
+      "default_prometheus_prompt",
+      "gemini_prometheus_prompt",
+      "gpt_prometheus_prompt"
+    ],
+    "14": [
+      "benchmark_readme",
+      "benchmark_results"
+    ],
+    "15": [
+      "demos_readme",
+      "screenshots_readme"
+    ],
+    "16": [
+      "oh_my_codex_wiki_skill"
+    ],
+    "17": [
+      "ccg_skill"
+    ],
+    "18": [
+      "wiki_skill"
+    ],
+    "19": [
+      "trace_skill"
+    ],
+    "20": [
+      "configure_notifications_skill"
+    ],
+    "21": [
+      "skills_remember"
+    ],
+    "22": [
+      "skills_debug"
+    ],
+    "23": [
+      "rules_readme"
+    ],
+    "24": [
+      "omc_examples_vendor_mcp_server_readme"
+    ],
+    "25": [
+      "oh_my_codex_explore-lightweight-AGENTS_explore-lightweight-AGENTS"
+    ],
+    "26": [
+      "oh_my_codex_sparkshell-lightweight-AGENTS_sparkshell-lightweight-AGENTS"
+    ]
+  },
+  "cohesion": {
+    "0": 0.37,
+    "1": 0.07,
+    "2": 0.08,
+    "3": 0.08,
+    "4": 0.14,
+    "5": 0.07,
+    "6": 0.09,
+    "7": 0.24,
+    "8": 0.13,
+    "9": 0.39,
+    "10": 0.8,
+    "11": 0.4,
+    "12": 0.67,
+    "13": 0.67,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0,
+    "21": 1.0,
+    "22": 1.0,
+    "23": 1.0,
+    "24": 1.0,
+    "25": 1.0,
+    "26": 1.0
+  },
+  "gods": [
+    {
+      "id": "oh_my_codex_skill_skill",
+      "label": "Skill Management CLI",
+      "edges": 67
+    },
+    {
+      "id": "oh_my_codex_plan_skill",
+      "label": "[oh-my-codex] Plan SKILL",
+      "edges": 56
+    },
+    {
+      "id": "oh_my_antigravity_oh-my-antigravity_readme",
+      "label": "oh-my-antigravity (OmA)",
+      "edges": 52
+    },
+    {
+      "id": "oh_my_codex_AGENTS_AGENTS",
+      "label": "oh-my-codex - Intelligent Multi-Agent Orchestration",
+      "edges": 51
+    },
+    {
+      "id": "oh_my_antigravity_README_fr_README_fr",
+      "label": "oh-my-antigravity (OmA)",
+      "edges": 48
+    },
+    {
+      "id": "oh_my_codex_team_skill",
+      "label": "Team Skill",
+      "edges": 47
+    },
+    {
+      "id": "oh_my_antigravity_README_ja_README_ja",
+      "label": "oh-my-antigravity (OmA)",
+      "edges": 47
+    },
+    {
+      "id": "oh_my_codex_ralplan_skill",
+      "label": "Ralplan (Consensus Planning Alias)",
+      "edges": 46
+    },
+    {
+      "id": "oh_my_antigravity_README_zh_README_zh",
+      "label": "oh-my-antigravity (OmA)",
+      "edges": 46
+    },
+    {
+      "id": "oh_my_antigravity_README_es_README_es",
+      "label": "oh-my-antigravity (OmA)",
+      "edges": 46
+    }
+  ],
+  "surprises": [
+    {
+      "source": "OMC Agents Registry Guide",
+      "target": "OMX Core README",
+      "source_files": [
+        "oh-my-claudecode/src/agents/AGENTS.md",
+        "oh-my-codex/README.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "semantically_similar_to",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; semantically similar concepts with no structural link"
+    },
+    {
+      "source": "OMC Architect Agent",
+      "target": "OMX Architect Prompt",
+      "source_files": [
+        "oh-my-claudecode/agents/architect.md",
+        "oh-my-codex/prompts/architect.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "semantically_similar_to",
+      "why": "connects across different repos/directories; semantically similar concepts with no structural link; peripheral node `OMX Architect Prompt` unexpectedly reaches hub `OMC Architect Agent`"
+    },
+    {
+      "source": "oh-my-openagent src/agents/AGENTS.md",
+      "target": "RALPLAN Consensus Planning Entrypoint",
+      "source_files": [
+        "oh-my-openagent/src/agents/AGENTS.md",
+        "oh-my-claudecode/skills/ralplan/SKILL.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "Deep Codebase Initialization Skill",
+      "target": "oh-my-openagent src/agents/AGENTS.md",
+      "source_files": [
+        "oh-my-claudecode/skills/deepinit/SKILL.md",
+        "oh-my-openagent/src/agents/AGENTS.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories; peripheral node `Deep Codebase Initialization Skill` unexpectedly reaches hub `oh-my-openagent src/agents/AGENTS.md`"
+    },
+    {
+      "source": "oh-my-openagent src/agents/AGENTS.md",
+      "target": "Parallel Scientist Orchestration Research Skill",
+      "source_files": [
+        "oh-my-openagent/src/agents/AGENTS.md",
+        "oh-my-claudecode/skills/sciomc/SKILL.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories; peripheral node `Parallel Scientist Orchestration Research Skill` unexpectedly reaches hub `oh-my-openagent src/agents/AGENTS.md`"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `oh-my-openagent src/agents/AGENTS.md` connect `Community 2` to `Community 1`, `Community 4`?",
+      "why": "High betweenness centrality (0.079) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `Atlas Todo-list Orchestrator Agent` connect `Community 1` to `Community 2`?",
+      "why": "High betweenness centrality (0.052) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `oh-my-openagent/README.md`, `oh-my-openagent/script/AGENTS.md`, `oh-my-openagent/packages/prompts-core/prompts/atlas/gpt.md` to the rest of the system?",
+      "why": "128 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 1` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.07 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 2` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.08 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 3` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.08 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 4` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.14 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

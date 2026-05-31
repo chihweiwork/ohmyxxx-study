@@ -1,0 +1,38 @@
+[
+  {
+    "original": "- `team_cleanup` (**state-server**): Deletes team state **files** on disk (`.omx/state/team/<team>/`). Use after a team run is fully complete.\n- tmux/session cleanup: Use the documented `omx team` shutdown / cleanup flow when you need to stop worker panes or clean up an interrupted run.",
+    "zh_tw": "- `team_cleanup` (**state-server**): 刪除磁碟上的團隊狀態 **檔案**（`.omx/state/team/<team>/`）。在團隊執行完全結束後使用。\n- tmux/session cleanup: 當你需要停止 worker 窗格或清理中斷的執行時，請使用文件記載的 `omx team` 關閉 / 清理流程。"
+  },
+  {
+    "original": "### Automation example",
+    "zh_tw": "### 自動化範例"
+  },
+  {
+    "original": "```\n1. omx team 1:executor \"fix bugs\"\n2. omx team status <team-name>\n3. omx team shutdown <team-name>\n4. Clean up the finished team state for <team-name>\n```",
+    "zh_tw": "```\n1. omx team 1:executor \"fix bugs\"\n2. omx team status <team-name>\n3. omx team shutdown <team-name>\n4. 清理 <team-name> 已完成的團隊狀態\n```"
+  },
+  {
+    "original": "## Limitations",
+    "zh_tw": "## 限制"
+  },
+  {
+    "original": "- Worktree provisioning requires a git repository and can fail on branch/path collisions\n- send-keys interactions can be timing-sensitive under load\n- stale panes from prior runs can interfere until manually cleaned",
+    "zh_tw": "- 建立 worktree 需要 git repository，且在 branch/path 衝突時可能失敗\n- `send-keys` 互動在負載下可能對時序很敏感\n- 先前執行留下的過期 pane 會造成干擾，直到手動清理為止"
+  },
+  {
+    "original": "## Scenario Examples",
+    "zh_tw": "## 情境範例"
+  },
+  {
+    "original": "**Good:** The user says `continue` after the workflow already has a clear next step. Continue the current branch of work instead of restarting or re-asking the same question.",
+    "zh_tw": "**Good:** 在工作流程已經有明確下一步之後，使用者說 `continue`。請延續目前這條工作分支，而不是重新開始或重複詢問同一個問題。"
+  },
+  {
+    "original": "**Good:** The user changes only the output shape or downstream delivery step (for example `make a PR`). Preserve earlier non-conflicting workflow constraints and apply the update locally.",
+    "zh_tw": "**Good:** 使用者只改變輸出形式或下游交付步驟（例如 `make a PR`）。保留先前不衝突的工作流程限制，並在本地套用更新。"
+  },
+  {
+    "original": "**Bad:** The user says `continue`, and the workflow restarts discovery or stops before the missing verification/evidence is gathered.",
+    "zh_tw": "**Bad:** 使用者說 `continue`，但工作流程卻重新開始探索，或在補齊缺少的驗證/證據之前就停止。"
+  }
+]

@@ -1,0 +1,12 @@
+[submodule "oh-my-antigravity"]
+	path = oh-my-antigravity
+	url = https://github.com/Joonghyun-Lee-Frieren/oh-my-antigravity.git
+[submodule "oh-my-codex"]
+	path = oh-my-codex
+	url = https://github.com/Yeachan-Heo/oh-my-codex.git
+[submodule "oh-my-claudecode"]
+	path = oh-my-claudecode
+	url = https://github.com/Yeachan-Heo/oh-my-claudecode.git
+[submodule "oh-my-openagent"]
+	path = oh-my-openagent
+	url = https://github.com/code-yeongyu/oh-my-openagent.git

@@ -1,0 +1,6 @@
+[
+  {
+    "original": "### Summary\n**Overall**: [EXCELLENT / GOOD / NEEDS WORK / POOR]\n**Logic**: [pass / warn / fail]\n**Error Handling**: [pass / warn / fail]\n**Design**: [pass / warn / fail]\n**Maintainability**: [pass / warn / fail]",
+    "zh_tw": "### 摘要\n**整體**: [EXCELLENT / GOOD / NEEDS WORK / POOR]\n**邏輯**: [pass / warn / fail]\n**錯誤處理**: [pass / warn / fail]\n**設計**: [pass / warn / fail]\n**可維護性**: [pass / warn / fail]"
+  }
+]

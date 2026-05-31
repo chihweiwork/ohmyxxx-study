@@ -1,0 +1,346 @@
+[
+  {
+    "original": "Use for coding rules, prohibitions, and requirements.",
+    "zh_tw": "用於程式設計規則、禁止事項與要求。"
+  },
+  {
+    "original": "### Notes vs Directives",
+    "zh_tw": "### 備註與指令"
+  },
+  {
+    "original": "| | Notes | Directives |\n|---|---|---|\n| Nature | Information, observations, learned knowledge | Rules, constraints, requirements |\n| Example | \"This project uses a monorepo structure\" | \"No PRs without tests\" |\n| Agent behavior | Used as reference for decisions | Must be strictly followed |",
+    "zh_tw": "| | 備註 | 指令 |\n|---|---|---|\n| 性質 | 資訊、觀察、學到的知識 | 規則、限制、要求 |\n| 範例 | \"This project uses a monorepo structure\" | \"No PRs without tests\" |\n| Agent 行為 | 作為決策參考 | 必須嚴格遵守 |"
+  },
+  {
+    "original": "### Notepad vs Project Memory",
+    "zh_tw": "### Notepad 與 Project Memory"
+  },
+  {
+    "original": "| | Notepad | Project Memory |\n|---|---|---|\n| Scope | Current session | Entire project (persists across sessions) |\n| Purpose | In-progress notes | Project rules, structure, learned knowledge |\n| File | `.omc/notepad.md` | `.omc/project-memory.json` |\n| Compaction | Restored during compaction | Always available |",
+    "zh_tw": "| | Notepad | Project Memory |\n|---|---|---|\n| 範圍 | 目前工作階段 | 整個專案（會跨工作階段持續保留） |\n| 目的 | 進行中的筆記 | 專案規則、結構、學到的知識 |\n| 檔案 | `.omc/notepad.md` | `.omc/project-memory.json` |\n| 壓縮 | 在壓縮期間還原 | 一律可用 |"
+  },
+  {
+    "original": "### Usage Patterns",
+    "zh_tw": "### 使用模式"
+  },
+  {
+    "original": "**Register project rules:**",
+    "zh_tw": "**註冊專案規則：**"
+  },
+  {
+    "original": "```\nproject_memory_add_directive(\"This repo uses conventional commits\")\nproject_memory_add_directive(\"Files under src/generated/ must not be edited manually\")\n```",
+    "zh_tw": "```\nproject_memory_add_directive(\"This repo uses conventional commits\")\nproject_memory_add_directive(\"Files under src/generated/ must not be edited manually\")\n```"
+  },
+  {
+    "original": "**Record codebase structure:**",
+    "zh_tw": "**記錄程式碼庫結構：**"
+  },
+  {
+    "original": "```\nproject_memory_add_note(\"API layer: src/api/ → src/services/ → src/repositories/\")\nproject_memory_add_note(\"Auth: JWT + passport.js, implemented in src/auth/\")\n```",
+    "zh_tw": "```\nproject_memory_add_note(\"API layer: src/api/ → src/services/ → src/repositories/\")\nproject_memory_add_note(\"Auth: JWT + passport.js, implemented in src/auth/\")\n```"
+  },
+  {
+    "original": "**Record learned knowledge:**",
+    "zh_tw": "**記錄學到的知識：**"
+  },
+  {
+    "original": "```\nproject_memory_add_note(\"tsconfig paths settings need to be kept in sync with jest.config\")\n```",
+    "zh_tw": "```\nproject_memory_add_note(\"tsconfig paths settings need to be kept in sync with jest.config\")\n```"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## LSP",
+    "zh_tw": "## LSP"
+  },
+  {
+    "original": "LSP tools provide Language Server Protocol-based code intelligence: type information, go-to-definition, find references, error diagnostics, symbol search, and renaming.",
+    "zh_tw": "LSP 工具提供基於 Language Server Protocol 的程式碼智慧功能：型別資訊、跳至定義、尋找參照、錯誤診斷、符號搜尋與重新命名。"
+  },
+  {
+    "original": "A language server must be installed (e.g., `typescript-language-server`, `ty`, `rust-analyzer`, `gopls`). Use `lsp_servers()` to check installation status.",
+    "zh_tw": "必須安裝語言伺服器（例如 `typescript-language-server`、`ty`、`rust-analyzer`、`gopls`）。使用 `lsp_servers()` 檢查安裝狀態。"
+  },
+  {
+    "original": "### Tools",
+    "zh_tw": "### 工具"
+  },
+  {
+    "original": "#### `lsp_hover`",
+    "zh_tw": "#### `lsp_hover`"
+  },
+  {
+    "original": "Returns type information and documentation at the specified position.",
+    "zh_tw": "返回指定位置的型別資訊與文件說明。"
+  },
+  {
+    "original": "```\nlsp_hover(file=\"src/auth.ts\", line=42, character=10)\n```",
+    "zh_tw": "```\nlsp_hover(file=\"src/auth.ts\", line=42, character=10)\n```"
+  },
+  {
+    "original": "#### `lsp_goto_definition`",
+    "zh_tw": "#### `lsp_goto_definition`"
+  },
+  {
+    "original": "Navigates to the definition of a symbol.",
+    "zh_tw": "導覽至符號的定義。"
+  },
+  {
+    "original": "```\nlsp_goto_definition(file=\"src/auth.ts\", line=42, character=10)\n```",
+    "zh_tw": "```\nlsp_goto_definition(file=\"src/auth.ts\", line=42, character=10)\n```"
+  },
+  {
+    "original": "#### `lsp_find_references`",
+    "zh_tw": "#### `lsp_find_references`"
+  },
+  {
+    "original": "Finds all usage locations of a symbol.",
+    "zh_tw": "找出符號的所有使用位置。"
+  },
+  {
+    "original": "```\nlsp_find_references(file=\"src/auth.ts\", line=42, character=10)\n```",
+    "zh_tw": "```\nlsp_find_references(file=\"src/auth.ts\", line=42, character=10)\n```"
+  },
+  {
+    "original": "#### `lsp_document_symbols`",
+    "zh_tw": "#### `lsp_document_symbols`"
+  },
+  {
+    "original": "Returns the structural outline of a file (functions, classes, interfaces, etc.).",
+    "zh_tw": "返回檔案的結構大綱（函式、類別、介面等）。"
+  },
+  {
+    "original": "```\nlsp_document_symbols(file=\"src/auth.ts\")\n```",
+    "zh_tw": "```\nlsp_document_symbols(file=\"src/auth.ts\")\n```"
+  },
+  {
+    "original": "#### `lsp_workspace_symbols`",
+    "zh_tw": "#### `lsp_workspace_symbols`"
+  },
+  {
+    "original": "Searches for symbols across the entire workspace.",
+    "zh_tw": "搜尋整個工作區中的符號。"
+  },
+  {
+    "original": "```\nlsp_workspace_symbols(query=\"UserConfig\")\n```",
+    "zh_tw": "```\nlsp_workspace_symbols(query=\"UserConfig\")\n```"
+  },
+  {
+    "original": "#### `lsp_diagnostics`",
+    "zh_tw": "#### `lsp_diagnostics`"
+  },
+  {
+    "original": "Returns errors, warnings, and hints for a file.",
+    "zh_tw": "返回檔案的錯誤、警告與提示。"
+  },
+  {
+    "original": "```\nlsp_diagnostics(file=\"src/auth.ts\")\n```",
+    "zh_tw": "```\nlsp_diagnostics(file=\"src/auth.ts\")\n```"
+  },
+  {
+    "original": "Useful for immediately checking type errors after a code change.",
+    "zh_tw": "在程式碼變更後立即檢查型別錯誤時很有用。"
+  },
+  {
+    "original": "#### `lsp_diagnostics_directory`",
+    "zh_tw": "#### `lsp_diagnostics_directory`"
+  },
+  {
+    "original": "Returns diagnostics for an entire directory or project.",
+    "zh_tw": "返回整個目錄或專案的診斷結果。"
+  },
+  {
+    "original": "```\nlsp_diagnostics_directory(path=\"src/\")\n```",
+    "zh_tw": "```\nlsp_diagnostics_directory(path=\"src/\")\n```"
+  },
+  {
+    "original": "Use after complex multi-file changes to check project-wide type errors.",
+    "zh_tw": "在複雜的多檔案變更後使用，以檢查全專案型別錯誤。"
+  },
+  {
+    "original": "#### `lsp_prepare_rename`",
+    "zh_tw": "#### `lsp_prepare_rename`"
+  },
+  {
+    "original": "Checks whether a rename operation at the given position is valid.",
+    "zh_tw": "檢查指定位置的重新命名操作是否有效。"
+  },
+  {
+    "original": "```\nlsp_prepare_rename(file=\"src/auth.ts\", line=42, character=10)\n```",
+    "zh_tw": "```\nlsp_prepare_rename(file=\"src/auth.ts\", line=42, character=10)\n```"
+  },
+  {
+    "original": "#### `lsp_rename`",
+    "zh_tw": "#### `lsp_rename`"
+  },
+  {
+    "original": "Renames a symbol across the entire project.",
+    "zh_tw": "在整個專案中重新命名符號。"
+  },
+  {
+    "original": "```\nlsp_rename(file=\"src/auth.ts\", line=42, character=10, newName=\"AuthService\")\n```",
+    "zh_tw": "```\nlsp_rename(file=\"src/auth.ts\", line=42, character=10, newName=\"AuthService\")\n```"
+  },
+  {
+    "original": "#### `lsp_code_actions`",
+    "zh_tw": "#### `lsp_code_actions`"
+  },
+  {
+    "original": "Returns available refactoring actions for a range.",
+    "zh_tw": "返回範圍內可用的重構動作。"
+  },
+  {
+    "original": "```\nlsp_code_actions(file=\"src/auth.ts\", startLine=40, endLine=50)\n```",
+    "zh_tw": "```\nlsp_code_actions(file=\"src/auth.ts\", startLine=40, endLine=50)\n```"
+  },
+  {
+    "original": "#### `lsp_code_action_resolve`",
+    "zh_tw": "#### `lsp_code_action_resolve`"
+  },
+  {
+    "original": "Returns detailed information for a specific code action.",
+    "zh_tw": "返回特定程式碼動作的詳細資訊。"
+  },
+  {
+    "original": "```\nlsp_code_action_resolve(action=<action_object>)\n```",
+    "zh_tw": "```\nlsp_code_action_resolve(action=<action_object>)\n```"
+  },
+  {
+    "original": "#### `lsp_servers`",
+    "zh_tw": "#### `lsp_servers`"
+  },
+  {
+    "original": "Returns the list of available language servers and their installation status.",
+    "zh_tw": "返回可用語言伺服器及其安裝狀態的清單。"
+  },
+  {
+    "original": "```\nlsp_servers()\n```",
+    "zh_tw": "```\nlsp_servers()\n```"
+  },
+  {
+    "original": "### Environment Variables",
+    "zh_tw": "### 環境變數"
+  },
+  {
+    "original": "| Variable | Default | Description |\n|----------|---------|-------------|\n| `OMC_LSP_TIMEOUT_MS` | `15000` | LSP request timeout in ms. Increase for large repos or slow servers. |",
+    "zh_tw": "| 變數 | 預設值 | 說明 |\n|----------|---------|-------------|\n| `OMC_LSP_TIMEOUT_MS` | `15000` | LSP 請求逾時（毫秒）。對大型儲存庫或較慢的伺服器可提高此值。 |"
+  },
+  {
+    "original": "### Troubleshooting",
+    "zh_tw": "### 疑難排解"
+  },
+  {
+    "original": "| Problem | Solution |\n|---------|----------|\n| LSP tools not working | Install the language server: `npm install -g typescript-language-server` |\n| Timeout errors | Increase `OMC_LSP_TIMEOUT_MS` |\n| Check server status | Run `lsp_servers()` to verify installation |",
+    "zh_tw": "| 問題 | 解決方法 |\n|---------|----------|\n| LSP 工具無法運作 | 安裝語言伺服器：`npm install -g typescript-language-server` |\n| 逾時錯誤 | 提高 `OMC_LSP_TIMEOUT_MS` |\n| 檢查伺服器狀態 | 執行 `lsp_servers()` 驗證安裝 |"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## AST Grep",
+    "zh_tw": "## AST Grep"
+  },
+  {
+    "original": "AST Grep tools use [@ast-grep/napi](https://ast-grep.github.io/) to search and replace structural code patterns. Because it operates on AST (Abstract Syntax Tree) rather than regex, it matches code structure precisely.",
+    "zh_tw": "AST Grep 工具使用 [@ast-grep/napi](https://ast-grep.github.io/) 來搜尋與取代結構化程式碼模式。由於它操作的是 AST（Abstract Syntax Tree，抽象語法樹）而不是 regex，因此能精確匹配程式碼結構。"
+  },
+  {
+    "original": "### Tools",
+    "zh_tw": "### 工具"
+  },
+  {
+    "original": "#### `ast_grep_search`",
+    "zh_tw": "#### `ast_grep_search`"
+  },
+  {
+    "original": "Searches code using AST patterns.",
+    "zh_tw": "使用 AST 模式搜尋程式碼。"
+  },
+  {
+    "original": "```\nast_grep_search(\n  pattern=\"console.log($$$ARGS)\",\n  lang=\"typescript\"\n)\n```",
+    "zh_tw": "```\nast_grep_search(\n  pattern=\"console.log($$$ARGS)\",\n  lang=\"typescript\"\n)\n```"
+  },
+  {
+    "original": "**Meta variables:**",
+    "zh_tw": "**Meta 變數：**"
+  },
+  {
+    "original": "| Meta Variable | Description | Example |\n|---|---|---|\n| `$VAR` | Matches a single AST node | `$VAR.map($FUNC)` |\n| `$$$` | Matches multiple AST nodes | `console.log($$$ARGS)` |",
+    "zh_tw": "| Meta Variable | 說明 | 範例 |\n|---|---|---|\n| `$VAR` | 比對單一 AST 節點 | `$VAR.map($FUNC)` |\n| `$$$` | 比對多個 AST 節點 | `console.log($$$ARGS)` |"
+  },
+  {
+    "original": "**Examples:**",
+    "zh_tw": "**範例：**"
+  },
+  {
+    "original": "```\n# Find all console.log calls\nast_grep_search(pattern=\"console.log($$$)\", lang=\"typescript\")\n\n# Find specific fetch call patterns\nast_grep_search(pattern=\"fetch($URL, { method: 'POST', $$$REST })\", lang=\"typescript\")\n\n# Find React useState usage\nast_grep_search(pattern=\"const [$STATE, $SETTER] = useState($INIT)\", lang=\"tsx\")\n\n# Find try-catch blocks\nast_grep_search(pattern=\"try { $$$ } catch($ERR) { $$$ }\", lang=\"typescript\")\n```",
+    "zh_tw": "```\n# 找出所有 console.log 呼叫\nast_grep_search(pattern=\"console.log($$$)\", lang=\"typescript\")\n\n# 找出特定的 fetch 呼叫模式\nast_grep_search(pattern=\"fetch($URL, { method: 'POST', $$$REST })\", lang=\"typescript\")\n\n# 找出 React useState 的使用\nast_grep_search(pattern=\"const [$STATE, $SETTER] = useState($INIT)\", lang=\"tsx\")\n\n# 找出 try-catch 區塊\nast_grep_search(pattern=\"try { $$$ } catch($ERR) { $$$ }\", lang=\"typescript\")\n```"
+  },
+  {
+    "original": "#### `ast_grep_replace`",
+    "zh_tw": "#### `ast_grep_replace`"
+  },
+  {
+    "original": "Replaces code using structural AST patterns.",
+    "zh_tw": "使用結構化 AST 模式取代程式碼。"
+  },
+  {
+    "original": "```\nast_grep_replace(\n  pattern=\"console.log($$$ARGS)\",\n  replacement=\"logger.info($$$ARGS)\",\n  lang=\"typescript\",\n  dryRun=true\n)\n```",
+    "zh_tw": "```\nast_grep_replace(\n  pattern=\"console.log($$$ARGS)\",\n  replacement=\"logger.info($$$ARGS)\",\n  lang=\"typescript\",\n  dryRun=true\n)\n```"
+  },
+  {
+    "original": "> **Always run with `dryRun=true` first to review changes before applying.**",
+    "zh_tw": "> **請務必先以 `dryRun=true` 執行，先檢視變更再套用。**"
+  },
+  {
+    "original": "**Examples:**",
+    "zh_tw": "**範例：**"
+  },
+  {
+    "original": "```\n# Replace console.log with logger.info\nast_grep_replace(\n  pattern=\"console.log($$$ARGS)\",\n  replacement=\"logger.info($$$ARGS)\",\n  lang=\"typescript\",\n  dryRun=true\n)\n\n# Convert synchronous functions to async\nast_grep_replace(\n  pattern=\"function $NAME($$$PARAMS) { $$$BODY }\",\n  replacement=\"async function $NAME($$$PARAMS) { $$$BODY }\",\n  lang=\"typescript\",\n  dryRun=true\n)\n```",
+    "zh_tw": "```\n# 使用 logger.info 取代 console.log\nast_grep_replace(\n  pattern=\"console.log($$$ARGS)\",\n  replacement=\"logger.info($$$ARGS)\",\n  lang=\"typescript\",\n  dryRun=true\n)\n\n# 將同步函式轉為 async\nast_grep_replace(\n  pattern=\"function $NAME($$$PARAMS) { $$$BODY }\",\n  replacement=\"async function $NAME($$$PARAMS) { $$$BODY }\",\n  lang=\"typescript\",\n  dryRun=true\n)\n```"
+  },
+  {
+    "original": "### AST Grep vs Regex",
+    "zh_tw": "### AST Grep 與 Regex"
+  },
+  {
+    "original": "| | Regex (Grep) | AST Grep |\n|---|---|---|\n| Matches against | Text patterns | Code structure |\n| Whitespace/newlines | Sensitive | Irrelevant |\n| Comments | Matched | Skipped |\n| Refactoring safety | Risky | Structure-preserving |\n| Use case | Text search | Code transformation |",
+    "zh_tw": "| | Regex (Grep) | AST Grep |\n|---|---|---|\n| 比對對象 | 文字模式 | 程式碼結構 |\n| 空白字元/換行 | 敏感 | 不相關 |\n| 註解 | 會被匹配 | 會被略過 |\n| 重構安全性 | 有風險 | 保持結構 |\n| 使用情境 | 文字搜尋 | 程式碼轉換 |"
+  },
+  {
+    "original": "### Supported Languages",
+    "zh_tw": "### 支援的語言"
+  },
+  {
+    "original": "TypeScript, JavaScript, TSX, JSX, Python, Go, Rust, Java, C, C++, C#, Ruby, Swift, Kotlin, and most major programming languages.",
+    "zh_tw": "TypeScript、JavaScript、TSX、JSX、Python、Go、Rust、Java、C、C++、C#、Ruby、Swift、Kotlin，以及大多數主要程式語言。"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Python REPL",
+    "zh_tw": "## Python REPL"
+  },
+  {
+    "original": "Python REPL is a Python execution environment where state persists across calls within a session. Used for data analysis, statistical computation, visualization, and prototyping.",
+    "zh_tw": "Python REPL 是一個 Python 執行環境，會在同一個 session 中跨呼叫保留狀態。可用於資料分析、統計計算、視覺化與原型開發。"
+  },
+  {
+    "original": "### Tool",
+    "zh_tw": "### 工具"
+  },
+  {
+    "original": "#### `python_repl`",
+    "zh_tw": "#### `python_repl`"
+  },
+  {
+    "original": "Executes Python code and returns the result.",
+    "zh_tw": "執行 Python 程式碼並返回結果。"
+  }
+]

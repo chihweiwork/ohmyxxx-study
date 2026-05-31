@@ -1,0 +1,38 @@
+[
+  {
+    "original": "---\nname = \"ralplan\"\ndescription = \"Create a strict, quality-first execution plan with explicit gates and rollback-ready sequencing.\"\n---",
+    "zh_tw": "---\nname = \"ralplan\"\ndescription = \"建立一個嚴格、以品質為優先的執行計畫，具備明確的關卡與可回滾的排序。\"\n---"
+  },
+  {
+    "original": "## Purpose",
+    "zh_tw": "## 目的"
+  },
+  {
+    "original": "Use this skill when planning must prioritize correctness and risk control over speed.",
+    "zh_tw": "當規劃必須將正確性與風險控管置於速度之上時，使用此技能。"
+  },
+  {
+    "original": "## Trigger",
+    "zh_tw": "## 觸發條件"
+  },
+  {
+    "original": "- High-risk refactors or migrations\n- Security or reliability-sensitive changes\n- User asks for strict planning before coding",
+    "zh_tw": "- 高風險的重構或遷移\n- 對安全性或可靠性敏感的變更\n- 使用者要求在編碼前進行嚴格規劃"
+  },
+  {
+    "original": "## Workflow",
+    "zh_tw": "## 工作流程"
+  },
+  {
+    "original": "1. Define objective, constraints, and non-goals.\n2. Build a stage-gated plan (`plan -> prd -> exec -> verify -> fix`).\n3. Define hard pass/fail criteria per stage.\n4. Include rollback points and stop conditions.\n5. Add validation gates before release readiness.",
+    "zh_tw": "1. 定義目標、限制與非目標。\n2. 建立分階段關卡式計畫（`plan -> prd -> exec -> verify -> fix`）。\n3. 為每個階段定義明確的通過/失敗標準。\n4. 納入回滾點與停止條件。\n5. 在準備發佈前加入驗證關卡。"
+  },
+  {
+    "original": "## Output Template",
+    "zh_tw": "## 輸出範本"
+  },
+  {
+    "original": "```markdown\n## Goal\n- ...\n\n## Stage Gates\n| Stage | Entry Criteria | Exit Criteria | Owner |\n| --- | --- | --- | --- |\n\n## Risk Controls\n- ...\n\n## Rollback Plan\n- ...\n```",
+    "zh_tw": "```markdown\n## 目標\n- ...\n\n## 階段關卡\n| Stage | 進入條件 | 退出條件 | Owner |\n| --- | --- | --- | --- |\n\n## 風險控制\n- ...\n\n## 回滾計畫\n- ...\n```"
+  }
+]

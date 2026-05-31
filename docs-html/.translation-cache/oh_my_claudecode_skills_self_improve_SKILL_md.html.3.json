@@ -1,0 +1,34 @@
+[
+  {
+    "original": "1. Update agent-settings.json with final status\n2. If `target_reached` AND `auto_pr` is `true` in settings: spawn git-master to create PR from `improve/{goal_slug}` to upstream.\n   If `auto_pr` is `false` (default): skip PR creation. Log: `\"PR creation skipped (auto_pr: false). Run manually: gh pr create --head improve/{goal_slug} --base {target_branch}\"`\n3. Run plot_progress.py one final time\n4. Print summary report:\n   ```\n   === Self-Improvement Loop Complete ===\n   Status: {status}\n   Iterations: {iterations}\n   Best Score: {best_score} (baseline: {baseline})\n   Improvement: {delta} ({delta_pct}%)\n   ```\n5. Run `/oh-my-claudecode:cancel` for clean state cleanup",
+    "zh_tw": "1. 使用最終狀態更新 `agent-settings.json`\n2. 如果設定中的 `target_reached` 為 `true` 且 `auto_pr` 為 `true`：啟動 `git-master`，從 `improve/{goal_slug}` 建立 PR 到 upstream。\n   如果 `auto_pr` 為 `false`（預設）：略過 PR 建立。記錄：`\"PR creation skipped (auto_pr: false). Run manually: gh pr create --head improve/{goal_slug} --base {target_branch}\"`\n3. 最後再執行一次 `plot_progress.py`\n4. 列印摘要報告：\n   ```\n   === Self-Improvement Loop Complete ===\n   Status: {status}\n   Iterations: {iterations}\n   Best Score: {best_score} (baseline: {baseline})\n   Improvement: {delta} ({delta_pct}%)\n   ```\n5. 執行 `/oh-my-claudecode:cancel` 以進行乾淨的狀態清理"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Error Handling",
+    "zh_tw": "## 錯誤處理"
+  },
+  {
+    "original": "| Situation | Action |\n|---|---|\n| Agent fails to produce output | Retry once. If still no output, log and continue. |\n| Researcher produces empty brief | Proceed — planners work from history alone. |\n| All plans rejected by critic | Skip execution. Log. Continue to next iteration. |\n| All executors fail | Skip tournament. Record failures. Continue. |\n| Merge conflict | Reject candidate, try next. |\n| Re-benchmark regression | Reject candidate, revert merge, try next. |\n| Push failure | Log warning. Continue — push is backup. |\n| Worktree already exists | Remove and recreate. |\n| Settings corrupted | Report and stop. |",
+    "zh_tw": "| 情況 | 動作 |\n|---|---|\n| 代理無法產生輸出 | 重試一次。如果仍然沒有輸出，記錄並繼續。 |\n| 研究員產出空白簡報 | 繼續執行——規劃器只依賴歷史記錄。 |\n| 所有計畫都被評審拒絕 | 略過執行。記錄。繼續下一輪。 |\n| 所有執行者都失敗 | 略過競賽。記錄失敗。繼續。 |\n| 合併衝突 | 拒絕候選項，嘗試下一個。 |\n| 重新基準測試回歸 | 拒絕候選項，還原合併，嘗試下一個。 |\n| 推送失敗 | 記錄警告。繼續——推送是備援。 |\n| 工作樹已存在 | 移除並重新建立。 |\n| 設定已損毀 | 回報並停止。 |"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Approach Family Taxonomy",
+    "zh_tw": "## 方法家族分類"
+  },
+  {
+    "original": "Every plan must be tagged with exactly one:",
+    "zh_tw": "每個計畫都必須且只能標記一個："
+  },
+  {
+    "original": "| Tag | Description |\n|-----|-------------|\n| `architecture` | Model/component structure changes |\n| `training_config` | Optimizer, LR, scheduler, batch size |\n| `data` | Data loading, augmentation, preprocessing |\n| `infrastructure` | Mixed precision, distributed training, compiled kernels |\n| `optimization` | Algorithmic/numerical optimizations |\n| `testing` | Evaluation methodology changes |\n| `documentation` | Documentation-only changes |\n| `other` | Does not fit above — explain in evidence |",
+    "zh_tw": "| 標籤 | 說明 |\n|-----|-------------|\n| `architecture` | 模型/元件結構變更 |\n| `training_config` | 優化器、學習率、排程器、批次大小 |\n| `data` | 資料載入、增強、前處理 |\n| `infrastructure` | 混合精度、分散式訓練、編譯後的核心 |\n| `optimization` | 演算法/數值最佳化 |\n| `testing` | 評估方法變更 |\n| `documentation` | 僅限文件變更 |\n| `other` | 不符合以上項目者 — 在 evidence 中說明 |"
+  }
+]

@@ -1,0 +1,402 @@
+[
+  {
+    "original": "# MCP Tools",
+    "zh_tw": "# MCP 工具"
+  },
+  {
+    "original": "> OMC provides MCP tools for state management, code intelligence, and data analysis.",
+    "zh_tw": "> OMC 提供用於狀態管理、程式碼智能和資料分析的 MCP 工具。"
+  },
+  {
+    "original": "Unlike skills that users invoke directly, tools are used internally by agents during task execution.",
+    "zh_tw": "與使用者直接呼叫的 skills 不同，tools 是由 agents 在執行任務期間於內部使用。"
+  },
+  {
+    "original": "## Tool Categories",
+    "zh_tw": "## 工具分類"
+  },
+  {
+    "original": "- [State](#state) — Manage execution mode state\n- [Notepad](#notepad) — Persistent notes that survive context compaction\n- [Project Memory](#project-memory) — Long-term per-project memory across sessions\n- [LSP](#lsp) — Language Server Protocol code intelligence (12 tools)\n- [AST Grep](#ast-grep) — Structural AST-based code search and replacement\n- [Python REPL](#python-repl) — Persistent Python execution environment\n- [Session Search](#session-search) — Search previous session history\n- [Trace](#trace) — Agent flow trace analysis\n- [Shared Memory](#shared-memory) — Cross-agent shared memory for team coordination\n- [Skills](#skills) — Internal skill management tools\n- [Deepinit Manifest](#deepinit-manifest) — Incremental AGENTS.md regeneration manifest",
+    "zh_tw": "- [State](#state) — 管理執行模式狀態\n- [Notepad](#notepad) — 可持久保存、在上下文壓縮後仍會保留的筆記\n- [Project Memory](#project-memory) — 跨工作階段的每專案長期記憶\n- [LSP](#lsp) — Language Server Protocol 程式碼智能（12 個工具）\n- [AST Grep](#ast-grep) — 基於 AST 結構的程式碼搜尋與替換\n- [Python REPL](#python-repl) — 持久化的 Python 執行環境\n- [Session Search](#session-search) — 搜尋先前的工作階段歷史\n- [Trace](#trace) — Agent 流程追蹤分析\n- [Shared Memory](#shared-memory) — 供團隊協作使用的跨 agent 共享記憶體\n- [Skills](#skills) — 內部 skill 管理工具\n- [Deepinit Manifest](#deepinit-manifest) — 漸進式 AGENTS.md 重新生成清單"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## State",
+    "zh_tw": "## 狀態"
+  },
+  {
+    "original": "State tools manage the state of OMC execution modes (autopilot, ralph, ultrawork, etc.). Each mode records its current progress, active status, and configuration in state files.",
+    "zh_tw": "State 工具負責管理 OMC 執行模式（autopilot、ralph、ultrawork 等）的狀態。每個模式都會在狀態檔案中記錄目前進度、啟用狀態與設定。"
+  },
+  {
+    "original": "### Storage Path",
+    "zh_tw": "### 存放路徑"
+  },
+  {
+    "original": "```\n.omc/state/\n├── sessions/{sessionId}/     # Session-scoped state\n│   ├── autopilot-state.json\n│   ├── ralph-state.json\n│   └── ultrawork-state.json\n├── autopilot-state.json      # Legacy fallback\n├── ralph-state.json\n└── ultrawork-state.json\n```",
+    "zh_tw": "```\n.omc/state/\n├── sessions/{sessionId}/     # Session-scoped state\n│   ├── autopilot-state.json\n│   ├── ralph-state.json\n│   └── ultrawork-state.json\n├── autopilot-state.json      # Legacy fallback\n├── ralph-state.json\n└── ultrawork-state.json\n```"
+  },
+  {
+    "original": "When a session ID is provided, the session-scoped path is used; otherwise the legacy path is used as a fallback.",
+    "zh_tw": "當提供 session ID 時，會使用以工作階段為範圍的路徑；否則會使用舊版路徑作為回退。"
+  },
+  {
+    "original": "### Tools",
+    "zh_tw": "### 工具"
+  },
+  {
+    "original": "#### `state_read`",
+    "zh_tw": "#### `state_read`"
+  },
+  {
+    "original": "Reads the state for a given mode.",
+    "zh_tw": "讀取指定模式的狀態。"
+  },
+  {
+    "original": "```\nstate_read(mode=\"ralph\")\nstate_read(mode=\"ralph\", session_id=\"abc123\")\n```",
+    "zh_tw": "```\nstate_read(mode=\"ralph\")\nstate_read(mode=\"ralph\", session_id=\"abc123\")\n```"
+  },
+  {
+    "original": "Returns an empty response if no state file exists.",
+    "zh_tw": "如果不存在狀態檔案，則回傳空回應。"
+  },
+  {
+    "original": "#### `state_write`",
+    "zh_tw": "#### `state_write`"
+  },
+  {
+    "original": "Saves the state for a given mode.",
+    "zh_tw": "儲存指定模式的狀態。"
+  },
+  {
+    "original": "```\nstate_write(mode=\"ralph\", state={\n  active: true,\n  current_phase: \"execution\",\n  iteration: 3,\n  max_iterations: 10\n})\n```",
+    "zh_tw": "```\nstate_write(mode=\"ralph\", state={\n  active: true,\n  current_phase: \"execution\",\n  iteration: 3,\n  max_iterations: 10\n})\n```"
+  },
+  {
+    "original": "#### `state_clear`",
+    "zh_tw": "#### `state_clear`"
+  },
+  {
+    "original": "Deletes the state file for a given mode.",
+    "zh_tw": "刪除指定模式的狀態檔案。"
+  },
+  {
+    "original": "```\nstate_clear(mode=\"ralph\")\nstate_clear(mode=\"ralph\", session_id=\"abc123\")\n```",
+    "zh_tw": "```\nstate_clear(mode=\"ralph\")\nstate_clear(mode=\"ralph\", session_id=\"abc123\")\n```"
+  },
+  {
+    "original": "When called without a session ID, clears the legacy file.",
+    "zh_tw": "在未提供 session ID 的情況下，會清除舊版檔案。"
+  },
+  {
+    "original": "#### `state_list_active`",
+    "zh_tw": "#### `state_list_active`"
+  },
+  {
+    "original": "Lists all currently active sessions.",
+    "zh_tw": "列出目前所有啟用中的工作階段。"
+  },
+  {
+    "original": "```\nstate_list_active()\n```",
+    "zh_tw": "```\nstate_list_active()\n```"
+  },
+  {
+    "original": "Returns all session IDs and their corresponding modes under `.omc/state/sessions/`.",
+    "zh_tw": "回傳 `.omc/state/sessions/` 下所有 session ID 及其對應模式。"
+  },
+  {
+    "original": "#### `state_get_status`",
+    "zh_tw": "#### `state_get_status`"
+  },
+  {
+    "original": "Returns a status summary for a specific session.",
+    "zh_tw": "回傳特定工作階段的狀態摘要。"
+  },
+  {
+    "original": "```\nstate_get_status(session_id=\"abc123\")\n```",
+    "zh_tw": "```\nstate_get_status(session_id=\"abc123\")\n```"
+  },
+  {
+    "original": "Includes the active mode name and whether dependent modes exist.",
+    "zh_tw": "包含目前啟用的模式名稱，以及是否存在相依模式。"
+  },
+  {
+    "original": "### Environment Variables",
+    "zh_tw": "### 環境變數"
+  },
+  {
+    "original": "| Variable | Default | Description |\n|----------|---------|-------------|\n| `OMC_STATE_DIR` | (unset) | Centralized state directory. When set, state persists even if the worktree is deleted. |",
+    "zh_tw": "| Variable | Default | Description |\n|----------|---------|-------------|\n| `OMC_STATE_DIR` | (unset) | 集中式狀態目錄。設定後，即使工作樹被刪除，狀態仍會保留。 |"
+  },
+  {
+    "original": "When `OMC_STATE_DIR` is set, state is stored at `$OMC_STATE_DIR/{project-id}/`.",
+    "zh_tw": "當設定 `OMC_STATE_DIR` 時，狀態會儲存在 `$OMC_STATE_DIR/{project-id}/`。"
+  },
+  {
+    "original": "```bash\nexport OMC_STATE_DIR=\"$HOME/.claude/omc\"\n```",
+    "zh_tw": "```bash\nexport OMC_STATE_DIR=\"$HOME/.claude/omc\"\n```"
+  },
+  {
+    "original": "### Usage Patterns",
+    "zh_tw": "### 使用模式"
+  },
+  {
+    "original": "**Activate a mode:**",
+    "zh_tw": "**啟用模式：**"
+  },
+  {
+    "original": "```\nstate_write(mode=\"autopilot\", state={\n  active: true,\n  current_phase: \"expansion\",\n  started_at: \"2024-01-15T09:00:00Z\"\n})\n```",
+    "zh_tw": "```\nstate_write(mode=\"autopilot\", state={\n  active: true,\n  current_phase: \"expansion\",\n  started_at: \"2024-01-15T09:00:00Z\"\n})\n```"
+  },
+  {
+    "original": "**Deactivate a mode:**",
+    "zh_tw": "**停用模式：**"
+  },
+  {
+    "original": "```\nstate_clear(mode=\"autopilot\")\n```",
+    "zh_tw": "```\nstate_clear(mode=\"autopilot\")\n```"
+  },
+  {
+    "original": "**Check active modes:**",
+    "zh_tw": "**檢查啟用中的模式：**"
+  },
+  {
+    "original": "```\nstate_list_active()\n→ [{session_id: \"abc123\", mode: \"ralph\", active: true}]\n```",
+    "zh_tw": "```\nstate_list_active()\n→ [{session_id: \"abc123\", mode: \"ralph\", active: true}]\n```"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Notepad",
+    "zh_tw": "## Notepad"
+  },
+  {
+    "original": "Notepad is a persistent note system that survives context window compaction. In long sessions, when important information from early in the conversation is pushed out of context, notes saved to Notepad are restored after compaction.",
+    "zh_tw": "Notepad 是一個可持久保存的筆記系統，即使經過上下文視窗壓縮仍會保留。在長時間的工作階段中，當對話前期的重要資訊被擠出上下文時，儲存在 Notepad 的筆記會在壓縮後恢復。"
+  },
+  {
+    "original": "### Storage Path",
+    "zh_tw": "### 存放路徑"
+  },
+  {
+    "original": "```\n.omc/notepad.md\n```",
+    "zh_tw": "```\n.omc/notepad.md\n```"
+  },
+  {
+    "original": "### Tools",
+    "zh_tw": "### 工具"
+  },
+  {
+    "original": "#### `notepad_read`",
+    "zh_tw": "#### `notepad_read`"
+  },
+  {
+    "original": "Reads the full contents of the notepad.",
+    "zh_tw": "讀取 notepad 的完整內容。"
+  },
+  {
+    "original": "```\nnotepad_read()\n```",
+    "zh_tw": "```\nnotepad_read()\n```"
+  },
+  {
+    "original": "#### `notepad_write_priority`",
+    "zh_tw": "#### `notepad_write_priority`"
+  },
+  {
+    "original": "Saves a note at the highest priority. Restored first during compaction.",
+    "zh_tw": "以最高優先級儲存筆記。壓縮時會最先恢復。"
+  },
+  {
+    "original": "```\nnotepad_write_priority(content=\"This project uses TypeScript strict mode\")\n```",
+    "zh_tw": "```\nnotepad_write_priority(content=\"This project uses TypeScript strict mode\")\n```"
+  },
+  {
+    "original": "Use for architecture decisions, critical constraints, and information that must never be forgotten.",
+    "zh_tw": "用於架構決策、關鍵限制，以及絕不能遺忘的資訊。"
+  },
+  {
+    "original": "#### `notepad_write_working`",
+    "zh_tw": "#### `notepad_write_working`"
+  },
+  {
+    "original": "Saves the current working context. General-purpose notes.",
+    "zh_tw": "儲存目前的工作上下文。通用型筆記。"
+  },
+  {
+    "original": "```\nnotepad_write_working(content=\"Currently refactoring auth module, 3/5 files done\")\n```",
+    "zh_tw": "```\nnotepad_write_working(content=\"Currently refactoring auth module, 3/5 files done\")\n```"
+  },
+  {
+    "original": "Use for progress tracking, next steps, and information discovered during work.",
+    "zh_tw": "用於進度追蹤、下一步，以及工作期間發現的資訊。"
+  },
+  {
+    "original": "#### `notepad_write_manual`",
+    "zh_tw": "#### `notepad_write_manual`"
+  },
+  {
+    "original": "Manually saves a note at a specific location.",
+    "zh_tw": "手動將筆記儲存在特定位置。"
+  },
+  {
+    "original": "```\nnotepad_write_manual(content=\"Bug: sessionId undefined at session.ts:45\")\n```",
+    "zh_tw": "```\nnotepad_write_manual(content=\"Bug: sessionId undefined at session.ts:45\")\n```"
+  },
+  {
+    "original": "#### `notepad_prune`",
+    "zh_tw": "#### `notepad_prune`"
+  },
+  {
+    "original": "Cleans up old or unnecessary notes.",
+    "zh_tw": "清理舊的或不必要的筆記。"
+  },
+  {
+    "original": "```\nnotepad_prune()\n```",
+    "zh_tw": "```\nnotepad_prune()\n```"
+  },
+  {
+    "original": "#### `notepad_stats`",
+    "zh_tw": "#### `notepad_stats`"
+  },
+  {
+    "original": "Returns statistics about the notepad (entry count, size, etc.).",
+    "zh_tw": "回傳關於 notepad 的統計資料（項目數量、大小等）。"
+  },
+  {
+    "original": "```\nnotepad_stats()\n```",
+    "zh_tw": "```\nnotepad_stats()\n```"
+  },
+  {
+    "original": "### Usage Patterns",
+    "zh_tw": "### 使用模式"
+  },
+  {
+    "original": "**Record an important decision:**",
+    "zh_tw": "**記錄重要決策：**"
+  },
+  {
+    "original": "```\nnotepad_write_priority(content=\"DB migration: PostgreSQL → MySQL is forbidden. Existing query compatibility issue.\")\n```",
+    "zh_tw": "```\nnotepad_write_priority(content=\"DB migration: PostgreSQL → MySQL is forbidden. Existing query compatibility issue.\")\n```"
+  },
+  {
+    "original": "**Track work progress:**",
+    "zh_tw": "**追蹤工作進度：**"
+  },
+  {
+    "original": "```\nnotepad_write_working(content=\"TODO: 1. Fix auth module ✓  2. Add tests  3. Update docs\")\n```",
+    "zh_tw": "```\nnotepad_write_working(content=\"TODO: 1. Fix auth module ✓  2. Add tests  3. Update docs\")\n```"
+  },
+  {
+    "original": "**Restore context when resuming a session:**",
+    "zh_tw": "**在恢復工作階段時還原上下文：**"
+  },
+  {
+    "original": "```\nnotepad_read()\n→ \"Currently refactoring auth. src/auth/login.ts done. Next: src/auth/session.ts\"\n```",
+    "zh_tw": "```\nnotepad_read()\n→ \"Currently refactoring auth. src/auth/login.ts done. Next: src/auth/session.ts\"\n```"
+  },
+  {
+    "original": "### Compaction Behavior",
+    "zh_tw": "### 壓縮行為"
+  },
+  {
+    "original": "When Claude Code compacts context:",
+    "zh_tw": "當 Claude Code 壓縮上下文時："
+  },
+  {
+    "original": "1. Notepad contents are included in the compaction result\n2. Priority notes are restored first\n3. Working notes are restored next\n4. Pruned notes are excluded",
+    "zh_tw": "1. Notepad 內容會納入壓縮結果\n2. 優先級筆記會先恢復\n3. 工作筆記接著恢復\n4. 已清理的筆記會被排除"
+  },
+  {
+    "original": "Core context is preserved even in very long sessions.",
+    "zh_tw": "即使在非常長的工作階段中，核心上下文也會被保留。"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Project Memory",
+    "zh_tw": "## 專案記憶"
+  },
+  {
+    "original": "Project Memory manages long-term per-project memory. It persists project structure, rules, learned knowledge, and directives across sessions, enabling agents to quickly understand project context.",
+    "zh_tw": "Project Memory 管理每個專案的長期記憶。它會在不同工作階段之間保留專案結構、規則、已學得的知識與指令，讓 agents 能快速理解專案上下文。"
+  },
+  {
+    "original": "### Storage Path",
+    "zh_tw": "### 存放路徑"
+  },
+  {
+    "original": "```\n.omc/project-memory.json\n```",
+    "zh_tw": "```\n.omc/project-memory.json\n```"
+  },
+  {
+    "original": "### Tools",
+    "zh_tw": "### 工具"
+  },
+  {
+    "original": "#### `project_memory_read`",
+    "zh_tw": "#### `project_memory_read`"
+  },
+  {
+    "original": "Reads the full contents of project memory.",
+    "zh_tw": "讀取專案記憶的完整內容。"
+  },
+  {
+    "original": "```\nproject_memory_read()\n```",
+    "zh_tw": "```\nproject_memory_read()\n```"
+  },
+  {
+    "original": "Returns all stored notes and directives for the project.",
+    "zh_tw": "回傳此專案所有已儲存的筆記與指令。"
+  },
+  {
+    "original": "#### `project_memory_write`",
+    "zh_tw": "#### `project_memory_write`"
+  },
+  {
+    "original": "Overwrites project memory entirely.",
+    "zh_tw": "完整覆寫專案記憶。"
+  },
+  {
+    "original": "```\nproject_memory_write(content={\n  notes: [\"Uses TypeScript strict mode\", \"Tests use vitest\"],\n  directives: [\"JSDoc required on all functions\"]\n})\n```",
+    "zh_tw": "```\nproject_memory_write(content={\n  notes: [\"Uses TypeScript strict mode\", \"Tests use vitest\"],\n  directives: [\"JSDoc required on all functions\"]\n})\n```"
+  },
+  {
+    "original": "> **Warning:** This completely replaces existing content. For partial updates, use `project_memory_add_note` or `project_memory_add_directive` instead.",
+    "zh_tw": "> **警告：** 這會完全取代既有內容。若要進行部分更新，請改用 `project_memory_add_note` 或 `project_memory_add_directive`。"
+  },
+  {
+    "original": "#### `project_memory_add_note`",
+    "zh_tw": "#### `project_memory_add_note`"
+  },
+  {
+    "original": "Adds a note about the project.",
+    "zh_tw": "新增一則關於專案的筆記。"
+  },
+  {
+    "original": "```\nproject_memory_add_note(note=\"src/utils/ should contain pure functions only\")\n```",
+    "zh_tw": "```\nproject_memory_add_note(note=\"src/utils/ should contain pure functions only\")\n```"
+  },
+  {
+    "original": "Use for project structure, patterns, and learned knowledge.",
+    "zh_tw": "用於專案結構、模式與已學得的知識。"
+  },
+  {
+    "original": "#### `project_memory_add_directive`",
+    "zh_tw": "#### `project_memory_add_directive`"
+  },
+  {
+    "original": "Adds a directive that agents must follow.",
+    "zh_tw": "新增一條 agents 必須遵循的指令。"
+  },
+  {
+    "original": "```\nproject_memory_add_directive(directive=\"Use structured logging instead of console.log\")\n```",
+    "zh_tw": "```\nproject_memory_add_directive(directive=\"Use structured logging instead of console.log\")\n```"
+  }
+]

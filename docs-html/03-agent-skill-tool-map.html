@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Skill Tool Map</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1120px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}h2{margin-top:2.2rem;border-top:1px solid #e5e7eb;padding-top:1.2rem}table{border-collapse:collapse;width:100%;margin:1rem 0;display:block;overflow-x:auto}th,td{border:1px solid #d1d5db;padding:8px 10px;vertical-align:top}th{background:#f3f4f6;text-align:left}code{background:#f3f4f6;padding:0.1em 0.3em;border-radius:4px}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto}pre code{background:transparent;padding:0;color:inherit}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden}.source-original,.source-translation{padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#fff7ed;border-top:1px solid #fed7aa}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.warn{background:#fff7ed;border:1px solid #fed7aa;padding:12px 14px;border-radius:8px}.path{word-break:break-all}</style>
+</head>
+<body>
+<main>
+<nav><a href="index.html">Docs Home</a><a href="sources/index.html">Sources</a></nav>
+<h1 id="agent-skill-tool-map">Agent Skill Tool Map</h1>
+<p>這份索引用來回答：「這些 agent、skill、tool、command、hook、prompt 到底各自負責什麼？」它不是完整百科，而是學習架構時的核心地圖。完整節點請看 <code>graphify-out/graph.json</code>。</p>
+<h2 id="分類規則">分類規則</h2>
+<p>不同專案對同一個詞的用法不完全一致，因此本文件用功能而不是檔名做分類。</p>
+<table>
+<thead><tr><th>類別</th><th>判斷方式</th><th>常見形式</th></tr></thead>
+<tbody>
+<tr><td>Agent</td><td>扮演決策、執行、審核、研究等角色</td><td><code>agents/*.md</code>、<code>src/agents/*/AGENTS.md</code></td></tr>
+<tr><td>Prompt</td><td>specialist instruction，但不一定是 runtime process</td><td><code>prompts/*.md</code></td></tr>
+<tr><td>Skill</td><td>可重用工作流或能力入口</td><td><code>skills/*/SKILL.md</code>、plugin skills</td></tr>
+<tr><td>Tool</td><td>有實作的可調用能力，通常處理 I/O 或 runtime action</td><td><code>src/tools/*</code></td></tr>
+<tr><td>Hook</td><td>在事件前後插入控制、注入、修復、驗證</td><td><code>src/hooks/*</code>、<code>hooks/scripts/*</code></td></tr>
+<tr><td>Command</td><td>使用者可直接觸發的入口</td><td><code>commands/*.md</code>、<code>commands/oma/*.toml</code></td></tr>
+</tbody>
+</table>
+<h2 id="角色分類">角色分類</h2>
+<p>先用角色理解，比背名稱更有效：</p>
+<table>
+<thead><tr><th>角色</th><th>代表項目</th><th>責任</th></tr></thead>
+<tbody>
+<tr><td>Planner</td><td>Prometheus、Planner、Metis、Ralplan</td><td>拆解任務、提出計畫</td></tr>
+<tr><td>Executor</td><td>Hephaestus、Executor、Team Executor、Editor</td><td>實作或執行工作</td></tr>
+<tr><td>Reviewer</td><td>Momus、Reviewer、Code Reviewer、Security Reviewer</td><td>挑錯、驗證、審核</td></tr>
+<tr><td>Researcher</td><td>Librarian、Researcher、Scientist、Autoresearch</td><td>搜尋、研究、實驗</td></tr>
+<tr><td>Orchestrator</td><td>Atlas、Sisyphus、Team Orchestrator、Consensus</td><td>協調多角色或多步驟</td></tr>
+<tr><td>Gatekeeper</td><td>Director、strict oracle/state model、verify hooks</td><td>決定能否進入下一步</td></tr>
+<tr><td>Memory/Context</td><td>context injector、Ralph、Wiki、Learn</td><td>保存或壓縮上下文</td></tr>
+</tbody>
+</table>
+<h2 id="oh-my-openagent-omo">oh-my-openagent (OMO)</h2>
+<p>OMO 的項目最接近 runtime 元件。Agent 會透過 tool 執行，hook 會干預 runtime 行為。</p>
+<table>
+<thead><tr><th>類別</th><th>項目</th><th>來源</th><th>用途</th><th>優先級</th></tr></thead>
+<tbody>
+<tr><td>Agent</td><td>Atlas</td><td><a href="sources/oh_my_openagent_src_agents_atlas_AGENTS_md.html"><code>oh-my-openagent/src/agents/atlas/AGENTS.md</code></a></td><td>todo-list orchestrator，負責路由與協調</td><td>核心</td></tr>
+<tr><td>Agent</td><td>Prometheus</td><td><a href="sources/oh_my_openagent_src_agents_prometheus_AGENTS_md.html"><code>oh-my-openagent/src/agents/prometheus/AGENTS.md</code></a></td><td>strategic planner，負責高階計畫</td><td>核心</td></tr>
+<tr><td>Agent</td><td>Sisyphus</td><td><a href="sources/oh_my_openagent_src_agents_sisyphus_AGENTS_md.html"><code>oh-my-openagent/src/agents/sisyphus/AGENTS.md</code></a></td><td>main long-running orchestrator</td><td>核心</td></tr>
+<tr><td>Agent</td><td>Sisyphus-Junior</td><td><a href="sources/oh_my_openagent_src_agents_sisyphus_junior_AGENTS_md.html"><code>oh-my-openagent/src/agents/sisyphus-junior/AGENTS.md</code></a></td><td>category-spawned executor</td><td>進階</td></tr>
+<tr><td>Agent</td><td>Hephaestus</td><td><a href="sources/oh_my_openagent_src_agents_hephaestus_AGENTS_md.html"><code>oh-my-openagent/src/agents/hephaestus/AGENTS.md</code></a></td><td>autonomous deep worker，偏長任務執行</td><td>核心</td></tr>
+<tr><td>Agent</td><td>Oracle</td><td><a href="sources/oh_my_openagent_src_agents_AGENTS_md.html"><code>oh-my-openagent/src/agents/AGENTS.md</code></a></td><td>read-only consultant，適合諮詢與審視</td><td>常用</td></tr>
+<tr><td>Agent</td><td>Librarian</td><td><a href="sources/oh_my_openagent_src_agents_AGENTS_md.html"><code>oh-my-openagent/src/agents/AGENTS.md</code></a></td><td>external search specialist</td><td>常用</td></tr>
+<tr><td>Agent</td><td>Explore</td><td><a href="sources/oh_my_openagent_src_agents_AGENTS_md.html"><code>oh-my-openagent/src/agents/AGENTS.md</code></a></td><td>contextual grep / codebase exploration</td><td>常用</td></tr>
+<tr><td>Agent</td><td>Multimodal-Looker</td><td><a href="sources/oh_my_openagent_src_agents_AGENTS_md.html"><code>oh-my-openagent/src/agents/AGENTS.md</code></a></td><td>PDF/image analysis</td><td>進階</td></tr>
+<tr><td>Agent</td><td>Metis</td><td><a href="sources/oh_my_openagent_src_agents_AGENTS_md.html"><code>oh-my-openagent/src/agents/AGENTS.md</code></a></td><td>pre-planning consultant</td><td>核心</td></tr>
+<tr><td>Agent</td><td>Momus</td><td><a href="sources/oh_my_openagent_src_agents_AGENTS_md.html"><code>oh-my-openagent/src/agents/AGENTS.md</code></a></td><td>plan reviewer</td><td>核心</td></tr>
+<tr><td>Tool</td><td><code>call-omo-agent</code></td><td><code>oh-my-openagent/src/tools/call-omo-agent</code></td><td>呼叫 OMO subagent</td><td>核心</td></tr>
+<tr><td>Tool</td><td><code>delegate-task</code></td><td><code>oh-my-openagent/src/tools/delegate-task</code></td><td>任務委派、模型選擇、subagent resolution</td><td>核心</td></tr>
+<tr><td>Tool</td><td><code>background-task</code></td><td><code>oh-my-openagent/src/tools/background-task</code></td><td>長任務背景執行與狀態查詢</td><td>核心</td></tr>
+<tr><td>Tool</td><td><code>hashline-edit</code></td><td><code>oh-my-openagent/src/tools/hashline-edit</code></td><td>hashline-based safe editing</td><td>常用</td></tr>
+<tr><td>Tool</td><td><code>look-at</code></td><td><code>oh-my-openagent/src/tools/look-at</code></td><td>多模態查看檔案/圖片</td><td>常用</td></tr>
+<tr><td>Tool</td><td><code>skill</code> / <code>skill-mcp</code></td><td><code>oh-my-openagent/src/tools/skill</code></td><td>skill discovery/loading</td><td>常用</td></tr>
+<tr><td>Hook</td><td>context recovery</td><td><code>oh-my-openagent/src/hooks/anthropic-context-window-limit-recovery</code></td><td>context window limit recovery</td><td>核心</td></tr>
+<tr><td>Hook</td><td>compaction injector</td><td><code>oh-my-openagent/src/hooks/compaction-context-injector</code></td><td>注入壓縮後上下文</td><td>核心</td></tr>
+<tr><td>Hook</td><td>rules injector</td><td><code>oh-my-openagent/src/hooks/rules-injector</code></td><td>注入規則</td><td>常用</td></tr>
+<tr><td>Hook</td><td>runtime fallback</td><td><code>oh-my-openagent/src/hooks/runtime-fallback</code></td><td>runtime fallback handling</td><td>常用</td></tr>
+</tbody>
+</table>
+<p>OMO 查表方式：</p>
+<ul>
+<li>研究任務分派：看 Atlas、Prometheus、Sisyphus、<code>delegate-task</code>。</li>
+<li>研究長任務：看 Hephaestus、Sisyphus、<code>background-task</code>。</li>
+<li>研究穩定性：看 context recovery、compaction injector、runtime fallback。</li>
+</ul>
+<h2 id="oh-my-claudecode-omc">oh-my-claudecode (OMC)</h2>
+<p>OMC 的項目應該按 workflow 讀。Command 是使用者入口，skill 定義流程，agent 提供 specialist 判斷，tool 支援資料與狀態操作。</p>
+<table>
+<thead><tr><th>類別</th><th>項目</th><th>來源</th><th>用途</th><th>優先級</th></tr></thead>
+<tbody>
+<tr><td>Agent</td><td>Architect</td><td><a href="sources/oh_my_claudecode_agents_architect_md.html"><code>oh-my-claudecode/agents/architect.md</code></a></td><td>architecture design</td><td>核心</td></tr>
+<tr><td>Agent</td><td>Planner</td><td><a href="sources/oh_my_claudecode_agents_planner_md.html"><code>oh-my-claudecode/agents/planner.md</code></a></td><td>plan drafting</td><td>核心</td></tr>
+<tr><td>Agent</td><td>Executor</td><td><a href="sources/oh_my_claudecode_agents_executor_md.html"><code>oh-my-claudecode/agents/executor.md</code></a></td><td>implementation execution</td><td>核心</td></tr>
+<tr><td>Agent</td><td>Verifier</td><td><a href="sources/oh_my_claudecode_agents_verifier_md.html"><code>oh-my-claudecode/agents/verifier.md</code></a></td><td>verification</td><td>核心</td></tr>
+<tr><td>Agent</td><td>Code Reviewer</td><td><a href="sources/oh_my_claudecode_agents_code_reviewer_md.html"><code>oh-my-claudecode/agents/code-reviewer.md</code></a></td><td>code review</td><td>常用</td></tr>
+<tr><td>Agent</td><td>Debugger</td><td><a href="sources/oh_my_claudecode_agents_debugger_md.html"><code>oh-my-claudecode/agents/debugger.md</code></a></td><td>debugging</td><td>常用</td></tr>
+<tr><td>Agent</td><td>Scientist</td><td><a href="sources/oh_my_claudecode_agents_scientist_md.html"><code>oh-my-claudecode/agents/scientist.md</code></a></td><td>experiment/research</td><td>進階</td></tr>
+<tr><td>Agent</td><td>Tracer</td><td><a href="sources/oh_my_claudecode_agents_tracer_md.html"><code>oh-my-claudecode/agents/tracer.md</code></a></td><td>evidence-driven tracing</td><td>常用</td></tr>
+<tr><td>Skill</td><td>Plan</td><td><a href="sources/oh_my_claudecode_skills_plan_SKILL_md.html"><code>oh-my-claudecode/skills/plan/SKILL.md</code></a></td><td>strategic planning</td><td>核心</td></tr>
+<tr><td>Skill</td><td>Self Improve</td><td><a href="sources/oh_my_claudecode_skills_self_improve_SKILL_md.html"><code>oh-my-claudecode/skills/self-improve/SKILL.md</code></a></td><td>prompt/workflow benchmark loop</td><td>核心</td></tr>
+<tr><td>Skill</td><td>Autoresearch</td><td><a href="sources/oh_my_claudecode_skills_autoresearch_SKILL_md.html"><code>oh-my-claudecode/skills/autoresearch/SKILL.md</code></a></td><td>automated research</td><td>常用</td></tr>
+<tr><td>Skill</td><td>SciOMC</td><td><a href="sources/oh_my_claudecode_skills_sciomc_SKILL_md.html"><code>oh-my-claudecode/skills/sciomc/SKILL.md</code></a></td><td>parallel scientist orchestration</td><td>進階</td></tr>
+<tr><td>Skill</td><td>Visual Verdict</td><td><a href="sources/oh_my_claudecode_skills_visual_verdict_SKILL_md.html"><code>oh-my-claudecode/skills/visual-verdict/SKILL.md</code></a></td><td>screenshot-based UI QA</td><td>常用</td></tr>
+<tr><td>Skill</td><td>RALPLAN</td><td><a href="sources/oh_my_claudecode_skills_ralplan_SKILL_md.html"><code>oh-my-claudecode/skills/ralplan/SKILL.md</code></a></td><td>consensus planning entrypoint</td><td>核心</td></tr>
+<tr><td>Skill</td><td>Team</td><td><a href="sources/oh_my_claudecode_skills_team_SKILL_md.html"><code>oh-my-claudecode/skills/team/SKILL.md</code></a></td><td>coordinated execution</td><td>核心</td></tr>
+<tr><td>Skill</td><td>Ralph</td><td><a href="sources/oh_my_claudecode_skills_ralph_SKILL_md.html"><code>oh-my-claudecode/skills/ralph/SKILL.md</code></a></td><td>persistence loop</td><td>進階</td></tr>
+<tr><td>Tool</td><td>memory/wiki/state tools</td><td><code>oh-my-claudecode/src/tools</code></td><td>本地記憶、wiki、state 操作</td><td>常用</td></tr>
+<tr><td>Tool</td><td>LSP/diagnostics tools</td><td><code>oh-my-claudecode/src/tools</code></td><td>code intelligence and diagnostics</td><td>常用</td></tr>
+</tbody>
+</table>
+<p>OMC 查表方式：</p>
+<ul>
+<li>想了解「開發流程」：從 <code>commands/</code> 追到 skills。</li>
+<li>想了解「專家角色」：看 <code>agents/*.md</code>。</li>
+<li>想了解「狀態和記憶」：看 <code>src/tools</code> 的 memory/wiki/state 類工具。</li>
+</ul>
+<h2 id="oh-my-codex-omx">oh-my-codex (OMX)</h2>
+<p>OMX 的 prompt 和 skill 要一起讀。Prompt 定義 specialist 行為，plugin skill 定義入口與流程，state/runtime module 定義約束與執行環境。</p>
+<table>
+<thead><tr><th>類別</th><th>項目</th><th>來源</th><th>用途</th><th>優先級</th></tr></thead>
+<tbody>
+<tr><td>Prompt</td><td>Prometheus Strict Oracle</td><td><a href="sources/oh_my_codex_prompts_prometheus_strict_oracle_md.html"><code>oh-my-codex/prompts/prometheus-strict-oracle.md</code></a></td><td>strict oracle prompt</td><td>核心</td></tr>
+<tr><td>Prompt</td><td>Prometheus Strict Metis</td><td><a href="sources/oh_my_codex_prompts_prometheus_strict_metis_md.html"><code>oh-my-codex/prompts/prometheus-strict-metis.md</code></a></td><td>strict planner/consultant</td><td>核心</td></tr>
+<tr><td>Prompt</td><td>Prometheus Strict Momus</td><td><a href="sources/oh_my_codex_prompts_prometheus_strict_momus_md.html"><code>oh-my-codex/prompts/prometheus-strict-momus.md</code></a></td><td>strict reviewer/auditor</td><td>核心</td></tr>
+<tr><td>Prompt</td><td>Architect</td><td><a href="sources/oh_my_codex_prompts_architect_md.html"><code>oh-my-codex/prompts/architect.md</code></a></td><td>architecture specialist</td><td>核心</td></tr>
+<tr><td>Prompt</td><td>Team Orchestrator</td><td><a href="sources/oh_my_codex_prompts_team_orchestrator_md.html"><code>oh-my-codex/prompts/team-orchestrator.md</code></a></td><td>team coordination</td><td>核心</td></tr>
+<tr><td>Prompt</td><td>Executor</td><td><a href="sources/oh_my_codex_prompts_executor_md.html"><code>oh-my-codex/prompts/executor.md</code></a></td><td>execution specialist</td><td>核心</td></tr>
+<tr><td>Prompt</td><td>Planner</td><td><a href="sources/oh_my_codex_prompts_planner_md.html"><code>oh-my-codex/prompts/planner.md</code></a></td><td>planning specialist</td><td>核心</td></tr>
+<tr><td>Prompt</td><td>Security Reviewer</td><td><a href="sources/oh_my_codex_prompts_security_reviewer_md.html"><code>oh-my-codex/prompts/security-reviewer.md</code></a></td><td>security review</td><td>常用</td></tr>
+<tr><td>Prompt</td><td>Quality Reviewer</td><td><a href="sources/oh_my_codex_prompts_quality_reviewer_md.html"><code>oh-my-codex/prompts/quality-reviewer.md</code></a></td><td>quality review</td><td>常用</td></tr>
+<tr><td>Prompt</td><td>Code Simplifier</td><td><a href="sources/oh_my_codex_prompts_code_simplifier_md.html"><code>oh-my-codex/prompts/code-simplifier.md</code></a></td><td>simplification/refactor review</td><td>常用</td></tr>
+<tr><td>Skill</td><td>Prometheus Strict</td><td><a href="sources/oh_my_codex_plugins_oh_my_codex_skills_prometheus_strict_SKILL_md.html"><code>oh-my-codex/plugins/oh-my-codex/skills/prometheus-strict/SKILL.md</code></a></td><td>strict workflow entry</td><td>核心</td></tr>
+<tr><td>Skill</td><td>Plan</td><td><a href="sources/oh_my_codex_plugins_oh_my_codex_skills_plan_SKILL_md.html"><code>oh-my-codex/plugins/oh-my-codex/skills/plan/SKILL.md</code></a></td><td>Codex planning workflow</td><td>核心</td></tr>
+<tr><td>Skill</td><td>Team</td><td><a href="sources/oh_my_codex_plugins_oh_my_codex_skills_team_SKILL_md.html"><code>oh-my-codex/plugins/oh-my-codex/skills/team/SKILL.md</code></a></td><td>team workflow</td><td>核心</td></tr>
+<tr><td>Skill</td><td>Analyze</td><td><a href="sources/oh_my_codex_plugins_oh_my_codex_skills_analyze_SKILL_md.html"><code>oh-my-codex/plugins/oh-my-codex/skills/analyze/SKILL.md</code></a></td><td>read-only deep analysis</td><td>常用</td></tr>
+<tr><td>Skill</td><td>Ralph</td><td><a href="sources/oh_my_codex_plugins_oh_my_codex_skills_ralph_SKILL_md.html"><code>oh-my-codex/plugins/oh-my-codex/skills/ralph/SKILL.md</code></a></td><td>persistence loop</td><td>進階</td></tr>
+<tr><td>Skill</td><td>Pipeline</td><td><a href="sources/oh_my_codex_plugins_oh_my_codex_skills_pipeline_SKILL_md.html"><code>oh-my-codex/plugins/oh-my-codex/skills/pipeline/SKILL.md</code></a></td><td>staged workflow</td><td>進階</td></tr>
+<tr><td>Runtime</td><td>subagents/team/hooks</td><td><code>oh-my-codex/src</code></td><td>runtime support modules</td><td>進階</td></tr>
+</tbody>
+</table>
+<p>OMX 查表方式：</p>
+<ul>
+<li>想了解嚴格約束：看 Prometheus Strict family 和 <code>STATE_MODEL.md</code>。</li>
+<li>想了解日常入口：看 <code>plan</code>、<code>team</code>、<code>analyze</code> skills。</li>
+<li>想比較 OMC：對照 OMC agents 與 OMX prompts 的同名角色。</li>
+</ul>
+<h2 id="oh-my-antigravity-oma">oh-my-antigravity (OmA)</h2>
+<p>OmA 的項目應按決策流程讀：specialist 提案、Consensus 合成、Director gate、Executor/Verifier 完成工作、Learn 保存經驗。</p>
+<table>
+<thead><tr><th>類別</th><th>項目</th><th>來源</th><th>用途</th><th>優先級</th></tr></thead>
+<tbody>
+<tr><td>Agent</td><td>Director</td><td><a href="sources/oh_my_antigravity_agents_director_md.html"><code>oh-my-antigravity/agents/director.md</code></a></td><td>final gatekeeper</td><td>核心</td></tr>
+<tr><td>Agent</td><td>Consensus</td><td><a href="sources/oh_my_antigravity_agents_consensus_md.html"><code>oh-my-antigravity/agents/consensus.md</code></a></td><td>merge specialist proposals</td><td>核心</td></tr>
+<tr><td>Agent</td><td>Architect</td><td><a href="sources/oh_my_antigravity_agents_architect_md.html"><code>oh-my-antigravity/agents/architect.md</code></a></td><td>architecture proposal</td><td>核心</td></tr>
+<tr><td>Agent</td><td>Reviewer</td><td><a href="sources/oh_my_antigravity_agents_reviewer_md.html"><code>oh-my-antigravity/agents/reviewer.md</code></a></td><td>review and critique</td><td>核心</td></tr>
+<tr><td>Agent</td><td>Researcher</td><td><a href="sources/oh_my_antigravity_agents_researcher_md.html"><code>oh-my-antigravity/agents/researcher.md</code></a></td><td>research</td><td>常用</td></tr>
+<tr><td>Agent</td><td>Editor</td><td><a href="sources/oh_my_antigravity_agents_editor_md.html"><code>oh-my-antigravity/agents/editor.md</code></a></td><td>editing implementation</td><td>常用</td></tr>
+<tr><td>Agent</td><td>Executor</td><td><a href="sources/oh_my_antigravity_agents_executor_md.html"><code>oh-my-antigravity/agents/executor.md</code></a></td><td>execution</td><td>核心</td></tr>
+<tr><td>Agent</td><td>Verifier</td><td><a href="sources/oh_my_antigravity_agents_verifier_md.html"><code>oh-my-antigravity/agents/verifier.md</code></a></td><td>verification</td><td>核心</td></tr>
+<tr><td>Skill</td><td>Learn</td><td><a href="sources/oh_my_antigravity_skills_learn_SKILL_md.html"><code>oh-my-antigravity/skills/learn/SKILL.md</code></a></td><td>session learning and rule capture</td><td>核心</td></tr>
+<tr><td>Skill</td><td>Ralplan</td><td><a href="sources/oh_my_antigravity_skills_ralplan_SKILL_md.html"><code>oh-my-antigravity/skills/ralplan/SKILL.md</code></a></td><td>consensus planning</td><td>核心</td></tr>
+<tr><td>Skill</td><td>Plan</td><td><a href="sources/oh_my_antigravity_skills_plan_SKILL_md.html"><code>oh-my-antigravity/skills/plan/SKILL.md</code></a></td><td>planning</td><td>核心</td></tr>
+<tr><td>Skill</td><td>Execute</td><td><a href="sources/oh_my_antigravity_skills_execute_SKILL_md.html"><code>oh-my-antigravity/skills/execute/SKILL.md</code></a></td><td>execution workflow</td><td>核心</td></tr>
+<tr><td>Skill</td><td>Context Optimize</td><td><a href="sources/oh_my_antigravity_skills_context_optimize_SKILL_md.html"><code>oh-my-antigravity/skills/context-optimize/SKILL.md</code></a></td><td>context optimization</td><td>常用</td></tr>
+<tr><td>Command</td><td><code>oma team-*</code></td><td><code>oh-my-antigravity/commands/oma</code></td><td>team planning/execution/verification</td><td>核心</td></tr>
+<tr><td>Command</td><td><code>oma consensus</code></td><td><code>oh-my-antigravity/commands/oma/consensus.toml</code></td><td>consensus workflow</td><td>核心</td></tr>
+<tr><td>Hook</td><td>learn hook</td><td><code>oh-my-antigravity/hooks/scripts/learn.js</code></td><td>session-end learning</td><td>核心</td></tr>
+</tbody>
+</table>
+<p>OmA 查表方式：</p>
+<ul>
+<li>想了解共識決策：看 Consensus、Director、Ralplan。</li>
+<li>想了解執行閉環：看 Execute、Executor、Verifier、team commands。</li>
+<li>想了解學習機制：看 Learn skill 和 learn hook script。</li>
+</ul>
+<h2 id="如何使用這份索引">如何使用這份索引</h2>
+<ul>
+<li>要理解「誰負責決策」：看 Atlas、Prometheus、Planner、Director、Consensus。</li>
+<li>要理解「誰負責執行」：看 Hephaestus、Executor、Team Executor、Editor。</li>
+<li>要理解「誰負責審核」：看 Momus、Verifier、Reviewer、Code Reviewer、Security Reviewer。</li>
+<li>要理解「怎麼避免失控」：看 OMO hooks、OMC verify/visual-verdict、OMX strict prompts/state model、OmA Director gatekeeping。</li>
+<li>要理解「怎麼保存上下文」：看 OMO compaction、OMC memory/wiki/state tools、OMX Ralph/wiki/state、OmA learn hook。</li>
+</ul>
+<h2 id="自測問題">自測問題</h2>
+<ul>
+<li>為什麼 <code>skill</code> 不等於 <code>tool</code>？</li>
+<li>哪些項目是 planner？哪些項目是 gatekeeper？</li>
+<li>OMO 的 hook 和 OmA 的 hook 解決的是同一類問題嗎？</li>
+<li>如果要設計一個新的 UI 驗證流程，你會優先借鑑 OMC 哪些項目？</li>
+</ul>
+</main>
+</body>
+</html>

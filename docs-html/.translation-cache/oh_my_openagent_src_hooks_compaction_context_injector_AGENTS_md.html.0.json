@@ -1,0 +1,58 @@
+[
+  {
+    "original": "# src/hooks/compaction-context-injector/ -- Post-Compaction Context Recovery",
+    "zh_tw": "# src/hooks/compaction-context-injector/ -- 壓縮後上下文復原"
+  },
+  {
+    "original": "**Generated:** 2026-05-18",
+    "zh_tw": "**產生時間：** 2026-05-18"
+  },
+  {
+    "original": "## OVERVIEW",
+    "zh_tw": "## 總覽"
+  },
+  {
+    "original": "Continuation Tier hook. Fires on `session.compacted` to re-inject critical context lost during context-window compaction. Prevents the agent from losing its bearings after OpenCode trims session history.",
+    "zh_tw": "Continuation 層級的 hook。在 `session.compacted` 觸發，重新注入在 context-window 壓縮期間遺失的關鍵上下文。避免 OpenCode 裁切 session history 後讓 agent 失去方向。"
+  },
+  {
+    "original": "## TIER + EVENT",
+    "zh_tw": "## 層級 + 事件"
+  },
+  {
+    "original": "- **Tier:** Continuation\n- **Event:** `session.compacted` (primary), `session.idle`, `session.deleted`, `message.updated`, `message.part.delta`, `message.part.updated`",
+    "zh_tw": "- **層級:** Continuation\n- **事件:** `session.compacted`（主要）、`session.idle`、`session.deleted`、`message.updated`、`message.part.delta`、`message.part.updated`"
+  },
+  {
+    "original": "## KEY FILES",
+    "zh_tw": "## 關鍵檔案"
+  },
+  {
+    "original": "| File | Purpose |\n|------|---------|\n| `hook.ts` | `createCompactionContextInjector()` -- composes capture, restore, inject, event |\n| `recovery.ts` | `createRecoveryLogic()` -- rebuilds agent/model/tools after compaction |\n| `tail-monitor.ts` | Tracks assistant output to detect no-text tails |\n| `session-prompt-config-resolver.ts` | Walks session messages to resolve current agent/model/tools |\n| `validated-model.ts` | `validateCheckpointModel()` -- model validation |\n| `session-id.ts` | `resolveSessionID()`, `isCompactionAgent()` |\n| `recovery-prompt-config.ts` | `createExpectedRecoveryPromptConfig()`, `isPromptConfigRecovered()` |\n| `constants.ts` | `RECOVERY_COOLDOWN_MS`, `NO_TEXT_TAIL_THRESHOLD`, `RECENT_COMPACTION_WINDOW_MS` |\n| `types.ts` | `CompactionContextInjector` interface |\n| `compaction-context-prompt.ts` | `COMPACTION_CONTEXT_PROMPT` -- 8-section summary template |\n| `index.ts` / `index.test.ts` | Barrel export + tests |\n| `recovery.test.ts` / `session-prompt-config-resolver.test.ts` | Unit tests |",
+    "zh_tw": "| 檔案 | 用途 |\n|------|---------|\n| `hook.ts` | `createCompactionContextInjector()` -- 組合 capture、restore、inject、event |\n| `recovery.ts` | `createRecoveryLogic()` -- 在壓縮後重建 agent/model/tools |\n| `tail-monitor.ts` | 追蹤 assistant 輸出以偵測沒有文字的尾端 |\n| `session-prompt-config-resolver.ts` | 遍歷 session 訊息以解析目前的 agent/model/tools |\n| `validated-model.ts` | `validateCheckpointModel()` -- 模型驗證 |\n| `session-id.ts` | `resolveSessionID()`、`isCompactionAgent()` |\n| `recovery-prompt-config.ts` | `createExpectedRecoveryPromptConfig()`、`isPromptConfigRecovered()` |\n| `constants.ts` | `RECOVERY_COOLDOWN_MS`、`NO_TEXT_TAIL_THRESHOLD`、`RECENT_COMPACTION_WINDOW_MS` |\n| `types.ts` | `CompactionContextInjector` 介面 |\n| `compaction-context-prompt.ts` | `COMPACTION_CONTEXT_PROMPT` -- 8 個區段的摘要範本 |\n| `index.ts` / `index.test.ts` | 匯出樞紐 + 測試 |\n| `recovery.test.ts` / `session-prompt-config-resolver.test.ts` | 單元測試 |"
+  },
+  {
+    "original": "## HOW IT WORKS",
+    "zh_tw": "## 運作方式"
+  },
+  {
+    "original": "1. **Capture:** Before compaction, saves agent/model/tools checkpoint via `setCompactionAgentConfigCheckpoint()`\n2. **Inject:** Returns `COMPACTION_CONTEXT_PROMPT` with active delegated session history\n3. **Recover:** On `session.compacted`, dispatches internal prompt to restore checkpointed config\n4. **Tail monitor:** Detects consecutive assistant messages with no text output; triggers recovery if recent compaction",
+    "zh_tw": "1. **Capture：** 在壓縮前，透過 `setCompactionAgentConfigCheckpoint()` 儲存 agent/model/tools 檢查點\n2. **Inject：** 回傳包含目前委派 session 歷史的 `COMPACTION_CONTEXT_PROMPT`\n3. **Recover：** 在 `session.compacted` 時，派送內部提示以還原已檢查點的設定\n4. **Tail monitor：** 偵測連續沒有文字輸出的 assistant 訊息；若近期有壓縮則觸發復原"
+  },
+  {
+    "original": "## INTEGRATION",
+    "zh_tw": "## 整合"
+  },
+  {
+    "original": "Registered in `create-continuation-hooks.ts` as `compactionContextInjector`.",
+    "zh_tw": "在 `create-continuation-hooks.ts` 中註冊為 `compactionContextInjector`。"
+  },
+  {
+    "original": "## DISTINCTION",
+    "zh_tw": "## 差異"
+  },
+  {
+    "original": "- **`compactionTodoPreserver`:** Preserves todos only (sibling Continuation hook)\n- **`anthropicContextWindowLimitRecovery`:** Prevents the limit preemptively (Session Tier)",
+    "zh_tw": "- **`compactionTodoPreserver`：** 只保留 todos（同層級的 Continuation hook）\n- **`anthropicContextWindowLimitRecovery`：** 預先防止達到限制（Session Tier）"
+  }
+]

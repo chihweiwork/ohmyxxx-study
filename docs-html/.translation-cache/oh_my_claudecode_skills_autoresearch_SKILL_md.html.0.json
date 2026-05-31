@@ -1,0 +1,50 @@
+[
+  {
+    "original": "---\nname: autoresearch\ndescription: Stateful single-mission improvement loop with strict evaluator contract, markdown decision logs, and max-runtime stop behavior\nargument-hint: \"[--mission-dir <path>] [--max-runtime <duration>] [--cron <spec>] [--resume <run-id>]\"\nlevel: 4\n---",
+    "zh_tw": "---\nname: autoresearch\ndescription: 具狀態的單一任務改進迴圈，具嚴格 evaluator 契約、Markdown 決策日誌，以及 max-runtime 停止行為\nargument-hint: \"[--mission-dir <path>] [--max-runtime <duration>] [--cron <spec>] [--resume <run-id>]\"\nlevel: 4\n---"
+  },
+  {
+    "original": "<Purpose>\nAutoresearch is a stateful skill for bounded, evaluator-driven iterative improvement. It owns one mission at a time, keeps iterating through non-passing results, records each evaluation and decision as durable artifacts, and stops only when an explicit max-runtime ceiling or another explicit terminal condition is reached.\n</Purpose>",
+    "zh_tw": "<Purpose>\nAutoresearch 是一個具狀態、以 evaluator 驅動的受限迭代式改進 skill。它一次只負責一個 mission，會持續針對未通過結果進行迭代，將每次 evaluation 與決策記錄為可持久保存的產物，並且只會在達到明確的 max-runtime 上限或其他明確的終止條件時停止。\n</Purpose>"
+  },
+  {
+    "original": "<Use_When>\n- You already have a mission and evaluator from `/deep-interview --autoresearch`\n- You want persistent single-mission improvement with strict evaluation\n- You need durable experiment logs under `.omc/autoresearch/`\n- You want a supported path for periodic reruns via Claude Code native cron\n</Use_When>",
+    "zh_tw": "<Use_When>\n- 你已經透過 `/deep-interview --autoresearch` 取得 mission 和 evaluator\n- 你想要具持久性的單一任務改進與嚴格評估\n- 你需要儲存在 `.omc/autoresearch/` 下的持久實驗日誌\n- 你想要透過 Claude Code 原生 cron 進行定期重新執行的支援路徑\n</Use_When>"
+  },
+  {
+    "original": "<Do_Not_Use_When>\n- You need evaluator generation at runtime — use `/deep-interview --autoresearch` first\n- You need multiple missions orchestrated together — v1 forbids that\n- You want the deprecated `omc autoresearch` CLI flow — it is no longer authoritative\n</Do_Not_Use_When>",
+    "zh_tw": "<Do_Not_Use_When>\n- 你需要在執行時產生 evaluator —— 先使用 `/deep-interview --autoresearch`\n- 你需要把多個 mission 一起編排 —— v1 禁止這樣做\n- 你想使用已棄用的 `omc autoresearch` CLI 流程 —— 它已不再是權威來源\n</Do_Not_Use_When>"
+  },
+  {
+    "original": "<Contract>\n- Single-mission only in v1\n- Mission setup/evaluator generation stays in `deep-interview --autoresearch`\n- Evaluator output must be structured JSON with required boolean `pass` and optional numeric `score`\n- Non-passing iterations do **not** stop the run\n- Stop conditions are explicit and bounded, with max-runtime as the primary strict stop hook\n</Contract>",
+    "zh_tw": "<Contract>\n- v1 只支援單一 mission\n- mission 設定/evaluator 生成保留在 `deep-interview --autoresearch`\n- evaluator 輸出必須是結構化 JSON，且必須包含布林值 `pass`，並可選擇性包含數值 `score`\n- 未通過的迭代 **不會** 中止執行\n- 停止條件是明確且有界的，其中 max-runtime 是主要的嚴格停止鉤子\n</Contract>"
+  },
+  {
+    "original": "<Required_Artifacts>\nCanonical persistent storage lives under `.omc/autoresearch/<mission-slug>/` and/or `.omc/logs/autoresearch/<run-id>/`.",
+    "zh_tw": "<Required_Artifacts>\n規範性的持久儲存位於 `.omc/autoresearch/<mission-slug>/` 和/或 `.omc/logs/autoresearch/<run-id>/`。"
+  },
+  {
+    "original": "Minimum required artifacts:\n- mission spec\n- evaluator script or command reference\n- per-iteration evaluation JSON\n- markdown decision logs",
+    "zh_tw": "最低必需產物：\n- mission 規格\n- evaluator script 或 command 參考\n- 每次迭代的 evaluation JSON\n- Markdown 決策日誌"
+  },
+  {
+    "original": "Recommended canonical shape:\n```text\n.omc/autoresearch/<mission-slug>/\n  mission.md\n  evaluator.json\n  runs/<run-id>/\n    evaluations/\n      iteration-0001.json\n      iteration-0002.json\n    decision-log.md\n```\nReuse existing runtime artifacts when available rather than duplicating them unnecessarily.\n</Required_Artifacts>",
+    "zh_tw": "建議的標準結構：\n```text\n.omc/autoresearch/<mission-slug>/\n  mission.md\n  evaluator.json\n  runs/<run-id>/\n    evaluations/\n      iteration-0001.json\n      iteration-0002.json\n    decision-log.md\n```\n在可用時重用既有 runtime artifacts，而不是不必要地複製它們。\n</Required_Artifacts>"
+  },
+  {
+    "original": "<Workflow>\n1. Confirm a single mission exists and evaluator setup is already available.\n2. Ensure mode/state is active for `autoresearch` and records:\n   - mission slug/dir\n   - evaluator reference\n   - iteration count\n   - started/updated timestamps\n   - explicit max-runtime or deadline\n3. On every iteration:\n   - run exactly one experiment/change cycle\n   - run the evaluator\n   - persist machine-readable evaluation JSON\n   - append a human-readable markdown decision log entry\n   - continue even when evaluation does not pass\n4. Stop when:\n   - max-runtime ceiling is reached\n   - user explicitly cancels\n   - another explicit terminal condition is recorded by the runtime\n</Workflow>",
+    "zh_tw": "<Workflow>\n1. 確認只有一個 mission 存在，且 evaluator 設定已經可用。\n2. 確保 `autoresearch` 的 mode/state 已啟用，並記錄：\n   - mission slug/dir\n   - evaluator 參考\n   - 迭代次數\n   - started/updated 時戳\n   - 明確的 max-runtime 或 deadline\n3. 每次迭代時：\n   - 嚴格執行一次 experiment/change 週期\n   - 執行 evaluator\n   - 持久化可機器讀取的 evaluation JSON\n   - 附加一則人類可讀的 markdown 決策日誌條目\n   - 即使 evaluation 未通過也持續進行\n4. 在下列情況停止：\n   - 已達到 max-runtime 上限\n   - 使用者明確取消\n   - runtime 記錄了另一個明確的終止條件\n</Workflow>"
+  },
+  {
+    "original": "<Cron_Integration>\nClaude Code native cron is a supported integration point for periodic mission enhancement. In v1, prefer documenting/configuring cron inputs over building a large scheduler UI.",
+    "zh_tw": "<Cron_Integration>\nClaude Code 原生 cron 是一個受支援的整合點，可用於週期性的 mission 增強。在 v1 中，與其建立大型排程器 UI，不如優先記錄/設定 cron 輸入。"
+  },
+  {
+    "original": "If cron is used:\n- keep one mission per scheduled job\n- preserve the same mission/evaluator contract\n- append new run artifacts rather than overwriting prior experiments\n</Cron_Integration>",
+    "zh_tw": "如果使用 cron：\n- 保持每個排程工作只對應一個 mission\n- 保留相同的 mission/evaluator 契約\n- 附加新的 run artifacts，而不是覆寫先前的實驗\n</Cron_Integration>"
+  },
+  {
+    "original": "<Execution_Policy>\n- Do not hand execution back to `omc autoresearch`\n- Do not create multi-mission orchestration\n- Prefer reusing `src/autoresearch/*` runtime/schema helpers where they already match the stricter contract\n- Keep logs useful to humans, not only machines\n</Execution_Policy>",
+    "zh_tw": "<Execution_Policy>\n- 不要把執行交回 `omc autoresearch`\n- 不要建立多 mission 編排\n- 優先重用已符合更嚴格契約的 `src/autoresearch/*` runtime/schema helpers\n- 保持日誌對人類有用，而不只是對機器有用\n</Execution_Policy>"
+  }
+]

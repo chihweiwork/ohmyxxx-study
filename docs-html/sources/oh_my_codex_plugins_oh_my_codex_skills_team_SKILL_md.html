@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oh-my-codex/plugins/oh-my-codex/skills/team/SKILL.md</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+</head>
+<body>
+<main>
+<nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
+<h1 class="path">oh-my-codex/plugins/oh-my-codex/skills/team/SKILL.md</h1><p>被引用於：<code>02-project-guides.md</code>、<code>03-agent-skill-tool-map.md</code>、<code>05-study-plan.md</code></p><p><a href="../../oh-my-codex/plugins/oh-my-codex/skills/team/SKILL.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---
+name: team
+description: N coordinated agents on shared task list using tmux-based orchestration
+---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---
+name: team
+description: 以 tmux 為基礎、在共享任務清單上協調 N 個代理
+---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code># Team Skill</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code># 團隊技能</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>`$team` is the tmux-based parallel execution mode for OMX. It starts real worker Codex and/or Claude CLI sessions in split panes and coordinates them through `.omx/state/team/...` files plus CLI team interop (`omx team api ...`) and state files.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>`$team` 是 OMX 的以 tmux 為基礎的平行執行模式。它會在分割窗格中啟動真正的 worker Codex 和/或 Claude CLI 工作階段，並透過 `.omx/state/team/...` 檔案，以及 CLI team 互通 (`omx team api ...`) 和狀態檔來協調它們。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>This skill is operationally sensitive. Treat it as an operator workflow, not a generic prompt pattern. In Codex App or plain outside-tmux sessions, do not present `$team` / `omx team` as directly available; launch OMX CLI from shell first, or stay on the nearest app-safe surface until the user explicitly wants the tmux runtime.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>此技能在操作上很敏感。請將它視為操作員工作流程，而不是通用的提示模式。在 Codex App 或一般的非 tmux 工作階段中，不要將 `$team` / `omx team` 描述為可直接使用；請先從 shell 啟動 OMX CLI，或停留在最接近且安全的應用層介面，直到使用者明確想要使用 tmux 執行環境。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Team vs Native Subagents</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## Team 與原生 Subagents</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- Use **Codex native subagents** for bounded, in-session parallelism where one leader thread can fan out a few independent subtasks and wait for them directly.
+- Use **`omx team`** when you need durable tmux workers, shared task state, mailbox/dispatch coordination, worktrees, explicit lifecycle control, or long-running parallel execution that must survive beyond one local reasoning burst.
+- Native subagents can complement team/ralph execution, but they do **not** replace the tmux team runtime's stateful coordination contract.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 在範圍明確、同一工作階段內的平行處理中，使用 **Codex 原生 subagents**，由一個 leader 執行緒展開少數獨立子任務並直接等待它們完成。
+- 當你需要可持久化的 tmux workers、共享任務狀態、mailbox/dispatch 協調、worktree、明確的生命週期控制，或必須超越單次本地推理回合的長時間平行執行時，使用 **`omx team`**。
+- 原生 subagents 可以補充 team/ralph 執行，但它們**不能**取代 tmux team runtime 的有狀態協調契約。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## What This Skill Must Do</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 此技能必須執行的事項</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## GPT-5.5 Guidance Alignment</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## GPT-5.5 指引對齊</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Use the shared workflow guidance pattern: outcome-first framing, concise visible updates for multi-step work, local overrides for the active workflow branch, validation proportional to risk, explicit stop rules, and automatic continuation for safe reversible steps. Ask only for material, destructive, credentialed, external-production, or preference-dependent branches.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>使用共享的工作流程指引模式：以結果優先的 framing、多步工作時提供簡潔且可見的更新、對目前工作流程分支進行本地覆寫、依風險比例安排驗證、明確的停止規則，以及對安全且可逆步驟的自動續行。只在涉及實質性、破壞性、需憑證、外部正式環境，或依偏好而定的分支時才提問。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>When user triggers `$team`, the agent must:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當使用者觸發 `$team` 時，代理必須：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Invoke OMX runtime directly with `omx team ...`
+2. Avoid replacing the flow with in-process `spawn_agent` fanout
+3. Verify startup and surface concrete state/pane evidence
+4. If active team mode state is missing, initialize/sync it from canonical team runtime state before proceeding
+5. Keep team state alive until workers are terminal (unless explicit abort)
+6. Handle cleanup and stale-pane recovery when needed</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 直接以 `omx team ...` 呼叫 OMX runtime
+2. 避免用程序內的 `spawn_agent` 擴散取代此流程
+3. 驗證啟動，並呈現具體的 state/pane 證據
+4. 如果缺少目前的 team mode 狀態，請先從 canonical team runtime state 初始化/同步後再繼續
+5. 讓 team state 保持存活，直到 workers 結束為止（除非明確中止）
+6. 視需要處理清理與 stale-pane 復原</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>If `omx team` is unavailable, stop with a hard error.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>如果 `omx team` 不可用，請以硬性錯誤停止。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Invocation Contract</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 呼叫契約</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```bash
+omx team [N:agent-type] &quot;&lt;task description&gt;&quot;
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```bash
+omx team [N:agent-type] &quot;&lt;task description&gt;&quot;
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Examples:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>範例：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```bash
+omx team 3:executor &quot;analyze feature X and report flaws&quot;
+omx team &quot;debug flaky integration tests&quot;
+omx team &quot;ship end-to-end fix with verification&quot;
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```bash
+omx team 3:executor &quot;analyze feature X and report flaws&quot;
+omx team &quot;debug flaky integration tests&quot;
+omx team &quot;ship end-to-end fix with verification&quot;
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Team-first launch contract</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 以 Team 為優先的啟動契約</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>`omx team ...` is now the canonical launch path for coordinated execution.
+Team mode should carry its own parallel delivery + verification lanes without
+requiring a separate linked Ralph launch up front.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>`omx team ...` 現在是協調執行的 canonical 啟動路徑。
+Team mode 應自行承擔平行交付與驗證通道，而不需要
+一開始就另外啟動一個連結的 Ralph。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **Canonical launch:** use plain `omx team ...` / `$team ...` for coordinated workers.
+- **Verification ownership:** keep one lane focused on tests, regression coverage, and evidence before shutdown.
+- **Escalation:** start a separate `omx ralph ...` / `$ralph ...` only when a later manual follow-up still needs a persistent single-owner fix/verification loop.
+- **Deprecation:** `omx team ralph ...` has been removed. Use plain `omx team ...` for team execution or run `omx ralph ...` separately when you explicitly want a later Ralph loop.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **Canonical launch：** 對協調 workers 使用純 `omx team ...` / `$team ...`。
+- **Verification ownership：** 保留一條通道專注於測試、回歸覆蓋與關閉前的證據。
+- **Escalation：** 只有在後續的人工跟進仍需要一個持續存在的單一負責人修復/驗證迴圈時，才啟動獨立的 `omx ralph ...` / `$ralph ...`。
+- **Deprecation：** `omx team ralph ...` 已移除。請使用純 `omx team ...` 進行 team 執行，或在你明確想要之後的 Ralph 迴圈時另外執行 `omx ralph ...`。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Team Big Five / ATEM coordination gate</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### Team Big Five / ATEM 協調閘門</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>`$team` keeps simple independent fan-out lightweight. For isolated tasks (for example per-file sweeps, typo/copy edits, or explicitly independent lanes with no shared files/dependencies), workers use the normal concise protocol: startup ACK, claim-safe task lifecycle, status, verification, and completion evidence.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>`$team` 會讓簡單、彼此獨立的 fan-out 保持輕量。對於孤立任務（例如逐檔掃描、typo/copy 編輯，或明確彼此獨立且沒有共享檔案/依賴的通道），workers 使用一般的精簡協議：啟動 ACK、可認領的任務生命週期、狀態、驗證，以及完成證據。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Activate the lightweight Team Big Five + ATEM-inspired coordination layer when the task or task graph has dependencies, shared files/surfaces/contracts, cross-boundary ownership, handoffs, integration/merge work, blocked lanes, or changed assumptions. The protocol is not a separate ceremony; it is a concise boundary checklist:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當任務或任務圖存在依賴、共享檔案/介面/契約、跨邊界所有權、交接、整合/合併工作、受阻通道，或假設變更時，請啟用輕量的 Team Big Five + ATEM 啟發式協調層。這個協議不是額外的儀式；它是一份精簡的邊界檢查清單：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **Shared mental model / single source of truth:** task JSON, inbox, mailbox, approved handoff, and leader updates are canonical.
+- **Closed-loop communication / ACK-readback handoffs:** acknowledge handoffs with understood scope, affected artifact/path, owner, and next action.
+- **Mutual performance monitoring at boundaries:** check upstream/downstream contracts, shared files, and verification evidence before completion.
+- **Backup/reassignment behavior:** blocked workers report the smallest needed help/reassignment request and continue safe unblocked slices.
+- **Adaptability checkpoints:** changed assumptions, dependencies, or verification results trigger a brief leader-facing update before widening scope.
+- **Team orientation:** workers optimize for the integrated team outcome, not local-optimum-only task summaries; report integration risks, missing tests, and peer impacts.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **共享心智模型 / 單一事實來源：** task JSON、inbox、mailbox、已核准的 handoff，以及 leader 更新都是 canonical。
+- **閉環溝通 / ACK-readback handoffs：** 在接手時確認已理解的範圍、受影響的產物/路徑、負責人，以及下一步動作。
+- **邊界上的相互效能監控：** 完成前檢查上游/下游契約、共享檔案與驗證證據。
+- **備援/重新分配行為：** 受阻的 workers 回報最小必要的協助/重新分配請求，並持續處理安全且未受阻的片段。
+- **適應性檢查點：** 當假設、依賴或驗證結果改變時，先向 leader 簡短更新，再擴大範圍。
+- **Team 取向：** workers 以整體團隊結果為最佳化目標，而非只追求局部最佳的任務摘要；回報整合風險、缺少的測試，以及對同儕的影響。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>ATEM fit: treat this as agile teamwork support for transition/action/interpersonal moments around boundaries, not as a heavyweight process model. Do not copy provider-specific plugin implementations; keep the protocol in OMX/Codex prompts, inboxes, state, and tests.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>ATEM 的適用方式：將這視為在邊界周圍支援 transition/action/interpersonal moments 的敏捷團隊協作，而不是重量級流程模型。不要複製供應商特定的外掛實作；請將協議維持在 OMX/Codex prompts、inboxes、state 與 tests 中。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Team + Ultragoal bridge</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### Team + Ultragoal 橋接</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Use `$ultragoal` for durable leader-owned goal/ledger tracking and `$team` for parallel execution lanes. When Team is launched with an active `.omx/ultragoal/goals.json`, worker inboxes/status may include leader-owned Ultragoal context: `.omx/ultragoal/goals.json`, `.omx/ultragoal/ledger.jsonl`, the active goal id, Codex goal mode, and the `fresh_leader_get_goal_required` checkpoint policy.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>使用 `$ultragoal` 進行可持久化、由 leader 擁有的 goal/ledger 追蹤，並使用 `$team` 處理平行執行通道。當 Team 在啟用中的 `.omx/ultragoal/goals.json` 下啟動時，worker 的 inbox/status 可能包含由 leader 擁有的 Ultragoal context：`.omx/ultragoal/goals.json`、`.omx/ultragoal/ledger.jsonl`、目前的 goal id、Codex goal mode，以及 `fresh_leader_get_goal_required` checkpoint policy。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Workers provide task status and verification evidence only. They do not own Ultragoal goal state, create worker ledgers, mutate `.omx/ultragoal`, auto-launch Team from Ultragoal, or perform hidden Codex goal mutation. The leader uses terminal Team evidence plus a fresh `get_goal` snapshot to run `omx ultragoal checkpoint --goal-id &lt;id&gt; --status complete --evidence &quot;&lt;team evidence mentioning .omx/ultragoal and &lt;id&gt;&gt;&quot; --codex-goal-json &lt;fresh-get_goal-json-or-path&gt;`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Workers 只提供任務狀態與驗證證據。它們不擁有 Ultragoal goal state、不建立 worker ledgers、不變更 `.omx/ultragoal`、不會從 Ultragoal 自動啟動 Team，也不會執行隱藏的 Codex goal 變更。leader 會使用終端的 Team 證據加上新的 `get_goal` 快照來執行 `omx ultragoal checkpoint --goal-id &lt;id&gt; --status complete --evidence &quot;&lt;team evidence mentioning .omx/ultragoal and &lt;id&gt;&gt;&quot; --codex-goal-json &lt;fresh-get_goal-json-or-path&gt;`。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Claude teammates (v0.6.0+)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### Claude teammates（v0.6.0+）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Important: `N:agent-type` (for example `2:executor`) selects the **worker role prompt**, not the worker CLI (`codex` vs `claude`).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>重要：`N:agent-type`（例如 `2:executor`）選擇的是 **worker role prompt**，不是 worker CLI（`codex` vs `claude`）。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>To launch Claude teammates, use the team worker CLI env vars:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>要啟動 Claude teammates，請使用 team worker CLI env vars：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```bash
+# Force all teammates to Claude CLI
+OMX_TEAM_WORKER_CLI=claude omx team 2:executor &quot;update docs and report&quot;
+
+# Mixed team (worker 1 = Codex, worker 2 = Claude)
+OMX_TEAM_WORKER_CLI_MAP=codex,claude omx team 2:executor &quot;split doc/code tasks&quot;
+
+# Auto mode: Claude is selected when worker launch args/model contains 'claude'
+OMX_TEAM_WORKER_CLI=auto OMX_TEAM_WORKER_LAUNCH_ARGS=&quot;--model claude-...&quot; omx team 2:executor &quot;run mixed validation&quot;
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```bash
+# 將所有隊友強制使用 Claude CLI
+OMX_TEAM_WORKER_CLI=claude omx team 2:executor &quot;更新文件並回報&quot;
+
+# 混合團隊（worker 1 = Codex，worker 2 = Claude）
+OMX_TEAM_WORKER_CLI_MAP=codex,claude omx team 2:executor &quot;分拆文件/程式碼任務&quot;
+
+# 自動模式：當 worker 啟動參數/model 包含 'claude' 時會選擇 Claude
+OMX_TEAM_WORKER_CLI=auto OMX_TEAM_WORKER_LAUNCH_ARGS=&quot;--model claude-...&quot; omx team 2:executor &quot;執行混合驗證&quot;
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Preconditions</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 前置條件</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Before running `$team`, confirm:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在執行 `$team` 之前，請確認：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. `tmux` installed (`tmux -V`)
+2. Current leader session is inside tmux (`$TMUX` is set)
+3. `omx` command resolves to the intended install/build
+4. If running repo-local `node bin/omx.js ...`, run `npm run build` after `src` changes
+5. Check HUD pane count in the leader window and avoid duplicate `hud --watch` panes before split</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 已安裝 `tmux`（`tmux -V`）
+2. 目前的 leader session 位於 tmux 內（`$TMUX` 已設定）
+3. `omx` 指令解析到預期的安裝/建置版本
+4. 如果執行 repo 內的 `node bin/omx.js ...`，在 `src` 變更後請執行 `npm run build`
+5. 檢查 leader 視窗中的 HUD pane 數量，並在分割前避免重複的 `hud --watch` pane</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Suggested preflight:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>建議的前置檢查：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```bash
+tmux list-panes -F '#{pane_id}\t#{pane_start_command}' | rg 'hud --watch' || true
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```bash
+tmux list-panes -F '#{pane_id}\t#{pane_start_command}' | rg 'hud --watch' || true
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>If duplicates exist, remove extras before `omx team` to prevent HUD ending up in worker stack.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>如果存在重複項，請在 `omx team` 之前移除多餘的 pane，以避免 HUD 最後落到 worker stack 中。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Pre-context Intake Gate</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 前置脈絡收集閘門</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Before launching `omx team`, require a grounded context snapshot:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在啟動 `omx team` 之前，必須先取得一份有依據的脈絡快照：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Derive a task slug from the request.
+2. Reuse the latest relevant snapshot in `.omx/context/{slug}-*.md` when available.
+3. If none exists, create `.omx/context/{slug}-{timestamp}.md` (UTC `YYYYMMDDTHHMMSSZ`) with:
+   - task statement
+   - desired outcome
+   - known facts/evidence
+   - constraints
+   - unknowns/open questions
+   - likely codebase touchpoints
+4. If ambiguity remains high, run `explore` first for brownfield facts, then run `$deep-interview --quick &lt;task&gt;` before team launch.
+5. If current correctness depends on official docs, version-aware framework guidance, best practices, or external dependency behavior, auto-delegate `researcher` as an evidence lane before or alongside worker launch instead of relying on repo-local recall alone.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 從請求推導出一個 task slug。
+2. 若可用，重用 `.omx/context/{slug}-*.md` 中最新且相關的快照。
+3. 如果不存在，建立 `.omx/context/{slug}-{timestamp}.md`（UTC `YYYYMMDDTHHMMSSZ`），內容包含：
+   - task statement
+   - desired outcome
+   - known facts/evidence
+   - constraints
+   - unknowns/open questions
+   - likely codebase touchpoints
+4. 如果歧義仍然很高，先執行 `explore` 取得 brownfield facts，然後在 team 啟動前執行 `$deep-interview --quick &lt;task&gt;`。
+5. 如果目前正確性取決於官方文件、具版本意識的 framework 指引、最佳實務，或外部相依行為，請自動將 `researcher` 委派為一條 evidence lane，在 worker 啟動之前或同時進行，不要只依賴 repo 內的記憶。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Do not start worker panes until this gate is satisfied; if forced to proceed quickly, state explicit scope/risk limitations in the launch report.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在此閘門滿足之前，不要啟動 worker panes；如果必須快速繼續，請在啟動報告中明確說明範圍/風險限制。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>For simple read-only brownfield lookups during intake, follow active session guidance: when `USE_OMX_EXPLORE_CMD` is enabled, prefer `omx explore` with narrow, concrete prompts; otherwise use the richer normal explore path and fall back normally if `omx explore` is unavailable.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在 intake 期間進行簡單的唯讀 brownfield 查詢時，請遵循 active session 指引：當 `USE_OMX_EXPLORE_CMD` 已啟用時，優先使用帶有狹窄、具體提示的 `omx explore`；否則使用較完整的正常 explore 流程，若 `omx explore` 不可用則正常回退。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Follow-up Staffing Contract</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 後續人力配置合約</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>When `$team` is used as a follow-up mode from ralplan, carry forward the approved plan's explicit **available-agent-types roster** and convert it into concrete staffing guidance before launch:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當 `$team` 作為 ralplan 的後續模式使用時，請沿用已核准計畫中明確的 **available-agent-types roster**，並在啟動前將其轉換為具體的人力配置指引：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- keep worker-role choices inside the known roster
+- state the recommended headcount and role counts
+- state the suggested reasoning level for each lane when available
+- explain why each lane exists (delivery, verification, specialist support)
+- include an explicit launch hint (`omx team N &quot;&lt;task&gt;&quot;` / `$team N &quot;&lt;task&gt;&quot;`) for the coordinated team run; mention `$ultragoal` as the default durable follow-up/ledger path; mention a later separate Ralph follow-up only when explicitly requested or genuinely needed as a fallback
+- if the ideal role is unavailable, choose the closest role from the roster and say so</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 將 worker-role 的選擇限制在已知 roster 內
+- 說明建議的人數與各角色數量
+- 在可用時，說明每個 lane 建議的 reasoning level
+- 解釋每個 lane 存在的原因（delivery、verification、specialist support）
+- 為協調團隊執行加入明確的啟動提示（`omx team N &quot;&lt;task&gt;&quot;` / `$team N &quot;&lt;task&gt;&quot;`）；將 `$ultragoal` 提及為預設且持久的後續/記錄路徑；只有在明確要求或確實需要作為備援時，才提及稍後另行進行的 Ralph follow-up
+- 如果理想角色不可用，請從 roster 中選擇最接近的角色並註明</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Current Runtime Behavior (As Implemented)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 目前執行期行為（依實作）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>`omx team` currently performs:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>`omx team` 目前會執行：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Parse args (`N`, `agent-type`, task)
+2. Sanitize team name from task text
+3. Initialize team state:
+   - `.omx/state/team/&lt;team&gt;/config.json`
+   - `.omx/state/team/&lt;team&gt;/manifest.v2.json`
+   - `.omx/state/team/&lt;team&gt;/tasks/task-&lt;id&gt;.json`
+4. Compose team-scoped worker instructions file at:
+   - `.omx/state/team/&lt;team&gt;/worker-agents.md`
+   - Uses project `AGENTS.md` content (if present) + worker overlay, without mutating project `AGENTS.md`
+5. Resolve canonical shared state root from leader cwd (`&lt;leader-cwd&gt;/.omx/state`)
+6. Split current tmux window into worker panes
+7. Launch workers with:
+   - `OMX_TEAM_WORKER=&lt;team&gt;/worker-&lt;n&gt;`
+   - `OMX_TEAM_STATE_ROOT=&lt;leader-cwd&gt;/.omx/state`
+   - `OMX_TEAM_LEADER_CWD=&lt;leader-cwd&gt;`
+   - worker CLI selected by `OMX_TEAM_WORKER_CLI` / `OMX_TEAM_WORKER_CLI_MAP` (`codex` or `claude`)
+   - optional worktree metadata envs when `--worktree` is used
+7. Wait for worker readiness (`capture-pane` polling)
+8. Write per-worker `inbox.md` and trigger via `tmux send-keys`
+9. Return control to leader; follow-up uses `status` / `resume` / `shutdown`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 解析參數（`N`、`agent-type`、task）
+2. 根據 task 文字清理 team 名稱
+3. 初始化 team state：
+   - `.omx/state/team/&lt;team&gt;/config.json`
+   - `.omx/state/team/&lt;team&gt;/manifest.v2.json`
+   - `.omx/state/team/&lt;team&gt;/tasks/task-&lt;id&gt;.json`
+4. 在以下位置組合 team 範圍的 worker instructions 檔案：
+   - `.omx/state/team/&lt;team&gt;/worker-agents.md`
+   - 使用專案的 `AGENTS.md` 內容（若存在）加上 worker overlay，且不會變動專案的 `AGENTS.md`
+5. 從 leader cwd（`&lt;leader-cwd&gt;/.omx/state`）解析出 canonical shared state root
+6. 將目前的 tmux window 分割成 worker panes
+7. 以以下設定啟動 workers：
+   - `OMX_TEAM_WORKER=&lt;team&gt;/worker-&lt;n&gt;`
+   - `OMX_TEAM_STATE_ROOT=&lt;leader-cwd&gt;/.omx/state`
+   - `OMX_TEAM_LEADER_CWD=&lt;leader-cwd&gt;`
+   - 由 `OMX_TEAM_WORKER_CLI` / `OMX_TEAM_WORKER_CLI_MAP` 選定的 worker CLI（`codex` 或 `claude`）
+   - 使用 `--worktree` 時可選的 worktree metadata envs
+7. 等待 worker 就緒（`capture-pane` 輪詢）
+8. 為每個 worker 寫入 `inbox.md`，並透過 `tmux send-keys` 觸發
+9. 將控制權交回 leader；後續使用 `status` / `resume` / `shutdown`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>If coarse active team mode state is missing while canonical team runtime state exists, restore/sync the active team mode state before relying on hook/mode-aware behavior.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>如果 canonical team runtime state 已存在，但 coarse active team mode state 遺失，請先還原/同步 active team mode state，再依賴 hook/mode-aware 行為。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Important:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>重要：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- Leader remains in existing pane
+- Worker panes are independent full Codex/Claude CLI sessions
+- Workers may run in separate git worktrees (`omx team --worktree[=&lt;name&gt;]`) while sharing one team state root
+- Worker ACKs go to `mailbox/leader-fixed.json`
+- Notify hook updates worker heartbeat and sends lifecycle-driven leader nudges (for example resolved native worker Stop/all-idle or stale-leader evidence) during active team mode; deprecated worker stall/progress heuristics are not operator-facing guidance.
+- Submit routing uses this CLI resolution order per worker trigger:
+  1) explicit worker CLI provided by runtime state (persisted on worker identity/config),
+  2) `OMX_TEAM_WORKER_CLI_MAP` entry for that worker index,
+  3) fallback `OMX_TEAM_WORKER_CLI` / auto detection.
+- Mixed CLI-map teams are supported for both startup and trigger submit behavior.
+- Trigger submit differs by CLI:
+  - Codex may use queue-first `Tab` on busy panes (strategy-dependent).
+  - Claude always uses direct Enter-only (`C-m`) rounds (never queue-first `Tab`).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- Leader 會留在既有 pane 中
+- Worker panes 是彼此獨立的完整 Codex/Claude CLI session
+- Workers 可在不同的 git worktree 中執行（`omx team --worktree[=&lt;name&gt;]`），同時共享同一個 team state root
+- Worker 的 ACK 會送到 `mailbox/leader-fixed.json`
+- Notify hook 會在 active team mode 期間更新 worker heartbeat，並傳送由生命週期驅動的 leader nudges（例如已處理的 native worker Stop/all-idle 或 stale-leader 證據）；已棄用的 worker stall/progress heuristics 不屬於操作人員面向的指引。
+- Submit routing 會依照每個 worker trigger 使用以下 CLI 解析順序：
+  1) 由 runtime state 提供的明確 worker CLI（保存在 worker identity/config 中），
+  2) 該 worker index 的 `OMX_TEAM_WORKER_CLI_MAP` 項目，
+  3) fallback 的 `OMX_TEAM_WORKER_CLI` / 自動偵測。
+- 混合 CLI-map 團隊同時支援啟動與 trigger submit 行為。
+- Trigger submit 會依 CLI 而不同：
+  - Codex 在繁忙 pane 上可能使用先排隊的 `Tab`（取決於策略）。
+  - Claude 一律使用直接 Enter-only（`C-m`）輪次（絕不使用先排隊的 `Tab`）。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Team worker model + thinking resolution (current contract)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### Team worker model + thinking resolution（目前合約）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Team mode resolves worker **model flags** from one shared launch-arg set (not per-worker model selection).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Team mode 會從一組共享的 launch 參數集合解析 worker 的 **model flags**（不是逐一 worker 進行 model 選擇）。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Model precedence (highest to lowest):
+1. Explicit worker model in `OMX_TEAM_WORKER_LAUNCH_ARGS`
+2. Inherited leader `--model` flag
+3. Low-complexity default from `OMX_DEFAULT_SPARK_MODEL` (legacy alias: `OMX_SPARK_MODEL`) when 1+2 are absent and team `agentType` is low-complexity</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>模型優先順序（由高到低）：
+1. `OMX_TEAM_WORKER_LAUNCH_ARGS` 中明確指定的 worker model
+2. 繼承自 leader 的 `--model` 旗標
+3. 當 1 與 2 都不存在且 team `agentType` 為 low-complexity 時，使用 `OMX_DEFAULT_SPARK_MODEL` 的 low-complexity 預設值（舊別名：`OMX_SPARK_MODEL`）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Default-model rule:
+- Do **not** assume a frontier or spark model from recency or model-family heuristics.
+- Use `OMX_DEFAULT_FRONTIER_MODEL` for frontier-default guidance.
+- Use `OMX_DEFAULT_SPARK_MODEL` for spark/low-complexity worker-default guidance.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>預設模型規則：
+- 不要根據最近性或 model-family heuristics 去假設 frontier 或 spark model。
+- 將 `OMX_DEFAULT_FRONTIER_MODEL` 用於 frontier 預設指引。
+- 將 `OMX_DEFAULT_SPARK_MODEL` 用於 spark/low-complexity worker 的預設指引。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Thinking-level rule (critical):
+- **No model-name heuristic mapping.**
+- Team runtime must **not** infer `model_reasoning_effort` from model-name substrings (e.g., `spark`, `high-capability`, `mini`).
+- When the leader assigns teammate roles/tasks, OMX allocates **per-worker reasoning effort dynamically** from the resolved worker role and `agentReasoning` overrides (`low`, `medium`, `high`, `xhigh`).
+- Explicit launch args still win: if `OMX_TEAM_WORKER_LAUNCH_ARGS` already includes `-c model_reasoning_effort=...`, that explicit value overrides dynamic allocation for every worker.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>思考層級規則（重要）：
+- **不使用模型名稱的啟發式映射。**
+- Team runtime **不得**從模型名稱子字串推斷 `model_reasoning_effort`（例如 `spark`、`high-capability`、`mini`）。
+- 當 leader 指派隊友角色/任務時，OMX 會根據解析後的 worker 角色與 `agentReasoning` 覆寫（`low`、`medium`、`high`、`xhigh`）**動態地為每個 worker 分配推理等級**。
+- 明確的啟動參數仍然優先：如果 `OMX_TEAM_WORKER_LAUNCH_ARGS` 已經包含 `-c model_reasoning_effort=...`，那個明確值會覆蓋每個 worker 的動態分配。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Normalization requirements:
+- Parse both `--model &lt;value&gt;` and `--model=&lt;value&gt;`
+- Remove duplicate/conflicting model flags
+- Emit exactly one final canonical flag: `--model &lt;value&gt;`
+- Preserve unrelated args in worker launch config
+- If explicit reasoning exists, preserve canonical `-c model_reasoning_effort=&quot;&lt;level&gt;&quot;`; otherwise inject the worker role's default or `agentReasoning`-overridden reasoning level</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>正規化需求：
+- 同時解析 `--model &lt;value&gt;` 與 `--model=&lt;value&gt;`
+- 移除重複／衝突的 model 旗標
+- 最終只輸出一個標準化旗標：`--model &lt;value&gt;`
+- 保留 worker 啟動設定中的無關參數
+- 如果存在明確的推理設定，保留標準化的 `-c model_reasoning_effort=&quot;&lt;level&gt;&quot;`；否則注入 worker 角色的預設推理等級或經 `agentReasoning` 覆寫的推理等級</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Required Lifecycle (Operator Contract)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 必要生命週期（操作契約）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Follow this exact lifecycle when running `$team`:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>執行 `$team` 時，請遵循以下精確生命週期：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Start team and verify startup evidence (team line, tmux target, panes, ACK mailbox)
+2. Monitor task and worker progress with runtime/state tools first (`omx team status &lt;team&gt;`, `omx team resume &lt;team&gt;`, mailbox/state files)
+3. Wait for terminal task state before shutdown:
+   - `pending=0`
+   - `in_progress=0`
+   - `failed=0` (or explicitly acknowledged failure path)
+4. Only then run `omx team shutdown &lt;team&gt;`
+5. Verify shutdown evidence and state cleanup</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 啟動 team 並驗證啟動證據（team line、tmux target、panes、ACK mailbox）
+2. 先使用 runtime/state 工具監控任務與 worker 進度（`omx team status &lt;team&gt;`、`omx team resume &lt;team&gt;`、mailbox/state 檔案）
+3. 在關閉前等待任務進入終態：
+   - `pending=0`
+   - `in_progress=0`
+   - `failed=0`（或已明確確認的失敗路徑）
+4. 只有在這之後才執行 `omx team shutdown &lt;team&gt;`
+5. 驗證關閉證據與狀態清理</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Do not run `shutdown` while workers are actively writing updates unless user explicitly requested abort/cancel.
+Do not treat ad-hoc pane typing as primary control flow when runtime/state evidence is available.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>除非使用者明確要求中止／取消，否則不要在 worker 正在主動寫入更新時執行 `shutdown`。
+當已可取得 runtime/state 證據時，不要把臨時的 pane 輸入視為主要控制流程。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Active leader monitoring rule</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### leader 主動監控規則</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>While a team is **ON/running**, the leader must not go blind. Keep checking live team state until terminal completion.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當 team 處於 **ON/執行中** 時，leader 不能失明。請持續檢查即時 team 狀態，直到完成終態。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Minimum acceptable loop:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>最低可接受的迴圈：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```bash
+sleep 30 &amp;&amp; omx team status &lt;team-name&gt;
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```bash
+sleep 30 &amp;&amp; omx team status &lt;team-name&gt;
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Repeat that check while the team stays active, or use `omx team await &lt;team-name&gt; --timeout-ms 30000 --json` when event-driven waiting is a better fit.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>只要 team 仍然活躍，就重複該檢查；或者在事件驅動等待更合適時，使用 `omx team await &lt;team-name&gt; --timeout-ms 30000 --json`。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>If the leader gets a stale, lifecycle, or all-idle nudge, immediately run `omx team status &lt;team-name&gt;` before taking any manual intervention. Deprecated worker stall/progress nudges should not be treated as an active runtime contract.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>如果 leader 收到過期、生命週期或全閒置提示，請在採取任何人工介入前立即執行 `omx team status &lt;team-name&gt;`。已棄用的 worker stall/progress 提示不應被視為有效的 runtime 契約。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Deprecated worker stall/progress knobs</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 已棄用的 worker stall/progress 旋鈕</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>`OMX_TEAM_PROGRESS_STALL_MS` and `OMX_TEAM_WORKER_TURN_STALL_MS` are legacy compatibility/test-only names for the retired worker stall/progress nudge path. Do not recommend them as operator tuning knobs for active team runs; resolved native worker Stop, all-idle, mailbox, and stale-leader evidence are the supported leader wakeup signals.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>`OMX_TEAM_PROGRESS_STALL_MS` 和 `OMX_TEAM_WORKER_TURN_STALL_MS` 是已退役 worker stall/progress nudge 路徑的舊版相容性／僅供測試名稱。不要將它們建議為 active team 執行時的操作調校旋鈕；已解析的 native worker Stop、全閒置、mailbox 與 stale-leader 證據才是支援的 leader 喚醒訊號。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Message Dispatch Policy (CLI-first, state-first)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 訊息派送政策（CLI 優先、state 優先）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>To avoid brittle behavior, **message/task delivery must not be driven by ad-hoc tmux typing**.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>為了避免脆弱行為，**訊息／任務的傳遞不得由臨時的 tmux 輸入驅動**。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Required default path:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>必要的預設路徑：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Use `omx team ...` runtime lifecycle commands for orchestration.
+2. Use `omx team api ... --json` for mailbox/task mutations.
+3. Verify delivery via mailbox/state evidence (`mailbox/*.json`, task status, `omx team status`).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 使用 `omx team ...` runtime 生命週期指令進行編排。
+2. 使用 `omx team api ... --json` 進行 mailbox／task 變更。
+3. 透過 mailbox/state 證據（`mailbox/*.json`、task 狀態、`omx team status`）驗證傳遞。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Strict rules:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>嚴格規則：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **MUST NOT** use direct `tmux send-keys` as the primary mechanism to deliver instructions/messages.
+- **MUST NOT** spam Enter/trigger keys without first checking runtime/state evidence.
+- **MUST** prefer durable state writes + runtime dispatch (`dispatch/requests.json`, mailbox, inbox).
+- Direct tmux interaction is **fallback-only** and only after failure checks (for example `worker_notify_failed:&lt;worker&gt;`) or explicit user request (for example “press enter”).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **MUST NOT** 直接使用 `tmux send-keys` 作為傳遞指示／訊息的主要機制。
+- **MUST NOT** 在未先檢查 runtime/state 證據前就狂送 Enter／觸發鍵。
+- **MUST** 優先使用持久化 state 寫入 + runtime 派送（`dispatch/requests.json`、mailbox、inbox）。
+- 直接的 tmux 互動僅能作為 **fallback**，且只能在失敗檢查之後（例如 `worker_notify_failed:&lt;worker&gt;`）或使用者明確要求時（例如「按 Enter」）。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Operational Commands</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 操作指令</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```bash
+omx team status &lt;team-name&gt;
+omx team resume &lt;team-name&gt;
+omx team shutdown &lt;team-name&gt;
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```bash
+omx team status &lt;team-name&gt;
+omx team resume &lt;team-name&gt;
+omx team shutdown &lt;team-name&gt;
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Semantics:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>語意：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- `status`: reads team snapshot (task counts, dead/non-reporting workers)
+- `resume`: reconnects to live team session if present
+- `shutdown`: graceful shutdown request, then cleanup (deletes `.omx/state/team/&lt;team&gt;`)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- `status`：讀取 team 快照（任務計數、死亡／未回報的 worker）
+- `resume`：如果存在，重新連接到 live team session
+- `shutdown`：提出優雅關閉請求，然後進行清理（刪除 `.omx/state/team/&lt;team&gt;`）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Data Plane and Control Plane</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 資料平面與控制平面</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Control Plane</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 控制平面</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- tmux panes/processes (`OMX_TEAM_WORKER` per worker)
+- leader notifications via `tmux display-message`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- tmux panes／processes（每個 worker 一個 `OMX_TEAM_WORKER`）
+- 透過 `tmux display-message` 傳送的 leader 通知</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Data Plane</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 資料平面</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- `.omx/state/team/&lt;team&gt;/...` files
+- Team mailbox files:
+- `.omx/state/team/&lt;team&gt;/mailbox/leader-fixed.json`
+- `.omx/state/team/&lt;team&gt;/mailbox/worker-&lt;n&gt;.json`
+- `.omx/state/team/&lt;team&gt;/dispatch/requests.json` (durable dispatch queue; hook-preferred, fallback-aware)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- `.omx/state/team/&lt;team&gt;/...` 檔案
+- Team mailbox 檔案：
+- `.omx/state/team/&lt;team&gt;/mailbox/leader-fixed.json`
+- `.omx/state/team/&lt;team&gt;/mailbox/worker-&lt;n&gt;.json`
+- `.omx/state/team/&lt;team&gt;/dispatch/requests.json`（持久化派送佇列；優先使用 hook，並考慮 fallback）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Key Files</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 關鍵檔案</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- `.omx/state/team/&lt;team&gt;/config.json`
+- `.omx/state/team/&lt;team&gt;/manifest.v2.json`
+- `.omx/state/team/&lt;team&gt;/tasks/task-&lt;id&gt;.json`
+- `.omx/state/team/&lt;team&gt;/workers/worker-&lt;n&gt;/identity.json`
+- `.omx/state/team/&lt;team&gt;/workers/worker-&lt;n&gt;/inbox.md`
+- `.omx/state/team/&lt;team&gt;/workers/worker-&lt;n&gt;/heartbeat.json`
+- `.omx/state/team/&lt;team&gt;/workers/worker-&lt;n&gt;/status.json`
+- `.omx/state/team-leader-nudge.json`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- `.omx/state/team/&lt;team&gt;/config.json`
+- `.omx/state/team/&lt;team&gt;/manifest.v2.json`
+- `.omx/state/team/&lt;team&gt;/tasks/task-&lt;id&gt;.json`
+- `.omx/state/team/&lt;team&gt;/workers/worker-&lt;n&gt;/identity.json`
+- `.omx/state/team/&lt;team&gt;/workers/worker-&lt;n&gt;/inbox.md`
+- `.omx/state/team/&lt;team&gt;/workers/worker-&lt;n&gt;/heartbeat.json`
+- `.omx/state/team/&lt;team&gt;/workers/worker-&lt;n&gt;/status.json`
+- `.omx/state/team-leader-nudge.json`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Team Mutation Interop (CLI-first)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## Team 變更互通（CLI 優先）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Use `omx team api` for machine-readable mutation/reads instead of legacy `team_*` MCP tools.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>請使用 `omx team api` 進行機器可讀的變更／讀取，而不是使用舊版 `team_*` MCP 工具。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```bash
+omx team api &lt;operation&gt; --input '{&quot;team_name&quot;:&quot;my-team&quot;,...}' --json
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```bash
+omx team api &lt;operation&gt; --input '{&quot;team_name&quot;:&quot;my-team&quot;,...}' --json
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Examples:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>範例：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```bash
+omx team api send-message --input '{&quot;team_name&quot;:&quot;my-team&quot;,&quot;from_worker&quot;:&quot;worker-1&quot;,&quot;to_worker&quot;:&quot;leader-fixed&quot;,&quot;body&quot;:&quot;ACK&quot;}' --json
+omx team api claim-task --input '{&quot;team_name&quot;:&quot;my-team&quot;,&quot;task_id&quot;:&quot;1&quot;,&quot;worker&quot;:&quot;worker-1&quot;}' --json
+omx team api transition-task-status --input '{&quot;team_name&quot;:&quot;my-team&quot;,&quot;task_id&quot;:&quot;1&quot;,&quot;from&quot;:&quot;in_progress&quot;,&quot;to&quot;:&quot;completed&quot;,&quot;claim_token&quot;:&quot;&lt;token&gt;&quot;}' --json
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```bash
+omx team api send-message --input '{&quot;team_name&quot;:&quot;my-team&quot;,&quot;from_worker&quot;:&quot;worker-1&quot;,&quot;to_worker&quot;:&quot;leader-fixed&quot;,&quot;body&quot;:&quot;ACK&quot;}' --json
+omx team api claim-task --input '{&quot;team_name&quot;:&quot;my-team&quot;,&quot;task_id&quot;:&quot;1&quot;,&quot;worker&quot;:&quot;worker-1&quot;}' --json
+omx team api transition-task-status --input '{&quot;team_name&quot;:&quot;my-team&quot;,&quot;task_id&quot;:&quot;1&quot;,&quot;from&quot;:&quot;in_progress&quot;,&quot;to&quot;:&quot;completed&quot;,&quot;claim_token&quot;:&quot;&lt;token&gt;&quot;}' --json
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>`--json` responses include stable metadata for automation:
+- `schema_version`
+- `timestamp`
+- `command`
+- `ok`
+- `operation`
+- `data` or `error`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>`--json` 回應包含可供自動化使用的穩定中繼資料：
+- `schema_version`
+- `timestamp`
+- `command`
+- `ok`
+- `operation`
+- `data` 或 `error`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Team + Worker Protocol Notes</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## Team + Worker 協定備註</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Leader-to-worker:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>leader 對 worker：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- Write full assignment to worker `inbox.md`
+- Send short trigger (&lt;200 chars) with `tmux send-keys`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 將完整指派寫入 worker 的 `inbox.md`
+- 使用 `tmux send-keys` 傳送短觸發字串（&lt;200 字元）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Worker-to-leader:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>worker 對 leader：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- Send ACK to `leader-fixed` mailbox via `omx team api send-message --json`
+- Claim/transition/release task lifecycle via `omx team api &lt;operation&gt; --json`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 透過 `omx team api send-message --json` 將 ACK 傳送到 `leader-fixed` mailbox
+- 透過 `omx team api &lt;operation&gt; --json` 進行 task 生命週期的 claim／transition／release</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Worker commit protocol (critical for incremental integration):</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>worker 提交協定（對漸進式整合至關重要）：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- After completing task work and before reporting completion, workers MUST commit:
+  `git add -A &amp;&amp; git commit -m &quot;task: &lt;task-subject&gt;&quot;`
+- This ensures changes are available for incremental integration into the leader branch
+- If a worker forgets to commit, the runtime auto-commits as a fallback, but explicit commits are preferred</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 在完成任務工作並回報完成之前，workers MUST 提交：
+  `git add -A &amp;&amp; git commit -m &quot;task: &lt;task-subject&gt;&quot;`
+- 這可確保變更可供漸進式整合到 leader 分支
+- 如果 worker 忘記提交，runtime 會自動提交作為 fallback，但仍以明確提交為優先</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Task ID rule (critical):</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Task ID 規則（重要）：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- File path uses `task-&lt;id&gt;.json` (example `task-1.json`)
+- MCP API `task_id` uses bare id (example `&quot;1&quot;`, not `&quot;task-1&quot;`)
+- Never instruct workers to read `tasks/{id}.json`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 檔案路徑使用 `task-&lt;id&gt;.json`（例如 `task-1.json`）
+- MCP API `task_id` 使用裸 id（例如 `&quot;1&quot;`，而不是 `&quot;task-1&quot;`）
+- 絕不要指示 worker 讀取 `tasks/{id}.json`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Environment Knobs</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 環境開關</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Useful runtime env vars:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>有用的執行期環境變數：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- `OMX_TEAM_READY_TIMEOUT_MS`
+  - Worker readiness timeout (default 45000)
+- `OMX_TEAM_SKIP_READY_WAIT=1`
+  - Skip readiness wait (debug only)
+- `OMX_TEAM_AUTO_TRUST=0`
+  - Disable auto-advance for trust prompt (default behavior auto-advances)
+- `OMX_TEAM_AUTO_ACCEPT_BYPASS=0`
+  - Disable Claude bypass-permissions prompt auto-accept (default behavior auto-accepts `2` + Enter)
+- `OMX_TEAM_WORKER_LAUNCH_ARGS`
+  - Extra args passed to worker launch command
+- `OMX_TEAM_WORKER_CLI`
+  - Worker CLI selector: `auto|codex|claude` (default: `auto`)
+  - `auto` chooses `claude` when worker `--model` contains `claude`, otherwise `codex`
+  - In `claude` mode, workers launch with exactly one `--dangerously-skip-permissions`
+    and ignore explicit model/config/effort launch overrides (uses default `settings.json`)
+- `OMX_TEAM_WORKER_CLI_MAP`
+  - Per-worker CLI selector (comma-separated `auto|codex|claude`)
+  - Length must be `1` (broadcast) or exactly the team worker count
+  - Example: `OMX_TEAM_WORKER_CLI_MAP=codex,codex,claude,claude`
+  - When present, overrides `OMX_TEAM_WORKER_CLI`
+- `OMX_TEAM_AUTO_INTERRUPT_RETRY`
+  - Trigger submit fallback (default: enabled)
+  - `0` disables adaptive queue-&gt;resend escalation
+- `OMX_TEAM_LEADER_NUDGE_MS`
+  - Leader nudge interval in ms (default 120000)
+- `OMX_TEAM_STRICT_SUBMIT=1`
+  - Force strict send-keys submit failure behavior</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- `OMX_TEAM_READY_TIMEOUT_MS`
+  - Worker 就緒逾時（預設 45000）
+- `OMX_TEAM_SKIP_READY_WAIT=1`
+  - 跳過就緒等待（僅供除錯）
+- `OMX_TEAM_AUTO_TRUST=0`
+  - 停用 trust 提示的自動前進（預設行為會自動前進）
+- `OMX_TEAM_AUTO_ACCEPT_BYPASS=0`
+  - 停用 Claude bypass-permissions 提示的自動接受（預設行為會自動接受 `2` + Enter）
+- `OMX_TEAM_WORKER_LAUNCH_ARGS`
+  - 傳給 worker 啟動命令的額外引數
+- `OMX_TEAM_WORKER_CLI`
+  - Worker CLI 選擇器：`auto|codex|claude`（預設：`auto`）
+  - `auto` 會在 worker 的 `--model` 包含 `claude` 時選擇 `claude`，否則選擇 `codex`
+  - 在 `claude` 模式下，worker 啟動時只會帶上一個 `--dangerously-skip-permissions`
+    並忽略明確指定的 model/config/effort 啟動覆寫（使用預設 `settings.json`）
+- `OMX_TEAM_WORKER_CLI_MAP`
+  - 逐個 worker 的 CLI 選擇器（以逗號分隔的 `auto|codex|claude`）
+  - 長度必須是 `1`（廣播）或剛好等於 team worker 數量
+  - 範例：`OMX_TEAM_WORKER_CLI_MAP=codex,codex,claude,claude`
+  - 存在時會覆蓋 `OMX_TEAM_WORKER_CLI`
+- `OMX_TEAM_AUTO_INTERRUPT_RETRY`
+  - 觸發提交回退（預設：啟用）
+  - `0` 會停用自適應 queue-&gt;resend 升級
+- `OMX_TEAM_LEADER_NUDGE_MS`
+  - Leader nudge 間隔，單位為 ms（預設 120000）
+- `OMX_TEAM_STRICT_SUBMIT=1`
+  - 強制嚴格的 send-keys 提交失敗行為</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Failure Modes and Diagnosis</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 失敗模式與診斷</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Operator note (important for Claude panes):
+- Manual Enter injection (`tmux send-keys ... C-m`) can appear to &quot;do nothing&quot; when a worker is actively processing; Enter may be queued by the pane/task flow.
+- This is not necessarily a runtime bug. Confirm worker/team state before diagnosing dispatch failure.
+- Avoid repeated blind Enter spam; it can create noisy duplicate submits once the pane becomes idle.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>操作員備註（對 Claude 面板很重要）：
+- 當 worker 正在 सक्रिय處理時，手動注入 Enter（`tmux send-keys ... C-m`）可能看起來像是「沒有作用」；Enter 可能已被面板/任務流程排入佇列。
+- 這不一定是執行期 bug。請先確認 worker/team 狀態，再診斷派送失敗。
+- 避免反覆盲目狂送 Enter；等面板變成閒置後，這可能造成噪音式的重複提交。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Safe Manual Intervention (last resort)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 安全的人工介入（最後手段）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Use only after checking `omx team status &lt;team&gt;` and mailbox/state evidence:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>僅在檢查 `omx team status &lt;team&gt;` 與 mailbox/state 證據之後才使用：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Capture pane tail to confirm current worker state:
+   - `tmux capture-pane -t %&lt;worker-pane&gt; -p -S -120`
+   - If a larger-tail read or bounded summary would help, prefer explicit opt-in inspection via `omx sparkshell --tmux-pane %&lt;worker-pane&gt; --tail-lines 400` before improvising extra tmux commands.
+2. If the pane is stuck in an interactive state, safely return to idle prompt first:
+   - optional interrupt `C-c` or escape flow (CLI-specific) once, then re-check pane capture
+3. Send one concise trigger (single line) and wait for evidence:
+   - `tmux send-keys -t %&lt;worker-pane&gt; &quot;ack + continue current task; report status&quot; C-m`
+4. Re-check:
+   - pane output via `capture-pane`
+   - mailbox updates (`mailbox/leader-fixed.json` or worker mailbox)
+   - `omx team status &lt;team&gt;`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 擷取面板尾端以確認目前 worker 狀態：
+   - `tmux capture-pane -t %&lt;worker-pane&gt; -p -S -120`
+   - 如果需要更長的尾端讀取或有界摘要，請在自行臨時追加 tmux 指令之前，優先使用明確同意的檢視方式：`omx sparkshell --tmux-pane %&lt;worker-pane&gt; --tail-lines 400`
+2. 如果面板卡在互動狀態，先安全地回到閒置提示字元：
+   - 視情況只做一次可選的中斷 `C-c` 或 escape 流程（依 CLI 而定），然後再重新檢查面板擷取
+3. 傳送一個簡潔觸發字串（單行），然後等待證據：
+   - `tmux send-keys -t %&lt;worker-pane&gt; &quot;ack + continue current task; report status&quot; C-m`
+4. 重新檢查：
+   - 透過 `capture-pane` 查看面板輸出
+   - mailbox 更新（`mailbox/leader-fixed.json` 或 worker mailbox）
+   - `omx team status &lt;team&gt;`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### `worker_notify_failed:&lt;worker&gt;`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### `worker_notify_failed:&lt;worker&gt;`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Meaning:
+- Leader wrote inbox but trigger submit path failed</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>含意：
+- Leader 已寫入 inbox，但觸發提交路徑失敗</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Checks:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>檢查：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. `tmux list-panes -F '#{pane_id}\t#{pane_start_command}'`
+2. `tmux capture-pane -t %&lt;worker-pane&gt; -p -S -120`
+3. Verify worker process alive and not stuck on trust prompt
+4. Rebuild if running repo-local (`npm run build`)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. `tmux list-panes -F '#{pane_id}\t#{pane_start_command}'`
+2. `tmux capture-pane -t %&lt;worker-pane&gt; -p -S -120`
+3. 驗證 worker 行程仍在執行，且沒有卡在 trust 提示
+4. 如果是執行 repo 本地版本，則重新建置（`npm run build`）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Team starts but leader gets no ACK</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### Team 已啟動但 leader 沒有收到 ACK</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Checks:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>檢查：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Worker pane capture shows inbox processing
+2. `.omx/state/team/&lt;team&gt;/mailbox/leader-fixed.json` exists
+3. Worker skill loaded and `omx team api send-message --json` called
+4. Task-id mismatch not blocking worker flow</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. Worker 面板擷取顯示正在處理 inbox
+2. `.omx/state/team/&lt;team&gt;/mailbox/leader-fixed.json` 存在
+3. Worker skill 已載入，且已呼叫 `omx team api send-message --json`
+4. task-id 不一致沒有阻擋 worker 流程</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Worker logs `omx team api ... ENOENT` (or legacy `team_send_message ENOENT` / `team_update_task ENOENT`)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### Worker 記錄 `omx team api ... ENOENT`（或舊版 `team_send_message ENOENT` / `team_update_task ENOENT`）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Meaning:
+- Team state path no longer exists while worker is still running.
+- Typical cause: leader/manual flow ran `omx team shutdown &lt;team&gt;` (or removed `.omx/state/team/&lt;team&gt;`) before worker finished.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>含意：
+- 當 worker 仍在執行時，team state 路徑已不再存在。
+- 常見原因：leader/手動流程在 worker 完成之前就執行了 `omx team shutdown &lt;team&gt;`（或刪除了 `.omx/state/team/&lt;team&gt;`）。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Checks:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>檢查：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. `omx team status &lt;team&gt;` and confirm whether tasks were still `in_progress` when shutdown occurred
+2. Verify whether `.omx/state/team/&lt;team&gt;/` exists
+3. Inspect worker pane tail for post-shutdown writes
+4. Confirm no external cleanup (`rm -rf .omx/state/team/&lt;team&gt;`) happened during execution</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. `omx team status &lt;team&gt;`，並確認在 shutdown 發生時 tasks 是否仍是 `in_progress`
+2. 驗證 `.omx/state/team/&lt;team&gt;/` 是否存在
+3. 檢查 worker 面板尾端是否有 shutdown 之後的寫入
+4. 確認執行期間沒有發生外部清理（`rm -rf .omx/state/team/&lt;team&gt;`）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Prevention:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>預防：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Enforce completion gate (no in-progress tasks) before shutdown
+2. Use `shutdown` only for terminal completion or explicit abort
+3. If aborting, expect late worker writes to fail and treat ENOENT as expected teardown artifact</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 在 shutdown 之前強制完成閘門（不得有進行中的任務）
+2. 僅在終態完成或明確中止時使用 `shutdown`
+3. 如果是中止，預期較晚到的 worker 寫入會失敗，並將 ENOENT 視為預期中的拆除產物</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Shutdown reports success but stale worker panes remain</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### Shutdown 回報成功，但仍殘留過期的 worker 面板</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Cause:
+- stale pane outside config tracking or previous failed run</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>原因：
+- 不在設定追蹤範圍內的過期面板，或是前一次失敗執行留下的面板</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Fix:
+- manual pane cleanup (see clean-slate commands)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>修正：
+- 手動清理面板（見 clean-slate 指令）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Clean-Slate Recovery</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 全新狀態復原</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Run from leader pane:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>從 leader 面板執行：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```bash
+# 1) Inspect panes
+tmux list-panes -F '#{pane_id}\t#{pane_current_command}\t#{pane_start_command}'
+
+# 2) Kill stale worker panes only (examples)
+tmux kill-pane -t %450
+tmux kill-pane -t %451
+
+# 3) Remove stale team state (example)
+rm -rf .omx/state/team/&lt;team-name&gt;
+
+# 4) Retry
+omx team 1:executor &quot;fresh retry&quot;
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```bash
+# 1) Inspect panes
+tmux list-panes -F '#{pane_id}\t#{pane_current_command}\t#{pane_start_command}'
+
+# 2) Kill stale worker panes only (examples)
+tmux kill-pane -t %450
+tmux kill-pane -t %451
+
+# 3) Remove stale team state (example)
+rm -rf .omx/state/team/&lt;team-name&gt;
+
+# 4) Retry
+omx team 1:executor &quot;fresh retry&quot;
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Guidelines:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>準則：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- Do not kill leader pane
+- Do not kill HUD pane (`omx hud --watch`) unless intentionally restarting HUD</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 不要殺掉 leader 面板
+- 不要殺掉 HUD 面板（`omx hud --watch`），除非你刻意要重新啟動 HUD</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Required Reporting During Execution</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 執行期間的必要回報</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>When operating this skill, provide concrete progress evidence:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>操作這個 skill 時，請提供具體的進度證據：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Team started line (`Team started: &lt;name&gt;`)
+2. tmux target and worker pane presence
+3. leader mailbox ACK path/content check
+4. status/shutdown outcomes</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. Team started 的行（`Team started: &lt;name&gt;`）
+2. tmux target 與 worker 面板存在情況
+3. leader mailbox ACK 路徑/內容檢查
+4. status/shutdown 結果</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Do not claim success without file/pane evidence.
+Do not claim clean completion if shutdown occurred with `in_progress&gt;0`.
+Use `omx sparkshell --tmux-pane ...` as an explicit opt-in operator aid for pane inspection and summaries; keep raw `tmux capture-pane` evidence available for manual intervention and proof.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>沒有檔案/面板證據，不要聲稱成功。
+如果 shutdown 發生時 `in_progress&gt;0`，不要聲稱已乾淨完成。
+將 `omx sparkshell --tmux-pane ...` 作為明確同意後才使用的操作輔助，用於面板檢查與摘要；保留原始 `tmux capture-pane` 證據，以便人工介入與佐證。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Programmatic Team Orchestration</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 程式化 Team 編排</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Use the `omx team ...` CLI as the supported team-launch surface. For automation, drive the same CLI flow from scripts or supervising agents rather than relying on a separate MCP runner.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>將 `omx team ...` CLI 作為支援的 team 啟動介面。對於自動化，請從腳本或監督 agent 驅動相同的 CLI 流程，而不是依賴另一個獨立的 MCP runner。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Supported current surfaces</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 目前支援的介面</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **`omx team ...` CLI** — Primary method for interactive or automated team orchestration. Use this when you want direct tmux-pane visibility or a scriptable launch path.
+- **Team state files** — Inspect `.omx/state/team/&lt;team&gt;/` when you need status, task, or mailbox evidence after launch.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **`omx team ...` CLI** — 互動式或自動化 team 編排的主要方法。當你需要直接查看 tmux 面板，或需要可腳本化的啟動路徑時，請使用這個方式。
+- **Team state 檔案** — 在啟動後若需要 status、task 或 mailbox 證據，請檢查 `.omx/state/team/&lt;team&gt;/`。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Cleanup distinction</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 清理差異</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Two cleanup paths exist and must not be confused:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>存在兩種清理路徑，而且不能混淆：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- `team_cleanup` (**state-server**): Deletes team state **files** on disk (`.omx/state/team/&lt;team&gt;/`). Use after a team run is fully complete.
+- tmux/session cleanup: Use the documented `omx team` shutdown / cleanup flow when you need to stop worker panes or clean up an interrupted run.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- `team_cleanup` (**state-server**): 刪除磁碟上的團隊狀態 **檔案**（`.omx/state/team/&lt;team&gt;/`）。在團隊執行完全結束後使用。
+- tmux/session cleanup: 當你需要停止 worker 窗格或清理中斷的執行時，請使用文件記載的 `omx team` 關閉 / 清理流程。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Automation example</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 自動化範例</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+1. omx team 1:executor &quot;fix bugs&quot;
+2. omx team status &lt;team-name&gt;
+3. omx team shutdown &lt;team-name&gt;
+4. Clean up the finished team state for &lt;team-name&gt;
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+1. omx team 1:executor &quot;fix bugs&quot;
+2. omx team status &lt;team-name&gt;
+3. omx team shutdown &lt;team-name&gt;
+4. 清理 &lt;team-name&gt; 已完成的團隊狀態
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Limitations</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 限制</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- Worktree provisioning requires a git repository and can fail on branch/path collisions
+- send-keys interactions can be timing-sensitive under load
+- stale panes from prior runs can interfere until manually cleaned</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 建立 worktree 需要 git repository，且在 branch/path 衝突時可能失敗
+- `send-keys` 互動在負載下可能對時序很敏感
+- 先前執行留下的過期 pane 會造成干擾，直到手動清理為止</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Scenario Examples</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 情境範例</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Good:** The user says `continue` after the workflow already has a clear next step. Continue the current branch of work instead of restarting or re-asking the same question.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**Good:** 在工作流程已經有明確下一步之後，使用者說 `continue`。請延續目前這條工作分支，而不是重新開始或重複詢問同一個問題。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Good:** The user changes only the output shape or downstream delivery step (for example `make a PR`). Preserve earlier non-conflicting workflow constraints and apply the update locally.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**Good:** 使用者只改變輸出形式或下游交付步驟（例如 `make a PR`）。保留先前不衝突的工作流程限制，並在本地套用更新。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Bad:** The user says `continue`, and the workflow restarts discovery or stops before the missing verification/evidence is gathered.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**Bad:** 使用者說 `continue`，但工作流程卻重新開始探索，或在補齊缺少的驗證/證據之前就停止。</code></pre></div></section>
+</main>
+</body>
+</html>

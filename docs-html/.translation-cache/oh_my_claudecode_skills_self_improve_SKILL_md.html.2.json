@@ -1,0 +1,134 @@
+[
+  {
+    "original": "Expected output: Plan Document JSON → `<self-improve-root>/plans/round_{n}/plan_planner_{id}.json`",
+    "zh_tw": "預期輸出：Plan Document JSON → `<self-improve-root>/plans/round_{n}/plan_planner_{id}.json`"
+  },
+  {
+    "original": "### Step 6 — Review",
+    "zh_tw": "### 步驟 6 — Review"
+  },
+  {
+    "original": "For each plan, **sequentially** (architect before critic):",
+    "zh_tw": "對每個 plan，**依序**（先 architect，後 critic）："
+  },
+  {
+    "original": "**6a. Architecture Review**: Spawn `oh-my-claudecode:architect` with the plan + 6-point checklist:\n1. Testability — is the hypothesis testable?\n2. Novelty — different from prior attempts?\n3. Scope — right-sized?\n4. Target files — exist, not sealed?\n5. Implementation clarity — executor can implement without guessing?\n6. Expected outcome — realistic given evidence?",
+    "zh_tw": "**6a. Architecture Review**：以該 plan + 6 點檢查清單啟動 `oh-my-claudecode:architect`：\n1. Testability — 假設是否可測試？\n2. Novelty — 是否與先前嘗試不同？\n3. Scope — 範圍是否合適？\n4. Target files — 是否存在，且未被封存？\n5. Implementation clarity — 執行者能否無需猜測就實作？\n6. Expected outcome — 根據證據，是否合理？"
+  },
+  {
+    "original": "Architect verdict is **advisory only**.",
+    "zh_tw": "Architect 的判定**僅供參考**。"
+  },
+  {
+    "original": "**6b. Critic Review**: Spawn `oh-my-claudecode:critic` with the plan + harness rules:\n- H001: Exactly one hypothesis (reject if zero or multiple)\n- H002: No approach_family repetition streak >= 3\n- H003: Intra-round diversity (no two plans same family in same round)\n- Schema validation against data_contracts.md\n- History awareness check",
+    "zh_tw": "**6b. Critic Review**：以該 plan + harness 規則啟動 `oh-my-claudecode:critic`：\n- H001：只能有一個 hypothesis（若為零或多個則拒絕）\n- H002：`approach_family` 連續重複不得 >= 3\n- H003：同輪內須具備多樣性（同一 round 中不得有兩個 plan 屬於同一 family）\n- 依 `data_contracts.md` 進行 schema validation\n- History awareness check"
+  },
+  {
+    "original": "Critic sets `critic_approved: true` or `false`. Plans with `false` are excluded from execution.",
+    "zh_tw": "Critic 會設定 `critic_approved: true` 或 `false`。`false` 的 plans 會被排除，不進入執行。"
+  },
+  {
+    "original": "If ALL plans rejected, log and skip to Step 9.",
+    "zh_tw": "如果所有 plans 都被拒絕，記錄並跳到步驟 9。"
+  },
+  {
+    "original": "### Step 7 — Execute",
+    "zh_tw": "### 步驟 7 — Execute"
+  },
+  {
+    "original": "For each approved plan, spawn `oh-my-claudecode:executor`(model=opus) in parallel.",
+    "zh_tw": "對每個已核准的 plan，並行啟動 `oh-my-claudecode:executor`（model=opus）。"
+  },
+  {
+    "original": "**Before spawning**, create worktree:\n```\ngit -C {repo_path} worktree add worktrees/round_{n}_executor_{id} -b experiment/round_{n}_executor_{id} improve/{goal_slug}\n```",
+    "zh_tw": "**在啟動之前**，建立 worktree：\n```\ngit -C {repo_path} worktree add worktrees/round_{n}_executor_{id} -b experiment/round_{n}_executor_{id} improve/{goal_slug}\n```"
+  },
+  {
+    "original": "Pass in each executor's prompt:\n- The approved plan JSON\n- Worktree directory path\n- Benchmark command from settings\n- Sealed files list from settings\n- Path to `scripts/validate.sh` in this skill directory\n- Data contract schema for Benchmark Result\n- **Override instructions**: Implement the plan faithfully, run validate.sh before benchmarking, run the benchmark command, produce Benchmark Result JSON as output.",
+    "zh_tw": "將下列內容傳入每個 executor 的 prompt：\n- 已核准的 plan JSON\n- Worktree 目錄路徑\n- settings 中的 Benchmark command\n- settings 中的 Sealed files 清單\n- 此 skill 目錄中 `scripts/validate.sh` 的路徑\n- Benchmark Result 的資料合約 schema\n- **Override instructions**：忠實實作該 plan，在 benchmarking 前執行 validate.sh，執行 benchmark command，並將 Benchmark Result JSON 作為輸出。"
+  },
+  {
+    "original": "Expected output: Benchmark Result JSON (written by executor or returned as output).",
+    "zh_tw": "預期輸出：Benchmark Result JSON（由 executor 寫入或作為輸出回傳）。"
+  },
+  {
+    "original": "### Step 8 — Tournament Selection",
+    "zh_tw": "### 步驟 8 — Tournament Selection"
+  },
+  {
+    "original": "SKILL.md does this directly (not delegated):",
+    "zh_tw": "SKILL.md 會直接執行此步驟（不委派）："
+  },
+  {
+    "original": "1. **Collect** all executor results\n2. **Filter** to `status: \"success\"` only. If zero candidates, skip to Step 9 (Record & Visualize).\n3. **Rank** by `benchmark_score` (respecting `benchmark_direction`)\n4. **Ranked-candidate loop** — for each candidate in rank order (best first):\n   a. **No-regression check**: candidate score must improve or hold even vs `best_score`, respecting `benchmark_direction` (`higher_is_better`: score >= best_score; `lower_is_better`: score <= best_score)\n   b. **Merge** via `oh-my-claudecode:git-master`: `git merge experiment/round_{n}_executor_{id} --no-ff -m \"Iteration {n}: {hypothesis} (score: {before} → {after})\"`\n   c. **Re-benchmark** on merged state to confirm improvement\n   d. If re-benchmark **confirms** improvement: **accept winner**, break loop\n   e. If re-benchmark shows **regression**: **revert merge** via `git -C {repo_path} reset --hard HEAD~1`, continue to next candidate\n   f. If merge **conflicts**: `git -C {repo_path} merge --abort`, continue to next candidate\n5. If a winner was accepted AND `auto_push` is `true` in settings: **Push** improvement branch: `git -C {repo_path} push origin improve/{goal_slug}` (non-blocking).\n   If `auto_push` is `false` (default): skip push. Log: `\"Push skipped (auto_push: false). Run manually: git -C {repo_path} push origin improve/{goal_slug}\"`\n6. **Archive** all non-winner branches via git-master: tag + delete\n7. If no candidate survived the loop: no merge this round. Improvement branch stays at prior state.\n8. **Write Merge Report** JSON to `<self-improve-root>/state/merge_reports/round_{n}.json` (schema: data_contracts.md Section 9).",
+    "zh_tw": "1. **收集**所有 executor 結果\n2. **篩選**為僅 `status: \"success\"`。如果沒有候選者，跳到步驟 9（Record & Visualize）。\n3. 依 `benchmark_score` **排序**（需符合 `benchmark_direction`）\n4. **排序候選者迴圈** — 依排名順序（最佳優先）逐一處理每個候選者：\n   a. **No-regression check**：候選者分數相較 `best_score` 必須提升或持平，並符合 `benchmark_direction`（`higher_is_better`：score >= best_score；`lower_is_better`：score <= best_score）\n   b. 透過 `oh-my-claudecode:git-master` **合併**：`git merge experiment/round_{n}_executor_{id} --no-ff -m \"Iteration {n}: {hypothesis} (score: {before} → {after})\"`\n   c. 在合併後的狀態下**重新 benchmark**，以確認改善\n   d. 若 re-benchmark **確認**改善：**接受 winner**，跳出迴圈\n   e. 若 re-benchmark 顯示**退化**：透過 `git -C {repo_path} reset --hard HEAD~1` **回復合併**，繼續下一個候選者\n   f. 若合併發生**衝突**：`git -C {repo_path} merge --abort`，繼續下一個候選者\n5. 若已接受 winner 且 settings 中 `auto_push` 為 `true`：**推送** improvement branch：`git -C {repo_path} push origin improve/{goal_slug}`（非阻塞）。\n   若 `auto_push` 為 `false`（預設）：略過 push。記錄：`\"Push skipped (auto_push: false). Run manually: git -C {repo_path} push origin improve/{goal_slug}\"`\n6. 透過 git-master **封存**所有非 winner 分支：標記 + 刪除\n7. 若沒有任何候選者通過迴圈：本輪不進行合併。improvement branch 維持先前狀態。\n8. 將 **Merge Report** JSON 寫入 `<self-improve-root>/state/merge_reports/round_{n}.json`（schema：data_contracts.md 第 9 節）。"
+  },
+  {
+    "original": "### Step 9 — Record & Visualize",
+    "zh_tw": "### 步驟 9 — Record & Visualize"
+  },
+  {
+    "original": "1. Write iteration history to `<self-improve-root>/state/iteration_history/round_{n}.json`\n2. Update `<self-improve-root>/state/agent-settings.json`:\n   - Increment `iterations` by 1\n   - If winner AND improvement exceeds `plateau_threshold` (`abs(new_score - best_score) >= plateau_threshold`): update `best_score`, reset `plateau_consecutive_count = 0`, reset `circuit_breaker_count = 0`\n   - If winner AND improvement below threshold (`abs(new_score - best_score) < plateau_threshold`): update `best_score` if better, increment `plateau_consecutive_count += 1`, reset `circuit_breaker_count = 0`\n   - If no winner (all rejected, all failed, or all regressed): increment `circuit_breaker_count += 1` (do NOT increment `plateau_consecutive_count` — plateau tracks stagnating wins, not failures)\n3. Append to `<self-improve-root>/tracking/raw_data.json` (one entry per candidate)\n4. Run `python3 {skill_dir}/scripts/plot_progress.py --tracking-dir <self-improve-root>/tracking` for visualization\n5. Archive plans: copy current round plans to `state/plan_archive/round_{n}/`",
+    "zh_tw": "1. 將 iteration history 寫入 `<self-improve-root>/state/iteration_history/round_{n}.json`\n2. 更新 `<self-improve-root>/state/agent-settings.json`：\n   - `iterations` 加 1\n   - 若有 winner 且改善超過 `plateau_threshold`（`abs(new_score - best_score) >= plateau_threshold`）：更新 `best_score`，重設 `plateau_consecutive_count = 0`，重設 `circuit_breaker_count = 0`\n   - 若有 winner 且改善低於 threshold（`abs(new_score - best_score) < plateau_threshold`）：若更好則更新 `best_score`，`plateau_consecutive_count += 1`，重設 `circuit_breaker_count = 0`\n   - 若沒有 winner（全部被拒絕、全部失敗，或全部退化）：`circuit_breaker_count += 1`（**不要**增加 `plateau_consecutive_count` —— plateau 記錄的是停滯的 wins，而不是失敗）\n3. 追加到 `<self-improve-root>/tracking/raw_data.json`（每個 candidate 一筆）\n4. 執行 `python3 {skill_dir}/scripts/plot_progress.py --tracking-dir <self-improve-root>/tracking` 以進行視覺化\n5. 封存 plans：將當前 round 的 plans 複製到 `state/plan_archive/round_{n}/`"
+  },
+  {
+    "original": "### Step 10 — Cleanup",
+    "zh_tw": "### 步驟 10 — Cleanup"
+  },
+  {
+    "original": "Remove worktrees:\n```\ngit -C {repo_path} worktree remove worktrees/round_{n}_executor_{id} --force\ngit -C {repo_path} worktree prune\n```",
+    "zh_tw": "移除 worktrees：\n```\ngit -C {repo_path} worktree remove worktrees/round_{n}_executor_{id} --force\ngit -C {repo_path} worktree prune\n```"
+  },
+  {
+    "original": "Update `iteration_state.json` status to `completed`.",
+    "zh_tw": "將 `iteration_state.json` 的 status 更新為 `completed`。"
+  },
+  {
+    "original": "### Step 11 — Stop Condition Check",
+    "zh_tw": "### 步驟 11 — Stop Condition Check"
+  },
+  {
+    "original": "Evaluate ALL conditions. If ANY is true, exit:",
+    "zh_tw": "評估所有條件。只要其中任何一項為真，就結束："
+  },
+  {
+    "original": "| Condition | Check |\n|---|---|\n| User stop | `status == \"user_stopped\"` in agent-settings or state cleared |\n| Target reached | `best_score` meets/exceeds `target_value` (respecting direction) |\n| Plateau | `plateau_consecutive_count >= plateau_window` |\n| Max iterations | `iterations >= max_iterations` |\n| Circuit breaker | `circuit_breaker_count >= circuit_breaker_threshold` |",
+    "zh_tw": "| 條件 | 檢查 |\n|---|---|\n| User stop | agent-settings 中 `status == \"user_stopped\"`，或 state 已清除 |\n| Target reached | `best_score` 達到/超過 `target_value`（依方向而定） |\n| Plateau | `plateau_consecutive_count >= plateau_window` |\n| Max iterations | `iterations >= max_iterations` |\n| Circuit breaker | `circuit_breaker_count >= circuit_breaker_threshold` |"
+  },
+  {
+    "original": "If NO stop condition: immediately go back to Step 1.",
+    "zh_tw": "如果沒有任何 stop condition：立刻回到步驟 1。"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Resumability",
+    "zh_tw": "## Resumability"
+  },
+  {
+    "original": "**PREREQUISITE**: Step 0 (stale worktree cleanup) MUST run to completion before any resume logic executes, regardless of prior state.",
+    "zh_tw": "**前置條件**：步驟 0（stale worktree cleanup）在任何 resume 邏輯執行之前，無論先前狀態如何，都**必須**完整執行。"
+  },
+  {
+    "original": "On invocation, before entering the loop:",
+    "zh_tw": "在呼叫時，進入迴圈之前："
+  },
+  {
+    "original": "1. **Always run Step 0** (stale worktree cleanup) — even on fresh start\n2. Read `<self-improve-root>/state/agent-settings.json`:\n   - If `status: \"user_stopped\"`: ask user `\"Previous run was stopped at iteration {N}. Resume? [yes/no]\"`. If no, exit. If yes, continue.\n   - If `status: \"running\"`: session crashed — resume automatically (no user prompt)\n   - If `status: \"idle\"`: fresh start\n3. Re-confirm trust gate only if `trust_confirmed` is `false` in agent-settings.json\n4. Read `<self-improve-root>/state/iteration_state.json`:\n   - `status: \"in_progress\"` → resume from `current_step`, skip completed sub-steps\n   - `status: \"completed\"` → start next iteration\n   - `status: \"failed\"` → complete recording step if needed, start next iteration\n   - File missing → start from iteration 1",
+    "zh_tw": "1. **一律執行步驟 0**（stale worktree cleanup）——即使是全新啟動也一樣\n2. 讀取 `<self-improve-root>/state/agent-settings.json`：\n   - 若 `status: \"user_stopped\"`：詢問使用者 `\"Previous run was stopped at iteration {N}. Resume? [yes/no]\"`。若否，結束。若是，繼續。\n   - 若 `status: \"running\"`：session 已崩潰 — 自動 resume（不提示使用者）\n   - 若 `status: \"idle\"`：全新啟動\n3. 只有在 agent-settings.json 中 `trust_confirmed` 為 `false` 時，才重新確認 trust gate\n4. 讀取 `<self-improve-root>/state/iteration_state.json`：\n   - `status: \"in_progress\"` → 從 `current_step` 恢復，跳過已完成的 sub-steps\n   - `status: \"completed\"` → 開始下一個 iteration\n   - `status: \"failed\"` → 如有需要，完成 recording 步驟，開始下一個 iteration\n   - 檔案不存在 → 從 iteration 1 開始"
+  },
+  {
+    "original": "---",
+    "zh_tw": "---"
+  },
+  {
+    "original": "## Completion",
+    "zh_tw": "## Completion"
+  },
+  {
+    "original": "When the loop exits:",
+    "zh_tw": "當迴圈結束時："
+  }
+]

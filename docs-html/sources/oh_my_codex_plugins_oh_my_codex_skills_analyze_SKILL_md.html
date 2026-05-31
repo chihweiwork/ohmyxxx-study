@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oh-my-codex/plugins/oh-my-codex/skills/analyze/SKILL.md</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+</head>
+<body>
+<main>
+<nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
+<h1 class="path">oh-my-codex/plugins/oh-my-codex/skills/analyze/SKILL.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-codex/plugins/oh-my-codex/skills/analyze/SKILL.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---
+name: analyze
+description: &quot;Run read-only deep repository analysis and return a ranked synthesis with explicit confidence, concrete file references, and clear evidence-vs-inference boundaries. Use when a user says 'analyze', 'investigate', 'why does', 'what's causing', or needs grounded cross-file explanation before any changes are proposed.&quot;
+---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---
+name: analyze
+description: &quot;執行唯讀的深度儲存庫分析，並回傳一份有排序的綜合結果，包含明確的信心度、具體的檔案參照，以及清楚的證據與推論界線。當使用者說 'analyze'、'investigate'、'why does'、'what's causing'，或在提出任何變更之前需要有根據的跨檔案說明時使用。&quot;
+---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code># Analyze — Read-Only Deep Analysis</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code># Analyze — 唯讀深度分析</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Use this skill to answer the user’s question through **read-only repository analysis**. The goal is to explain what the codebase most likely says about the question, not to drift into implementation, debugging theater, or generic fix planning.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>使用這個技能，透過**唯讀儲存庫分析**來回答使用者的問題。目標是說明程式碼庫最可能對這個問題表示什麼，而不是偏離到實作、除錯表演，或泛泛的修復規劃。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Use `$analyze` when</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 何時使用 `$analyze`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- the user wants a grounded explanation, not code changes
+- the answer requires reading multiple files or tracing behavior across boundaries
+- there are several plausible explanations and they need to be ranked
+- confidence should reflect the strength of the available evidence
+- the user wants to understand architecture, behavior, causality, impact, or tradeoffs before changing anything</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 使用者想要有根據的說明，而不是程式碼變更
+- 答案需要閱讀多個檔案，或跨邊界追蹤行為
+- 有多種合理的解釋，且需要排序
+- 信心度應反映可用證據的強度
+- 使用者想在變更任何東西之前，先理解架構、行為、因果、影響或取捨</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Examples:
+- why a workflow behaves a certain way
+- how a feature is wired across modules
+- what likely explains a failure, regression, or mismatch
+- what would be impacted by changing a dependency or contract
+- which interpretation of the current codebase is best supported</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>範例：
+- 為什麼某個工作流程會以特定方式運作
+- 一個功能如何在各個模組之間串接
+- 什麼最可能解釋失敗、回歸或不一致
+- 變更相依項或合約會受到什麼影響
+- 目前程式碼庫中哪一種解讀最有證據支持</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Do not use `$analyze` when</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 何時不要使用 `$analyze`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- the user explicitly wants code edits, a fix, or execution — use the appropriate implementation lane instead
+- the user wants a new product plan or acceptance criteria — use `$plan` / `$ralplan`
+- the request is a simple one-file fact lookup — read the file and answer directly
+- the request is purely about running the OMX tmux team runtime — use `$team` only when OMX runtime is active</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 使用者明確想要程式碼編輯、修復或執行時，改用適當的實作流程
+- 使用者想要新的產品規劃或驗收標準時，使用 `$plan` / `$ralplan`
+- 請求只是單一檔案的簡單事實查詢時，直接讀取該檔案並回答
+- 請求純粹是關於執行 OMX tmux 團隊執行階段時，只有在 OMX 執行階段啟用時才使用 `$team`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Non-negotiable contract</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 不可協商的約定</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Analyze is **read-only by contract**.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Analyze 在約定上是**唯讀**的。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- Do not edit files.
+- Do not turn the answer into an implementation plan.
+- Do not recommend fixes as the primary output.
+- Do not silently switch into execution work.
+- Do not overclaim certainty.
+- Do not invent facts that are not supported by repository evidence.
+- Do not use judgmental, normative, or speculative language that outruns the evidence.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 不要編輯檔案。
+- 不要把答案變成實作計畫。
+- 不要把修復建議作為主要輸出。
+- 不要默默切換成執行工作。
+- 不要過度宣稱確定性。
+- 不要憑空捏造沒有儲存庫證據支持的事實。
+- 不要使用超出證據範圍的評判性、規範性或推測性語言。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>If a next step is helpful, keep it to a **discriminating read-only probe** that would reduce uncertainty.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>如果下一步有幫助，請將其限制為能降低不確定性的**辨識性唯讀探查**。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Question-aligned synthesis</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 依問題對齊的綜合</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Answer the user’s actual question first.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>先回答使用者真正的問題。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- Start from the asked question, not a generic debugger template.
+- Keep the synthesis scoped to what the user needs to know.
+- Scale the depth to the request: for simple or obvious questions, reduce swarm intensity and answer directly after enough reading.
+- For broader questions, expand the search surface but keep the final answer tightly synthesized.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 從被問的問題出發，而不是套用通用的除錯模板。
+- 讓綜合內容的範圍只限於使用者需要知道的部分。
+- 依請求調整深度：對於簡單或明顯的問題，降低搜尋強度，在讀得足夠之後直接回答。
+- 對於較廣泛的問題，擴大搜尋範圍，但讓最終答案保持高度綜合。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Evidence rules</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 證據規則</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Maintain an explicit **evidence-vs-inference distinction**. Every material claim must be labeled as one of:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>保持明確的**證據與推論區分**。每一項重要主張都必須標示為以下其中之一：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. **Evidence** — directly supported by concrete repository artifacts
+2. **Inference** — a reasoned conclusion drawn from evidence
+3. **Unknown** — a question the current repository evidence does not resolve</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. **證據** — 由具體的儲存庫工件直接支持
+2. **推論** — 從證據得出的有根據結論
+3. **未知** — 目前儲存庫證據無法解答的問題</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Never present an inference as if it were direct evidence.
+Never present a guess as if it were an inference.
+Call out uncertainty explicitly when the codebase does not settle the question.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>不要把推論呈現得像直接證據。
+不要把猜測呈現得像推論。
+當程式碼庫無法定論時，請明確指出不確定性。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Acceptable evidence</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 可接受的證據</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Prefer stronger evidence over weaker evidence:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>優先採用較強的證據，而非較弱的證據：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. direct code paths, contracts, tests, generated artifacts, configs, or docs with concrete file references
+2. multiple independent files pointing to the same conclusion
+3. localized behavioral inference from well-supported code structure
+4. weaker contextual clues that remain explicitly marked as tentative</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 具有具體檔案參照的直接程式碼路徑、合約、測試、產生的工件、設定或文件
+2. 多個獨立檔案指向相同結論
+3. 從有充分支持的程式碼結構中得出的局部行為推論
+4. 仍被明確標示為暫定的較弱上下文線索</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Unsupported speculation is not evidence.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>沒有支持的推測不是證據。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Parallel exploration policy</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 平行探索政策</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Parallel exploration is allowed when it improves quality, but it must stay runtime-safe.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當平行探索能提升品質時是允許的，但它必須保持可安全於執行期。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- Default to direct read-only analysis when the answer is simple.
+- When parallelism helps, prefer **native subagents by default** or equivalent in-session parallel exploration when available.
+- Keep parallel lanes bounded: each lane should answer a concrete sub-question or inspect a specific subsystem.
+- Use **`$team` only when OMX runtime is active** and durable tmux-based coordination is actually needed.
+- Do not imply that `$team` is available in plain Codex/App sessions.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 當答案很簡單時，預設採用直接的唯讀分析。
+- 當平行化有幫助時，優先預設使用**原生子代理**，或在可用時使用等效的同階段平行探索。
+- 讓平行情境保持有界：每一條平行線都應回答一個具體子問題，或檢查一個特定子系統。
+- 只有在 OMX 執行階段啟用且確實需要持久化的、基於 tmux 的協調時，才使用**`$team`**。
+- 不要暗示 `$team` 在一般的 Codex/App 工作階段中可用。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>A good default split for complex analysis is:
+- one lane for primary code path / contracts
+- one lane for config / orchestration / generated surfaces
+- one lane for tests / docs / secondary corroboration</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>複雜分析的一個良好預設分工是：
+- 一條線負責主要程式路徑 / 合約
+- 一條線負責設定 / 協調 / 產生出的介面
+- 一條線負責測試 / 文件 / 次要佐證</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Execution policy</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 執行政策</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- Default to outcome-first progress and completion reporting: state the question, evidence, inference boundaries, and stop condition before adding process detail.
+- Treat newer user task updates as local overrides for the active workflow branch while preserving earlier non-conflicting constraints.
+- If the user says `continue`, keep working from the current analysis state instead of restarting discovery.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 預設以結果優先的進度與完成回報：在加入流程細節之前，先陳述問題、證據、推論邊界與停止條件。
+- 將較新的使用者任務更新視為目前工作流程分支的本地覆寫，同時保留較早且不衝突的約束。
+- 如果使用者說 `continue`，就從目前的分析狀態繼續工作，而不是重新開始探索。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Working method</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 工作方法</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Restate the question in one sentence.
+2. Identify the smallest set of files most likely to answer it.
+3. Read for direct evidence first.
+4. If needed, open bounded parallel exploration lanes.
+5. Compare competing explanations.
+6. Rank the explanations by support.
+7. Return a synthesis that clearly separates evidence from inference.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 用一句話重述問題。
+2. 找出最可能回答問題的最小檔案集合。
+3. 先閱讀直接證據。
+4. 如有需要，開啟有界的平行探索線。
+5. 比較相互競爭的解釋。
+6. 按支持程度排序這些解釋。
+7. 回傳一份清楚區分證據與推論的綜合結果。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Output contract</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 輸出約定</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Structure the answer so the user can see what is known, what is inferred, and how confident the synthesis is.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>組織答案，使使用者能看出哪些是已知的、哪些是推論的，以及這份綜合結果有多高的信心。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Question
+[Restate the user’s question briefly]</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 問題
+[簡要重述使用者的問題]</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Ranked synthesis
+| Rank | Explanation | Confidence | Basis |
+|------|-------------|------------|-------|
+| 1 | ... | High / Medium / Low | strongest supporting evidence |
+| 2 | ... | High / Medium / Low | why it trails |
+| 3 | ... | High / Medium / Low | why it remains possible |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 排序後的綜合結果
+| 排名 | 解釋 | 信心度 | 依據 |
+|------|-------------|------------|-------|
+| 1 | ... | 高 / 中 / 低 | 最強的支持證據 |
+| 2 | ... | 高 / 中 / 低 | 為何它居次 |
+| 3 | ... | 高 / 中 / 低 | 為何它仍然成立 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Evidence
+- `path/to/file:line-line` — what this artifact directly shows
+- `path/to/file:line-line` — corroborating evidence</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 證據
+- `path/to/file:line-line` — 此工件直接顯示了什麼
+- `path/to/file:line-line` — 佐證</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Inference
+- What the evidence most strongly implies
+- Why weaker alternatives were down-ranked</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 推論
+- 證據最強烈暗示了什麼
+- 為什麼較弱的替代說法被降級</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Unknowns / limits
+- What the repository evidence does not establish
+- What would need to be checked next to reduce uncertainty</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 未知 / 限制
+- 儲存庫證據未能建立哪些事項
+- 接下來需要檢查什麼才能降低不確定性</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Quality bar</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 品質標準</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>A good analyze response is:
+- read-only and question-aligned
+- ranked rather than flat
+- explicit about confidence
+- concrete about file references
+- careful about evidence vs inference
+- free of unsupported speculation
+- free of normative drift or judgmental filler
+- explicit about the evidence-vs-inference distinction
+- concise for simple cases, broader only when the question truly needs it</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>一份好的 analyze 回應應該是：
+- 唯讀且與問題對齊
+- 有排序，而不是平鋪直敘
+- 明確標示信心度
+- 檔案參照具體
+- 謹慎區分證據與推論
+- 不含沒有支持的推測
+- 不含規範性偏移或評判性填充
+- 明確區分證據與推論
+- 在簡單情況下保持簡潔，只有在問題真正需要時才擴展</code></pre></div></section>
+</main>
+</body>
+</html>

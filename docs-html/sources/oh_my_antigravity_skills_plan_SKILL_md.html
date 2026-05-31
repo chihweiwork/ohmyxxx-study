@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oh-my-antigravity/skills/plan/SKILL.md</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+</head>
+<body>
+<main>
+<nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
+<h1 class="path">oh-my-antigravity/skills/plan/SKILL.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-antigravity/skills/plan/SKILL.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---
+name = &quot;plan&quot;
+description = &quot;Create a phased implementation plan with risks, dependencies, and validation checkpoints.&quot;
+---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---
+name = &quot;plan&quot;
+description = &quot;建立一份分階段的實作計畫，包含風險、相依性與驗證檢查點。&quot;
+---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Purpose</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 目的</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Use this skill when the request is non-trivial and should be planned before editing code.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當請求並非簡單任務，且應在編輯程式碼之前先規劃時，使用此技能。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Trigger</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 觸發條件</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- User asks for strategy, roadmap, or migration plan
+- Scope touches multiple files or subsystems
+- Work needs sequencing or parallelization decisions</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 使用者要求策略、路線圖或遷移計畫
+- 範圍涉及多個檔案或子系統
+- 工作需要決定順序或平行化安排</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Workflow</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 工作流程</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Restate goals, constraints, and acceptance criteria.
+2. Inspect only the repository areas required for planning.
+3. Keep this stage read-only (no edits).
+4. Break work into phases and atomic tasks.
+5. Mark dependencies, critical path tasks, and parallelizable sidecars.
+6. Add validation checkpoints and rollback notes.
+7. List 3-5 critical files for implementation focus.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 重新陳述目標、限制與驗收標準。
+2. 只檢查規劃所需的儲存庫區域。
+3. 維持此階段為唯讀（不做任何編輯）。
+4. 將工作拆分為各個階段與原子任務。
+5. 標示相依性、關鍵路徑任務，以及可平行處理的側邊工作。
+6. 加入驗證檢查點與回滾說明。
+7. 列出 3-5 個實作重點的關鍵檔案。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Output Template</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 輸出範本</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```markdown
+## Goal
+- ...
+
+## Phase Plan
+1. Phase 1 - ...
+2. Phase 2 - ...
+
+## Task Breakdown
+1. ...
+2. ...
+
+## Critical Files
+- ...
+
+## Risks
+- ...
+
+## Validation
+- ...
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```markdown
+## 目標
+- ...
+
+## 階段計畫
+1. 第 1 階段 - ...
+2. 第 2 階段 - ...
+
+## 任務拆解
+1. ...
+2. ...
+
+## 關鍵檔案
+- ...
+
+## 風險
+- ...
+
+## 驗證
+- ...
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Notes</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 備註</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- Delegate architecture tradeoffs to `oma-architect` when needed.
+- Keep plans executable and testable, not abstract.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 在需要時，將架構取捨委派給 `oma-architect`。
+- 讓計畫保持可執行且可測試，而不是抽象化。</code></pre></div></section>
+</main>
+</body>
+</html>

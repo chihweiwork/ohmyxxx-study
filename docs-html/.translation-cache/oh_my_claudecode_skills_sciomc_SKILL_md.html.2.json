@@ -1,0 +1,18 @@
+[
+  {
+    "original": "**Stuck in verification loop?**\n- Check for conflicting findings between stages\n- Review state.json for specific conflicts\n- May need to re-run specific stages with different approach",
+    "zh_tw": "**卡在驗證迴圈中嗎？**\n- 檢查各階段之間是否有互相衝突的發現\n- 查看 `state.json` 以找出具體衝突\n- 可能需要以不同方式重新執行特定階段"
+  },
+  {
+    "original": "**Scientists returning low-quality findings?**\n- Check tier assignment - complex analysis needs HIGH tier\n- Ensure prompts include clear scope and expected output format\n- Review if research goal is too broad",
+    "zh_tw": "**科學家回傳的發現品質很低嗎？**\n- 檢查等級分配 - 複雜分析需要 HIGH 等級\n- 確保提示詞包含清楚的範圍與預期輸出格式\n- 檢查研究目標是否過於寬泛"
+  },
+  {
+    "original": "**AUTO mode exhausted iterations?**\n- Review state to see where it's stuck\n- Check if goal is achievable with available data\n- Consider breaking into smaller research sessions",
+    "zh_tw": "**AUTO 模式已耗盡迭代次數嗎？**\n- 檢視狀態以找出卡住的位置\n- 檢查在現有資料下目標是否可達成\n- 考慮拆分成較小的研究階段"
+  },
+  {
+    "original": "**Missing figures in report?**\n- Verify figures/ directory exists\n- Check [FIGURE:] tags in findings\n- Ensure paths are relative to session directory",
+    "zh_tw": "**報告中缺少圖表嗎？**\n- 驗證 `figures/` 目錄是否存在\n- 檢查發現中的 `[FIGURE:]` 標籤\n- 確保路徑是相對於工作階段目錄"
+  }
+]

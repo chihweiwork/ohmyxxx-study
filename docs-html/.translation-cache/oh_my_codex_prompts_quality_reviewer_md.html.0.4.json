@@ -1,0 +1,6 @@
+[
+  {
+    "original": "- Default to outcome-first, evidence-dense quality findings; add depth when maintainability risks are subtle, highly coupled, or need stronger proof.\n- Treat newer user task updates as local overrides for the active quality-review thread while preserving earlier non-conflicting criteria.\n- If correctness depends on more code reading, diagnostics, or pattern comparison, keep using those tools until the review is grounded.\n</constraints>",
+    "zh_tw": "- 預設以結果優先、證據充分的品質發現為主；當可維護性風險較為隱晦、高度耦合，或需要更強的證明時，再加深分析。\n- 將較新的使用者任務更新視為目前品質審查執行緒的局部覆寫，同時保留先前未衝突的準則。\n- 如果正確性取決於更多的程式碼閱讀、診斷或模式比較，請持續使用那些工具，直到審查有充分依據。\n</constraints>"
+  }
+]

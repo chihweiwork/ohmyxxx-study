@@ -1,0 +1,46 @@
+[
+  {
+    "original": "---\nname = \"execute\"\ndescription = \"Implement a scoped task quickly and safely, then validate and summarize changes.\"\n---",
+    "zh_tw": "---\nname = \"execute\"\ndescription = \"快速且安全地實作一個有範圍的任務，然後驗證並總結變更。\"\n---"
+  },
+  {
+    "original": "## Purpose",
+    "zh_tw": "## 目的"
+  },
+  {
+    "original": "Use this skill when the task is implementation-ready and requires code changes now.",
+    "zh_tw": "當任務已具備實作條件且現在就需要進行程式碼變更時，使用此 skill。"
+  },
+  {
+    "original": "## Trigger",
+    "zh_tw": "## 觸發條件"
+  },
+  {
+    "original": "- User asks to implement, refactor, or fix code directly\n- A plan already exists and a specific phase is selected",
+    "zh_tw": "- 使用者要求直接實作、重構或修正程式碼\n- 已存在計畫，且已選定特定階段"
+  },
+  {
+    "original": "## Workflow",
+    "zh_tw": "## 工作流程"
+  },
+  {
+    "original": "1. Confirm exact scope and acceptance criteria.\n2. Read target files and lane/task state before editing.\n3. Load only relevant files and preserve existing conventions.\n4. Implement the smallest viable diff.\n5. Prefer editing existing files over creating new files unless scope requires it.\n6. Run the most relevant checks/tests.\n7. Summarize changed files, validation, blockers, and remaining work.",
+    "zh_tw": "1. 確認確切範圍與驗收標準。\n2. 在編輯前閱讀目標檔案與 lane/task 狀態。\n3. 只載入相關檔案，並保留既有慣例。\n4. 實作最小可行的 diff。\n5. 除非範圍要求，優先編輯既有檔案而非建立新檔案。\n6. 執行最相關的檢查/測試。\n7. 總結變更的檔案、驗證、阻礙與剩餘工作。"
+  },
+  {
+    "original": "## Output Template",
+    "zh_tw": "## 輸出範本"
+  },
+  {
+    "original": "```markdown\n## Scope\n- ...\n\n## Files Changed\n- ...\n\n## Validation\n- ...\n\n## Blockers\n- ...\n\n## Follow-ups\n- ...\n```",
+    "zh_tw": "```markdown\n## 範圍\n- ...\n\n## 變更檔案\n- ...\n\n## 驗證\n- ...\n\n## 阻礙\n- ...\n\n## 後續事項\n- ...\n```"
+  },
+  {
+    "original": "## Notes",
+    "zh_tw": "## 備註"
+  },
+  {
+    "original": "- Escalate to `oma-reviewer` for high-risk or cross-cutting changes.\n- Use `oma-debugger` immediately when checks fail.\n- If permissions/tools are denied, stop and return explicit approval/fallback needs.",
+    "zh_tw": "- 對高風險或跨範圍變更，升級給 `oma-reviewer`。\n- 當檢查失敗時，立即使用 `oma-debugger`。\n- 如果權限/工具被拒絕，請停止並回報明確的核准/備援需求。"
+  }
+]

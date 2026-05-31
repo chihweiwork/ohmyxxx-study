@@ -1,0 +1,114 @@
+[
+  {
+    "original": "- Teammate added to `config.json` members array\n- An **internal task** is auto-created (with `metadata._internal: true`) tracking the agent lifecycle\n- Internal tasks appear in `TaskList` output -- filter them when counting real tasks",
+    "zh_tw": "- 新增隊友至 `config.json` 的 members 陣列\n- 會自動建立一個 **internal task**（`metadata._internal: true`），用來追蹤代理生命週期\n- Internal tasks 會出現在 `TaskList` 輸出中 -- 在計算實際任務時請將它們過濾掉"
+  },
+  {
+    "original": "**IMPORTANT:** Spawn all teammates in parallel (they are background agents). Do NOT wait for one to finish before spawning the next.",
+    "zh_tw": "**重要：** 請平行啟動所有隊友（它們是背景代理）。在啟動下一個之前，**不要**等待某一個完成。"
+  },
+  {
+    "original": "### Phase 6: Monitor",
+    "zh_tw": "### 第 6 階段：監控"
+  },
+  {
+    "original": "The lead orchestrator monitors progress through two channels:",
+    "zh_tw": "主協調者透過兩個管道監控進度："
+  },
+  {
+    "original": "1. **Inbound messages** -- Teammates send `SendMessage` to `team-lead` when they complete tasks or need help. These arrive automatically as new conversation turns (no polling needed).",
+    "zh_tw": "1. **傳入訊息** -- 隊友在完成任務或需要協助時，會向 `team-lead` 傳送 `SendMessage`。這些訊息會自動以新的對話回合送達（不需要輪詢）。"
+  },
+  {
+    "original": "2. **TaskList polling** -- Periodically call `TaskList` to check overall progress:\n   ```\n   #1 [completed] Fix type errors in src/auth/ (worker-1)\n   #3 [in_progress] Fix type errors in src/api/ (worker-2)\n   #5 [pending] Fix type errors in src/utils/ (worker-3)\n   ```\n   Format: `#ID [status] subject (owner)`",
+    "zh_tw": "2. **TaskList 輪詢** -- 定期呼叫 `TaskList` 以檢查整體進度：\n   ```\n   #1 [completed] Fix type errors in src/auth/ (worker-1)\n   #3 [in_progress] Fix type errors in src/api/ (worker-2)\n   #5 [pending] Fix type errors in src/utils/ (worker-3)\n   ```\n   格式：`#ID [status] subject (owner)`"
+  },
+  {
+    "original": "**Coordination actions the lead can take:**",
+    "zh_tw": "**主導者可以執行的協調動作：**"
+  },
+  {
+    "original": "- **Unblock a teammate:** Send a `message` with guidance or missing context\n- **Reassign work:** If a teammate finishes early, use `TaskUpdate` to assign pending tasks to them and notify via `SendMessage`\n- **Handle failures:** If a teammate reports failure, reassign the task or spawn a replacement",
+    "zh_tw": "- **解除隊友阻塞：** 傳送一則附帶指引或缺失上下文的 `message`\n- **重新分配工作：** 如果隊友提早完成，使用 `TaskUpdate` 將待處理任務指派給他們，並透過 `SendMessage` 通知\n- **處理失敗：** 如果隊友回報失敗，重新分配任務或啟動替代者"
+  },
+  {
+    "original": "#### Task Watchdog Policy",
+    "zh_tw": "#### 任務看門狗政策"
+  },
+  {
+    "original": "Monitor for stuck or failed teammates:",
+    "zh_tw": "監控卡住或失敗的隊友："
+  },
+  {
+    "original": "- **Max in-progress age**: If a task stays `in_progress` for more than 5 minutes without messages, send a status check\n- **Suspected dead worker**: No messages + stuck task for 10+ minutes → reassign task to another worker\n- **Reassign threshold**: If a worker fails 2+ tasks, stop assigning new tasks to it",
+    "zh_tw": "- **最長進行中時間**：如果某個任務在沒有訊息的情況下維持 `in_progress` 超過 5 分鐘，請送出狀態確認\n- **疑似失聯的 worker**：沒有訊息 + 任務卡住超過 10 分鐘 → 將任務重新指派給其他 worker\n- **重新指派門檻**：如果某個 worker 失敗 2 個以上任務，就停止再指派新任務給它"
+  },
+  {
+    "original": "### Phase 6.5: Stage Transitions (State Persistence)",
+    "zh_tw": "### 第 6.5 階段：階段轉換（狀態持久化）"
+  },
+  {
+    "original": "On every stage transition, update OMC state:",
+    "zh_tw": "每次階段轉換時，都要更新 OMC 狀態："
+  },
+  {
+    "original": "```\n// Entering team-exec after planning\nstate_write(mode=\"team\", current_phase=\"team-exec\", state={\n  \"stage_history\": \"team-plan:T1,team-prd:T2,team-exec:T3\"\n})\n\n// Entering team-verify after execution\nstate_write(mode=\"team\", current_phase=\"team-verify\")\n\n// Entering team-fix after verify failure\nstate_write(mode=\"team\", current_phase=\"team-fix\", state={\n  \"fix_loop_count\": 1\n})\n```",
+    "zh_tw": "```\n// 在規劃後進入 team-exec\nstate_write(mode=\"team\", current_phase=\"team-exec\", state={\n  \"stage_history\": \"team-plan:T1,team-prd:T2,team-exec:T3\"\n})\n\n// 在執行後進入 team-verify\nstate_write(mode=\"team\", current_phase=\"team-verify\")\n\n// 在驗證失敗後進入 team-fix\nstate_write(mode=\"team\", current_phase=\"team-fix\", state={\n  \"fix_loop_count\": 1\n})\n```"
+  },
+  {
+    "original": "This enables:",
+    "zh_tw": "這使得以下成為可能："
+  },
+  {
+    "original": "- **Resume**: If the lead crashes, `state_read(mode=\"team\")` reveals the last stage and team name for recovery\n- **Cancel**: The cancel skill reads `current_phase` to know what cleanup is needed\n- **Ralph integration**: Ralph can read team state to know if the pipeline completed or failed",
+    "zh_tw": "- **續跑**：如果主導者當機，`state_read(mode=\"team\")` 會揭示最後階段與隊伍名稱，以便復原\n- **取消**：cancel skill 會讀取 `current_phase` 以了解需要哪些清理工作\n- **Ralph 整合**：Ralph 可以讀取 team state，以判斷 pipeline 是完成還是失敗"
+  },
+  {
+    "original": "### Phase 7: Completion",
+    "zh_tw": "### 第 7 階段：完成"
+  },
+  {
+    "original": "When all real tasks (non-internal) are completed or failed:",
+    "zh_tw": "當所有實際任務（非 internal）都已完成或失敗時："
+  },
+  {
+    "original": "1. **Verify results** -- Check that all subtasks are marked `completed` via `TaskList`\n2. **Shutdown teammates** -- Send `shutdown_request` to each active teammate:\n   ```json\n   {\n     \"type\": \"shutdown_request\",\n     \"recipient\": \"worker-1\",\n     \"content\": \"All work complete, shutting down team\"\n   }\n   ```\n3. **Await responses** -- Each teammate responds with `shutdown_response(approve: true)` and terminates\n4. **Delete team** -- Call `TeamDelete` to clean up:\n   ```json\n   { \"team_name\": \"fix-ts-errors\" }\n   ```\n   Response:\n   ```json\n   {\n     \"success\": true,\n     \"message\": \"Cleaned up directories and worktrees for team \\\"fix-ts-errors\\\"\",\n     \"team_name\": \"fix-ts-errors\"\n   }\n   ```\n5. **Clean OMC state** -- Remove `.omc/state/team-state.json`\n6. **Report summary** -- Present results to the user",
+    "zh_tw": "1. **驗證結果** -- 透過 `TaskList` 檢查所有子任務是否都已標記為 `completed`\n2. **關閉隊友** -- 向每個啟用中的隊友傳送 `shutdown_request`：\n   ```json\n   {\n     \"type\": \"shutdown_request\",\n     \"recipient\": \"worker-1\",\n     \"content\": \"所有工作已完成，正在關閉團隊\"\n   }\n   ```\n3. **等待回應** -- 每個隊友都會以 `shutdown_response(approve: true)` 回應並終止\n4. **刪除隊伍** -- 呼叫 `TeamDelete` 進行清理：\n   ```json\n   { \"team_name\": \"fix-ts-errors\" }\n   ```\n   回應：\n   ```json\n   {\n     \"success\": true,\n     \"message\": \"已清理團隊 \\\"fix-ts-errors\\\" 的目錄與工作樹\",\n     \"team_name\": \"fix-ts-errors\"\n   }\n   ```\n5. **清理 OMC 狀態** -- 移除 `.omc/state/team-state.json`\n6. **回報摘要** -- 向使用者呈現結果"
+  },
+  {
+    "original": "## Agent Preamble",
+    "zh_tw": "## 代理前言"
+  },
+  {
+    "original": "When spawning teammates, include this preamble in the prompt to establish the work protocol. Adapt it per teammate with their specific task assignments.",
+    "zh_tw": "在啟動隊友時，請將這段前言加入提示中，以建立工作協定。請依照每位隊友的具體任務分配進行調整。"
+  },
+  {
+    "original": "```\nYou are a TEAM WORKER in team \"{team_name}\". Your name is \"{worker_name}\".\nYou report to the team lead (\"team-lead\").\nYou are not the leader and must not perform leader orchestration actions.\n\n== WORK PROTOCOL ==\n\n1. CLAIM: Call TaskList to see your assigned tasks (owner = \"{worker_name}\").\n   Pick the first task with status \"pending\" that is assigned to you.\n   Call TaskUpdate to set status \"in_progress\":\n   {\"taskId\": \"ID\", \"status\": \"in_progress\", \"owner\": \"{worker_name}\"}\n\n2. WORK: Execute the task using your tools (Read, Write, Edit, Bash).\n   Do NOT spawn sub-agents. Do NOT delegate. Work directly.\n\n3. COMPLETE: When done, mark the task completed:\n   {\"taskId\": \"ID\", \"status\": \"completed\"}\n\n4. REPORT: Notify the lead via SendMessage:\n   {\"type\": \"message\", \"recipient\": \"team-lead\", \"content\": \"Completed task #ID: <summary of what was done>\", \"summary\": \"Task #ID complete\"}\n\n5. NEXT: Check TaskList for more assigned tasks. If you have more pending tasks, go to step 1.\n   If no more tasks are assigned to you, notify the lead:\n   {\"type\": \"message\", \"recipient\": \"team-lead\", \"content\": \"All assigned tasks complete. Standing by.\", \"summary\": \"All tasks done, standing by\"}\n\n6. SHUTDOWN: When you receive a shutdown_request, respond with:\n   {\"type\": \"shutdown_response\", \"request_id\": \"<from the request>\", \"approve\": true}\n\n== BLOCKED TASKS ==\nIf a task has blockedBy dependencies, skip it until those tasks are completed.\nCheck TaskList periodically to see if blockers have been resolved.\n\n== ERRORS ==\nIf you cannot complete a task, report the failure to the lead:\n{\"type\": \"message\", \"recipient\": \"team-lead\", \"content\": \"FAILED task #ID: <reason>\", \"summary\": \"Task #ID failed\"}\nDo NOT mark the task as completed. Leave it in_progress so the lead can reassign.\n\n== RULES ==\n- NEVER spawn sub-agents or use the Task tool\n- NEVER run tmux pane/session orchestration commands (for example `tmux split-window`, `tmux new-session`)\n- NEVER run team spawning/orchestration skills or commands (for example `$team`, `$ultrawork`, `$autopilot`, `$ralph`, `omc team ...`, `omx team ...`)\n- ALWAYS use absolute file paths\n- ALWAYS report progress via SendMessage to \"team-lead\"\n- Use SendMessage with type \"message\" only -- never \"broadcast\"\n```",
+    "zh_tw": "```\n你是 team \"{team_name}\" 中的一名 TEAM WORKER。你的名稱是 \"{worker_name}\"。\n你向 team lead（\"team-lead\"）回報。\n你不是 leader，且不得執行 leader 的協調動作。\n\n== 工作協定 ==\n\n1. CLAIM：呼叫 TaskList 查看你被指派的任務（owner = \"{worker_name}\"）。\n   選擇第一個狀態為 \"pending\" 且指派給你的任務。\n   呼叫 TaskUpdate 將狀態設為 \"in_progress\"：\n   {\"taskId\": \"ID\", \"status\": \"in_progress\", \"owner\": \"{worker_name}\"}\n\n2. WORK：使用你的工具（Read、Write、Edit、Bash）執行任務。\n   不要啟動子代理。不要委派。直接工作。\n\n3. COMPLETE：完成後，將任務標記為 completed：\n   {\"taskId\": \"ID\", \"status\": \"completed\"}\n\n4. REPORT：透過 SendMessage 通知 lead：\n   {\"type\": \"message\", \"recipient\": \"team-lead\", \"content\": \"Completed task #ID: <summary of what was done>\", \"summary\": \"Task #ID complete\"}\n\n5. NEXT：檢查 TaskList 是否還有其他已指派任務。如果你還有更多 pending 任務，回到步驟 1。\n   如果沒有更多任務指派給你，通知 lead：\n   {\"type\": \"message\", \"recipient\": \"team-lead\", \"content\": \"All assigned tasks complete. Standing by.\", \"summary\": \"All tasks done, standing by\"}\n\n6. SHUTDOWN：當你收到 shutdown_request 時，請以以下內容回應：\n   {\"type\": \"shutdown_response\", \"request_id\": \"<from the request>\", \"approve\": true}\n\n== 被阻塞的任務 ==\n如果某個任務具有 blockedBy 依賴關係，請先跳過，直到那些任務完成為止。\n定期檢查 TaskList 以確認阻塞條件是否已解除。\n\n== 錯誤 ==\n如果你無法完成某個任務，請向 lead 回報失敗：\n{\"type\": \"message\", \"recipient\": \"team-lead\", \"content\": \"FAILED task #ID: <reason>\", \"summary\": \"Task #ID failed\"}\n不要將任務標記為 completed。讓它保持 in_progress，方便 lead 重新指派。\n\n== 規則 ==\n- 絕不啟動子代理或使用 Task 工具\n- 絕不執行 tmux 面板/工作階段協調命令（例如 `tmux split-window`、`tmux new-session`）\n- 絕不執行 team 啟動/協調的 skills 或命令（例如 `$team`、`$ultrawork`、`$autopilot`、`$ralph`、`omc team ...`、`omx team ...`）\n- 一律使用絕對檔案路徑\n- 一律透過 SendMessage 向 \"team-lead\" 回報進度\n- 只使用 type 為 \"message\" 的 SendMessage -- 絕不使用 \"broadcast\"\n```"
+  },
+  {
+    "original": "### Agent-Type Prompt Injection (Worker-Specific Addendum)",
+    "zh_tw": "### 代理類型提示注入（依 worker 而定的附加內容）"
+  },
+  {
+    "original": "When composing teammate prompts, append a short addendum based on worker type:",
+    "zh_tw": "在撰寫隊友提示時，請根據 worker 類型附加一段簡短補充："
+  },
+  {
+    "original": "- `claude_worker`: Emphasize strict TaskList/TaskUpdate/SendMessage loop and no orchestration commands.\n- `codex_worker`: Emphasize CLI API lifecycle (`omc team api ... --json`) and explicit failure ACKs with stderr.\n- `gemini_worker`: Emphasize bounded file ownership and milestone ACKs after each completed sub-step.",
+    "zh_tw": "- `claude_worker`：強調嚴格的 TaskList/TaskUpdate/SendMessage 迴圈，以及不要使用協調命令。\n- `codex_worker`：強調 CLI API 生命週期（`omc team api ... --json`）以及透過 stderr 明確回覆失敗 ACK。\n- `gemini_worker`：強調明確的檔案所有權，以及每完成一個子步驟後的里程碑 ACK。"
+  },
+  {
+    "original": "This addendum must preserve the core rule: **worker = executor only, never leader/orchestrator**.",
+    "zh_tw": "這段補充內容必須保留核心規則：**worker = 只執行，不是 leader/orchestrator**。"
+  },
+  {
+    "original": "## Communication Patterns",
+    "zh_tw": "## 溝通模式"
+  },
+  {
+    "original": "### Teammate to Lead (task completion report)",
+    "zh_tw": "### 隊友向 Lead 回報（任務完成報告）"
+  }
+]

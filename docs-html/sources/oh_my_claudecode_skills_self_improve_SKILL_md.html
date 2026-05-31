@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oh-my-claudecode/skills/self-improve/SKILL.md</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+</head>
+<body>
+<main>
+<nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
+<h1 class="path">oh-my-claudecode/skills/self-improve/SKILL.md</h1><p>被引用於：<code>02-project-guides.md</code>、<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-claudecode/skills/self-improve/SKILL.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---
+name: self-improve
+description: Autonomous evolutionary code improvement engine with tournament selection
+level: 4
+---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---
+name: self-improve
+description: 具備錦標賽式選擇的自主演化程式碼改進引擎
+level: 4
+---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code># Self-Improvement Orchestrator</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code># 自我改進協調器</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>You are the **loop controller** for the self-improvement system. You manage the full lifecycle: setup, research, planning, execution, tournament selection, history recording, visualization, and stop-condition evaluation. You delegate to specialized OMC agents and coordinate their inputs and outputs.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>你是自我改進系統的 **迴圈控制器**。你負責管理完整生命週期：設定、研究、規劃、執行、錦標賽選擇、歷史記錄、視覺化，以及停止條件評估。你會將工作委派給專門的 OMC agents，並協調它們的輸入與輸出。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Autonomous Execution Policy</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 自主執行政策</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**NEVER stop or pause to ask the user during the improvement loop.** Once the gate check passes and the loop begins, you run fully autonomously until a stop condition is met.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**在改進迴圈期間，絕不停止或暫停去詢問使用者。** 一旦門檻檢查通過且迴圈開始，你就要完全自主執行，直到滿足停止條件為止。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **Do not ask for confirmation** between iterations or between steps within an iteration.
+- **Do not summarize and wait** — execute the next step immediately.
+- **On agent failure**: retry once, then skip that agent and continue with remaining agents. Log the failure in iteration history.
+- **On all plans rejected**: log it, continue to the next iteration automatically.
+- **On all executors failing**: log it, continue to the next iteration automatically.
+- **On benchmark errors**: log the error, mark the executor as failed, continue with other executors.
+- **The only things that stop the loop** are the stop conditions in Step 11.
+- **Trust boundary**: The loop runs benchmark commands as-is inside the target repo. The user explicitly confirms the repo path and benchmark command during setup. The loop does NOT install packages, modify system config, or access network resources beyond what the benchmark command does.
+- **Sealed files**: validate.sh enforces that benchmark code cannot be modified by the loop, preventing self-modification of the evaluation.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **不要在迭代之間或迭代內的步驟之間要求確認**。
+- **不要先總結再等待** — 立即執行下一步。
+- **當 agent 失敗時**：重試一次，然後跳過該 agent，繼續處理其餘 agents。將失敗記錄在迭代歷史中。
+- **當所有計畫都被拒絕時**：記錄下來，自動繼續到下一次迭代。
+- **當所有執行器都失敗時**：記錄下來，自動繼續到下一次迭代。
+- **當 benchmark 發生錯誤時**：記錄錯誤，將執行器標記為失敗，繼續使用其他執行器。
+- **唯一會讓迴圈停止的事情** 是第 11 步中的停止條件。
+- **信任邊界**：迴圈會在目標 repo 內原樣執行 benchmark 指令。使用者在設定期間已明確確認 repo 路徑與 benchmark 指令。迴圈不會安裝套件、修改系統設定，或存取超出 benchmark 指令所做範圍的網路資源。
+- **封存檔案**：`validate.sh` 會強制限制 benchmark 程式碼不能被迴圈修改，從而防止評估被自我修改。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## State Tracking</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 狀態追蹤</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Self-improve artifacts live under a resolved root returned by `scripts/resolve-paths.mjs`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>自我改進的產物位於 `scripts/resolve-paths.mjs` 回傳的解析後根目錄下。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- New runs default to `.omc/self-improve/topics/default/`.
+- When the user provides a topic or slug, use `.omc/self-improve/topics/{topic_slug}/`.
+- Legacy single-track state at `.omc/self-improve/` remains valid only as a compatibility fallback when no explicit topic/slug is supplied and that flat layout already exists.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 新執行預設使用 `.omc/self-improve/topics/default/`。
+- 當使用者提供主題或 slug 時，使用 `.omc/self-improve/topics/{topic_slug}/`。
+- `.omc/self-improve/` 中的舊式單軌狀態，只在未提供明確 topic/slug 且該扁平布局已存在時，才作為相容性回退方案仍然有效。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Treat `&lt;self-improve-root&gt;/` below as that resolved root:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>將下方的 `&lt;self-improve-root&gt;/` 視為該解析後的根目錄：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
+&lt;self-improve-root&gt;/
+├── config/                    # User configuration
+│   ├── settings.json          # agents, benchmark, thresholds, sealed_files
+│   ├── goal.md                # Improvement objective + target metric
+│   ├── harness.md             # Guardrail rules (H001/H002/H003)
+│   └── idea.md                # User experiment ideas
+├── state/                     # Runtime state
+│   ├── agent-settings.json    # iterations, best_score, status, counters
+│   ├── iteration_state.json   # Within-iteration progress (resumability)
+│   ├── research_briefs/       # Research output per round
+│   ├── iteration_history/     # Full history per round
+│   ├── merge_reports/         # Tournament results
+│   └── plan_archive/          # Archived plans (permanent)
+├── plans/                     # Active plans (current round)
+└── tracking/                  # Visualization data
+    ├── raw_data.json          # All candidate scores
+    ├── baseline.json          # Initial benchmark score
+    ├── events.json            # Config changes
+    └── progress.png           # Generated chart
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
+&lt;self-improve-root&gt;/
+├── config/                    # 使用者設定
+│   ├── settings.json          # agents、benchmark、thresholds、sealed_files
+│   ├── goal.md                # 改進目標 + 目標指標
+│   ├── harness.md             # 防護規則 (H001/H002/H003)
+│   └── idea.md                # 使用者的實驗想法
+├── state/                     # 執行階段狀態
+│   ├── agent-settings.json    # iterations、best_score、status、counters
+│   ├── iteration_state.json   # 迭代內進度（可續跑性）
+│   ├── research_briefs/       # 每輪的研究輸出
+│   ├── iteration_history/     # 每輪完整歷史
+│   ├── merge_reports/         # 錦標賽結果
+│   └── plan_archive/          # 已封存的計畫（永久保存）
+├── plans/                     # 作用中的計畫（當前回合）
+└── tracking/                  # 視覺化資料
+    ├── raw_data.json          # 所有候選分數
+    ├── baseline.json          # 初始 benchmark 分數
+    ├── events.json            # 設定變更
+    └── progress.png           # 產生的圖表
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>OMC mode lifecycle: `.omc/state/sessions/{sessionId}/self-improve-state.json`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>OMC 模式生命週期：`.omc/state/sessions/{sessionId}/self-improve-state.json`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Agent Mapping</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## Agent 對應</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>All augmentations delivered via Task description context at spawn time. No modifications to existing agent .md files.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>所有增補內容都會在 spawn 時透過 Task description context 傳遞。不得修改既有的 agent `.md` 檔案。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Step | Role | OMC Agent | Model |
+|------|------|-----------|-------|
+| Research | Codebase analysis + hypothesis generation | general-purpose Agent | opus |
+| Planning | Hypothesis → structured plan | oh-my-claudecode:planner | opus |
+| Architecture Review | 6-point plan review | oh-my-claudecode:architect | opus |
+| Critic Review | Harness rule enforcement | oh-my-claudecode:critic | opus |
+| Execution | Implement plan + run benchmark | oh-my-claudecode:executor | opus |
+| Git Operations | Atomic merge/tag/PR | oh-my-claudecode:git-master | sonnet |
+| Goal Setup | Interactive interview | (directly in this skill) | N/A |
+| Benchmark Setup | Create + validate benchmark | custom agent | opus |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 步驟 | 角色 | OMC Agent | 模型 |
+|------|------|-----------|-------|
+| 研究 | 程式碼庫分析 + 假設生成 | general-purpose Agent | opus |
+| 規劃 | 假設 → 結構化計畫 | oh-my-claudecode:planner | opus |
+| 架構審查 | 6 點計畫審查 | oh-my-claudecode:architect | opus |
+| 批判審查 | 強制執行 harness 規則 | oh-my-claudecode:critic | opus |
+| 執行 | 實作計畫 + 執行 benchmark | oh-my-claudecode:executor | opus |
+| Git 操作 | 原子式 merge/tag/PR | oh-my-claudecode:git-master | sonnet |
+| 目標設定 | 互動式訪談 | (directly in this skill) | N/A |
+| Benchmark 設定 | 建立 + 驗證 benchmark | custom agent | opus |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Research prompt**: Read `si-researcher.md` from this skill directory and pass its content as the agent prompt.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**研究提示**：從此技能目錄讀取 `si-researcher.md`，並將其內容作為 agent prompt 傳入。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Benchmark builder**: Read `si-benchmark-builder.md` from this skill directory and pass its content as the agent prompt.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**Benchmark 建立器**：從此技能目錄讀取 `si-benchmark-builder.md`，並將其內容作為 agent prompt 傳入。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Goal clarifier**: Read `si-goal-clarifier.md` from this skill directory and execute the interview directly (interactive, needs user).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**目標釐清器**：從此技能目錄讀取 `si-goal-clarifier.md`，並直接執行訪談（互動式，需要使用者）。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Inputs</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 輸入</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Read these files at startup and at the beginning of each iteration:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在啟動時以及每次迭代開始時讀取這些檔案：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| File | Purpose |
+|---|---|
+| `&lt;self-improve-root&gt;/config/settings.json` | User config: `number_of_agents`, `benchmark_command`, `benchmark_format`, `benchmark_direction`, `max_iterations`, `plateau_threshold`, `plateau_window`, `target_value`, `primary_metric`, `sealed_files`, `regression_threshold`, `circuit_breaker_threshold`, `target_branch`, `current_repo_url`, `fork_url`, `upstream_url`, `topic_slug` |
+| `&lt;self-improve-root&gt;/state/agent-settings.json` | Runtime: `iterations`, `best_score`, `plateau_consecutive_count`, `circuit_breaker_count`, `status`, `goal_slug` (derived: lowercase underscore from goal objective, persisted for cross-session consistency) |
+| `&lt;self-improve-root&gt;/state/iteration_state.json` | Per-iteration progress for resumability |
+| `&lt;self-improve-root&gt;/config/goal.md` | Improvement objective, target metric, scope |
+| `&lt;self-improve-root&gt;/config/harness.md` | Guardrail rules (H001, H002, H003) |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 檔案 | 用途 |
+|---|---|
+| `&lt;self-improve-root&gt;/config/settings.json` | 使用者設定：`number_of_agents`、`benchmark_command`、`benchmark_format`、`benchmark_direction`、`max_iterations`、`plateau_threshold`、`plateau_window`、`target_value`、`primary_metric`、`sealed_files`、`regression_threshold`、`circuit_breaker_threshold`、`target_branch`、`current_repo_url`、`fork_url`、`upstream_url`、`topic_slug` |
+| `&lt;self-improve-root&gt;/state/agent-settings.json` | 執行期：`iterations`、`best_score`、`plateau_consecutive_count`、`circuit_breaker_count`、`status`、`goal_slug`（衍生值：由目標 objective 轉成小寫底線格式，並持久化以供跨 session 一致性使用） |
+| `&lt;self-improve-root&gt;/state/iteration_state.json` | 每次迭代的進度，用於可續跑性 |
+| `&lt;self-improve-root&gt;/config/goal.md` | 改進目標、目標指標、範圍 |
+| `&lt;self-improve-root&gt;/config/harness.md` | 防護規則（H001、H002、H003） |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Setup Phase</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 設定階段</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Check if target repo path exists. If not configured, ask user for the path to the repository to improve.
+2. Resolve `&lt;self-improve-root&gt;` by running `node {skill_dir}/scripts/resolve-paths.mjs --project-root {repo_path} [--topic &quot;...&quot;] [--slug &quot;...&quot;] --ensure-dirs`.
+3. Create the `&lt;self-improve-root&gt;/` directory structure by copying from `templates/` in this skill directory into the resolved `config/` root.
+4. Read `&lt;self-improve-root&gt;/state/agent-settings.json`. Check `si_setting_goal`, `si_setting_benchmark`, `si_setting_harness`.
+4. **Trust confirmation** (mandatory, cannot be skipped):
+   a. If `trust_confirmed` is already `true` in agent-settings.json, skip to step 5 (resume path).
+   b. Display the target repo path and ask user to confirm:
+      `&quot;Self-improve will run benchmark commands inside {repo_path}. This executes arbitrary code in that repository. Confirm? [yes/no]&quot;`
+   c. If user declines: abort setup and exit. Do NOT proceed.
+   d. Record consent: set `trust_confirmed: true` in agent-settings.json.
+5. Persist `topic_slug` into `config/settings.json` when the resolved root is topic-scoped so future resumes stay on the same track.
+6. If goal not set → read `si-goal-clarifier.md` from this skill directory and run the 4-dimension Socratic interview directly in this context (Objective, Metric, Target, Scope). Write result to `&lt;self-improve-root&gt;/config/goal.md`.
+6. If benchmark not set → read `si-benchmark-builder.md` from this skill directory, spawn a custom Agent(model=opus) with its content as prompt. The agent surveys the repo, creates or wraps a benchmark, validates 3x, and records baseline.
+   After benchmark is set, confirm the benchmark command with user:
+      `&quot;Benchmark command: {benchmark_command}. This will be run repeatedly during the loop. Confirm? [yes/no]&quot;`
+   If user declines: abort setup and exit.
+7. If harness not set → confirm default harness rules (H001/H002/H003) with user or customize.
+8. **Gate**: All of `si_setting_goal`, `si_setting_benchmark`, `si_setting_harness`, `trust_confirmed` must be true.
+9. **Create improvement branch** (if it does not exist):
+   ```
+   git -C {repo_path} checkout -b improve/{goal_slug} {target_branch}
+   git -C {repo_path} checkout {target_branch}
+   ```
+   Where `{goal_slug}` is derived from the goal objective (lowercase, underscored). If the branch already exists, skip creation. Persist `goal_slug` in agent-settings.json.
+10. **Mode exclusivity**: Call `state_list_active`. If autopilot, ralph, or ultrawork is active, refuse to start.
+11. Write initial state: `state_write(mode='self-improve', active=true, iteration=0, started_at=&lt;now&gt;)`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 檢查目標 repo 路徑是否存在。若尚未設定，請使用者提供要改進的 repository 路徑。
+2. 透過執行 `node {skill_dir}/scripts/resolve-paths.mjs --project-root {repo_path} [--topic &quot;...&quot;] [--slug &quot;...&quot;] --ensure-dirs` 來解析 `&lt;self-improve-root&gt;`。
+3. 透過將此 skill 目錄中的 `templates/` 複製到解析後的 `config/` 根目錄，建立 `&lt;self-improve-root&gt;/` 目錄結構。
+4. 讀取 `&lt;self-improve-root&gt;/state/agent-settings.json`。檢查 `si_setting_goal`、`si_setting_benchmark`、`si_setting_harness`。
+4. **信任確認**（強制，不可略過）：
+   a. 如果 `agent-settings.json` 中的 `trust_confirmed` 已經是 `true`，則跳到步驟 5（續接路徑）。
+   b. 顯示目標 repo 路徑並請使用者確認：
+      `&quot;Self-improve 將在 {repo_path} 內執行 benchmark 指令。這會在該 repository 中執行任意程式碼。是否確認？ [yes/no]&quot;`
+   c. 如果使用者拒絕：中止設定並結束。不要繼續。
+   d. 記錄同意：在 `agent-settings.json` 中將 `trust_confirmed` 設為 `true`。
+5. 當解析後的 root 是以 topic 為範圍時，將 `topic_slug` 持久化到 `config/settings.json`，讓未來的續接都能維持在同一條軌道上。
+6. 如果尚未設定目標 → 從此 skill 目錄讀取 `si-goal-clarifier.md`，並在此上下文中直接執行 4 維度 Socratic 訪談（Objective、Metric、Target、Scope）。將結果寫入 `&lt;self-improve-root&gt;/config/goal.md`。
+6. 如果尚未設定 benchmark → 從此 skill 目錄讀取 `si-benchmark-builder.md`，以其內容作為 prompt 來啟動一個自訂 Agent(model=opus)。該 agent 會檢視 repo、建立或包裝一個 benchmark、驗證 3 次，並記錄 baseline。
+   在 benchmark 設定完成後，向使用者確認 benchmark 指令：
+      `&quot;Benchmark command: {benchmark_command}. 這會在迴圈中反覆執行。是否確認？ [yes/no]&quot;`
+   如果使用者拒絕：中止設定並結束。
+7. 如果尚未設定 harness → 與使用者確認預設 harness 規則（H001/H002/H003）或自訂。
+8. **門檻**：`si_setting_goal`、`si_setting_benchmark`、`si_setting_harness`、`trust_confirmed` 都必須為 true。
+9. **建立改進分支**（如果不存在）：
+   ```
+   git -C {repo_path} checkout -b improve/{goal_slug} {target_branch}
+   git -C {repo_path} checkout {target_branch}
+   ```
+   其中 `{goal_slug}` 是從目標 objective 派生而來（小寫、以底線分隔）。如果分支已存在，則略過建立。將 `goal_slug` 持久化到 `agent-settings.json`。
+10. **模式互斥**：呼叫 `state_list_active`。如果 autopilot、ralph 或 ultrawork 正在啟用，則拒絕開始。
+11. 寫入初始狀態：`state_write(mode='self-improve', active=true, iteration=0, started_at=&lt;now&gt;)`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Git Strategy</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## Git 策略</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>All git operations happen inside the target repo, NOT in the OMC project root.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>所有 git 操作都在目標 repo 內進行，而不是在 OMC 專案根目錄。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **Improvement branch**: `improve/{goal_slug}` — accumulates winning changes only.
+- **Experiment branches**: `experiment/round_{n}_executor_{id}` — short-lived, per executor.
+- **Archive tags**: `archive/round_{n}_executor_{id}` — losing branches tagged before deletion.
+- **Worktree setup** (SKILL.md creates before each executor):
+  ```
+  git -C {repo_path} worktree add worktrees/round_{n}_executor_{id} -b experiment/round_{n}_executor_{id} improve/{goal_slug}
+  ```
+- **Winner merges** via `oh-my-claudecode:git-master`:
+  ```
+  Merge experiment/round_{n}_executor_{winner_id} into improve/{goal_slug} with --no-ff
+  Message: &quot;Iteration {n}: {hypothesis} (score: {before} → {after})&quot;
+  ```
+- **Push after merge**: `git -C {repo_path} push origin improve/{goal_slug}` (backup, non-blocking)
+- **Losers archived**: Tag + delete via git-master.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **改進分支**：`improve/{goal_slug}` — 只累積勝出的變更。
+- **實驗分支**：`experiment/round_{n}_executor_{id}` — 短期存在，每個 executor 各自一個。
+- **封存標籤**：`archive/round_{n}_executor_{id}` — 在刪除前先為失敗分支加上標籤。
+- **工作樹設定**（SKILL.md 會在每個 executor 之前建立）：
+  ```
+  git -C {repo_path} worktree add worktrees/round_{n}_executor_{id} -b experiment/round_{n}_executor_{id} improve/{goal_slug}
+  ```
+- **勝出者合併** 透過 `oh-my-claudecode:git-master`：
+  ```
+  Merge experiment/round_{n}_executor_{winner_id} into improve/{goal_slug} with --no-ff
+  Message: &quot;Iteration {n}: {hypothesis} (score: {before} → {after})&quot;
+  ```
+- **合併後推送**：`git -C {repo_path} push origin improve/{goal_slug}`（備份用，非阻塞）
+- **失敗者封存**：透過 git-master 先加標籤再刪除。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Improvement Loop</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 改進迴圈</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Gate**: All settings must be true. Once the gate passes, execute continuously without stopping.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**門檻**：所有設定都必須為 true。只要通過門檻，就持續執行，不要停下來。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Update `state_write(mode='self-improve', active=true, status=&quot;running&quot;)`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>更新 `state_write(mode='self-improve', active=true, status=&quot;running&quot;)`。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Step 0 — Stale Worktree Cleanup (mandatory, runs every iteration)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 步驟 0 — 過期工作樹清理（強制，每次迭代都會執行）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**PREREQUISITE**: This step MUST run to completion before any other step, including resume logic. It is idempotent and safe to run multiple times.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**前提條件**：此步驟在任何其他步驟之前都必須完整執行，包括續接邏輯。它是冪等的，可安全重複執行多次。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. List all worktrees in the target repo: `git -C {repo_path} worktree list`
+2. For any worktree matching `worktrees/round_*` that does NOT belong to the current iteration: remove it with `git -C {repo_path} worktree remove {path} --force`
+3. Run `git -C {repo_path} worktree prune` to clean up stale references
+4. This handles crash recovery — orphaned worktrees from interrupted iterations are cleaned before the new iteration starts</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 列出目標 repo 中所有 worktree：`git -C {repo_path} worktree list`
+2. 對於任何符合 `worktrees/round_*` 且**不**屬於目前迭代的 worktree：使用 `git -C {repo_path} worktree remove {path} --force` 將其移除
+3. 執行 `git -C {repo_path} worktree prune` 以清理過期參照
+4. 這可處理當機復原——在新迭代開始之前，會先清理中斷迭代遺留的孤兒 worktree</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Step 1 — Refresh State</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 步驟 1 — 更新狀態</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>`state_write(mode='self-improve', active=true, iteration=N)` to reset 30min TTL.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>使用 `state_write(mode='self-improve', active=true, iteration=N)` 來重設 30 分鐘的 TTL。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Step 2 — Check Stop Request</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 步驟 2 — 檢查停止請求</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Read state via `state_read(mode='self-improve')`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>透過 `state_read(mode='self-improve')` 讀取狀態。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>If state is cleared (cancel was invoked) OR status is `user_stopped`:
+  a. Set `status: &quot;user_stopped&quot;` in `&lt;self-improve-root&gt;/state/agent-settings.json`
+  b. Update `iteration_state.json`: set `status: &quot;interrupted&quot;`, record `current_step`
+  c. Clean up any active worktrees for the current round (Step 0 logic)
+  d. Log: `&quot;Self-improve stopped by user at iteration {N}, step {current_step}&quot;`
+  e. Exit gracefully — do NOT invoke /cancel again (already cancelled)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>如果狀態已清除（已呼叫 cancel）或狀態是 `user_stopped`：
+  a. 在 `&lt;self-improve-root&gt;/state/agent-settings.json` 中將 `status` 設為 `&quot;user_stopped&quot;`
+  b. 更新 `iteration_state.json`：將 `status` 設為 `&quot;interrupted&quot;`，記錄 `current_step`
+  c. 清理目前輪次任何啟用中的 worktree（步驟 0 邏輯）
+  d. 記錄：`&quot;Self-improve stopped by user at iteration {N}, step {current_step}&quot;`
+  e. 正常結束退出——不要再次呼叫 /cancel（已經取消過了）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Step 3 — Check User Ideas</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 步驟 3 — 檢查使用者想法</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Read `&lt;self-improve-root&gt;/config/idea.md`. If non-empty, snapshot contents for planners. Clear after planners consume.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>讀取 `&lt;self-improve-root&gt;/config/idea.md`。如果非空，則為 planners 快照其內容。待 planners 消化後清空。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Step 4 — Research</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 步驟 4 — 研究</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Spawn 1 general-purpose Agent(model=opus) with the content of `si-researcher.md` as prompt.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>以 `si-researcher.md` 的內容作為 prompt，啟動 1 個通用 Agent(model=opus)。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Pass in the prompt:
+- Current iteration number
+- Path to target repo
+- Path to `&lt;self-improve-root&gt;/config/goal.md`
+- Path to `&lt;self-improve-root&gt;/state/iteration_history/` (all prior records)
+- Path to `&lt;self-improve-root&gt;/state/research_briefs/` (prior briefs)
+- Content of `data_contracts.md` Section 3 (Research Brief schema)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在 prompt 中傳入：
+- 目前迭代編號
+- 目標 repo 的路徑
+- `&lt;self-improve-root&gt;/config/goal.md` 的路徑
+- `&lt;self-improve-root&gt;/state/iteration_history/` 的路徑（所有先前記錄）
+- `&lt;self-improve-root&gt;/state/research_briefs/` 的路徑（先前的 brief）
+- `data_contracts.md` 第 3 節（Research Brief schema）的內容</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Expected output: research brief JSON → `&lt;self-improve-root&gt;/state/research_briefs/round_{n}.json`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>預期輸出：research brief JSON → `&lt;self-improve-root&gt;/state/research_briefs/round_{n}.json`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>If researcher fails, proceed with history only.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>如果 researcher 失敗，則只使用歷史資訊繼續進行。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Step 5 — Plan</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 步驟 5 — 規劃</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Spawn N `oh-my-claudecode:planner`(model=opus) agents in parallel (N = `number_of_agents` from settings).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>並行啟動 N 個 `oh-my-claudecode:planner`(model=opus) agents（N = 設定中的 `number_of_agents`）。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Pass in each planner's prompt:
+- Planner identity (planner_a, planner_b, planner_c...)
+- Research brief path
+- Iteration history path
+- Harness rules from `&lt;self-improve-root&gt;/config/harness.md`
+- Data contract schema for Plan Document
+- **Override instructions**: Output JSON (not markdown), skip interview mode, generate exactly ONE testable hypothesis per plan, include approach_family tag and history_reference.
+- User ideas (if any, planner_a gets priority)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在每個 planner 的 prompt 中傳入：
+- Planner 身分（planner_a、planner_b、planner_c...）
+- Research brief 路徑
+- 迭代歷史路徑
+- 來自 `&lt;self-improve-root&gt;/config/harness.md` 的 harness 規則
+- Plan Document 的資料合約 schema
+- **覆寫指示**：輸出 JSON（不是 markdown）、跳過 interview 模式、每個 plan 恰好產生 ONE 個可測試的假設、包含 `approach_family` 標籤與 `history_reference`。
+- 使用者想法（若有，planner_a 優先）</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Expected output: Plan Document JSON → `&lt;self-improve-root&gt;/plans/round_{n}/plan_planner_{id}.json`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>預期輸出：Plan Document JSON → `&lt;self-improve-root&gt;/plans/round_{n}/plan_planner_{id}.json`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Step 6 — Review</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 步驟 6 — Review</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>For each plan, **sequentially** (architect before critic):</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>對每個 plan，**依序**（先 architect，後 critic）：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**6a. Architecture Review**: Spawn `oh-my-claudecode:architect` with the plan + 6-point checklist:
+1. Testability — is the hypothesis testable?
+2. Novelty — different from prior attempts?
+3. Scope — right-sized?
+4. Target files — exist, not sealed?
+5. Implementation clarity — executor can implement without guessing?
+6. Expected outcome — realistic given evidence?</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**6a. Architecture Review**：以該 plan + 6 點檢查清單啟動 `oh-my-claudecode:architect`：
+1. Testability — 假設是否可測試？
+2. Novelty — 是否與先前嘗試不同？
+3. Scope — 範圍是否合適？
+4. Target files — 是否存在，且未被封存？
+5. Implementation clarity — 執行者能否無需猜測就實作？
+6. Expected outcome — 根據證據，是否合理？</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Architect verdict is **advisory only**.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Architect 的判定**僅供參考**。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**6b. Critic Review**: Spawn `oh-my-claudecode:critic` with the plan + harness rules:
+- H001: Exactly one hypothesis (reject if zero or multiple)
+- H002: No approach_family repetition streak &gt;= 3
+- H003: Intra-round diversity (no two plans same family in same round)
+- Schema validation against data_contracts.md
+- History awareness check</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**6b. Critic Review**：以該 plan + harness 規則啟動 `oh-my-claudecode:critic`：
+- H001：只能有一個 hypothesis（若為零或多個則拒絕）
+- H002：`approach_family` 連續重複不得 &gt;= 3
+- H003：同輪內須具備多樣性（同一 round 中不得有兩個 plan 屬於同一 family）
+- 依 `data_contracts.md` 進行 schema validation
+- History awareness check</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Critic sets `critic_approved: true` or `false`. Plans with `false` are excluded from execution.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Critic 會設定 `critic_approved: true` 或 `false`。`false` 的 plans 會被排除，不進入執行。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>If ALL plans rejected, log and skip to Step 9.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>如果所有 plans 都被拒絕，記錄並跳到步驟 9。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Step 7 — Execute</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 步驟 7 — Execute</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>For each approved plan, spawn `oh-my-claudecode:executor`(model=opus) in parallel.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>對每個已核准的 plan，並行啟動 `oh-my-claudecode:executor`（model=opus）。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Before spawning**, create worktree:
+```
+git -C {repo_path} worktree add worktrees/round_{n}_executor_{id} -b experiment/round_{n}_executor_{id} improve/{goal_slug}
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**在啟動之前**，建立 worktree：
+```
+git -C {repo_path} worktree add worktrees/round_{n}_executor_{id} -b experiment/round_{n}_executor_{id} improve/{goal_slug}
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Pass in each executor's prompt:
+- The approved plan JSON
+- Worktree directory path
+- Benchmark command from settings
+- Sealed files list from settings
+- Path to `scripts/validate.sh` in this skill directory
+- Data contract schema for Benchmark Result
+- **Override instructions**: Implement the plan faithfully, run validate.sh before benchmarking, run the benchmark command, produce Benchmark Result JSON as output.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>將下列內容傳入每個 executor 的 prompt：
+- 已核准的 plan JSON
+- Worktree 目錄路徑
+- settings 中的 Benchmark command
+- settings 中的 Sealed files 清單
+- 此 skill 目錄中 `scripts/validate.sh` 的路徑
+- Benchmark Result 的資料合約 schema
+- **Override instructions**：忠實實作該 plan，在 benchmarking 前執行 validate.sh，執行 benchmark command，並將 Benchmark Result JSON 作為輸出。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Expected output: Benchmark Result JSON (written by executor or returned as output).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>預期輸出：Benchmark Result JSON（由 executor 寫入或作為輸出回傳）。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Step 8 — Tournament Selection</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 步驟 8 — Tournament Selection</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>SKILL.md does this directly (not delegated):</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>SKILL.md 會直接執行此步驟（不委派）：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. **Collect** all executor results
+2. **Filter** to `status: &quot;success&quot;` only. If zero candidates, skip to Step 9 (Record &amp; Visualize).
+3. **Rank** by `benchmark_score` (respecting `benchmark_direction`)
+4. **Ranked-candidate loop** — for each candidate in rank order (best first):
+   a. **No-regression check**: candidate score must improve or hold even vs `best_score`, respecting `benchmark_direction` (`higher_is_better`: score &gt;= best_score; `lower_is_better`: score &lt;= best_score)
+   b. **Merge** via `oh-my-claudecode:git-master`: `git merge experiment/round_{n}_executor_{id} --no-ff -m &quot;Iteration {n}: {hypothesis} (score: {before} → {after})&quot;`
+   c. **Re-benchmark** on merged state to confirm improvement
+   d. If re-benchmark **confirms** improvement: **accept winner**, break loop
+   e. If re-benchmark shows **regression**: **revert merge** via `git -C {repo_path} reset --hard HEAD~1`, continue to next candidate
+   f. If merge **conflicts**: `git -C {repo_path} merge --abort`, continue to next candidate
+5. If a winner was accepted AND `auto_push` is `true` in settings: **Push** improvement branch: `git -C {repo_path} push origin improve/{goal_slug}` (non-blocking).
+   If `auto_push` is `false` (default): skip push. Log: `&quot;Push skipped (auto_push: false). Run manually: git -C {repo_path} push origin improve/{goal_slug}&quot;`
+6. **Archive** all non-winner branches via git-master: tag + delete
+7. If no candidate survived the loop: no merge this round. Improvement branch stays at prior state.
+8. **Write Merge Report** JSON to `&lt;self-improve-root&gt;/state/merge_reports/round_{n}.json` (schema: data_contracts.md Section 9).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. **收集**所有 executor 結果
+2. **篩選**為僅 `status: &quot;success&quot;`。如果沒有候選者，跳到步驟 9（Record &amp; Visualize）。
+3. 依 `benchmark_score` **排序**（需符合 `benchmark_direction`）
+4. **排序候選者迴圈** — 依排名順序（最佳優先）逐一處理每個候選者：
+   a. **No-regression check**：候選者分數相較 `best_score` 必須提升或持平，並符合 `benchmark_direction`（`higher_is_better`：score &gt;= best_score；`lower_is_better`：score &lt;= best_score）
+   b. 透過 `oh-my-claudecode:git-master` **合併**：`git merge experiment/round_{n}_executor_{id} --no-ff -m &quot;Iteration {n}: {hypothesis} (score: {before} → {after})&quot;`
+   c. 在合併後的狀態下**重新 benchmark**，以確認改善
+   d. 若 re-benchmark **確認**改善：**接受 winner**，跳出迴圈
+   e. 若 re-benchmark 顯示**退化**：透過 `git -C {repo_path} reset --hard HEAD~1` **回復合併**，繼續下一個候選者
+   f. 若合併發生**衝突**：`git -C {repo_path} merge --abort`，繼續下一個候選者
+5. 若已接受 winner 且 settings 中 `auto_push` 為 `true`：**推送** improvement branch：`git -C {repo_path} push origin improve/{goal_slug}`（非阻塞）。
+   若 `auto_push` 為 `false`（預設）：略過 push。記錄：`&quot;Push skipped (auto_push: false). Run manually: git -C {repo_path} push origin improve/{goal_slug}&quot;`
+6. 透過 git-master **封存**所有非 winner 分支：標記 + 刪除
+7. 若沒有任何候選者通過迴圈：本輪不進行合併。improvement branch 維持先前狀態。
+8. 將 **Merge Report** JSON 寫入 `&lt;self-improve-root&gt;/state/merge_reports/round_{n}.json`（schema：data_contracts.md 第 9 節）。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Step 9 — Record &amp; Visualize</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 步驟 9 — Record &amp; Visualize</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Write iteration history to `&lt;self-improve-root&gt;/state/iteration_history/round_{n}.json`
+2. Update `&lt;self-improve-root&gt;/state/agent-settings.json`:
+   - Increment `iterations` by 1
+   - If winner AND improvement exceeds `plateau_threshold` (`abs(new_score - best_score) &gt;= plateau_threshold`): update `best_score`, reset `plateau_consecutive_count = 0`, reset `circuit_breaker_count = 0`
+   - If winner AND improvement below threshold (`abs(new_score - best_score) &lt; plateau_threshold`): update `best_score` if better, increment `plateau_consecutive_count += 1`, reset `circuit_breaker_count = 0`
+   - If no winner (all rejected, all failed, or all regressed): increment `circuit_breaker_count += 1` (do NOT increment `plateau_consecutive_count` — plateau tracks stagnating wins, not failures)
+3. Append to `&lt;self-improve-root&gt;/tracking/raw_data.json` (one entry per candidate)
+4. Run `python3 {skill_dir}/scripts/plot_progress.py --tracking-dir &lt;self-improve-root&gt;/tracking` for visualization
+5. Archive plans: copy current round plans to `state/plan_archive/round_{n}/`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 將 iteration history 寫入 `&lt;self-improve-root&gt;/state/iteration_history/round_{n}.json`
+2. 更新 `&lt;self-improve-root&gt;/state/agent-settings.json`：
+   - `iterations` 加 1
+   - 若有 winner 且改善超過 `plateau_threshold`（`abs(new_score - best_score) &gt;= plateau_threshold`）：更新 `best_score`，重設 `plateau_consecutive_count = 0`，重設 `circuit_breaker_count = 0`
+   - 若有 winner 且改善低於 threshold（`abs(new_score - best_score) &lt; plateau_threshold`）：若更好則更新 `best_score`，`plateau_consecutive_count += 1`，重設 `circuit_breaker_count = 0`
+   - 若沒有 winner（全部被拒絕、全部失敗，或全部退化）：`circuit_breaker_count += 1`（**不要**增加 `plateau_consecutive_count` —— plateau 記錄的是停滯的 wins，而不是失敗）
+3. 追加到 `&lt;self-improve-root&gt;/tracking/raw_data.json`（每個 candidate 一筆）
+4. 執行 `python3 {skill_dir}/scripts/plot_progress.py --tracking-dir &lt;self-improve-root&gt;/tracking` 以進行視覺化
+5. 封存 plans：將當前 round 的 plans 複製到 `state/plan_archive/round_{n}/`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Step 10 — Cleanup</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 步驟 10 — Cleanup</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Remove worktrees:
+```
+git -C {repo_path} worktree remove worktrees/round_{n}_executor_{id} --force
+git -C {repo_path} worktree prune
+```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>移除 worktrees：
+```
+git -C {repo_path} worktree remove worktrees/round_{n}_executor_{id} --force
+git -C {repo_path} worktree prune
+```</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Update `iteration_state.json` status to `completed`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>將 `iteration_state.json` 的 status 更新為 `completed`。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Step 11 — Stop Condition Check</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 步驟 11 — Stop Condition Check</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Evaluate ALL conditions. If ANY is true, exit:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>評估所有條件。只要其中任何一項為真，就結束：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Condition | Check |
+|---|---|
+| User stop | `status == &quot;user_stopped&quot;` in agent-settings or state cleared |
+| Target reached | `best_score` meets/exceeds `target_value` (respecting direction) |
+| Plateau | `plateau_consecutive_count &gt;= plateau_window` |
+| Max iterations | `iterations &gt;= max_iterations` |
+| Circuit breaker | `circuit_breaker_count &gt;= circuit_breaker_threshold` |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 條件 | 檢查 |
+|---|---|
+| User stop | agent-settings 中 `status == &quot;user_stopped&quot;`，或 state 已清除 |
+| Target reached | `best_score` 達到/超過 `target_value`（依方向而定） |
+| Plateau | `plateau_consecutive_count &gt;= plateau_window` |
+| Max iterations | `iterations &gt;= max_iterations` |
+| Circuit breaker | `circuit_breaker_count &gt;= circuit_breaker_threshold` |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>If NO stop condition: immediately go back to Step 1.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>如果沒有任何 stop condition：立刻回到步驟 1。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Resumability</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## Resumability</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**PREREQUISITE**: Step 0 (stale worktree cleanup) MUST run to completion before any resume logic executes, regardless of prior state.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**前置條件**：步驟 0（stale worktree cleanup）在任何 resume 邏輯執行之前，無論先前狀態如何，都**必須**完整執行。</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>On invocation, before entering the loop:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在呼叫時，進入迴圈之前：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. **Always run Step 0** (stale worktree cleanup) — even on fresh start
+2. Read `&lt;self-improve-root&gt;/state/agent-settings.json`:
+   - If `status: &quot;user_stopped&quot;`: ask user `&quot;Previous run was stopped at iteration {N}. Resume? [yes/no]&quot;`. If no, exit. If yes, continue.
+   - If `status: &quot;running&quot;`: session crashed — resume automatically (no user prompt)
+   - If `status: &quot;idle&quot;`: fresh start
+3. Re-confirm trust gate only if `trust_confirmed` is `false` in agent-settings.json
+4. Read `&lt;self-improve-root&gt;/state/iteration_state.json`:
+   - `status: &quot;in_progress&quot;` → resume from `current_step`, skip completed sub-steps
+   - `status: &quot;completed&quot;` → start next iteration
+   - `status: &quot;failed&quot;` → complete recording step if needed, start next iteration
+   - File missing → start from iteration 1</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. **一律執行步驟 0**（stale worktree cleanup）——即使是全新啟動也一樣
+2. 讀取 `&lt;self-improve-root&gt;/state/agent-settings.json`：
+   - 若 `status: &quot;user_stopped&quot;`：詢問使用者 `&quot;Previous run was stopped at iteration {N}. Resume? [yes/no]&quot;`。若否，結束。若是，繼續。
+   - 若 `status: &quot;running&quot;`：session 已崩潰 — 自動 resume（不提示使用者）
+   - 若 `status: &quot;idle&quot;`：全新啟動
+3. 只有在 agent-settings.json 中 `trust_confirmed` 為 `false` 時，才重新確認 trust gate
+4. 讀取 `&lt;self-improve-root&gt;/state/iteration_state.json`：
+   - `status: &quot;in_progress&quot;` → 從 `current_step` 恢復，跳過已完成的 sub-steps
+   - `status: &quot;completed&quot;` → 開始下一個 iteration
+   - `status: &quot;failed&quot;` → 如有需要，完成 recording 步驟，開始下一個 iteration
+   - 檔案不存在 → 從 iteration 1 開始</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Completion</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## Completion</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>When the loop exits:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當迴圈結束時：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Update agent-settings.json with final status
+2. If `target_reached` AND `auto_pr` is `true` in settings: spawn git-master to create PR from `improve/{goal_slug}` to upstream.
+   If `auto_pr` is `false` (default): skip PR creation. Log: `&quot;PR creation skipped (auto_pr: false). Run manually: gh pr create --head improve/{goal_slug} --base {target_branch}&quot;`
+3. Run plot_progress.py one final time
+4. Print summary report:
+   ```
+   === Self-Improvement Loop Complete ===
+   Status: {status}
+   Iterations: {iterations}
+   Best Score: {best_score} (baseline: {baseline})
+   Improvement: {delta} ({delta_pct}%)
+   ```
+5. Run `/oh-my-claudecode:cancel` for clean state cleanup</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 使用最終狀態更新 `agent-settings.json`
+2. 如果設定中的 `target_reached` 為 `true` 且 `auto_pr` 為 `true`：啟動 `git-master`，從 `improve/{goal_slug}` 建立 PR 到 upstream。
+   如果 `auto_pr` 為 `false`（預設）：略過 PR 建立。記錄：`&quot;PR creation skipped (auto_pr: false). Run manually: gh pr create --head improve/{goal_slug} --base {target_branch}&quot;`
+3. 最後再執行一次 `plot_progress.py`
+4. 列印摘要報告：
+   ```
+   === Self-Improvement Loop Complete ===
+   Status: {status}
+   Iterations: {iterations}
+   Best Score: {best_score} (baseline: {baseline})
+   Improvement: {delta} ({delta_pct}%)
+   ```
+5. 執行 `/oh-my-claudecode:cancel` 以進行乾淨的狀態清理</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Error Handling</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 錯誤處理</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Situation | Action |
+|---|---|
+| Agent fails to produce output | Retry once. If still no output, log and continue. |
+| Researcher produces empty brief | Proceed — planners work from history alone. |
+| All plans rejected by critic | Skip execution. Log. Continue to next iteration. |
+| All executors fail | Skip tournament. Record failures. Continue. |
+| Merge conflict | Reject candidate, try next. |
+| Re-benchmark regression | Reject candidate, revert merge, try next. |
+| Push failure | Log warning. Continue — push is backup. |
+| Worktree already exists | Remove and recreate. |
+| Settings corrupted | Report and stop. |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 情況 | 動作 |
+|---|---|
+| 代理無法產生輸出 | 重試一次。如果仍然沒有輸出，記錄並繼續。 |
+| 研究員產出空白簡報 | 繼續執行——規劃器只依賴歷史記錄。 |
+| 所有計畫都被評審拒絕 | 略過執行。記錄。繼續下一輪。 |
+| 所有執行者都失敗 | 略過競賽。記錄失敗。繼續。 |
+| 合併衝突 | 拒絕候選項，嘗試下一個。 |
+| 重新基準測試回歸 | 拒絕候選項，還原合併，嘗試下一個。 |
+| 推送失敗 | 記錄警告。繼續——推送是備援。 |
+| 工作樹已存在 | 移除並重新建立。 |
+| 設定已損毀 | 回報並停止。 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Approach Family Taxonomy</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 方法家族分類</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Every plan must be tagged with exactly one:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>每個計畫都必須且只能標記一個：</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Tag | Description |
+|-----|-------------|
+| `architecture` | Model/component structure changes |
+| `training_config` | Optimizer, LR, scheduler, batch size |
+| `data` | Data loading, augmentation, preprocessing |
+| `infrastructure` | Mixed precision, distributed training, compiled kernels |
+| `optimization` | Algorithmic/numerical optimizations |
+| `testing` | Evaluation methodology changes |
+| `documentation` | Documentation-only changes |
+| `other` | Does not fit above — explain in evidence |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 標籤 | 說明 |
+|-----|-------------|
+| `architecture` | 模型/元件結構變更 |
+| `training_config` | 優化器、學習率、排程器、批次大小 |
+| `data` | 資料載入、增強、前處理 |
+| `infrastructure` | 混合精度、分散式訓練、編譯後的核心 |
+| `optimization` | 演算法/數值最佳化 |
+| `testing` | 評估方法變更 |
+| `documentation` | 僅限文件變更 |
+| `other` | 不符合以上項目者 — 在 evidence 中說明 |</code></pre></div></section>
+</main>
+</body>
+</html>

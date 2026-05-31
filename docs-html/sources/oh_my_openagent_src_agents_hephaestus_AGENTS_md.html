@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oh-my-openagent/src/agents/hephaestus/AGENTS.md</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+</head>
+<body>
+<main>
+<nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
+<h1 class="path">oh-my-openagent/src/agents/hephaestus/AGENTS.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-openagent/src/agents/hephaestus/AGENTS.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---
+name: hephaestus-agent
+description: Developer reference for the Hephaestus autonomous deep worker agent — model variants, key behaviors, and delegation patterns.
+---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---
+name: hephaestus-agent
+description: Hephaestus 自主深度工作代理的開發者參考資料 — 模型變體、關鍵行為與委派模式。
+---</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code># src/agents/hephaestus/ -- Autonomous Deep Worker</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code># src/agents/hephaestus/ -- 自主深度工作者</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Generated:** 2026-05-15</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**產生時間：** 2026-05-15</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## OVERVIEW</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 概覽</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>6 files. Hephaestus agent -- autonomous deep worker powered by GPT-5.5. Goal-oriented: give it objectives, not step-by-step instructions. &quot;The Legitimate Craftsman.&quot;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>6 個檔案。Hephaestus 代理程式 -- 由 GPT-5.5 驅動的自主深度工作者。以目標為導向：給它目標，不要給逐步指示。&quot;The Legitimate Craftsman.&quot;</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## FILES</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 檔案</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| File | Purpose |
+|------|---------|
+| `agent.ts` | `createHephaestusAgent()` factory, model-variant routing |
+| `gpt.ts` | Base GPT prompt: discipline rules, delegation, verification |
+| `gpt-5-5.ts` | GPT-5.5-native prompt tuned for current Hephaestus routing |
+| `gpt-5-4.ts` | GPT-5.4-native prompt with XML-tagged blocks, entropy-reduced |
+| `gpt-5-3-codex.ts` | GPT-5.3 Codex variant with task discipline sections |
+| `index.ts` | Barrel exports |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 檔案 | 用途 |
+|------|---------|
+| `agent.ts` | `createHephaestusAgent()` 工廠，模型變體路由 |
+| `gpt.ts` | 基礎 GPT 提示詞：紀律規則、委派、驗證 |
+| `gpt-5-5.ts` | 原生 GPT-5.5 提示詞，針對目前的 Hephaestus 路由進行調校 |
+| `gpt-5-4.ts` | 原生 GPT-5.4 提示詞，包含 XML 標記區塊，降低熵 |
+| `gpt-5-3-codex.ts` | GPT-5.3 Codex 變體，包含任務紀律章節 |
+| `index.ts` | 匯出彙總 |
+</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## KEY BEHAVIORS</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 關鍵行為</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- Mode: `primary` (respects UI model selection)
+- Requires OpenAI-compatible provider (no fallback chain)
+- NEVER trusts subagent self-reports -- always verifies
+- NEVER uses `background_cancel(all=true)`
+- Delegates exploration to background agents, never sequential
+- Uses `run_in_background=true` for explore/librarian</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- 模式：`primary`（尊重 UI 模型選擇）
+- 需要相容 OpenAI 的提供者（沒有 fallback chain）
+- 絕不信任子代理的自我回報 -- 一律驗證
+- 絕不使用 `background_cancel(all=true)`
+- 將探索委派給背景代理，絕不依序執行
+- 對 explore/librarian 使用 `run_in_background=true`</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## MODEL VARIANTS</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 模型變體</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Model | Prompt Source | Optimizations |
+|-------|-------------|---------------|
+| gpt-5.5 | `gpt-5-5.ts` | GPT-5.5-tuned prompt architecture |
+| gpt-5.4 | `gpt-5-4.ts` | XML-tagged blocks, 8 sections |
+| gpt-5.3-codex | `gpt-5-3-codex.ts` | Task discipline, 549 LOC prompt |
+| Other GPT | `gpt.ts` | Base prompt, 507 LOC |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 模型 | 提示詞來源 | 最佳化 |
+|-------|-------------|---------------|
+| gpt-5.5 | `gpt-5-5.ts` | 針對 GPT-5.5 調校的提示詞架構 |
+| gpt-5.4 | `gpt-5-4.ts` | XML 標記區塊，8 個章節 |
+| gpt-5.3-codex | `gpt-5-3-codex.ts` | 任務紀律，549 行的提示詞 |
+| Other GPT | `gpt.ts` | 基礎提示詞，507 行 |</code></pre></div></section>
+</main>
+</body>
+</html>

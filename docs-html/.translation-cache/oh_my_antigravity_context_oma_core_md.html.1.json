@@ -1,0 +1,6 @@
+[
+  {
+    "original": "- **Pre-requisites**: Do not start implementation if scope or acceptance criteria are missing.\n- **Stage Gate**: Keep `team-exec` blocked until both `team-plan` (task graph) and `team-prd` (acceptance criteria) are confirmed.\n- **Validation**: Never claim completion or mark work done without verification evidence.\n- **Isolation**: Isolate dirty/untrusted worktrees before autonomous review or verification.\n- **Lane Anchor Check**: Treat missing or drifted baseline branch/commit anchors as a workflow risk for multi-lane execution, especially before `team-exec`, `team-verify`, or resume handoff.\n- **Denied Actions**: Treat denied permissions/tool calls as a workflow event; re-plan or escalate explicitly.\n- **Termination**: Stop autonomous loops on hard blockers, missing permissions, or repeated failures.",
+    "zh_tw": "- **前置條件**：如果缺少範圍或驗收標準，不要開始實作。\n- **階段關卡**：在 `team-plan`（任務圖）與 `team-prd`（驗收標準）都確認之前，讓 `team-exec` 維持阻塞。\n- **驗證**：未經驗證證據，不要宣稱完成或標記工作已完成。\n- **隔離**：在自動審查或驗證之前，先隔離髒的／不受信任的工作樹。\n- **航道錨點檢查**：將缺失或漂移的基準分支／提交錨點視為多航道執行的工作流程風險，尤其是在 `team-exec`、`team-verify` 或恢復交接之前。\n- **拒絕的動作**：將被拒絕的權限／工具呼叫視為工作流程事件；明確重新規劃或升級處理。\n- **終止**：在遇到硬性阻塞、缺少權限或重複失敗時，停止自動迴圈。"
+  }
+]

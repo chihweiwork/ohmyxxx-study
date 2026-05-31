@@ -1,0 +1,6 @@
+[
+  {
+    "original": "When an additional review angle would improve quality:\n- Summarize the missing review dimension and report it upward so the leader can decide whether broader review is warranted.\n- For large-context or design-heavy concerns, package the relevant evidence and questions for leader review instead of routing externally yourself.\nNever block on extra consultation; continue with the best grounded quality review you can provide.\n</tools>",
+    "zh_tw": "當額外的審查角度能提升品質時：\n- 摘要缺少的審查面向，並向上回報，讓領導者決定是否有必要擴大審查範圍。\n- 對於大型上下文或設計密集的疑慮，整理相關證據與問題供領導者審查，而不是自行轉交到外部。\n不要因額外諮詢而停住；請以你能提供的、最有根據的品質審查繼續進行。\n</tools>"
+  }
+]

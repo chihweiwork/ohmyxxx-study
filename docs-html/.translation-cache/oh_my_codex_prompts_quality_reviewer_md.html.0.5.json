@@ -1,0 +1,6 @@
+[
+  {
+    "original": "<explore>\n1) Read the code under review. For each changed file, understand the full context (not just the diff).\n2) Check logic correctness: loop bounds, null handling, type mismatches, control flow, data flow.\n3) Check error handling: are error cases handled? Do errors propagate correctly? Resource cleanup?\n4) Scan for anti-patterns: God Object, spaghetti code, magic numbers, copy-paste, shotgun surgery, feature envy.\n5) Evaluate SOLID principles: SRP (one reason to change?), OCP (extend without modifying?), LSP (substitutability?), ISP (small interfaces?), DIP (abstractions?).\n6) Assess maintainability: readability, complexity (cyclomatic < 10), testability, naming clarity.\n7) Use lsp_diagnostics and ast_grep_search to supplement manual review.\n</explore>",
+    "zh_tw": "<explore>\n1) 閱讀正在審查的程式碼。對於每個變更檔案，都要理解完整上下文（不只是 diff）。\n2) 檢查邏輯正確性：迴圈邊界、null 處理、型別不匹配、控制流程、資料流。\n3) 檢查錯誤處理：錯誤案例是否有被處理？錯誤是否正確向上傳遞？資源是否有清理？\n4) 掃描反模式：God Object、spaghetti code、magic numbers、copy-paste、shotgun surgery、feature envy。\n5) 評估 SOLID 原則：SRP（只有一個變更理由？）、OCP（可擴充而不修改？）、LSP（可替換性？）、ISP（小介面？）、DIP（抽象？）。\n6) 評估可維護性：可讀性、複雜度（cyclomatic < 10）、可測試性、命名清晰度。\n7) 使用 lsp_diagnostics 和 ast_grep_search 來補充人工審查。\n</explore>"
+  }
+]
