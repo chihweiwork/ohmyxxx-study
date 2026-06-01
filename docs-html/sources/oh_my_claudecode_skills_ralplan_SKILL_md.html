@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>oh-my-claudecode/skills/ralplan/SKILL.md</title>
-<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0;border-radius:4px;padding:.1em .3em}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
 </head>
 <body>
 <main>
@@ -136,31 +136,7 @@ level: 4
 - `! autopilot optimize everything`</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### When the Gate Does NOT Trigger</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 何時 Gate 不會觸發</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>The gate auto-passes when it detects **any** concrete signal. You do not need all of them — one is enough:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當 gate 偵測到**任何**具體訊號時，就會自動通過。你不需要同時具備全部條件，只要有一個就夠：</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Signal Type | Example prompt | Why it passes |
-|---|---|---|
-| File path | `ralph fix src/hooks/bridge.ts` | References a specific file |
-| Issue/PR number | `ralph implement #42` | Has a concrete work item |
-| camelCase symbol | `ralph fix processKeywordDetector` | Names a specific function |
-| PascalCase symbol | `ralph update UserModel` | Names a specific class |
-| snake_case symbol | `team fix user_model` | Names a specific identifier |
-| Test runner | `ralph npm test &amp;&amp; fix failures` | Has an explicit test target |
-| Numbered steps | `ralph do:\n1. Add X\n2. Test Y` | Structured deliverables |
-| Acceptance criteria | `ralph add login - acceptance criteria: ...` | Explicit success definition |
-| Error reference | `ralph fix TypeError in auth` | Specific error to address |
-| Code block | `ralph add: \`\`\`ts ... \`\`\`` | Concrete code provided |
-| Escape prefix | `force: ralph do it` or `! ralph do it` | Explicit user override |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 訊號類型 | 範例提示詞 | 為什麼會通過 |
-|---|---|---|
-| 檔案路徑 | `ralph fix src/hooks/bridge.ts` | 參照了一個特定檔案 |
-| Issue/PR 編號 | `ralph implement #42` | 有一個具體的工作項目 |
-| camelCase 符號 | `ralph fix processKeywordDetector` | 指定了一個特定函式 |
-| PascalCase 符號 | `ralph update UserModel` | 指定了一個特定類別 |
-| snake_case 符號 | `team fix user_model` | 指定了一個特定識別符 |
-| 測試執行器 | `ralph npm test &amp;&amp; fix failures` | 有明確的測試目標 |
-| 編號步驟 | `ralph do:\n1. Add X\n2. Test Y` | 結構化交付項目 |
-| 驗收準則 | `ralph add login - acceptance criteria: ...` | 明確的成功定義 |
-| 錯誤參照 | `ralph fix TypeError in auth` | 有待處理的特定錯誤 |
-| 程式碼區塊 | `ralph add: \`\`\`ts ... \`\`\`` | 提供了具體程式碼 |
-| 轉義前綴 | `force: ralph do it` 或 `! ralph do it` | 明確的使用者覆寫 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><div class="table-wrap"><table><thead><tr><th>Signal Type</th><th>Example prompt</th><th>Why it passes</th></tr></thead><tbody><tr><td>File path</td><td><code>ralph fix src/hooks/bridge.ts</code></td><td>References a specific file</td></tr><tr><td>Issue/PR number</td><td><code>ralph implement #42</code></td><td>Has a concrete work item</td></tr><tr><td>camelCase symbol</td><td><code>ralph fix processKeywordDetector</code></td><td>Names a specific function</td></tr><tr><td>PascalCase symbol</td><td><code>ralph update UserModel</code></td><td>Names a specific class</td></tr><tr><td>snake_case symbol</td><td><code>team fix user_model</code></td><td>Names a specific identifier</td></tr><tr><td>Test runner</td><td><code>ralph npm test &amp;&amp; fix failures</code></td><td>Has an explicit test target</td></tr><tr><td>Numbered steps</td><td><code>ralph do:n1. Add Xn2. Test Y</code></td><td>Structured deliverables</td></tr><tr><td>Acceptance criteria</td><td><code>ralph add login - acceptance criteria: ...</code></td><td>Explicit success definition</td></tr><tr><td>Error reference</td><td><code>ralph fix TypeError in auth</code></td><td>Specific error to address</td></tr><tr><td>Code block</td><td><code>ralph add: </code><code></code>ts ... <code></code><code></code></td><td>Concrete code provided</td></tr><tr><td>Escape prefix</td><td><code>force: ralph do it</code> or <code>! ralph do it</code></td><td>Explicit user override</td></tr></tbody></table></div></div><div class="source-translation"><div class="label">中文翻譯</div><div class="table-wrap"><table><thead><tr><th>訊號類型</th><th>範例提示詞</th><th>為什麼會通過</th></tr></thead><tbody><tr><td>檔案路徑</td><td><code>ralph fix src/hooks/bridge.ts</code></td><td>參照了一個特定檔案</td></tr><tr><td>Issue/PR 編號</td><td><code>ralph implement #42</code></td><td>有一個具體的工作項目</td></tr><tr><td>camelCase 符號</td><td><code>ralph fix processKeywordDetector</code></td><td>指定了一個特定函式</td></tr><tr><td>PascalCase 符號</td><td><code>ralph update UserModel</code></td><td>指定了一個特定類別</td></tr><tr><td>snake_case 符號</td><td><code>team fix user_model</code></td><td>指定了一個特定識別符</td></tr><tr><td>測試執行器</td><td><code>ralph npm test &amp;&amp; fix failures</code></td><td>有明確的測試目標</td></tr><tr><td>編號步驟</td><td><code>ralph do:n1. Add Xn2. Test Y</code></td><td>結構化交付項目</td></tr><tr><td>驗收準則</td><td><code>ralph add login - acceptance criteria: ...</code></td><td>明確的成功定義</td></tr><tr><td>錯誤參照</td><td><code>ralph fix TypeError in auth</code></td><td>有待處理的特定錯誤</td></tr><tr><td>程式碼區塊</td><td><code>ralph add: </code><code></code>ts ... <code></code><code></code></td><td>提供了具體程式碼</td></tr><tr><td>轉義前綴</td><td><code>force: ralph do it</code> 或 <code>! ralph do it</code></td><td>明確的使用者覆寫</td></tr></tbody></table></div></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### End-to-End Flow Example</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 端到端流程範例</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. User types: `ralph add user authentication`
 2. Gate detects: execution keyword (`ralph`) + underspecified prompt (no files, functions, or test spec)
@@ -184,17 +160,7 @@ level: 4
    - **ralph**：帶驗證的序列式執行
 6. 以清楚且有界定的計畫開始執行</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Troubleshooting</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 疑難排解</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Issue | Solution |
-|-------|----------|
-| Gate fires on a well-specified prompt | Add a file reference, function name, or issue number to anchor the request |
-| Want to bypass the gate | Prefix with `force:` or `!` (e.g., `force: ralph fix it`) |
-| Gate does not fire on a vague prompt | The gate only catches prompts with &lt;=15 effective words and no concrete anchors; add more detail or use `/ralplan` explicitly |
-| Redirected to ralplan but want execution | Use the structured approval option or explicitly say which execution skill should proceed; `just do it` / `skip planning` alone only ends planning with a `pending approval` artifact |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 問題 | 解決方式 |
-|-------|----------|
-| Gate 在已明確規格的提示詞上仍觸發 | 加上檔案參照、函式名稱或 issue 編號來錨定請求 |
-| 想要繞過 gate | 在前面加上 `force:` 或 `!`（例如：`force: ralph fix it`） |
-| Gate 沒有在模糊提示詞上觸發 | Gate 只會攔截有效字數 &lt;=15 且沒有具體錨點的提示詞；請補充更多細節或直接使用 `/ralplan` |
-| 被導向 ralplan 但想直接執行 | 使用結構化核准選項，或明確說明應該由哪個執行 skill 繼續；單獨說 `just do it` / `skip planning` 只會結束規劃並產生一個 `pending approval` 成品 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><div class="table-wrap"><table><thead><tr><th>Issue</th><th>Solution</th></tr></thead><tbody><tr><td>Gate fires on a well-specified prompt</td><td>Add a file reference, function name, or issue number to anchor the request</td></tr><tr><td>Want to bypass the gate</td><td>Prefix with <code>force:</code> or <code>!</code> (e.g., <code>force: ralph fix it</code>)</td></tr><tr><td>Gate does not fire on a vague prompt</td><td>The gate only catches prompts with &lt;=15 effective words and no concrete anchors; add more detail or use <code>/ralplan</code> explicitly</td></tr><tr><td>Redirected to ralplan but want execution</td><td>Use the structured approval option or explicitly say which execution skill should proceed; <code>just do it</code> / <code>skip planning</code> alone only ends planning with a <code>pending approval</code> artifact</td></tr></tbody></table></div></div><div class="source-translation"><div class="label">中文翻譯</div><div class="table-wrap"><table><thead><tr><th>問題</th><th>解決方式</th></tr></thead><tbody><tr><td>Gate 在已明確規格的提示詞上仍觸發</td><td>加上檔案參照、函式名稱或 issue 編號來錨定請求</td></tr><tr><td>想要繞過 gate</td><td>在前面加上 <code>force:</code> 或 <code>!</code>（例如：<code>force: ralph fix it</code>）</td></tr><tr><td>Gate 沒有在模糊提示詞上觸發</td><td>Gate 只會攔截有效字數 &lt;=15 且沒有具體錨點的提示詞；請補充更多細節或直接使用 <code>/ralplan</code></td></tr><tr><td>被導向 ralplan 但想直接執行</td><td>使用結構化核准選項，或明確說明應該由哪個執行 skill 繼續；單獨說 <code>just do it</code> / <code>skip planning</code> 只會結束規劃並產生一個 <code>pending approval</code> 成品</td></tr></tbody></table></div></div></section>
 </main>
 </body>
 </html>

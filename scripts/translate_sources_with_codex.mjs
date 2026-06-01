@@ -197,6 +197,123 @@ function normalizePairs(parsed, chunk) {
   });
 }
 
+function splitTableRow(line) {
+  let row = line.trim();
+  if (row.startsWith("|")) row = row.slice(1);
+  if (row.endsWith("|")) row = row.slice(0, -1);
+
+  const cells = [];
+  let cell = "";
+  let escaped = false;
+  for (const char of row) {
+    if (escaped) {
+      cell += char;
+      escaped = false;
+    } else if (char === "\\") {
+      escaped = true;
+    } else if (char === "|") {
+      cells.push(cell.trim());
+      cell = "";
+    } else {
+      cell += char;
+    }
+  }
+  cells.push(cell.trim());
+  return cells;
+}
+
+function parseSeparatorCell(cell) {
+  const trimmed = cell.trim();
+  if (!/^:?-{3,}:?$/.test(trimmed)) return null;
+  if (trimmed.startsWith(":") && trimmed.endsWith(":")) return "center";
+  if (trimmed.endsWith(":")) return "right";
+  if (trimmed.startsWith(":")) return "left";
+  return "";
+}
+
+function tableAt(lines, index) {
+  if (index + 1 >= lines.length || !lines[index].includes("|") || !lines[index + 1].includes("|")) {
+    return null;
+  }
+
+  const headers = splitTableRow(lines[index]);
+  const alignments = splitTableRow(lines[index + 1]).map(parseSeparatorCell);
+  if (headers.length < 2 || alignments.length !== headers.length || alignments.some((value) => value === null)) {
+    return null;
+  }
+
+  const rows = [];
+  let cursor = index + 2;
+  while (cursor < lines.length && lines[cursor].includes("|") && lines[cursor].trim() !== "") {
+    const cells = splitTableRow(lines[cursor]);
+    rows.push(headers.map((_, cellIndex) => cells[cellIndex] ?? ""));
+    cursor += 1;
+  }
+
+  return { headers, alignments, rows, nextIndex: cursor };
+}
+
+function renderInlineMarkdown(text) {
+  return text
+    .split(/(`[^`]*`)/g)
+    .map((part) => {
+      if (part.startsWith("`") && part.endsWith("`")) {
+        return `<code>${escapeHtml(part.slice(1, -1))}</code>`;
+      }
+      return escapeHtml(part)
+        .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_match, label, href) => {
+          return `<a href="${escapeHtml(href)}">${label}</a>`;
+        })
+        .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    })
+    .join("");
+}
+
+function renderMarkdownTable(table) {
+  const alignAttrs = table.alignments.map((alignment) => (alignment ? ` style="text-align:${alignment}"` : ""));
+  const headerHtml = table.headers
+    .map((cell, index) => `<th${alignAttrs[index]}>${renderInlineMarkdown(cell)}</th>`)
+    .join("");
+  const bodyHtml = table.rows
+    .map((row) => {
+      const cells = table.headers
+        .map((_, index) => `<td${alignAttrs[index]}>${renderInlineMarkdown(row[index] ?? "")}</td>`)
+        .join("");
+      return `<tr>${cells}</tr>`;
+    })
+    .join("");
+
+  return `<div class="table-wrap"><table><thead><tr>${headerHtml}</tr></thead><tbody>${bodyHtml}</tbody></table></div>`;
+}
+
+function renderMarkdownBlock(text) {
+  const lines = text.split("\n");
+  const parts = [];
+  let plain = [];
+  let index = 0;
+
+  const flushPlain = () => {
+    if (!plain.length) return;
+    parts.push(`<pre><code>${escapeHtml(plain.join("\n"))}</code></pre>`);
+    plain = [];
+  };
+
+  while (index < lines.length) {
+    const table = tableAt(lines, index);
+    if (table) {
+      flushPlain();
+      parts.push(renderMarkdownTable(table));
+      index = table.nextIndex;
+    } else {
+      plain.push(lines[index]);
+      index += 1;
+    }
+  }
+  flushPlain();
+
+  return parts.join("");
+}
+
 function htmlPage(title, body) {
   return `<!doctype html>
 <html lang="zh-Hant">
@@ -204,7 +321,7 @@ function htmlPage(title, body) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escapeHtml(title)}</title>
-<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0;border-radius:4px;padding:.1em .3em}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
 </head>
 <body>
 <main>
@@ -223,7 +340,7 @@ function renderTranslatedSource(item, pairs) {
     `<p><a href="../../${escapeHtml(item.file)}">原始檔案路徑</a></p>` +
     pairs
       .map((pair) => {
-        return `<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>${escapeHtml(pair.original)}</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>${escapeHtml(pair.zh_tw)}</code></pre></div></section>`;
+        return `<section class="source-card"><div class="source-original"><div class="label">Original</div>${renderMarkdownBlock(pair.original)}</div><div class="source-translation"><div class="label">中文翻譯</div>${renderMarkdownBlock(pair.zh_tw)}</div></section>`;
       })
       .join("\n");
   fs.writeFileSync(path.join(outDir, sourceName(item.file)), htmlPage(item.file, body));

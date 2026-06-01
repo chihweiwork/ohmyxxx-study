@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>oh-my-claudecode/skills/sciomc/SKILL.md</title>
-<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0;border-radius:4px;padding:.1em .3em}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
 </head>
 <body>
 <main>
@@ -110,31 +110,9 @@ Task(subagent_type=&quot;oh-my-claudecode:scientist&quot;, model=&quot;opus&quot
 ```</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Smart Model Routing</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 智慧模型路由</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**CRITICAL: Always pass `model` parameter explicitly!**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**重要：務必明確傳入 `model` 參數！**</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Task Complexity | Agent | Model | Use For |
-|-----------------|-------|-------|---------|
-| Data gathering | `scientist` (model=haiku) | haiku | File enumeration, pattern counting, simple lookups |
-| Standard analysis | `scientist` | sonnet | Code analysis, pattern detection, documentation review |
-| Complex reasoning | `scientist` | opus | Architecture analysis, cross-cutting concerns, hypothesis validation |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 任務複雜度 | 代理 | 模型 | 用途 |
-|-----------------|-------|-------|---------|
-| 資料蒐集 | `scientist` (model=haiku) | haiku | 檔案列舉、模式計數、簡單查詢 |
-| 標準分析 | `scientist` | sonnet | 程式碼分析、模式偵測、文件審查 |
-| 複雜推理 | `scientist` | opus | 架構分析、橫切關注點、假設驗證 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><div class="table-wrap"><table><thead><tr><th>Task Complexity</th><th>Agent</th><th>Model</th><th>Use For</th></tr></thead><tbody><tr><td>Data gathering</td><td><code>scientist</code> (model=haiku)</td><td>haiku</td><td>File enumeration, pattern counting, simple lookups</td></tr><tr><td>Standard analysis</td><td><code>scientist</code></td><td>sonnet</td><td>Code analysis, pattern detection, documentation review</td></tr><tr><td>Complex reasoning</td><td><code>scientist</code></td><td>opus</td><td>Architecture analysis, cross-cutting concerns, hypothesis validation</td></tr></tbody></table></div></div><div class="source-translation"><div class="label">中文翻譯</div><div class="table-wrap"><table><thead><tr><th>任務複雜度</th><th>代理</th><th>模型</th><th>用途</th></tr></thead><tbody><tr><td>資料蒐集</td><td><code>scientist</code> (model=haiku)</td><td>haiku</td><td>檔案列舉、模式計數、簡單查詢</td></tr><tr><td>標準分析</td><td><code>scientist</code></td><td>sonnet</td><td>程式碼分析、模式偵測、文件審查</td></tr><tr><td>複雜推理</td><td><code>scientist</code></td><td>opus</td><td>架構分析、橫切關注點、假設驗證</td></tr></tbody></table></div></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Routing Decision Guide</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 路由決策指南</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Research Task | Tier | Example Prompt |
-|---------------|------|----------------|
-| &quot;Count occurrences of X&quot; | LOW | &quot;Count all usages of useState hook&quot; |
-| &quot;Find all files matching Y&quot; | LOW | &quot;List all test files in the project&quot; |
-| &quot;Analyze pattern Z&quot; | MEDIUM | &quot;Analyze error handling patterns in API routes&quot; |
-| &quot;Document how W works&quot; | MEDIUM | &quot;Document the authentication flow&quot; |
-| &quot;Explain why X happens&quot; | HIGH | &quot;Explain why race conditions occur in the cache layer&quot; |
-| &quot;Compare approaches A vs B&quot; | HIGH | &quot;Compare Redux vs Context for state management here&quot; |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 研究任務 | 層級 | 範例提示詞 |
-|---------------|------|----------------|
-| &quot;Count occurrences of X&quot; | LOW | &quot;Count all usages of useState hook&quot; |
-| &quot;Find all files matching Y&quot; | LOW | &quot;List all test files in the project&quot; |
-| &quot;Analyze pattern Z&quot; | MEDIUM | &quot;Analyze error handling patterns in API routes&quot; |
-| &quot;Document how W works&quot; | MEDIUM | &quot;Document the authentication flow&quot; |
-| &quot;Explain why X happens&quot; | HIGH | &quot;Explain why race conditions occur in the cache layer&quot; |
-| &quot;Compare approaches A vs B&quot; | HIGH | &quot;Compare Redux vs Context for state management here&quot; |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><div class="table-wrap"><table><thead><tr><th>Research Task</th><th>Tier</th><th>Example Prompt</th></tr></thead><tbody><tr><td>&quot;Count occurrences of X&quot;</td><td>LOW</td><td>&quot;Count all usages of useState hook&quot;</td></tr><tr><td>&quot;Find all files matching Y&quot;</td><td>LOW</td><td>&quot;List all test files in the project&quot;</td></tr><tr><td>&quot;Analyze pattern Z&quot;</td><td>MEDIUM</td><td>&quot;Analyze error handling patterns in API routes&quot;</td></tr><tr><td>&quot;Document how W works&quot;</td><td>MEDIUM</td><td>&quot;Document the authentication flow&quot;</td></tr><tr><td>&quot;Explain why X happens&quot;</td><td>HIGH</td><td>&quot;Explain why race conditions occur in the cache layer&quot;</td></tr><tr><td>&quot;Compare approaches A vs B&quot;</td><td>HIGH</td><td>&quot;Compare Redux vs Context for state management here&quot;</td></tr></tbody></table></div></div><div class="source-translation"><div class="label">中文翻譯</div><div class="table-wrap"><table><thead><tr><th>研究任務</th><th>層級</th><th>範例提示詞</th></tr></thead><tbody><tr><td>&quot;Count occurrences of X&quot;</td><td>LOW</td><td>&quot;Count all usages of useState hook&quot;</td></tr><tr><td>&quot;Find all files matching Y&quot;</td><td>LOW</td><td>&quot;List all test files in the project&quot;</td></tr><tr><td>&quot;Analyze pattern Z&quot;</td><td>MEDIUM</td><td>&quot;Analyze error handling patterns in API routes&quot;</td></tr><tr><td>&quot;Document how W works&quot;</td><td>MEDIUM</td><td>&quot;Document the authentication flow&quot;</td></tr><tr><td>&quot;Explain why X happens&quot;</td><td>HIGH</td><td>&quot;Explain why race conditions occur in the cache layer&quot;</td></tr><tr><td>&quot;Compare approaches A vs B&quot;</td><td>HIGH</td><td>&quot;Compare Redux vs Context for state management here&quot;</td></tr></tbody></table></div></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Verification Loop</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 驗證迴圈</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>After parallel execution completes, verify findings:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在平行執行完成後，驗證發現：</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
@@ -195,13 +173,7 @@ Completed stages: {{COMPLETED_STAGES}}
 Pending stages: {{PENDING_STAGES}}
 ```</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Promise Tags</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 承諾標記</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Tag | Meaning | When to Use |
-|-----|---------|-------------|
-| `[PROMISE:RESEARCH_COMPLETE]` | Research finished successfully | All stages done, verified, report generated |
-| `[PROMISE:RESEARCH_BLOCKED]` | Cannot proceed | Missing data, access issues, circular dependency |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 標記 | 意義 | 使用時機 |
-|-----|---------|-------------|
-| `[PROMISE:RESEARCH_COMPLETE]` | 研究已成功完成 | 所有階段已完成、已驗證、已產生報告 |
-| `[PROMISE:RESEARCH_BLOCKED]` | 無法繼續 | 缺少資料、存取問題、循環相依 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><div class="table-wrap"><table><thead><tr><th>Tag</th><th>Meaning</th><th>When to Use</th></tr></thead><tbody><tr><td><code>[PROMISE:RESEARCH_COMPLETE]</code></td><td>Research finished successfully</td><td>All stages done, verified, report generated</td></tr><tr><td><code>[PROMISE:RESEARCH_BLOCKED]</code></td><td>Cannot proceed</td><td>Missing data, access issues, circular dependency</td></tr></tbody></table></div></div><div class="source-translation"><div class="label">中文翻譯</div><div class="table-wrap"><table><thead><tr><th>標記</th><th>意義</th><th>使用時機</th></tr></thead><tbody><tr><td><code>[PROMISE:RESEARCH_COMPLETE]</code></td><td>研究已成功完成</td><td>所有階段已完成、已驗證、已產生報告</td></tr><tr><td><code>[PROMISE:RESEARCH_BLOCKED]</code></td><td>無法繼續</td><td>缺少資料、存取問題、循環相依</td></tr></tbody></table></div></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### AUTO Mode Rules</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### AUTO 模式規則</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. **Max Iterations:** 10 (configurable)
 2. **Continue until:** Promise tag emitted OR max iterations
@@ -409,21 +381,7 @@ Batch 2: Stages 6-7 (parallel)
 }
 ```</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Session Commands</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 工作階段指令</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Command | Action |
-|---------|--------|
-| `/oh-my-claudecode:sciomc status` | Show current session progress |
-| `/oh-my-claudecode:sciomc resume` | Resume most recent interrupted session |
-| `/oh-my-claudecode:sciomc resume &lt;session-id&gt;` | Resume specific session |
-| `/oh-my-claudecode:sciomc list` | List all sessions with status |
-| `/oh-my-claudecode:sciomc report &lt;session-id&gt;` | Generate/regenerate report |
-| `/oh-my-claudecode:sciomc cancel` | Cancel current session (preserves state) |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 指令 | 動作 |
-|---------|--------|
-| `/oh-my-claudecode:sciomc status` | 顯示目前工作階段進度 |
-| `/oh-my-claudecode:sciomc resume` | 續接最近中斷的工作階段 |
-| `/oh-my-claudecode:sciomc resume &lt;session-id&gt;` | 續接指定工作階段 |
-| `/oh-my-claudecode:sciomc list` | 列出所有工作階段及其狀態 |
-| `/oh-my-claudecode:sciomc report &lt;session-id&gt;` | 產生／重新產生報告 |
-| `/oh-my-claudecode:sciomc cancel` | 取消目前工作階段（保留狀態） |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><div class="table-wrap"><table><thead><tr><th>Command</th><th>Action</th></tr></thead><tbody><tr><td><code>/oh-my-claudecode:sciomc status</code></td><td>Show current session progress</td></tr><tr><td><code>/oh-my-claudecode:sciomc resume</code></td><td>Resume most recent interrupted session</td></tr><tr><td><code>/oh-my-claudecode:sciomc resume &lt;session-id&gt;</code></td><td>Resume specific session</td></tr><tr><td><code>/oh-my-claudecode:sciomc list</code></td><td>List all sessions with status</td></tr><tr><td><code>/oh-my-claudecode:sciomc report &lt;session-id&gt;</code></td><td>Generate/regenerate report</td></tr><tr><td><code>/oh-my-claudecode:sciomc cancel</code></td><td>Cancel current session (preserves state)</td></tr></tbody></table></div></div><div class="source-translation"><div class="label">中文翻譯</div><div class="table-wrap"><table><thead><tr><th>指令</th><th>動作</th></tr></thead><tbody><tr><td><code>/oh-my-claudecode:sciomc status</code></td><td>顯示目前工作階段進度</td></tr><tr><td><code>/oh-my-claudecode:sciomc resume</code></td><td>續接最近中斷的工作階段</td></tr><tr><td><code>/oh-my-claudecode:sciomc resume &lt;session-id&gt;</code></td><td>續接指定工作階段</td></tr><tr><td><code>/oh-my-claudecode:sciomc list</code></td><td>列出所有工作階段及其狀態</td></tr><tr><td><code>/oh-my-claudecode:sciomc report &lt;session-id&gt;</code></td><td>產生／重新產生報告</td></tr><tr><td><code>/oh-my-claudecode:sciomc cancel</code></td><td>取消目前工作階段（保留狀態）</td></tr></tbody></table></div></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Tag Extraction</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 標籤擷取</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Scientists use structured tags for findings. Extract them with these patterns:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Scientists 會為發現使用結構化標籤。請使用以下模式擷取它們：</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Finding Tags</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 發現標籤</code></pre></div></section>
@@ -509,17 +467,7 @@ const verificationPattern = /\[(VERIFIED|CONFLICTS):?(.*?)\]/;
 ```</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Quality Validation</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 品質驗證</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Findings must meet quality threshold:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>發現必須符合品質門檻：</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Quality Check | Requirement |
-|---------------|-------------|
-| Evidence present | At least 1 [EVIDENCE] per [FINDING] |
-| Confidence stated | Each finding has [CONFIDENCE] |
-| Source cited | File paths are absolute and valid |
-| Reproducible | Another agent could verify |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 品質檢查 | 要求 |
-|---------------|-------------|
-| 具備證據 | 每個 [FINDING] 至少有 1 個 [EVIDENCE] |
-| 已註明信心等級 | 每個發現都有 [CONFIDENCE] |
-| 已引用來源 | 檔案路徑為絕對路徑且有效 |
-| 可重現 | 其他 agent 可以驗證 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><div class="table-wrap"><table><thead><tr><th>Quality Check</th><th>Requirement</th></tr></thead><tbody><tr><td>Evidence present</td><td>At least 1 [EVIDENCE] per [FINDING]</td></tr><tr><td>Confidence stated</td><td>Each finding has [CONFIDENCE]</td></tr><tr><td>Source cited</td><td>File paths are absolute and valid</td></tr><tr><td>Reproducible</td><td>Another agent could verify</td></tr></tbody></table></div></div><div class="source-translation"><div class="label">中文翻譯</div><div class="table-wrap"><table><thead><tr><th>品質檢查</th><th>要求</th></tr></thead><tbody><tr><td>具備證據</td><td>每個 [FINDING] 至少有 1 個 [EVIDENCE]</td></tr><tr><td>已註明信心等級</td><td>每個發現都有 [CONFIDENCE]</td></tr><tr><td>已引用來源</td><td>檔案路徑為絕對路徑且有效</td></tr><tr><td>可重現</td><td>其他 agent 可以驗證</td></tr></tbody></table></div></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Report Generation</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 報告產生</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Report Template</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 報告範本</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```markdown
@@ -536,10 +484,7 @@ const verificationPattern = /\[(VERIFIED|CONFLICTS):?(.*?)\]/;
 ## Methodology
 
 ### Research Stages
-
-| Stage | Focus | Tier | Status |
-|-------|-------|------|--------|
-{{STAGES_TABLE}}
+</code></pre><div class="table-wrap"><table><thead><tr><th>Stage</th><th>Focus</th><th>Tier</th><th>Status</th></tr></thead><tbody></tbody></table></div><pre><code>{{STAGES_TABLE}}
 
 ### Approach
 
@@ -602,10 +547,7 @@ const verificationPattern = /\[(VERIFIED|CONFLICTS):?(.*?)\]/;
 ## Methodology
 
 ### Research Stages
-
-| Stage | Focus | Tier | Status |
-|-------|-------|------|--------|
-{{STAGES_TABLE}}
+</code></pre><div class="table-wrap"><table><thead><tr><th>Stage</th><th>Focus</th><th>Tier</th><th>Status</th></tr></thead><tbody></tbody></table></div><pre><code>{{STAGES_TABLE}}
 
 ### Approach
 
@@ -687,19 +629,7 @@ Alt: Accessibility description
 *Caption: Description of what the figure shows*
 ```</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Figure Types</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 圖表類型</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Type | Use For | Generated By |
-|------|---------|--------------|
-| Architecture diagram | System structure | scientist |
-| Flow chart | Process flows | scientist |
-| Dependency graph | Module relationships | scientist |
-| Timeline | Sequence of events | scientist |
-| Comparison table | A vs B analysis | scientist |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 類型 | 用途 | 產生者 |
-|------|---------|--------------|
-| 架構圖 | 系統結構 | scientist |
-| 流程圖 | 流程流向 | scientist |
-| 相依圖 | 模組關係 | scientist |
-| 時間軸 | 事件順序 | scientist |
-| 比較表 | A 與 B 分析 | scientist |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><div class="table-wrap"><table><thead><tr><th>Type</th><th>Use For</th><th>Generated By</th></tr></thead><tbody><tr><td>Architecture diagram</td><td>System structure</td><td>scientist</td></tr><tr><td>Flow chart</td><td>Process flows</td><td>scientist</td></tr><tr><td>Dependency graph</td><td>Module relationships</td><td>scientist</td></tr><tr><td>Timeline</td><td>Sequence of events</td><td>scientist</td></tr><tr><td>Comparison table</td><td>A vs B analysis</td><td>scientist</td></tr></tbody></table></div></div><div class="source-translation"><div class="label">中文翻譯</div><div class="table-wrap"><table><thead><tr><th>類型</th><th>用途</th><th>產生者</th></tr></thead><tbody><tr><td>架構圖</td><td>系統結構</td><td>scientist</td></tr><tr><td>流程圖</td><td>流程流向</td><td>scientist</td></tr><tr><td>相依圖</td><td>模組關係</td><td>scientist</td></tr><tr><td>時間軸</td><td>事件順序</td><td>scientist</td></tr><tr><td>比較表</td><td>A 與 B 分析</td><td>scientist</td></tr></tbody></table></div></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Configuration</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 設定</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Optional settings in `.claude/settings.json`:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>`.claude/settings.json` 中的選用設定：</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```json

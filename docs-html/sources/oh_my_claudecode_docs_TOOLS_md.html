@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>oh-my-claudecode/docs/TOOLS.md</title>
-<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{max-width:1280px;margin:0 auto;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0;border-radius:4px;padding:.1em .3em}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
 </head>
 <body>
 <main>
@@ -113,11 +113,7 @@ state_get_status(session_id=&quot;abc123&quot;)
 ```</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Includes the active mode name and whether dependent modes exist.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>包含目前啟用的模式名稱，以及是否存在相依模式。</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Environment Variables</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 環境變數</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Variable | Default | Description |
-|----------|---------|-------------|
-| `OMC_STATE_DIR` | (unset) | Centralized state directory. When set, state persists even if the worktree is deleted. |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| Variable | Default | Description |
-|----------|---------|-------------|
-| `OMC_STATE_DIR` | (unset) | 集中式狀態目錄。設定後，即使工作樹被刪除，狀態仍會保留。 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><div class="table-wrap"><table><thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><code>OMC_STATE_DIR</code></td><td>(unset)</td><td>Centralized state directory. When set, state persists even if the worktree is deleted.</td></tr></tbody></table></div></div><div class="source-translation"><div class="label">中文翻譯</div><div class="table-wrap"><table><thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><code>OMC_STATE_DIR</code></td><td>(unset)</td><td>集中式狀態目錄。設定後，即使工作樹被刪除，狀態仍會保留。</td></tr></tbody></table></div></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>When `OMC_STATE_DIR` is set, state is stored at `$OMC_STATE_DIR/{project-id}/`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當設定 `OMC_STATE_DIR` 時，狀態會儲存在 `$OMC_STATE_DIR/{project-id}/`。</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```bash
 export OMC_STATE_DIR=&quot;$HOME/.claude/omc&quot;
@@ -287,27 +283,9 @@ project_memory_add_directive(directive=&quot;Use structured logging instead of c
 ```</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Use for coding rules, prohibitions, and requirements.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>用於程式設計規則、禁止事項與要求。</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Notes vs Directives</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 備註與指令</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| | Notes | Directives |
-|---|---|---|
-| Nature | Information, observations, learned knowledge | Rules, constraints, requirements |
-| Example | &quot;This project uses a monorepo structure&quot; | &quot;No PRs without tests&quot; |
-| Agent behavior | Used as reference for decisions | Must be strictly followed |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| | 備註 | 指令 |
-|---|---|---|
-| 性質 | 資訊、觀察、學到的知識 | 規則、限制、要求 |
-| 範例 | &quot;This project uses a monorepo structure&quot; | &quot;No PRs without tests&quot; |
-| Agent 行為 | 作為決策參考 | 必須嚴格遵守 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><div class="table-wrap"><table><thead><tr><th></th><th>Notes</th><th>Directives</th></tr></thead><tbody><tr><td>Nature</td><td>Information, observations, learned knowledge</td><td>Rules, constraints, requirements</td></tr><tr><td>Example</td><td>&quot;This project uses a monorepo structure&quot;</td><td>&quot;No PRs without tests&quot;</td></tr><tr><td>Agent behavior</td><td>Used as reference for decisions</td><td>Must be strictly followed</td></tr></tbody></table></div></div><div class="source-translation"><div class="label">中文翻譯</div><div class="table-wrap"><table><thead><tr><th></th><th>備註</th><th>指令</th></tr></thead><tbody><tr><td>性質</td><td>資訊、觀察、學到的知識</td><td>規則、限制、要求</td></tr><tr><td>範例</td><td>&quot;This project uses a monorepo structure&quot;</td><td>&quot;No PRs without tests&quot;</td></tr><tr><td>Agent 行為</td><td>作為決策參考</td><td>必須嚴格遵守</td></tr></tbody></table></div></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Notepad vs Project Memory</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### Notepad 與 Project Memory</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| | Notepad | Project Memory |
-|---|---|---|
-| Scope | Current session | Entire project (persists across sessions) |
-| Purpose | In-progress notes | Project rules, structure, learned knowledge |
-| File | `.omc/notepad.md` | `.omc/project-memory.json` |
-| Compaction | Restored during compaction | Always available |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| | Notepad | Project Memory |
-|---|---|---|
-| 範圍 | 目前工作階段 | 整個專案（會跨工作階段持續保留） |
-| 目的 | 進行中的筆記 | 專案規則、結構、學到的知識 |
-| 檔案 | `.omc/notepad.md` | `.omc/project-memory.json` |
-| 壓縮 | 在壓縮期間還原 | 一律可用 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><div class="table-wrap"><table><thead><tr><th></th><th>Notepad</th><th>Project Memory</th></tr></thead><tbody><tr><td>Scope</td><td>Current session</td><td>Entire project (persists across sessions)</td></tr><tr><td>Purpose</td><td>In-progress notes</td><td>Project rules, structure, learned knowledge</td></tr><tr><td>File</td><td><code>.omc/notepad.md</code></td><td><code>.omc/project-memory.json</code></td></tr><tr><td>Compaction</td><td>Restored during compaction</td><td>Always available</td></tr></tbody></table></div></div><div class="source-translation"><div class="label">中文翻譯</div><div class="table-wrap"><table><thead><tr><th></th><th>Notepad</th><th>Project Memory</th></tr></thead><tbody><tr><td>範圍</td><td>目前工作階段</td><td>整個專案（會跨工作階段持續保留）</td></tr><tr><td>目的</td><td>進行中的筆記</td><td>專案規則、結構、學到的知識</td></tr><tr><td>檔案</td><td><code>.omc/notepad.md</code></td><td><code>.omc/project-memory.json</code></td></tr><tr><td>壓縮</td><td>在壓縮期間還原</td><td>一律可用</td></tr></tbody></table></div></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Usage Patterns</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 使用模式</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Register project rules:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**註冊專案規則：**</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
@@ -423,21 +401,9 @@ lsp_servers()
 lsp_servers()
 ```</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Environment Variables</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 環境變數</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Variable | Default | Description |
-|----------|---------|-------------|
-| `OMC_LSP_TIMEOUT_MS` | `15000` | LSP request timeout in ms. Increase for large repos or slow servers. |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 變數 | 預設值 | 說明 |
-|----------|---------|-------------|
-| `OMC_LSP_TIMEOUT_MS` | `15000` | LSP 請求逾時（毫秒）。對大型儲存庫或較慢的伺服器可提高此值。 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><div class="table-wrap"><table><thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><code>OMC_LSP_TIMEOUT_MS</code></td><td><code>15000</code></td><td>LSP request timeout in ms. Increase for large repos or slow servers.</td></tr></tbody></table></div></div><div class="source-translation"><div class="label">中文翻譯</div><div class="table-wrap"><table><thead><tr><th>變數</th><th>預設值</th><th>說明</th></tr></thead><tbody><tr><td><code>OMC_LSP_TIMEOUT_MS</code></td><td><code>15000</code></td><td>LSP 請求逾時（毫秒）。對大型儲存庫或較慢的伺服器可提高此值。</td></tr></tbody></table></div></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Troubleshooting</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 疑難排解</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Problem | Solution |
-|---------|----------|
-| LSP tools not working | Install the language server: `npm install -g typescript-language-server` |
-| Timeout errors | Increase `OMC_LSP_TIMEOUT_MS` |
-| Check server status | Run `lsp_servers()` to verify installation |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 問題 | 解決方法 |
-|---------|----------|
-| LSP 工具無法運作 | 安裝語言伺服器：`npm install -g typescript-language-server` |
-| 逾時錯誤 | 提高 `OMC_LSP_TIMEOUT_MS` |
-| 檢查伺服器狀態 | 執行 `lsp_servers()` 驗證安裝 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><div class="table-wrap"><table><thead><tr><th>Problem</th><th>Solution</th></tr></thead><tbody><tr><td>LSP tools not working</td><td>Install the language server: <code>npm install -g typescript-language-server</code></td></tr><tr><td>Timeout errors</td><td>Increase <code>OMC_LSP_TIMEOUT_MS</code></td></tr><tr><td>Check server status</td><td>Run <code>lsp_servers()</code> to verify installation</td></tr></tbody></table></div></div><div class="source-translation"><div class="label">中文翻譯</div><div class="table-wrap"><table><thead><tr><th>問題</th><th>解決方法</th></tr></thead><tbody><tr><td>LSP 工具無法運作</td><td>安裝語言伺服器：<code>npm install -g typescript-language-server</code></td></tr><tr><td>逾時錯誤</td><td>提高 <code>OMC_LSP_TIMEOUT_MS</code></td></tr><tr><td>檢查伺服器狀態</td><td>執行 <code>lsp_servers()</code> 驗證安裝</td></tr></tbody></table></div></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## AST Grep</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## AST Grep</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>AST Grep tools use [@ast-grep/napi](https://ast-grep.github.io/) to search and replace structural code patterns. Because it operates on AST (Abstract Syntax Tree) rather than regex, it matches code structure precisely.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>AST Grep 工具使用 [@ast-grep/napi](https://ast-grep.github.io/) 來搜尋與取代結構化程式碼模式。由於它操作的是 AST（Abstract Syntax Tree，抽象語法樹）而不是 regex，因此能精確匹配程式碼結構。</code></pre></div></section>
@@ -456,13 +422,7 @@ ast_grep_search(
 )
 ```</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Meta variables:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**Meta 變數：**</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Meta Variable | Description | Example |
-|---|---|---|
-| `$VAR` | Matches a single AST node | `$VAR.map($FUNC)` |
-| `$$$` | Matches multiple AST nodes | `console.log($$$ARGS)` |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| Meta Variable | 說明 | 範例 |
-|---|---|---|
-| `$VAR` | 比對單一 AST 節點 | `$VAR.map($FUNC)` |
-| `$$$` | 比對多個 AST 節點 | `console.log($$$ARGS)` |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><div class="table-wrap"><table><thead><tr><th>Meta Variable</th><th>Description</th><th>Example</th></tr></thead><tbody><tr><td><code>$VAR</code></td><td>Matches a single AST node</td><td><code>$VAR.map($FUNC)</code></td></tr><tr><td><code>$$$</code></td><td>Matches multiple AST nodes</td><td><code>console.log($$$ARGS)</code></td></tr></tbody></table></div></div><div class="source-translation"><div class="label">中文翻譯</div><div class="table-wrap"><table><thead><tr><th>Meta Variable</th><th>說明</th><th>範例</th></tr></thead><tbody><tr><td><code>$VAR</code></td><td>比對單一 AST 節點</td><td><code>$VAR.map($FUNC)</code></td></tr><tr><td><code>$$$</code></td><td>比對多個 AST 節點</td><td><code>console.log($$$ARGS)</code></td></tr></tbody></table></div></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Examples:**</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**範例：**</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
 # Find all console.log calls
@@ -542,19 +502,7 @@ ast_grep_replace(
 )
 ```</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### AST Grep vs Regex</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### AST Grep 與 Regex</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| | Regex (Grep) | AST Grep |
-|---|---|---|
-| Matches against | Text patterns | Code structure |
-| Whitespace/newlines | Sensitive | Irrelevant |
-| Comments | Matched | Skipped |
-| Refactoring safety | Risky | Structure-preserving |
-| Use case | Text search | Code transformation |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| | Regex (Grep) | AST Grep |
-|---|---|---|
-| 比對對象 | 文字模式 | 程式碼結構 |
-| 空白字元/換行 | 敏感 | 不相關 |
-| 註解 | 會被匹配 | 會被略過 |
-| 重構安全性 | 有風險 | 保持結構 |
-| 使用情境 | 文字搜尋 | 程式碼轉換 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><div class="table-wrap"><table><thead><tr><th></th><th>Regex (Grep)</th><th>AST Grep</th></tr></thead><tbody><tr><td>Matches against</td><td>Text patterns</td><td>Code structure</td></tr><tr><td>Whitespace/newlines</td><td>Sensitive</td><td>Irrelevant</td></tr><tr><td>Comments</td><td>Matched</td><td>Skipped</td></tr><tr><td>Refactoring safety</td><td>Risky</td><td>Structure-preserving</td></tr><tr><td>Use case</td><td>Text search</td><td>Code transformation</td></tr></tbody></table></div></div><div class="source-translation"><div class="label">中文翻譯</div><div class="table-wrap"><table><thead><tr><th></th><th>Regex (Grep)</th><th>AST Grep</th></tr></thead><tbody><tr><td>比對對象</td><td>文字模式</td><td>程式碼結構</td></tr><tr><td>空白字元/換行</td><td>敏感</td><td>不相關</td></tr><tr><td>註解</td><td>會被匹配</td><td>會被略過</td></tr><tr><td>重構安全性</td><td>有風險</td><td>保持結構</td></tr><tr><td>使用情境</td><td>文字搜尋</td><td>程式碼轉換</td></tr></tbody></table></div></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Supported Languages</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 支援的語言</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>TypeScript, JavaScript, TSX, JSX, Python, Go, Rust, Java, C, C++, C#, Ruby, Swift, Kotlin, and most major programming languages.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>TypeScript、JavaScript、TSX、JSX、Python、Go、Rust、Java、C、C++、C#、Ruby、Swift、Kotlin，以及大多數主要程式語言。</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
@@ -650,19 +598,7 @@ for ext, count in sorted(extensions.items(), key=lambda x: -x[1]):
 &quot;&quot;&quot;)
 ```</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Use Cases</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 使用情境</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>| Use Case | Description |
-|----------|-------------|
-| Data analysis | Analyze CSV/JSON files, compute statistics |
-| Prototyping | Validate algorithms, test logic |
-| File processing | File transformation, batch processing |
-| Visualization | Generate charts with matplotlib or plotly |
-| Computation | Math calculations, cost estimation |</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>| 使用情境 | 說明 |
-|----------|-------------|
-| 資料分析 | 分析 CSV/JSON 檔案，計算統計資料 |
-| 原型開發 | 驗證演算法，測試邏輯 |
-| 檔案處理 | 檔案轉換，批次處理 |
-| 視覺化 | 使用 matplotlib 或 plotly 產生圖表 |
-| 計算 | 數學計算，成本估算 |</code></pre></div></section>
+<section class="source-card"><div class="source-original"><div class="label">Original</div><div class="table-wrap"><table><thead><tr><th>Use Case</th><th>Description</th></tr></thead><tbody><tr><td>Data analysis</td><td>Analyze CSV/JSON files, compute statistics</td></tr><tr><td>Prototyping</td><td>Validate algorithms, test logic</td></tr><tr><td>File processing</td><td>File transformation, batch processing</td></tr><tr><td>Visualization</td><td>Generate charts with matplotlib or plotly</td></tr><tr><td>Computation</td><td>Math calculations, cost estimation</td></tr></tbody></table></div></div><div class="source-translation"><div class="label">中文翻譯</div><div class="table-wrap"><table><thead><tr><th>使用情境</th><th>說明</th></tr></thead><tbody><tr><td>資料分析</td><td>分析 CSV/JSON 檔案，計算統計資料</td></tr><tr><td>原型開發</td><td>驗證演算法，測試邏輯</td></tr><tr><td>檔案處理</td><td>檔案轉換，批次處理</td></tr><tr><td>視覺化</td><td>使用 matplotlib 或 plotly 產生圖表</td></tr><tr><td>計算</td><td>數學計算，成本估算</td></tr></tbody></table></div></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Integration with scientist Agent</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 與 scientist Agent 的整合</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>The `scientist` agent uses `python_repl` for data analysis tasks.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>The `scientist` agent 會使用 `python_repl` 進行資料分析工作。</code></pre></div></section>
 <section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---</code></pre></div></section>
