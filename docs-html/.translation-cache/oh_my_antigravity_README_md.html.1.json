@@ -49,7 +49,7 @@
   },
   {
     "original": "## Workspace Hygiene and Hook Symmetry",
-    "zh_tw": "## Workspace 衛生與 Hook 對稱性"
+    "zh_tw": "## 工作區維護與 Hook 對稱性"
   },
   {
     "original": "Use these controls when long sessions start drifting because lane ownership, delegated execution, or hook continuation behavior is no longer obvious.",
@@ -57,7 +57,7 @@
   },
   {
     "original": "- `/oma:workspace audit` surfaces dirty shared worktrees, untrusted review paths, and handoff-ready vs handoff-blocked lanes.\n- `/oma:hooks` and `/oma:hooks-validate` now model paired agent lifecycle outcomes (`completed`, `blocked`, `stopped`) so blocked continuations re-enter the safety lane once before downstream hooks resume.\n- `team-exec`, `team`, `team-verify`, `stop`, and `cancel` keep delegated lane/subagent context compact and explicit, expanding details only when execution stops early or hits a blocker.",
-    "zh_tw": "- `/oma:workspace audit` 會顯示髒汙的共享 worktree、不受信任的審查路徑，以及可交接與受阻交接的 lanes。\n- `/oma:hooks` 和 `/oma:hooks-validate` 現在會以成對的 agent 生命週期結果（`completed`、`blocked`、`stopped`）建模，因此受阻的延續會先重新進入安全 lane 一次，然後下游 hooks 才會恢復。\n- `team-exec`、`team`、`team-verify`、`stop` 和 `cancel` 會讓委派的 lane/subagent 上下文保持精簡且明確，只有在執行提早停止或遇到阻塞時才展開細節。"
+    "zh_tw": "- `/oma:workspace audit` 會顯示有未提交變更的共享 worktree、不受信任的審查路徑，以及可交接與受阻交接的 lanes。\n- `/oma:hooks` 和 `/oma:hooks-validate` 現在會以成對的 agent 生命週期結果（`completed`、`blocked`、`stopped`）建模，因此受阻的延續會先重新進入安全 lane 一次，然後下游 hooks 才會恢復。\n- `team-exec`、`team`、`team-verify`、`stop` 和 `cancel` 會讓委派的 lane/subagent 上下文保持精簡且明確，只有在執行提早停止或遇到阻塞時才展開細節。"
   },
   {
     "original": "## Notification Routing",
