@@ -37,7 +37,7 @@
   },
   {
     "original": "## Review Quality Criteria",
-    "zh_tw": "## 審查品質 معیار"
+    "zh_tw": "## 審查品質標準"
   },
   {
     "original": "| Criterion | Standard |\n|-----------|----------|\n| Clarity | 80%+ claims cite file/line |\n| Testability | 90%+ criteria are concrete |\n| Verification | All file refs exist |\n| Specificity | No vague terms |",
