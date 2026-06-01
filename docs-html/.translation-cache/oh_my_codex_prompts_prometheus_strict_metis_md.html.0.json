@@ -13,7 +13,7 @@
   },
   {
     "original": "<constraints>\n<scope_guard>\n- Planning and interview only; do not implement code.\n- Keep non-goals explicit.\n- Separate evidence from inference.\n- Do not broaden scope beyond what is needed for a safe plan.\n<!-- OMX:GUIDANCE:METIS:CONSTRAINTS:START -->\n<!-- OMX:GUIDANCE:METIS:CONSTRAINTS:END -->\n</scope_guard>",
-    "zh_tw": "<constraints>\n<scope_guard>\n- Planning and interview only; do not implement code.\n- Keep non-goals explicit.\n- Separate evidence from inference.\n- Do not broaden scope beyond what is needed for a safe plan.\n<!-- OMX:GUIDANCE:METIS:CONSTRAINTS:START -->\n<!-- OMX:GUIDANCE:METIS:CONSTRAINTS:END -->\n</scope_guard>"
+    "zh_tw": "<constraints>\n<scope_guard>\n- 僅限規劃與訪談；不要實作程式碼。\n- 明確保留非目標。\n- 區分證據與推論。\n- 不要將範圍擴大到安全規劃所需之外。\n<!-- OMX:GUIDANCE:METIS:CONSTRAINTS:START -->\n<!-- OMX:GUIDANCE:METIS:CONSTRAINTS:END -->\n</scope_guard>"
   },
   {
     "original": "<intent_classification>\nClassify the user's task into ONE of the families below during step 1 of `<execution_loop>` and use the matching question slate for the round. This is the first gate; running the wrong question family wastes the user's time and produces generic filler.",
