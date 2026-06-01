@@ -38,13 +38,29 @@
 <li>如果任務很長，背景任務、tmux subagent、session recovery 會讓工作延續。</li>
 </ol>
 <h3 id="先讀">先讀</h3>
+<p>Runtime 必讀：</p>
 <ul>
 <li><a href="sources/oh_my_openagent_src_agents_AGENTS_md.html"><code>oh-my-openagent/src/agents/AGENTS.md</code></a></li>
 <li><a href="sources/oh_my_openagent_src_tools_AGENTS_md.html"><code>oh-my-openagent/src/tools/AGENTS.md</code></a></li>
 <li><a href="sources/oh_my_openagent_src_hooks_AGENTS_md.html"><code>oh-my-openagent/src/hooks/AGENTS.md</code></a></li>
-<li><a href="sources/oh_my_openagent_packages_prompts_core_prompts_atlas_default_md.html"><code>oh-my-openagent/packages/prompts-core/prompts/atlas/default.md</code></a></li>
-<li><a href="sources/oh_my_openagent_packages_prompts_core_prompts_prometheus_default_md.html"><code>oh-my-openagent/packages/prompts-core/prompts/prometheus/default.md</code></a></li>
 </ul>
+<p>核心 agent：</p>
+<ul>
+<li><a href="sources/oh_my_openagent_src_agents_atlas_AGENTS_md.html"><code>oh-my-openagent/src/agents/atlas/AGENTS.md</code></a></li>
+<li><a href="sources/oh_my_openagent_src_agents_prometheus_AGENTS_md.html"><code>oh-my-openagent/src/agents/prometheus/AGENTS.md</code></a></li>
+<li><a href="sources/oh_my_openagent_src_agents_sisyphus_AGENTS_md.html"><code>oh-my-openagent/src/agents/sisyphus/AGENTS.md</code></a></li>
+<li><a href="sources/oh_my_openagent_src_agents_hephaestus_AGENTS_md.html"><code>oh-my-openagent/src/agents/hephaestus/AGENTS.md</code></a></li>
+</ul>
+<p>Prompt variants 延伸閱讀：</p>
+<ul>
+<li><a href="sources/oh_my_openagent_packages_prompts_core_prompts_atlas_default_md.html"><code>oh-my-openagent/packages/prompts-core/prompts/atlas/default.md</code></a></li>
+<li><a href="sources/oh_my_openagent_packages_prompts_core_prompts_atlas_gpt_md.html"><code>oh-my-openagent/packages/prompts-core/prompts/atlas/gpt.md</code></a></li>
+<li><a href="sources/oh_my_openagent_packages_prompts_core_prompts_atlas_gemini_md.html"><code>oh-my-openagent/packages/prompts-core/prompts/atlas/gemini.md</code></a></li>
+<li><a href="sources/oh_my_openagent_packages_prompts_core_prompts_prometheus_default_md.html"><code>oh-my-openagent/packages/prompts-core/prompts/prometheus/default.md</code></a></li>
+<li><a href="sources/oh_my_openagent_packages_prompts_core_prompts_prometheus_gpt_md.html"><code>oh-my-openagent/packages/prompts-core/prompts/prometheus/gpt.md</code></a></li>
+<li><a href="sources/oh_my_openagent_packages_prompts_core_prompts_prometheus_gemini_md.html"><code>oh-my-openagent/packages/prompts-core/prompts/prometheus/gemini.md</code></a></li>
+</ul>
+<p>這裡的 <code>default</code>、<code>gpt</code>、<code>gemini</code> 是同一個 agent 的模型專用 prompt variants，不代表三個不同 agent。</p>
 <h3 id="讀檔提示">讀檔提示</h3>
 <ul>
 <li>看到 <code>AGENTS.md</code>，先判斷它是在描述目錄規則、agent persona，還是 runtime 文件。</li>
@@ -56,6 +72,7 @@
 <li>OMO 的 agent 不是單純 Markdown 角色。很多 agent 會被 runtime tool 和 hook 包起來。</li>
 <li>OMO 的 hooks 很多，不代表每個都同等重要。先看 context recovery、compaction、rules injector、fallback。</li>
 <li>Atlas 和 Prometheus 都像 planner，但 Atlas 偏 orchestrator/router，Prometheus 偏 strategy/planning。</li>
+<li>Atlas、Prometheus 只是兩個核心 agent；OMO 還有 Sisyphus、Hephaestus、Oracle、Librarian、Metis、Momus 等多個 agent / specialist。</li>
 </ul>
 <h3 id="學完應能回答">學完應能回答</h3>
 <ul>

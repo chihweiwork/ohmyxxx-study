@@ -38,11 +38,29 @@ user task
 
 ### 先讀
 
+Runtime 必讀：
+
 - `oh-my-openagent/src/agents/AGENTS.md`
 - `oh-my-openagent/src/tools/AGENTS.md`
 - `oh-my-openagent/src/hooks/AGENTS.md`
+
+核心 agent：
+
+- `oh-my-openagent/src/agents/atlas/AGENTS.md`
+- `oh-my-openagent/src/agents/prometheus/AGENTS.md`
+- `oh-my-openagent/src/agents/sisyphus/AGENTS.md`
+- `oh-my-openagent/src/agents/hephaestus/AGENTS.md`
+
+Prompt variants 延伸閱讀：
+
 - `oh-my-openagent/packages/prompts-core/prompts/atlas/default.md`
+- `oh-my-openagent/packages/prompts-core/prompts/atlas/gpt.md`
+- `oh-my-openagent/packages/prompts-core/prompts/atlas/gemini.md`
 - `oh-my-openagent/packages/prompts-core/prompts/prometheus/default.md`
+- `oh-my-openagent/packages/prompts-core/prompts/prometheus/gpt.md`
+- `oh-my-openagent/packages/prompts-core/prompts/prometheus/gemini.md`
+
+這裡的 `default`、`gpt`、`gemini` 是同一個 agent 的模型專用 prompt variants，不代表三個不同 agent。
 
 ### 讀檔提示
 
@@ -55,6 +73,7 @@ user task
 - OMO 的 agent 不是單純 Markdown 角色。很多 agent 會被 runtime tool 和 hook 包起來。
 - OMO 的 hooks 很多，不代表每個都同等重要。先看 context recovery、compaction、rules injector、fallback。
 - Atlas 和 Prometheus 都像 planner，但 Atlas 偏 orchestrator/router，Prometheus 偏 strategy/planning。
+- Atlas、Prometheus 只是兩個核心 agent；OMO 還有 Sisyphus、Hephaestus、Oracle、Librarian、Metis、Momus 等多個 agent / specialist。
 
 ### 學完應能回答
 

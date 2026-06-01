@@ -55,16 +55,24 @@
 - `oh-my-openagent/src/agents/AGENTS.md`
 - `oh-my-openagent/src/tools/AGENTS.md`
 - `oh-my-openagent/src/hooks/AGENTS.md`
+- `oh-my-openagent/packages/prompts-core/prompts/atlas/default.md`
+- `oh-my-openagent/packages/prompts-core/prompts/atlas/gpt.md`
+- `oh-my-openagent/packages/prompts-core/prompts/atlas/gemini.md`
+- `oh-my-openagent/packages/prompts-core/prompts/prometheus/default.md`
+- `oh-my-openagent/packages/prompts-core/prompts/prometheus/gpt.md`
+- `oh-my-openagent/packages/prompts-core/prompts/prometheus/gemini.md`
 
 預期產出：
 
 - 畫出 OMO 的任務流：task -> orchestrator -> specialist -> tool -> hook。
 - 列出三個最重要的 OMO tools 和 hooks。
+- 比較 Atlas / Prometheus 的 `default`、`gpt`、`gemini` prompt variants，標出哪些是 agent 責任不變、哪些是模型校準差異。
 
 自測：
 
 - OMO 的 agent、tool、hook 分別扮演什麼角色？
 - Atlas、Prometheus、Hephaestus 的分工是什麼？
+- `default`、`gpt`、`gemini` 為什麼不是三個不同 agent？
 - 哪些 hook 是為了解決長上下文或長任務？
 
 ## Step 3: 讀 OMC lifecycle

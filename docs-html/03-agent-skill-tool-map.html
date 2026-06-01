@@ -72,6 +72,18 @@
 <li>研究長任務：看 Hephaestus、Sisyphus、<code>background-task</code>。</li>
 <li>研究穩定性：看 context recovery、compaction injector、runtime fallback。</li>
 </ul>
+<p>Atlas / Prometheus prompt variants 不是新的 agent，而是同一 agent 針對不同模型家族的 prompt family：</p>
+<table>
+<thead><tr><th>Agent</th><th>Variant</th><th>來源</th><th>用途</th></tr></thead>
+<tbody>
+<tr><td>Atlas</td><td>default</td><td><a href="sources/oh_my_openagent_packages_prompts_core_prompts_atlas_default_md.html"><code>oh-my-openagent/packages/prompts-core/prompts/atlas/default.md</code></a></td><td>通用 Atlas orchestration prompt</td></tr>
+<tr><td>Atlas</td><td>gpt</td><td><a href="sources/oh_my_openagent_packages_prompts_core_prompts_atlas_gpt_md.html"><code>oh-my-openagent/packages/prompts-core/prompts/atlas/gpt.md</code></a></td><td>GPT 模型專用 Atlas prompt calibration</td></tr>
+<tr><td>Atlas</td><td>gemini</td><td><a href="sources/oh_my_openagent_packages_prompts_core_prompts_atlas_gemini_md.html"><code>oh-my-openagent/packages/prompts-core/prompts/atlas/gemini.md</code></a></td><td>Gemini 模型專用 Atlas prompt calibration</td></tr>
+<tr><td>Prometheus</td><td>default</td><td><a href="sources/oh_my_openagent_packages_prompts_core_prompts_prometheus_default_md.html"><code>oh-my-openagent/packages/prompts-core/prompts/prometheus/default.md</code></a></td><td>通用 Prometheus planning prompt</td></tr>
+<tr><td>Prometheus</td><td>gpt</td><td><a href="sources/oh_my_openagent_packages_prompts_core_prompts_prometheus_gpt_md.html"><code>oh-my-openagent/packages/prompts-core/prompts/prometheus/gpt.md</code></a></td><td>GPT 模型專用 Prometheus prompt calibration</td></tr>
+<tr><td>Prometheus</td><td>gemini</td><td><a href="sources/oh_my_openagent_packages_prompts_core_prompts_prometheus_gemini_md.html"><code>oh-my-openagent/packages/prompts-core/prompts/prometheus/gemini.md</code></a></td><td>Gemini 模型專用 Prometheus prompt calibration</td></tr>
+</tbody>
+</table>
 <h2 id="oh-my-claudecode-omc">oh-my-claudecode (OMC)</h2>
 <p>OMC 的項目應該按 workflow 讀。Command 是使用者入口，skill 定義流程，agent 提供 specialist 判斷，tool 支援資料與狀態操作。</p>
 <table>

@@ -475,18 +475,62 @@
   {
     "file": "oh-my-openagent/packages/prompts-core/prompts/atlas/default.md",
     "docs": [
-      "02-project-guides.md"
+      "02-project-guides.md",
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
     ],
     "exists": true,
     "lines": 501
   },
   {
+    "file": "oh-my-openagent/packages/prompts-core/prompts/atlas/gpt.md",
+    "docs": [
+      "02-project-guides.md",
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 458
+  },
+  {
+    "file": "oh-my-openagent/packages/prompts-core/prompts/atlas/gemini.md",
+    "docs": [
+      "02-project-guides.md",
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 523
+  },
+  {
     "file": "oh-my-openagent/packages/prompts-core/prompts/prometheus/default.md",
     "docs": [
-      "02-project-guides.md"
+      "02-project-guides.md",
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
     ],
     "exists": true,
     "lines": 1558
+  },
+  {
+    "file": "oh-my-openagent/packages/prompts-core/prompts/prometheus/gpt.md",
+    "docs": [
+      "02-project-guides.md",
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 508
+  },
+  {
+    "file": "oh-my-openagent/packages/prompts-core/prompts/prometheus/gemini.md",
+    "docs": [
+      "02-project-guides.md",
+      "03-agent-skill-tool-map.md",
+      "05-study-plan.md"
+    ],
+    "exists": true,
+    "lines": 372
   },
   {
     "file": "oh-my-openagent/src/agents/AGENTS.md",

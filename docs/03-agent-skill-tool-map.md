@@ -63,6 +63,17 @@ OMO 查表方式：
 - 研究長任務：看 Hephaestus、Sisyphus、`background-task`。
 - 研究穩定性：看 context recovery、compaction injector、runtime fallback。
 
+Atlas / Prometheus prompt variants 不是新的 agent，而是同一 agent 針對不同模型家族的 prompt family：
+
+| Agent | Variant | 來源 | 用途 |
+| --- | --- | --- | --- |
+| Atlas | default | `oh-my-openagent/packages/prompts-core/prompts/atlas/default.md` | 通用 Atlas orchestration prompt |
+| Atlas | gpt | `oh-my-openagent/packages/prompts-core/prompts/atlas/gpt.md` | GPT 模型專用 Atlas prompt calibration |
+| Atlas | gemini | `oh-my-openagent/packages/prompts-core/prompts/atlas/gemini.md` | Gemini 模型專用 Atlas prompt calibration |
+| Prometheus | default | `oh-my-openagent/packages/prompts-core/prompts/prometheus/default.md` | 通用 Prometheus planning prompt |
+| Prometheus | gpt | `oh-my-openagent/packages/prompts-core/prompts/prometheus/gpt.md` | GPT 模型專用 Prometheus prompt calibration |
+| Prometheus | gemini | `oh-my-openagent/packages/prompts-core/prompts/prometheus/gemini.md` | Gemini 模型專用 Prometheus prompt calibration |
+
 ## oh-my-claudecode (OMC)
 
 OMC 的項目應該按 workflow 讀。Command 是使用者入口，skill 定義流程，agent 提供 specialist 判斷，tool 支援資料與狀態操作。
