@@ -12,9 +12,14 @@ fs.mkdirSync(cacheDir, { recursive: true });
 const model = process.env.CODEX_TRANSLATE_MODEL || "gpt-5.4-mini";
 const only = process.env.TRANSLATE_ONLY || "";
 const limit = Number(process.env.TRANSLATE_LIMIT || "0");
+const cacheOnly = process.env.TRANSLATE_CACHE_ONLY === "1";
 
 function sourceName(p) {
   return p.replace(/[^a-zA-Z0-9]+/g, "_").replace(/^_+|_+$/g, "") + ".html";
+}
+
+function preservesOriginalTranslation(file) {
+  return /^oh-my-openagent\/packages\/prompts-core\/prompts\/(atlas|prometheus)\/(gemini|gpt)\.md$/.test(file);
 }
 
 function escapeHtml(s) {
@@ -82,6 +87,13 @@ function translateChunk(file, chunk, chunkIndex) {
   if (fs.existsSync(cachePath)) {
     return normalizePairs(JSON.parse(fs.readFileSync(cachePath, "utf8")), chunk);
   }
+  if (cacheOnly && preservesOriginalTranslation(file)) {
+    console.warn(`  using original text for untranslated prompt variant chunk ${chunkIndex + 1}`);
+    return chunk.map((original) => ({ original, zh_tw: original }));
+  }
+  if (cacheOnly) {
+    throw new Error(`Missing cached translation: ${path.relative(root, cachePath)}`);
+  }
 
   const prompt = buildPrompt(file, chunk);
 
@@ -135,6 +147,9 @@ function translateSingleBlock(file, block, chunkIndex, blockIndex) {
   const cachePath = path.join(cacheDir, `${sourceName(file)}.${chunkIndex}.${blockIndex}.json`);
   if (fs.existsSync(cachePath)) {
     return normalizePairs(JSON.parse(fs.readFileSync(cachePath, "utf8")), [block]);
+  }
+  if (cacheOnly) {
+    throw new Error(`Missing cached translation: ${path.relative(root, cachePath)}`);
   }
   const prompt = buildPrompt(file, [block]);
   const tmpOut = path.join("/tmp", `codex-translation-${process.pid}-${chunkIndex}-${blockIndex}.json`);
@@ -254,19 +269,21 @@ function tableAt(lines, index) {
 }
 
 function renderInlineMarkdown(text) {
-  return text
-    .split(/(`[^`]*`)/g)
-    .map((part) => {
-      if (part.startsWith("`") && part.endsWith("`")) {
-        return `<code>${escapeHtml(part.slice(1, -1))}</code>`;
-      }
-      return escapeHtml(part)
-        .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_match, label, href) => {
-          return `<a href="${escapeHtml(href)}">${label}</a>`;
-        })
-        .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  const codeTokens = [];
+  let rendered = escapeHtml(text).replace(/`([^`]+)`/g, (_match, code) => {
+    const token = `@@CODE${codeTokens.length}@@`;
+    codeTokens.push(`<code>${code}</code>`);
+    return token;
+  });
+
+  rendered = rendered
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_match, label, href) => {
+      return `<a href="${escapeHtml(href)}">${label}</a>`;
     })
-    .join("");
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/@@CODE(\d+)@@/g, (_match, index) => codeTokens[Number(index)]);
+
+  return rendered;
 }
 
 function renderMarkdownTable(table) {
@@ -287,31 +304,89 @@ function renderMarkdownTable(table) {
 }
 
 function renderMarkdownBlock(text) {
-  const lines = text.split("\n");
+  const trimmed = text.trim();
+  if (!trimmed) return "";
+
+  if (/^---\n[\s\S]*\n---$/.test(trimmed)) {
+    return `<pre><code>${escapeHtml(trimmed)}</code></pre>`;
+  }
+
+  const lines = trimmed.split("\n");
   const parts = [];
-  let plain = [];
   let index = 0;
 
-  const flushPlain = () => {
-    if (!plain.length) return;
-    parts.push(`<pre><code>${escapeHtml(plain.join("\n"))}</code></pre>`);
-    plain = [];
-  };
-
   while (index < lines.length) {
+    if (!lines[index].trim()) {
+      index += 1;
+      continue;
+    }
+
+    if (lines[index].startsWith("```")) {
+      const language = lines[index].slice(3).trim();
+      const codeLines = [];
+      index += 1;
+      while (index < lines.length && !lines[index].startsWith("```")) {
+        codeLines.push(lines[index]);
+        index += 1;
+      }
+      if (index < lines.length) index += 1;
+      const className = language ? ` class="language-${escapeHtml(language)}"` : "";
+      parts.push(`<pre><code${className}>${escapeHtml(codeLines.join("\n"))}</code></pre>`);
+      continue;
+    }
+
     const table = tableAt(lines, index);
     if (table) {
-      flushPlain();
       parts.push(renderMarkdownTable(table));
       index = table.nextIndex;
-    } else {
-      plain.push(lines[index]);
+      continue;
+    }
+
+    const heading = /^(#{1,6})\s+(.+)$/.exec(lines[index]);
+    if (heading) {
+      const level = heading[1].length;
+      parts.push(`<h${level}>${renderInlineMarkdown(heading[2])}</h${level}>`);
+      index += 1;
+      continue;
+    }
+
+    if (/^\s*[-*+]\s+/.test(lines[index])) {
+      const items = [];
+      while (index < lines.length && /^\s*[-*+]\s+/.test(lines[index])) {
+        items.push(`<li>${renderInlineMarkdown(lines[index].replace(/^\s*[-*+]\s+/, ""))}</li>`);
+        index += 1;
+      }
+      parts.push(`<ul>${items.join("")}</ul>`);
+      continue;
+    }
+
+    if (/^\s*\d+[.)]\s+/.test(lines[index])) {
+      const items = [];
+      while (index < lines.length && /^\s*\d+[.)]\s+/.test(lines[index])) {
+        items.push(`<li>${renderInlineMarkdown(lines[index].replace(/^\s*\d+[.)]\s+/, ""))}</li>`);
+        index += 1;
+      }
+      parts.push(`<ol>${items.join("")}</ol>`);
+      continue;
+    }
+
+    const paragraph = [];
+    while (
+      index < lines.length &&
+      lines[index].trim() &&
+      !lines[index].startsWith("```") &&
+      !tableAt(lines, index) &&
+      !/^(#{1,6})\s+/.test(lines[index]) &&
+      !/^\s*[-*+]\s+/.test(lines[index]) &&
+      !/^\s*\d+[.)]\s+/.test(lines[index])
+    ) {
+      paragraph.push(lines[index].trim());
       index += 1;
     }
+    parts.push(`<p>${renderInlineMarkdown(paragraph.join(" "))}</p>`);
   }
-  flushPlain();
 
-  return parts.join("");
+  return parts.join("\n");
 }
 
 function htmlPage(title, body) {
@@ -321,7 +396,7 @@ function htmlPage(title, body) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escapeHtml(title)}</title>
-<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{width:100%;box-sizing:border-box;margin:0;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0;border-radius:4px;padding:.1em .3em}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{width:100%;box-sizing:border-box;margin:0;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.path{word-break:break-all}.source-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start;margin-top:24px}.source-column{min-width:0}.column-header{position:sticky;top:0;z-index:2;margin:0 0 14px;padding:10px 0;background:rgba(255,255,255,.96);border-bottom:1px solid #e5e7eb;font-size:.8rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:.04em}.sync-block{position:relative;margin:0 0 18px;padding-left:42px}.block-anchor{position:absolute;left:0;top:.45rem;color:#94a3b8;font-size:.72rem;line-height:1;text-decoration:none;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.block-anchor:hover{color:#075985;text-decoration:underline}.sync-block>*:not(.block-anchor):first-child{margin-top:0}.sync-block>*:last-child{margin-bottom:0}p{margin:0 0 1rem}ul,ol{margin:.4rem 0 1rem;padding-left:1.4rem}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background:#f1f5f9;border-radius:4px;padding:.1em .3em}pre code{background:transparent;border-radius:0;padding:0;color:inherit}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0}@media (max-width:760px){main{padding:28px 16px 64px}.source-columns{display:block}.source-column+.source-column{margin-top:36px}.column-header{top:0}.sync-block{padding-left:38px}}</style>
 </head>
 <body>
 <main>
@@ -334,15 +409,22 @@ ${body}
 }
 
 function renderTranslatedSource(item, pairs) {
+  const renderColumn = (kind, label, field) => {
+    const blocks = pairs
+      .map((pair, index) => {
+        const blockNumber = String(index + 1).padStart(3, "0");
+        const id = `${kind}-b${blockNumber}`;
+        return `<section class="sync-block" id="${id}"><a class="block-anchor" href="#${id}" aria-label="${id}">b${blockNumber}</a>${renderMarkdownBlock(pair[field])}</section>`;
+      })
+      .join("\n");
+    return `<article class="source-column"><h2 class="column-header">${label}</h2>${blocks}</article>`;
+  };
+
   const body =
     `<h1 class="path">${escapeHtml(item.file)}</h1>` +
     `<p>被引用於：${item.docs.map((d) => `<code>${escapeHtml(d)}</code>`).join("、")}</p>` +
     `<p><a href="../../${escapeHtml(item.file)}">原始檔案路徑</a></p>` +
-    pairs
-      .map((pair) => {
-        return `<section class="source-card"><div class="source-original"><div class="label">Original</div>${renderMarkdownBlock(pair.original)}</div><div class="source-translation"><div class="label">中文翻譯</div>${renderMarkdownBlock(pair.zh_tw)}</div></section>`;
-      })
-      .join("\n");
+    `<section class="source-columns">${renderColumn("orig", "Original", "original")}\n${renderColumn("zh", "中文翻譯", "zh_tw")}</section>`;
   fs.writeFileSync(path.join(outDir, sourceName(item.file)), htmlPage(item.file, body));
 }
 
@@ -351,7 +433,7 @@ if (only) selected = selected.filter((item) => item.file === only);
 if (limit > 0) selected = selected.slice(0, limit);
 
 for (const item of selected) {
-  console.log(`Translating ${item.file}`);
+  console.log(`${cacheOnly ? "Rendering" : "Translating"} ${item.file}`);
   const text = fs.readFileSync(path.join(root, item.file), "utf8");
   const blocks = splitBlocks(text);
   const chunks = chunkBlocks(blocks);

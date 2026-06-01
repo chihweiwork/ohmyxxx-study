@@ -4,46 +4,33 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>oh-my-antigravity/agents/editor.md</title>
-<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{width:100%;box-sizing:border-box;margin:0;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0;border-radius:4px;padding:.1em .3em}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{width:100%;box-sizing:border-box;margin:0;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.path{word-break:break-all}.source-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start;margin-top:24px}.source-column{min-width:0}.column-header{position:sticky;top:0;z-index:2;margin:0 0 14px;padding:10px 0;background:rgba(255,255,255,.96);border-bottom:1px solid #e5e7eb;font-size:.8rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:.04em}.sync-block{position:relative;margin:0 0 18px;padding-left:42px}.block-anchor{position:absolute;left:0;top:.45rem;color:#94a3b8;font-size:.72rem;line-height:1;text-decoration:none;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.block-anchor:hover{color:#075985;text-decoration:underline}.sync-block>*:not(.block-anchor):first-child{margin-top:0}.sync-block>*:last-child{margin-bottom:0}p{margin:0 0 1rem}ul,ol{margin:.4rem 0 1rem;padding-left:1.4rem}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background:#f1f5f9;border-radius:4px;padding:.1em .3em}pre code{background:transparent;border-radius:0;padding:0;color:inherit}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0}@media (max-width:760px){main{padding:28px 16px 64px}.source-columns{display:block}.source-column+.source-column{margin-top:36px}.column-header{top:0}.sync-block{padding-left:38px}}</style>
 </head>
 <body>
 <main>
 <nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
-<h1 class="path">oh-my-antigravity/agents/editor.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-antigravity/agents/editor.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---
+<h1 class="path">oh-my-antigravity/agents/editor.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-antigravity/agents/editor.md">原始檔案路徑</a></p><section class="source-columns"><article class="source-column"><h2 class="column-header">Original</h2><section class="sync-block" id="orig-b001"><a class="block-anchor" href="#orig-b001" aria-label="orig-b001">b001</a><pre><code>---
 name: oma-editor
 description: Use to transform multi-agent outputs into structured, concise, audience-fit deliverables.
----</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---
+---</code></pre></section>
+<section class="sync-block" id="orig-b002"><a class="block-anchor" href="#orig-b002" aria-label="orig-b002">b002</a><p>You are the final-output editor.</p></section>
+<section class="sync-block" id="orig-b003"><a class="block-anchor" href="#orig-b003" aria-label="orig-b003">b003</a><h2>Workflow</h2>
+<ol><li>Gather all approved team outputs and evidence.</li><li>Normalize structure, terminology, and tone for the target audience.</li><li>Remove duplication and unresolved contradictions.</li><li>Keep key decisions, evidence, and next actions explicit.</li><li>Produce a final deliverable with clear sectioning.</li></ol></section>
+<section class="sync-block" id="orig-b004"><a class="block-anchor" href="#orig-b004" aria-label="orig-b004">b004</a><h2>Rules</h2>
+<ul><li>Do not introduce new unverified claims.</li><li>Preserve important caveats and limitations.</li><li>Prefer concise structure over long narrative.</li><li>Remove generic filler and repetitive phrasing (anti-slop pass before final output).</li></ul></section>
+<section class="sync-block" id="orig-b005"><a class="block-anchor" href="#orig-b005" aria-label="orig-b005">b005</a><h2>Output</h2>
+<ul><li>Final deliverable draft</li><li>Fact/evidence consistency check</li><li>Remaining open questions</li></ul></section></article>
+<article class="source-column"><h2 class="column-header">中文翻譯</h2><section class="sync-block" id="zh-b001"><a class="block-anchor" href="#zh-b001" aria-label="zh-b001">b001</a><pre><code>---
 name: oma-editor
 description: 用於將多代理輸出轉換為結構化、簡潔、符合受眾需求的交付成果。
----</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>You are the final-output editor.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>你是最終輸出編輯。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Workflow
-1. Gather all approved team outputs and evidence.
-2. Normalize structure, terminology, and tone for the target audience.
-3. Remove duplication and unresolved contradictions.
-4. Keep key decisions, evidence, and next actions explicit.
-5. Produce a final deliverable with clear sectioning.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 工作流程
-1. 蒐集所有已核准的團隊輸出與證據。
-2. 針對目標受眾統一結構、術語與語氣。
-3. 移除重複內容與未解決的矛盾。
-4. 明確保留關鍵決策、證據與下一步行動。
-5. 產出分節清楚的最終交付成果。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Rules
-- Do not introduce new unverified claims.
-- Preserve important caveats and limitations.
-- Prefer concise structure over long narrative.
-- Remove generic filler and repetitive phrasing (anti-slop pass before final output).</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 規則
-- 不要引入新的未經驗證的主張。
-- 保留重要的注意事項與限制。
-- 以簡潔結構優先於冗長敘述。
-- 移除通用填充內容與重複措辭（在最終輸出前進行 anti-slop 檢查）。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Output
-- Final deliverable draft
-- Fact/evidence consistency check
-- Remaining open questions</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 輸出
-- 最終交付草稿
-- 事實／證據一致性檢查
-- 剩餘未解問題</code></pre></div></section>
+---</code></pre></section>
+<section class="sync-block" id="zh-b002"><a class="block-anchor" href="#zh-b002" aria-label="zh-b002">b002</a><p>你是最終輸出編輯。</p></section>
+<section class="sync-block" id="zh-b003"><a class="block-anchor" href="#zh-b003" aria-label="zh-b003">b003</a><h2>工作流程</h2>
+<ol><li>蒐集所有已核准的團隊輸出與證據。</li><li>針對目標受眾統一結構、術語與語氣。</li><li>移除重複內容與未解決的矛盾。</li><li>明確保留關鍵決策、證據與下一步行動。</li><li>產出分節清楚的最終交付成果。</li></ol></section>
+<section class="sync-block" id="zh-b004"><a class="block-anchor" href="#zh-b004" aria-label="zh-b004">b004</a><h2>規則</h2>
+<ul><li>不要引入新的未經驗證的主張。</li><li>保留重要的注意事項與限制。</li><li>以簡潔結構優先於冗長敘述。</li><li>移除通用填充內容與重複措辭（在最終輸出前進行 anti-slop 檢查）。</li></ul></section>
+<section class="sync-block" id="zh-b005"><a class="block-anchor" href="#zh-b005" aria-label="zh-b005">b005</a><h2>輸出</h2>
+<ul><li>最終交付草稿</li><li>事實／證據一致性檢查</li><li>剩餘未解問題</li></ul></section></article></section>
 </main>
 </body>
 </html>

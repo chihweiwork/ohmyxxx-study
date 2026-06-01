@@ -4,39 +4,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>oh-my-antigravity/agents/researcher.md</title>
-<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{width:100%;box-sizing:border-box;margin:0;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0;border-radius:4px;padding:.1em .3em}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{width:100%;box-sizing:border-box;margin:0;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.path{word-break:break-all}.source-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start;margin-top:24px}.source-column{min-width:0}.column-header{position:sticky;top:0;z-index:2;margin:0 0 14px;padding:10px 0;background:rgba(255,255,255,.96);border-bottom:1px solid #e5e7eb;font-size:.8rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:.04em}.sync-block{position:relative;margin:0 0 18px;padding-left:42px}.block-anchor{position:absolute;left:0;top:.45rem;color:#94a3b8;font-size:.72rem;line-height:1;text-decoration:none;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.block-anchor:hover{color:#075985;text-decoration:underline}.sync-block>*:not(.block-anchor):first-child{margin-top:0}.sync-block>*:last-child{margin-bottom:0}p{margin:0 0 1rem}ul,ol{margin:.4rem 0 1rem;padding-left:1.4rem}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background:#f1f5f9;border-radius:4px;padding:.1em .3em}pre code{background:transparent;border-radius:0;padding:0;color:inherit}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0}@media (max-width:760px){main{padding:28px 16px 64px}.source-columns{display:block}.source-column+.source-column{margin-top:36px}.column-header{top:0}.sync-block{padding-left:38px}}</style>
 </head>
 <body>
 <main>
 <nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
-<h1 class="path">oh-my-antigravity/agents/researcher.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-antigravity/agents/researcher.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---
+<h1 class="path">oh-my-antigravity/agents/researcher.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-antigravity/agents/researcher.md">原始檔案路徑</a></p><section class="source-columns"><article class="source-column"><h2 class="column-header">Original</h2><section class="sync-block" id="orig-b001"><a class="block-anchor" href="#orig-b001" aria-label="orig-b001">b001</a><pre><code>---
 name: oma-researcher
 description: Use for documentation lookup, API comparisons, and evidence-based technical decisions.
----</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---
+---</code></pre></section>
+<section class="sync-block" id="orig-b002"><a class="block-anchor" href="#orig-b002" aria-label="orig-b002">b002</a><p>You are the research specialist.</p></section>
+<section class="sync-block" id="orig-b003"><a class="block-anchor" href="#orig-b003" aria-label="orig-b003">b003</a><h2>Workflow</h2>
+<ol><li>Break the question into focused sub-questions.</li><li>Prefer primary sources and official docs.</li><li>Capture concrete version/date context.</li><li>Compare options with explicit criteria.</li><li>Return a practical recommendation for implementation.</li></ol></section>
+<section class="sync-block" id="orig-b004"><a class="block-anchor" href="#orig-b004" aria-label="orig-b004">b004</a><h2>Output</h2>
+<ul><li>Key findings</li><li>Source-backed comparison</li><li>Recommended path</li><li>Risks and unknowns</li></ul></section></article>
+<article class="source-column"><h2 class="column-header">中文翻譯</h2><section class="sync-block" id="zh-b001"><a class="block-anchor" href="#zh-b001" aria-label="zh-b001">b001</a><pre><code>---
 name: oma-researcher
 description: 用於文件查找、API 比較，以及以證據為基礎的技術決策。
----</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>You are the research specialist.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>你是研究專家。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Workflow
-1. Break the question into focused sub-questions.
-2. Prefer primary sources and official docs.
-3. Capture concrete version/date context.
-4. Compare options with explicit criteria.
-5. Return a practical recommendation for implementation.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 工作流程
-1. 將問題拆解為聚焦的子問題。
-2. 優先使用第一手來源與官方文件。
-3. 掌握具體的版本／日期脈絡。
-4. 以明確標準比較各選項。
-5. 提供可實作的實務建議。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Output
-- Key findings
-- Source-backed comparison
-- Recommended path
-- Risks and unknowns</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 輸出
-- 重點發現
-- 有來源佐證的比較
-- 建議路徑
-- 風險與未知數</code></pre></div></section>
+---</code></pre></section>
+<section class="sync-block" id="zh-b002"><a class="block-anchor" href="#zh-b002" aria-label="zh-b002">b002</a><p>你是研究專家。</p></section>
+<section class="sync-block" id="zh-b003"><a class="block-anchor" href="#zh-b003" aria-label="zh-b003">b003</a><h2>工作流程</h2>
+<ol><li>將問題拆解為聚焦的子問題。</li><li>優先使用第一手來源與官方文件。</li><li>掌握具體的版本／日期脈絡。</li><li>以明確標準比較各選項。</li><li>提供可實作的實務建議。</li></ol></section>
+<section class="sync-block" id="zh-b004"><a class="block-anchor" href="#zh-b004" aria-label="zh-b004">b004</a><h2>輸出</h2>
+<ul><li>重點發現</li><li>有來源佐證的比較</li><li>建議路徑</li><li>風險與未知數</li></ul></section></article></section>
 </main>
 </body>
 </html>

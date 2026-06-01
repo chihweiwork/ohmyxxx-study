@@ -4,399 +4,115 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>oh-my-codex/plugins/oh-my-codex/skills/ralph/SKILL.md</title>
-<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{width:100%;box-sizing:border-box;margin:0;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0;border-radius:4px;padding:.1em .3em}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{width:100%;box-sizing:border-box;margin:0;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.path{word-break:break-all}.source-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start;margin-top:24px}.source-column{min-width:0}.column-header{position:sticky;top:0;z-index:2;margin:0 0 14px;padding:10px 0;background:rgba(255,255,255,.96);border-bottom:1px solid #e5e7eb;font-size:.8rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:.04em}.sync-block{position:relative;margin:0 0 18px;padding-left:42px}.block-anchor{position:absolute;left:0;top:.45rem;color:#94a3b8;font-size:.72rem;line-height:1;text-decoration:none;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.block-anchor:hover{color:#075985;text-decoration:underline}.sync-block>*:not(.block-anchor):first-child{margin-top:0}.sync-block>*:last-child{margin-bottom:0}p{margin:0 0 1rem}ul,ol{margin:.4rem 0 1rem;padding-left:1.4rem}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background:#f1f5f9;border-radius:4px;padding:.1em .3em}pre code{background:transparent;border-radius:0;padding:0;color:inherit}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0}@media (max-width:760px){main{padding:28px 16px 64px}.source-columns{display:block}.source-column+.source-column{margin-top:36px}.column-header{top:0}.sync-block{padding-left:38px}}</style>
 </head>
 <body>
 <main>
 <nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
-<h1 class="path">oh-my-codex/plugins/oh-my-codex/skills/ralph/SKILL.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-codex/plugins/oh-my-codex/skills/ralph/SKILL.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---
+<h1 class="path">oh-my-codex/plugins/oh-my-codex/skills/ralph/SKILL.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-codex/plugins/oh-my-codex/skills/ralph/SKILL.md">原始檔案路徑</a></p><section class="source-columns"><article class="source-column"><h2 class="column-header">Original</h2><section class="sync-block" id="orig-b001"><a class="block-anchor" href="#orig-b001" aria-label="orig-b001">b001</a><pre><code>---
 name: ralph
 description: Self-referential loop until task completion with architect verification
----</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---
-name: ralph
-description: 透過架構師驗證，持續自我參照迴圈直到任務完成
----</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>[RALPH + ULTRAWORK - ITERATION {{ITERATION}}/{{MAX}}]</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>[RALPH + ULTRAWORK - 第 {{ITERATION}}/{{MAX}} 次迭代]</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Your previous attempt did not output the completion promise. Continue working on the task.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>你先前的嘗試沒有輸出完成承諾。請繼續處理這個任務。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Purpose&gt;
-Ralph is a persistence loop that keeps working on a task until it is fully complete and architect-verified. It wraps ultrawork's parallel execution with session persistence, automatic retry on failure, and mandatory verification before completion.
-&lt;/Purpose&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Purpose&gt;
-Ralph 是一個持續性迴圈，會持續處理任務，直到任務完全完成並通過架構師驗證。它將 ultrawork 的平行執行包裝起來，結合工作階段持續、失敗時自動重試，以及在完成前的強制驗證。
-&lt;/Purpose&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Use_When&gt;
-- Task requires guaranteed completion with verification (not just &quot;do your best&quot;)
-- User says &quot;ralph&quot;, &quot;don't stop&quot;, &quot;must complete&quot;, &quot;finish this&quot;, or &quot;keep going until done&quot;
-- Work may span multiple iterations and needs persistence across retries
-- Task benefits from parallel execution with architect sign-off at the end
-&lt;/Use_When&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Use_When&gt;
-- 任務需要保證完成並經過驗證（不只是「盡力而為」）
-- 使用者說「ralph」、「不要停」、「必須完成」、「把這個完成」，或「一直做到結束」
-- 工作可能跨越多次迭代，且需要在重試之間保持持續性
-- 任務可受益於平行執行，並在最後取得架構師核准
-&lt;/Use_When&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Do_Not_Use_When&gt;
-- User wants a full autonomous pipeline from idea to code -- use `autopilot` instead
-- User wants to explore or plan before committing -- use `plan` skill instead
-- User wants a quick one-shot fix -- delegate directly to an executor agent
-- User wants manual control over completion -- use `ultrawork` directly
-&lt;/Do_Not_Use_When&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Do_Not_Use_When&gt;
-- 使用者想要從構想到程式碼的完整自主流程 -- 請改用 `autopilot`
-- 使用者想在提交前先探索或規劃 -- 請改用 `plan` skill
-- 使用者想要快速的一次性修復 -- 直接委派給執行代理
-- 使用者想手動控制完成流程 -- 直接使用 `ultrawork`
-&lt;/Do_Not_Use_When&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Why_This_Exists&gt;
-Complex tasks often fail silently: partial implementations get declared &quot;done&quot;, tests get skipped, edge cases get forgotten. Ralph prevents this by looping until work is genuinely complete, requiring fresh verification evidence before allowing completion, and using tiered architect review to confirm quality.
-&lt;/Why_This_Exists&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Why_This_Exists&gt;
-複雜任務常常會悄悄失敗：部分實作被宣稱為「完成」，測試被跳過，邊界情況被遺忘。Ralph 透過持續迴圈直到工作真正完成、在允許完成前要求新的驗證證據，以及使用分層的架構師審查來確認品質，來防止這種情況。
-&lt;/Why_This_Exists&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Execution_Policy&gt;
-- Fire independent agent calls simultaneously -- never wait sequentially for independent work
-- Use `run_in_background: true` for long operations (installs, builds, test suites)
-- Always pass the `model` parameter explicitly when delegating to agents
-- Read `docs/shared/agent-tiers.md` before first delegation to select correct agent tiers
-- Deliver the full implementation: no scope reduction, no partial completion, no deleting tests to make them pass
-- Apply the shared workflow guidance pattern: outcome-first framing, concise visible updates for multi-step execution, local overrides for the active workflow branch, validation proportional to risk, explicit stop rules, and automatic continuation for safe reversible steps. Ask only for material, destructive, credentialed, external-production, or preference-dependent branches.
-- Integrate with Codex goal mode when goal tools are available: inspect the active thread goal with `get_goal`, preserve it as the top-level stop condition, and only call `update_goal({status: &quot;complete&quot;})` after a Ralph completion audit proves the objective is actually achieved.
-&lt;/Execution_Policy&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Execution_Policy&gt;
-- 同時發出獨立的代理呼叫 -- 絕不要為彼此獨立的工作依序等待
-- 對長時間操作（安裝、建置、測試套件）使用 `run_in_background: true`
-- 在委派給代理時，務必明確傳入 `model` 參數
-- 在第一次委派前先閱讀 `docs/shared/agent-tiers.md`，以選擇正確的代理層級
-- 交付完整實作：不要縮減範圍、不要只完成部分、不要為了讓測試通過而刪除測試
-- 套用共享工作流程指引模式：以成果為先的框架、針對多步驟執行提供簡潔且可見的更新、對目前工作流程分支套用本地覆寫、與風險相稱的驗證、明確的停止規則，以及對安全且可回復步驟的自動續行。只有在涉及重大、破壞性、需憑證、外部正式環境，或取決於偏好的分支時才詢問。
-- 當可用目標工具時，整合 Codex 目標模式：使用 `get_goal` 檢查目前執行緒的目標，將其保留為最上層停止條件，並且只有在 Ralph 完成審核證明目標確實達成之後，才呼叫 `update_goal({status: &quot;complete&quot;})`。
-&lt;/Execution_Policy&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Steps&gt;
-0. **Pre-context intake (required before planning/execution loop starts)**:
-   - Assemble or load a context snapshot at `.omx/context/{task-slug}-{timestamp}.md` (UTC `YYYYMMDDTHHMMSSZ`).
-   - Minimum snapshot fields:
-     - task statement
-     - desired outcome
-     - known facts/evidence
-     - constraints
-     - unknowns/open questions
-     - likely codebase touchpoints
-   - If an existing relevant snapshot is available, reuse it and record the path in Ralph state.
-   - If request ambiguity is high, gather brownfield facts first. `omx explore` is deprecated; use normal repository inspection tools/subagents for simple read-only repository lookups and `omx sparkshell` only for explicit shell-native read-only evidence. Then run `$deep-interview --quick &lt;task&gt;` to close critical gaps.
-   - Do not begin Ralph execution work (delegation, implementation, or verification loops) until snapshot grounding exists. If forced to proceed quickly, note explicit risk tradeoffs.
-1. **Review progress**: Check TODO list and any prior iteration state
-2. **Continue from where you left off**: Pick up incomplete tasks
-3. **Delegate in parallel**: Route tasks to specialist agents at appropriate tiers
-   - Simple lookups: LOW tier -- &quot;What does this function return?&quot;
-   - Standard work: STANDARD tier -- &quot;Add error handling to this module&quot;
-   - Complex analysis: THOROUGH tier -- &quot;Debug this race condition&quot;
-   - When Ralph is entered as a ralplan follow-up, start from the approved **available-agent-types roster** and make the delegation plan explicit: implementation lane, evidence/regression lane, and final sign-off lane using only known agent types
-4. **Run long operations in background**: Builds, installs, test suites use `run_in_background: true`
-5. **Visual task gate (when screenshot/reference images are present)**:
-   - Run the Visual Ralph verdict step **before every next edit**.
-   - Require structured JSON output: `score`, `verdict`, `category_match`, `differences[]`, `suggestions[]`, `reasoning`.
-   - Persist verdict to `.omx/state/{scope}/ralph-progress.json` including numeric + qualitative feedback.
-   - Default pass threshold: `score &gt;= 90`.
-   - **URL-based visual cloning tasks**: When the task description contains a target URL (e.g., &quot;clone https://example.com&quot;), route the work through `$visual-ralph`. `$web-clone` is hard-deprecated; Visual Ralph owns the migrated live-URL visual implementation use case and uses its built-in visual verdict step for measured visual scoring.
-6. **Verify completion with fresh evidence**:
-   - If Codex goal mode is available, call `get_goal` before final verification to restate the active objective and include it in the evidence checklist.
-   a. Identify what command proves the task is complete
-   b. Run verification (test, build, lint)
-   c. Read the output -- confirm it actually passed
-   d. Check: zero pending/in_progress TODO items
-7. **Architect verification** (tiered):
-   - &lt;5 files, &lt;100 lines with full tests: STANDARD tier minimum (architect role)
-   - Standard changes: STANDARD tier (architect role)
-   - &gt;20 files or security/architectural changes: THOROUGH tier (architect role)
-   - Ralph floor: always at least STANDARD, even for small changes
-7.5 **Mandatory Deslop Pass**:
-   - After Step 7 passes, run `oh-my-codex:ai-slop-cleaner` on **all files changed during the Ralph session**.
-   - Scope the cleaner to **changed files only**; do not widen the pass beyond Ralph-owned edits.
-   - Run the cleaner in **standard mode** (not `--review`).
-   - If the prompt contains `--no-deslop`, skip Step 7.5 entirely and proceed with the most recent successful verification evidence.
-7.6 **Regression Re-verification**:
-   - After the deslop pass, re-run all tests/build/lint and read the output to confirm they still pass.
-   - If post-deslop regression fails, roll back cleaner changes or fix and retry. Then rerun Step 7.5 and Step 7.6 until the regression is green.
-   - Do not proceed to completion until post-deslop regression is green (unless `--no-deslop` explicitly skipped the deslop pass).
-8. **On approval**: If Codex goal mode is active, call `update_goal({status: &quot;complete&quot;})` before `/cancel`; report final elapsed time and token-budget usage when the tool returns it. Then run `/cancel` to cleanly exit and clean up all state files.
-9. **On rejection**: Fix the issues raised, then re-verify at the same tier
-&lt;/Steps&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Steps&gt;
-0. **前置脈絡收集（在規劃／執行迴圈開始前必須完成）**：
-   - 在 `.omx/context/{task-slug}-{timestamp}.md`（UTC `YYYYMMDDTHHMMSSZ`）建立或載入一份脈絡快照。
-   - 快照至少應包含：
-     - 任務敘述
-     - 期望結果
-     - 已知事實／證據
-     - 限制條件
-     - 未知項／開放問題
-     - 可能涉及的程式碼庫接觸點
-   - 如果已有現成且相關的快照可用，請重用它，並將路徑記錄到 Ralph 狀態中。
-   - 如果需求歧義很高，請先蒐集 brownfield 事實。`omx explore` 已棄用；對於簡單的唯讀程式碼庫查詢，請使用一般的儲存庫檢視工具／子代理，而 `omx sparkshell` 只用於明確的 shell 原生唯讀證據。接著執行 `$deep-interview --quick &lt;task&gt;` 以補齊關鍵缺口。
-   - 在有快照作為依據之前，不要開始 Ralph 的執行工作（委派、實作或驗證迴圈）。如果必須快速推進，請明確記錄風險取捨。
-1. **檢視進度**：檢查 TODO 清單與任何前一輪的狀態
-2. **從上次中斷處繼續**：接手未完成的任務
-3. **平行委派**：將任務路由給適當層級的專門代理
-   - 簡單查詢：LOW tier -- &quot;這個函式回傳什麼？&quot;
-   - 標準工作：STANDARD tier -- &quot;替這個模組加入錯誤處理&quot;
-   - 複雜分析：THOROUGH tier -- &quot;除錯這個競態條件&quot;
-   - 當 Ralph 以 ralplan 後續步驟進入時，請從已核准的 **available-agent-types roster** 開始，並明確化委派計畫：實作通道、證據／回歸通道，以及最終簽核通道，且只使用已知的代理類型
-4. **將長時間操作放到背景執行**：建置、安裝、測試套件使用 `run_in_background: true`
-5. **視覺任務閘門（當有截圖／參考圖片時）**：
-   - 在**每一次下一個編輯之前**都執行 Visual Ralph verdict 步驟。
-   - 要求結構化 JSON 輸出：`score`、`verdict`、`category_match`、`differences[]`、`suggestions[]`、`reasoning`。
-   - 將 verdict 持久化到 `.omx/state/{scope}/ralph-progress.json`，包含數值與定性回饋。
-   - 預設通過門檻：`score &gt;= 90`。
-   - **基於 URL 的視覺克隆任務**：當任務描述包含目標 URL（例如 `clone https://example.com`）時，請將工作路由到 `$visual-ralph`。`$web-clone` 已被硬性棄用；Visual Ralph 負責遷移後的 live-URL 視覺實作用例，並使用其內建的視覺 verdict 步驟進行量化的視覺評分。
-6. **以新證據驗證完成狀態**：
-   - 如果 Codex goal mode 可用，在最終驗證前呼叫 `get_goal`，重新陳述目前目標，並將其納入證據清單。
-   a. 確認哪個命令可以證明任務已完成
-   b. 執行驗證（test、build、lint）
-   c. 閱讀輸出，確認它確實通過
-   d. 檢查：沒有任何 pending/in_progress 的 TODO 項目
-7. **架構驗證**（分層）：
-   - &lt;5 個檔案、&lt;100 行且有完整測試：至少使用 STANDARD tier（architect role）
-   - 標準變更：STANDARD tier（architect role）
-   - &gt;20 個檔案或安全性／架構變更：THOROUGH tier（architect role）
-   - Ralph 下限：即使是小變更，也一律至少 STANDARD
-7.5 **強制 Deslop Pass**：
-   - 在 Step 7 通過後，對 **Ralph 期間所有變更過的檔案** 執行 `oh-my-codex:ai-slop-cleaner`。
-   - cleaner 的範圍只限於 **已變更檔案**；不要將範圍擴大到 Ralph 擁有的編輯之外。
-   - 以 **標準模式** 執行 cleaner（不要加 `--review`）。
-   - 如果提示詞包含 `--no-deslop`，則完全跳過 Step 7.5，並以最近一次成功的驗證證據繼續。
-7.6 **回歸重新驗證**：
-   - 在 deslop pass 之後，重新執行所有 tests/build/lint，並閱讀輸出以確認它們仍然通過。
-   - 如果 deslop 後回歸失敗，請回滾 cleaner 的變更或修正後重試。接著重新執行 Step 7.5 與 Step 7.6，直到回歸為綠燈。
-   - 在 deslop pass 之後的回歸驗證變綠之前，不要進入完成狀態（除非 `--no-deslop` 明確略過 deslop pass）。
-8. **核准時**：如果 Codex goal mode 已啟用，請在 `/cancel` 前呼叫 `update_goal({status: &quot;complete&quot;})`；當工具回傳時，回報最終經過時間與 token 預算用量。然後執行 `/cancel` 以乾淨地退出並清理所有狀態檔。
-9. **被拒絕時**：修正提出的問題，然後以相同層級重新驗證
-&lt;/Steps&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Tool_Usage&gt;
-- Use `ask_codex` with `agent_role: &quot;architect&quot;` for verification cross-checks when changes are security-sensitive, architectural, or involve complex multi-system integration
-- Skip Codex consultation for simple feature additions, well-tested changes, or time-critical verification
-- If MCP compatibility tools are unavailable, proceed with CLI/agent verification alone -- never block on external tools
-- Use `omx state write/read --input '&lt;json&gt;' --json` for ralph mode state persistence between iterations
-- Use Codex goal tools when present: `get_goal` to discover or re-check the active objective, `create_goal` only when the user/system explicitly requested a new goal and no active goal exists, and `update_goal` only after the audited objective is fully achieved.
-- Persist context snapshot path in Ralph mode state so later phases and agents share the same grounding context
-- Prefer CLI state commands. If an explicit MCP compatibility `omx_state` call reports that its stdio transport is unavailable/closed, do **not** retry the same MCP call. Retry once through the supported CLI parity surface with the same payload, preserving `workingDirectory` and `session_id`: `omx state write --input '&lt;json&gt;' --json`, `omx state read --input '&lt;json&gt;' --json`, or `omx state clear --input '&lt;json&gt;' --json`. If the CLI path also fails, continue with `.omx/context` / `.omx/plans` file-backed artifacts and report the state persistence blocker.
-&lt;/Tool_Usage&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Tool_Usage&gt;
-- 當變更涉及安全敏感、架構性內容，或牽涉複雜的多系統整合時，使用帶有 `agent_role: &quot;architect&quot;` 的 `ask_codex` 進行驗證交叉檢查
-- 對於簡單的功能新增、已充分測試的變更，或時間敏感的驗證，略過 Codex 諮詢
-- 如果 MCP 相容性工具不可用，僅以 CLI／代理驗證繼續 -- 絕不要因外部工具而卡住
-- 在 ralph mode 的迭代之間，使用 `omx state write/read --input '&lt;json&gt;' --json` 來持久化狀態
-- 在有可用的 Codex goal 工具時使用它們：用 `get_goal` 來發現或重新確認目前目標，只有在使用者／系統明確要求建立新目標且目前沒有 active goal 時才使用 `create_goal`，而 `update_goal` 只在審核過的目標完全達成後才使用。
-- 在 Ralph mode 狀態中持久化脈絡快照路徑，以便後續階段與代理共享相同的依據脈絡
-- 優先使用 CLI 狀態命令。如果明確的 MCP 相容 `omx_state` 呼叫回報其 stdio transport 無法使用／已關閉，請**不要**重試相同的 MCP 呼叫。請改用受支援的 CLI 對等介面，以相同 payload 再試一次，並保留 `workingDirectory` 與 `session_id`：`omx state write --input '&lt;json&gt;' --json`、`omx state read --input '&lt;json&gt;' --json`，或 `omx state clear --input '&lt;json&gt;' --json`。如果 CLI 路徑也失敗，則繼續使用 `.omx/context`／`.omx/plans` 的檔案型產物，並回報狀態持久化阻礙。
-&lt;/Tool_Usage&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Goal Mode Integration</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## Goal Mode 整合</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Codex goal mode is the thread-level completion contract for long-running Ralph work. Ralph state tracks workflow mechanics; goal mode tracks whether the user objective is truly done. When the goal tools are available:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Codex goal mode 是長時間 Ralph 工作的執行緒層級完成契約。Ralph state 追蹤工作流程機制；goal mode 追蹤使用者目標是否真的已完成。當 goal 工具可用時：</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>1. Call `get_goal` during intake or before the first execution loop when the prompt/hook says an active thread goal exists.
-2. If no goal exists, call `create_goal` only when the user or system explicitly asked for goal tracking; otherwise continue with Ralph state alone.
-3. Treat `goal.objective` as binding acceptance scope. Newer user updates can refine the current branch, but do not silently narrow the goal.
-4. Before completion, perform a prompt-to-artifact checklist and completion audit against real evidence:
-   - restate the objective as deliverables/success criteria
-   - map every prompt requirement, named workflow (`$ralplan`, `$ralph`), file, command, test, gate, and deliverable to evidence
-   - inspect the actual files, command output, state, and tests behind each checklist item
-   - identify missing, weakly verified, or uncovered requirements and continue if any remain
-5. Call `update_goal({status: &quot;complete&quot;})` only when the audit shows no required work remains. Do not use passing tests, Ralph state, or architect approval as proxy proof unless they cover the whole goal.
-6. If goal tools are unavailable, keep working through Ralph state and mention the missing goal-mode evidence in the final report.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>1. 在 intake 期間，或在第一個 execution loop 之前，如果 prompt/hook 表示存在一個 active thread goal，請呼叫 `get_goal`。
-2. 如果不存在 goal，只有在使用者或系統明確要求 goal tracking 時才呼叫 `create_goal`；否則只使用 Ralph state 繼續。
-3. 將 `goal.objective` 視為具約束力的接受範圍。較新的使用者更新可以細化目前分支，但不要默默縮小 goal。
-4. 在完成前，根據真實證據執行 prompt-to-artifact 清單與 completion audit：
-   - 將 objective 重新表述為可交付成果/成功標準
-   - 將每個 prompt requirement、命名 workflow (`$ralplan`, `$ralph`)、檔案、指令、測試、gate 和可交付成果對應到證據
-   - 檢查每個 checklist 項目背後實際的檔案、命令輸出、狀態與測試
-   - 找出缺漏、驗證薄弱或未涵蓋的需求，若仍有任何項目未完成就繼續
-5. 只有在 audit 顯示沒有任何必需工作未完成時，才呼叫 `update_goal({status: &quot;complete&quot;})`。除非 passing tests、Ralph state 或 architect approval 覆蓋整個 goal，否則不要把它們當作替代證明。
-6. 如果 goal tools 無法使用，請繼續依 Ralph state 工作，並在最終報告中提及缺少 goal-mode 證據。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## State Management</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 狀態管理</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Use the CLI-first state surface for Ralph lifecycle state (`omx state write/read/clear --input '&lt;json&gt;' --json`). Explicit MCP compatibility tools (`state_write`, `state_read`, `state_clear`) remain acceptable only when already enabled.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>使用以 CLI 為先的狀態介面來管理 Ralph 的 lifecycle state（`omx state write/read/clear --input '&lt;json&gt;' --json`）。只有在已經啟用時，顯式的 MCP 相容工具（`state_write`、`state_read`、`state_clear`）才仍可接受。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **On start**:
-  `omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;active&quot;:true,&quot;iteration&quot;:1,&quot;max_iterations&quot;:10,&quot;current_phase&quot;:&quot;executing&quot;,&quot;started_at&quot;:&quot;&lt;now&gt;&quot;,&quot;state&quot;:{&quot;context_snapshot_path&quot;:&quot;&lt;snapshot-path&gt;&quot;}}' --json`
-- **On each iteration**:
-  `omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;iteration&quot;:&lt;current&gt;,&quot;current_phase&quot;:&quot;executing&quot;}' --json`
-- **On verification/fix transition**:
-  `omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;current_phase&quot;:&quot;verifying&quot;}' --json` or `omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;current_phase&quot;:&quot;fixing&quot;}' --json`
-- **On completion** (only after the completion audit passes with real evidence):
-  `omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;active&quot;:false,&quot;current_phase&quot;:&quot;complete&quot;,&quot;completed_at&quot;:&quot;&lt;now&gt;&quot;,&quot;completion_audit&quot;:{&quot;passed&quot;:true,&quot;prompt_to_artifact_checklist&quot;:[&quot;&lt;requirement mapped to artifact/evidence&gt;&quot;],&quot;verification_evidence&quot;:[&quot;&lt;fresh test/build/lint command and result&gt;&quot;]}}' --json`
-- **Before the final answer**:
-  1. Run fresh verification and read the output.
-  2. Build `prompt_to_artifact_checklist` entries that map every user requirement, workflow gate, named file, command, PR/delivery requirement, and stop condition to a concrete artifact or evidence item.
-  3. Build `verification_evidence` entries with concrete commands, exit status, files inspected, PR URLs, or other machine-checkable evidence.
-  4. Write the Ralph completion state with a top-level `completion_audit` field on the Ralph state object. Do not write bare top-level `prompt_to_artifact_checklist` or `verification_evidence` fields by themselves; the Stop gate will reject them.
-  5. Read the state back with `omx state read --input '{&quot;mode&quot;:&quot;ralph&quot;}' --json` and verify `completion_audit.passed === true`, a non-empty checklist, and non-empty verification evidence before producing the final answer.
-  6. If Codex goal mode is active, call `update_goal({status:&quot;complete&quot;})` only after this Ralph audit read-back succeeds.
-- **On cancellation/cleanup**:
-  run `$cancel` (which should call `omx state clear --input '{&quot;mode&quot;:&quot;ralph&quot;}' --json`)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **在開始時**：
-  `omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;active&quot;:true,&quot;iteration&quot;:1,&quot;max_iterations&quot;:10,&quot;current_phase&quot;:&quot;executing&quot;,&quot;started_at&quot;:&quot;&lt;now&gt;&quot;,&quot;state&quot;:{&quot;context_snapshot_path&quot;:&quot;&lt;snapshot-path&gt;&quot;}}' --json`
-- **在每次迭代時**：
-  `omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;iteration&quot;:&lt;current&gt;,&quot;current_phase&quot;:&quot;executing&quot;}' --json`
-- **在驗證/修復轉換時**：
-  `omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;current_phase&quot;:&quot;verifying&quot;}' --json` 或 `omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;current_phase&quot;:&quot;fixing&quot;}' --json`
-- **在完成時**（僅在 completion audit 以真實證據通過之後）：
-  `omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;active&quot;:false,&quot;current_phase&quot;:&quot;complete&quot;,&quot;completed_at&quot;:&quot;&lt;now&gt;&quot;,&quot;completion_audit&quot;:{&quot;passed&quot;:true,&quot;prompt_to_artifact_checklist&quot;:[&quot;&lt;requirement mapped to artifact/evidence&gt;&quot;],&quot;verification_evidence&quot;:[&quot;&lt;fresh test/build/lint command and result&gt;&quot;]}}' --json`
-- **在最終答案之前**：
-  1. 執行新的驗證並讀取輸出。
-  2. 建立 `prompt_to_artifact_checklist` 條目，將每個使用者需求、workflow gate、命名檔案、指令、PR/delivery 要求，以及停止條件對應到具體的 artifact 或證據項目。
-  3. 建立 `verification_evidence` 條目，包含具體指令、結束狀態、檢視的檔案、PR URL，或其他可由機器檢查的證據。
-  4. 在 Ralph state object 上寫入帶有頂層 `completion_audit` 欄位的 Ralph completion state。不要單獨寫入裸露的頂層 `prompt_to_artifact_checklist` 或 `verification_evidence` 欄位；Stop gate 會拒絕它們。
-  5. 使用 `omx state read --input '{&quot;mode&quot;:&quot;ralph&quot;}' --json` 讀回 state，並在產生最終答案前驗證 `completion_audit.passed === true`、非空的 checklist，以及非空的 verification evidence。
-  6. 如果 Codex goal mode 啟用，只有在這次 Ralph audit 讀回成功後才呼叫 `update_goal({status:&quot;complete&quot;})`。
-- **在取消/清理時**：
-  執行 `$cancel`（它應該呼叫 `omx state clear --input '{&quot;mode&quot;:&quot;ralph&quot;}' --json`）</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Scenario Examples</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 情境範例</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Good:** The user says `continue` after the workflow already has a clear next step. Continue the current branch of work instead of restarting or re-asking the same question.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**好：** 在 workflow 已經有明確下一步之後，使用者說 `continue`。請延續目前的工作分支，而不是重新開始或再次詢問同一個問題。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Good:** The user changes only the output shape or downstream delivery step (for example `make a PR`). Preserve earlier non-conflicting workflow constraints and apply the update locally.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**好：** 使用者只變更輸出形式或下游交付步驟（例如 `make a PR`）。保留先前不衝突的 workflow 約束，並在本地套用更新。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Bad:** The user says `continue`, and the workflow restarts discovery or stops before the missing verification/evidence is gathered.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**壞：** 使用者說 `continue`，而 workflow 重新開始探索，或在收集缺少的驗證/證據之前就停止。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Examples&gt;
-&lt;Good&gt;
-Correct parallel delegation:
-```
-delegate(role=&quot;executor&quot;, tier=&quot;LOW&quot;, task=&quot;Add type export for UserConfig&quot;)
+---</code></pre></section>
+<section class="sync-block" id="orig-b002"><a class="block-anchor" href="#orig-b002" aria-label="orig-b002">b002</a><p>[RALPH + ULTRAWORK - ITERATION {{ITERATION}}/{{MAX}}]</p></section>
+<section class="sync-block" id="orig-b003"><a class="block-anchor" href="#orig-b003" aria-label="orig-b003">b003</a><p>Your previous attempt did not output the completion promise. Continue working on the task.</p></section>
+<section class="sync-block" id="orig-b004"><a class="block-anchor" href="#orig-b004" aria-label="orig-b004">b004</a><p>&lt;Purpose&gt; Ralph is a persistence loop that keeps working on a task until it is fully complete and architect-verified. It wraps ultrawork's parallel execution with session persistence, automatic retry on failure, and mandatory verification before completion. &lt;/Purpose&gt;</p></section>
+<section class="sync-block" id="orig-b005"><a class="block-anchor" href="#orig-b005" aria-label="orig-b005">b005</a><p>&lt;Use_When&gt;</p>
+<ul><li>Task requires guaranteed completion with verification (not just &quot;do your best&quot;)</li><li>User says &quot;ralph&quot;, &quot;don't stop&quot;, &quot;must complete&quot;, &quot;finish this&quot;, or &quot;keep going until done&quot;</li><li>Work may span multiple iterations and needs persistence across retries</li><li>Task benefits from parallel execution with architect sign-off at the end</li></ul>
+<p>&lt;/Use_When&gt;</p></section>
+<section class="sync-block" id="orig-b006"><a class="block-anchor" href="#orig-b006" aria-label="orig-b006">b006</a><p>&lt;Do_Not_Use_When&gt;</p>
+<ul><li>User wants a full autonomous pipeline from idea to code -- use <code>autopilot</code> instead</li><li>User wants to explore or plan before committing -- use <code>plan</code> skill instead</li><li>User wants a quick one-shot fix -- delegate directly to an executor agent</li><li>User wants manual control over completion -- use <code>ultrawork</code> directly</li></ul>
+<p>&lt;/Do_Not_Use_When&gt;</p></section>
+<section class="sync-block" id="orig-b007"><a class="block-anchor" href="#orig-b007" aria-label="orig-b007">b007</a><p>&lt;Why_This_Exists&gt; Complex tasks often fail silently: partial implementations get declared &quot;done&quot;, tests get skipped, edge cases get forgotten. Ralph prevents this by looping until work is genuinely complete, requiring fresh verification evidence before allowing completion, and using tiered architect review to confirm quality. &lt;/Why_This_Exists&gt;</p></section>
+<section class="sync-block" id="orig-b008"><a class="block-anchor" href="#orig-b008" aria-label="orig-b008">b008</a><p>&lt;Execution_Policy&gt;</p>
+<ul><li>Fire independent agent calls simultaneously -- never wait sequentially for independent work</li><li>Use <code>run_in_background: true</code> for long operations (installs, builds, test suites)</li><li>Always pass the <code>model</code> parameter explicitly when delegating to agents</li><li>Read <code>docs/shared/agent-tiers.md</code> before first delegation to select correct agent tiers</li><li>Deliver the full implementation: no scope reduction, no partial completion, no deleting tests to make them pass</li><li>Apply the shared workflow guidance pattern: outcome-first framing, concise visible updates for multi-step execution, local overrides for the active workflow branch, validation proportional to risk, explicit stop rules, and automatic continuation for safe reversible steps. Ask only for material, destructive, credentialed, external-production, or preference-dependent branches.</li><li>Integrate with Codex goal mode when goal tools are available: inspect the active thread goal with <code>get_goal</code>, preserve it as the top-level stop condition, and only call <code>update_goal({status: &quot;complete&quot;})</code> after a Ralph completion audit proves the objective is actually achieved.</li></ul>
+<p>&lt;/Execution_Policy&gt;</p></section>
+<section class="sync-block" id="orig-b009"><a class="block-anchor" href="#orig-b009" aria-label="orig-b009">b009</a><p>&lt;Steps&gt;</p>
+<ol><li><strong>Pre-context intake (required before planning/execution loop starts)</strong>:</li></ol>
+<ul><li>Assemble or load a context snapshot at <code>.omx/context/{task-slug}-{timestamp}.md</code> (UTC <code>YYYYMMDDTHHMMSSZ</code>).</li><li>Minimum snapshot fields:</li><li>task statement</li><li>desired outcome</li><li>known facts/evidence</li><li>constraints</li><li>unknowns/open questions</li><li>likely codebase touchpoints</li><li>If an existing relevant snapshot is available, reuse it and record the path in Ralph state.</li><li>If request ambiguity is high, gather brownfield facts first. <code>omx explore</code> is deprecated; use normal repository inspection tools/subagents for simple read-only repository lookups and <code>omx sparkshell</code> only for explicit shell-native read-only evidence. Then run <code>$deep-interview --quick &lt;task&gt;</code> to close critical gaps.</li><li>Do not begin Ralph execution work (delegation, implementation, or verification loops) until snapshot grounding exists. If forced to proceed quickly, note explicit risk tradeoffs.</li></ul>
+<ol><li><strong>Review progress</strong>: Check TODO list and any prior iteration state</li><li><strong>Continue from where you left off</strong>: Pick up incomplete tasks</li><li><strong>Delegate in parallel</strong>: Route tasks to specialist agents at appropriate tiers</li></ol>
+<ul><li>Simple lookups: LOW tier -- &quot;What does this function return?&quot;</li><li>Standard work: STANDARD tier -- &quot;Add error handling to this module&quot;</li><li>Complex analysis: THOROUGH tier -- &quot;Debug this race condition&quot;</li><li>When Ralph is entered as a ralplan follow-up, start from the approved <strong>available-agent-types roster</strong> and make the delegation plan explicit: implementation lane, evidence/regression lane, and final sign-off lane using only known agent types</li></ul>
+<ol><li><strong>Run long operations in background</strong>: Builds, installs, test suites use <code>run_in_background: true</code></li><li><strong>Visual task gate (when screenshot/reference images are present)</strong>:</li></ol>
+<ul><li>Run the Visual Ralph verdict step <strong>before every next edit</strong>.</li><li>Require structured JSON output: <code>score</code>, <code>verdict</code>, <code>category_match</code>, <code>differences[]</code>, <code>suggestions[]</code>, <code>reasoning</code>.</li><li>Persist verdict to <code>.omx/state/{scope}/ralph-progress.json</code> including numeric + qualitative feedback.</li><li>Default pass threshold: <code>score &gt;= 90</code>.</li><li><strong>URL-based visual cloning tasks</strong>: When the task description contains a target URL (e.g., &quot;clone https://example.com&quot;), route the work through <code>$visual-ralph</code>. <code>$web-clone</code> is hard-deprecated; Visual Ralph owns the migrated live-URL visual implementation use case and uses its built-in visual verdict step for measured visual scoring.</li></ul>
+<ol><li><strong>Verify completion with fresh evidence</strong>:</li></ol>
+<ul><li>If Codex goal mode is available, call <code>get_goal</code> before final verification to restate the active objective and include it in the evidence checklist.</li></ul>
+<p>a. Identify what command proves the task is complete b. Run verification (test, build, lint) c. Read the output -- confirm it actually passed d. Check: zero pending/in_progress TODO items</p>
+<ol><li><strong>Architect verification</strong> (tiered):</li></ol>
+<ul><li>&lt;5 files, &lt;100 lines with full tests: STANDARD tier minimum (architect role)</li><li>Standard changes: STANDARD tier (architect role)</li><li>&gt;20 files or security/architectural changes: THOROUGH tier (architect role)</li><li>Ralph floor: always at least STANDARD, even for small changes</li></ul>
+<p>7.5 <strong>Mandatory Deslop Pass</strong>:</p>
+<ul><li>After Step 7 passes, run <code>oh-my-codex:ai-slop-cleaner</code> on <strong>all files changed during the Ralph session</strong>.</li><li>Scope the cleaner to <strong>changed files only</strong>; do not widen the pass beyond Ralph-owned edits.</li><li>Run the cleaner in <strong>standard mode</strong> (not <code>--review</code>).</li><li>If the prompt contains <code>--no-deslop</code>, skip Step 7.5 entirely and proceed with the most recent successful verification evidence.</li></ul>
+<p>7.6 <strong>Regression Re-verification</strong>:</p>
+<ul><li>After the deslop pass, re-run all tests/build/lint and read the output to confirm they still pass.</li><li>If post-deslop regression fails, roll back cleaner changes or fix and retry. Then rerun Step 7.5 and Step 7.6 until the regression is green.</li><li>Do not proceed to completion until post-deslop regression is green (unless <code>--no-deslop</code> explicitly skipped the deslop pass).</li></ul>
+<ol><li><strong>On approval</strong>: If Codex goal mode is active, call <code>update_goal({status: &quot;complete&quot;})</code> before <code>/cancel</code>; report final elapsed time and token-budget usage when the tool returns it. Then run <code>/cancel</code> to cleanly exit and clean up all state files.</li><li><strong>On rejection</strong>: Fix the issues raised, then re-verify at the same tier</li></ol>
+<p>&lt;/Steps&gt;</p></section>
+<section class="sync-block" id="orig-b010"><a class="block-anchor" href="#orig-b010" aria-label="orig-b010">b010</a><p>&lt;Tool_Usage&gt;</p>
+<ul><li>Use <code>ask_codex</code> with <code>agent_role: &quot;architect&quot;</code> for verification cross-checks when changes are security-sensitive, architectural, or involve complex multi-system integration</li><li>Skip Codex consultation for simple feature additions, well-tested changes, or time-critical verification</li><li>If MCP compatibility tools are unavailable, proceed with CLI/agent verification alone -- never block on external tools</li><li>Use <code>omx state write/read --input '&lt;json&gt;' --json</code> for ralph mode state persistence between iterations</li><li>Use Codex goal tools when present: <code>get_goal</code> to discover or re-check the active objective, <code>create_goal</code> only when the user/system explicitly requested a new goal and no active goal exists, and <code>update_goal</code> only after the audited objective is fully achieved.</li><li>Persist context snapshot path in Ralph mode state so later phases and agents share the same grounding context</li><li>Prefer CLI state commands. If an explicit MCP compatibility <code>omx_state</code> call reports that its stdio transport is unavailable/closed, do <strong>not</strong> retry the same MCP call. Retry once through the supported CLI parity surface with the same payload, preserving <code>workingDirectory</code> and <code>session_id</code>: <code>omx state write --input '&lt;json&gt;' --json</code>, <code>omx state read --input '&lt;json&gt;' --json</code>, or <code>omx state clear --input '&lt;json&gt;' --json</code>. If the CLI path also fails, continue with <code>.omx/context</code> / <code>.omx/plans</code> file-backed artifacts and report the state persistence blocker.</li></ul>
+<p>&lt;/Tool_Usage&gt;</p></section>
+<section class="sync-block" id="orig-b011"><a class="block-anchor" href="#orig-b011" aria-label="orig-b011">b011</a><h2>Goal Mode Integration</h2></section>
+<section class="sync-block" id="orig-b012"><a class="block-anchor" href="#orig-b012" aria-label="orig-b012">b012</a><p>Codex goal mode is the thread-level completion contract for long-running Ralph work. Ralph state tracks workflow mechanics; goal mode tracks whether the user objective is truly done. When the goal tools are available:</p></section>
+<section class="sync-block" id="orig-b013"><a class="block-anchor" href="#orig-b013" aria-label="orig-b013">b013</a><ol><li>Call <code>get_goal</code> during intake or before the first execution loop when the prompt/hook says an active thread goal exists.</li><li>If no goal exists, call <code>create_goal</code> only when the user or system explicitly asked for goal tracking; otherwise continue with Ralph state alone.</li><li>Treat <code>goal.objective</code> as binding acceptance scope. Newer user updates can refine the current branch, but do not silently narrow the goal.</li><li>Before completion, perform a prompt-to-artifact checklist and completion audit against real evidence:</li></ol>
+<ul><li>restate the objective as deliverables/success criteria</li><li>map every prompt requirement, named workflow (<code>$ralplan</code>, <code>$ralph</code>), file, command, test, gate, and deliverable to evidence</li><li>inspect the actual files, command output, state, and tests behind each checklist item</li><li>identify missing, weakly verified, or uncovered requirements and continue if any remain</li></ul>
+<ol><li>Call <code>update_goal({status: &quot;complete&quot;})</code> only when the audit shows no required work remains. Do not use passing tests, Ralph state, or architect approval as proxy proof unless they cover the whole goal.</li><li>If goal tools are unavailable, keep working through Ralph state and mention the missing goal-mode evidence in the final report.</li></ol></section>
+<section class="sync-block" id="orig-b014"><a class="block-anchor" href="#orig-b014" aria-label="orig-b014">b014</a><h2>State Management</h2></section>
+<section class="sync-block" id="orig-b015"><a class="block-anchor" href="#orig-b015" aria-label="orig-b015">b015</a><p>Use the CLI-first state surface for Ralph lifecycle state (<code>omx state write/read/clear --input '&lt;json&gt;' --json</code>). Explicit MCP compatibility tools (<code>state_write</code>, <code>state_read</code>, <code>state_clear</code>) remain acceptable only when already enabled.</p></section>
+<section class="sync-block" id="orig-b016"><a class="block-anchor" href="#orig-b016" aria-label="orig-b016">b016</a><ul><li><strong>On start</strong>:</li></ul>
+<p><code>omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;active&quot;:true,&quot;iteration&quot;:1,&quot;max_iterations&quot;:10,&quot;current_phase&quot;:&quot;executing&quot;,&quot;started_at&quot;:&quot;&lt;now&gt;&quot;,&quot;state&quot;:{&quot;context_snapshot_path&quot;:&quot;&lt;snapshot-path&gt;&quot;}}' --json</code></p>
+<ul><li><strong>On each iteration</strong>:</li></ul>
+<p><code>omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;iteration&quot;:&lt;current&gt;,&quot;current_phase&quot;:&quot;executing&quot;}' --json</code></p>
+<ul><li><strong>On verification/fix transition</strong>:</li></ul>
+<p><code>omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;current_phase&quot;:&quot;verifying&quot;}' --json</code> or <code>omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;current_phase&quot;:&quot;fixing&quot;}' --json</code></p>
+<ul><li><strong>On completion</strong> (only after the completion audit passes with real evidence):</li></ul>
+<p><code>omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;active&quot;:false,&quot;current_phase&quot;:&quot;complete&quot;,&quot;completed_at&quot;:&quot;&lt;now&gt;&quot;,&quot;completion_audit&quot;:{&quot;passed&quot;:true,&quot;prompt_to_artifact_checklist&quot;:[&quot;&lt;requirement mapped to artifact/evidence&gt;&quot;],&quot;verification_evidence&quot;:[&quot;&lt;fresh test/build/lint command and result&gt;&quot;]}}' --json</code></p>
+<ul><li><strong>Before the final answer</strong>:</li></ul>
+<ol><li>Run fresh verification and read the output.</li><li>Build <code>prompt_to_artifact_checklist</code> entries that map every user requirement, workflow gate, named file, command, PR/delivery requirement, and stop condition to a concrete artifact or evidence item.</li><li>Build <code>verification_evidence</code> entries with concrete commands, exit status, files inspected, PR URLs, or other machine-checkable evidence.</li><li>Write the Ralph completion state with a top-level <code>completion_audit</code> field on the Ralph state object. Do not write bare top-level <code>prompt_to_artifact_checklist</code> or <code>verification_evidence</code> fields by themselves; the Stop gate will reject them.</li><li>Read the state back with <code>omx state read --input '{&quot;mode&quot;:&quot;ralph&quot;}' --json</code> and verify <code>completion_audit.passed === true</code>, a non-empty checklist, and non-empty verification evidence before producing the final answer.</li><li>If Codex goal mode is active, call <code>update_goal({status:&quot;complete&quot;})</code> only after this Ralph audit read-back succeeds.</li></ol>
+<ul><li><strong>On cancellation/cleanup</strong>:</li></ul>
+<p>run <code>$cancel</code> (which should call <code>omx state clear --input '{&quot;mode&quot;:&quot;ralph&quot;}' --json</code>)</p></section>
+<section class="sync-block" id="orig-b017"><a class="block-anchor" href="#orig-b017" aria-label="orig-b017">b017</a><h2>Scenario Examples</h2></section>
+<section class="sync-block" id="orig-b018"><a class="block-anchor" href="#orig-b018" aria-label="orig-b018">b018</a><p><strong>Good:</strong> The user says <code>continue</code> after the workflow already has a clear next step. Continue the current branch of work instead of restarting or re-asking the same question.</p></section>
+<section class="sync-block" id="orig-b019"><a class="block-anchor" href="#orig-b019" aria-label="orig-b019">b019</a><p><strong>Good:</strong> The user changes only the output shape or downstream delivery step (for example <code>make a PR</code>). Preserve earlier non-conflicting workflow constraints and apply the update locally.</p></section>
+<section class="sync-block" id="orig-b020"><a class="block-anchor" href="#orig-b020" aria-label="orig-b020">b020</a><p><strong>Bad:</strong> The user says <code>continue</code>, and the workflow restarts discovery or stops before the missing verification/evidence is gathered.</p></section>
+<section class="sync-block" id="orig-b021"><a class="block-anchor" href="#orig-b021" aria-label="orig-b021">b021</a><p>&lt;Examples&gt; &lt;Good&gt; Correct parallel delegation:</p>
+<pre><code>delegate(role=&quot;executor&quot;, tier=&quot;LOW&quot;, task=&quot;Add type export for UserConfig&quot;)
 delegate(role=&quot;executor&quot;, tier=&quot;STANDARD&quot;, task=&quot;Implement the caching layer for API responses&quot;)
-delegate(role=&quot;executor&quot;, tier=&quot;THOROUGH&quot;, task=&quot;Refactor auth module to support OAuth2 flow&quot;)
-```
-Why good: Three independent tasks fired simultaneously at appropriate tiers.
-&lt;/Good&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Examples&gt;
-&lt;Good&gt;
-正確的平行委派：
-```
-delegate(role=&quot;executor&quot;, tier=&quot;LOW&quot;, task=&quot;Add type export for UserConfig&quot;)
-delegate(role=&quot;executor&quot;, tier=&quot;STANDARD&quot;, task=&quot;Implement the caching layer for API responses&quot;)
-delegate(role=&quot;executor&quot;, tier=&quot;THOROUGH&quot;, task=&quot;Refactor auth module to support OAuth2 flow&quot;)
-```
-原因：三個彼此獨立的任務同時以適當層級發出。
-&lt;/Good&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Good&gt;
-Correct verification before completion:
-```
-1. Run: npm test           → Output: &quot;42 passed, 0 failed&quot;
+delegate(role=&quot;executor&quot;, tier=&quot;THOROUGH&quot;, task=&quot;Refactor auth module to support OAuth2 flow&quot;)</code></pre>
+<p>Why good: Three independent tasks fired simultaneously at appropriate tiers. &lt;/Good&gt;</p></section>
+<section class="sync-block" id="orig-b022"><a class="block-anchor" href="#orig-b022" aria-label="orig-b022">b022</a><p>&lt;Good&gt; Correct verification before completion:</p>
+<pre><code>1. Run: npm test           → Output: &quot;42 passed, 0 failed&quot;
 2. Run: npm run build      → Output: &quot;Build succeeded&quot;
 3. Run: lsp_diagnostics    → Output: 0 errors
 4. Delegate to architect at STANDARD tier  → Verdict: &quot;APPROVED&quot;
-5. Run /cancel
-```
-Why good: Fresh evidence at each step, architect verification, then clean exit.
-&lt;/Good&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Good&gt;
-完成前的正確驗證：
-```
-1. Run: npm test           → Output: &quot;42 passed, 0 failed&quot;
-2. Run: npm run build      → Output: &quot;Build succeeded&quot;
-3. Run: lsp_diagnostics    → Output: 0 errors
-4. Delegate to architect at STANDARD tier  → Verdict: &quot;APPROVED&quot;
-5. Run /cancel
-```
-原因：每一步都有新的證據、架構師驗證，然後乾淨退出。
-&lt;/Good&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Bad&gt;
-Claiming completion without verification:
-&quot;All the changes look good, the implementation should work correctly. Task complete.&quot;
-Why bad: Uses &quot;should&quot; and &quot;look good&quot; -- no fresh test/build output, no architect verification.
-&lt;/Bad&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Bad&gt;
-未經驗證就宣稱完成：
-&quot;All the changes look good, the implementation should work correctly. Task complete.&quot;
-原因：使用了 &quot;should&quot; 和 &quot;look good&quot; -- 沒有新的測試/建置輸出，也沒有架構師驗證。
-&lt;/Bad&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Bad&gt;
-Sequential execution of independent tasks:
-```
-delegate(executor, LOW, &quot;Add type export&quot;) → wait →
+5. Run /cancel</code></pre>
+<p>Why good: Fresh evidence at each step, architect verification, then clean exit. &lt;/Good&gt;</p></section>
+<section class="sync-block" id="orig-b023"><a class="block-anchor" href="#orig-b023" aria-label="orig-b023">b023</a><p>&lt;Bad&gt; Claiming completion without verification: &quot;All the changes look good, the implementation should work correctly. Task complete.&quot; Why bad: Uses &quot;should&quot; and &quot;look good&quot; -- no fresh test/build output, no architect verification. &lt;/Bad&gt;</p></section>
+<section class="sync-block" id="orig-b024"><a class="block-anchor" href="#orig-b024" aria-label="orig-b024">b024</a><p>&lt;Bad&gt; Sequential execution of independent tasks:</p>
+<pre><code>delegate(executor, LOW, &quot;Add type export&quot;) → wait →
 delegate(executor, STANDARD, &quot;Implement caching&quot;) → wait →
-delegate(executor, THOROUGH, &quot;Refactor auth&quot;)
-```
-Why bad: These are independent tasks that should run in parallel, not sequentially.
-&lt;/Bad&gt;
-&lt;/Examples&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Bad&gt;
-獨立任務的順序執行：
-```
-delegate(executor, LOW, &quot;Add type export&quot;) → wait →
-delegate(executor, STANDARD, &quot;Implement caching&quot;) → wait →
-delegate(executor, THOROUGH, &quot;Refactor auth&quot;)
-```
-原因：這些是應該平行執行而不是依序執行的獨立任務。
-&lt;/Bad&gt;
-&lt;/Examples&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Escalation_And_Stop_Conditions&gt;
-- Stop and report when a fundamental blocker requires user input (missing credentials, unclear requirements, external service down)
-- Stop when the user says &quot;stop&quot;, &quot;cancel&quot;, or &quot;abort&quot; -- run `/cancel`
-- Continue working when the hook system sends &quot;The boulder never stops&quot; -- this means the iteration continues
-- If architect rejects verification, fix the issues and re-verify (do not stop)
-- If the same issue recurs across 3+ iterations, report it as a potential fundamental problem
-&lt;/Escalation_And_Stop_Conditions&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Escalation_And_Stop_Conditions&gt;
-- 當根本性阻礙需要使用者輸入時就停止並回報（缺少憑證、需求不清楚、外部服務中斷）
-- 當使用者說 &quot;stop&quot;、&quot;cancel&quot; 或 &quot;abort&quot; 時就停止 -- 執行 `/cancel`
-- 當 hook system 傳送 &quot;The boulder never stops&quot; 時繼續工作 -- 這表示迭代持續進行
-- 如果 architect 拒絕驗證，修正問題並重新驗證（不要停止）
-- 如果同一個問題在 3+ 次迭代中重複出現，將其回報為潛在的根本性問題
-&lt;/Escalation_And_Stop_Conditions&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Final_Checklist&gt;
-- [ ] All requirements from the original task are met (no scope reduction)
-- [ ] Zero pending or in_progress TODO items
-- [ ] Fresh test run output shows all tests pass
-- [ ] Fresh build output shows success
-- [ ] lsp_diagnostics shows 0 errors on affected files
-- [ ] Architect verification passed (STANDARD tier minimum)
-- [ ] Codex goal-mode completion audit passed, and `update_goal({status: &quot;complete&quot;})` was called when an active goal exists
-- [ ] ai-slop-cleaner pass completed on changed files (or --no-deslop specified)
-- [ ] Post-deslop regression tests pass
-- [ ] `/cancel` run for clean state cleanup
-&lt;/Final_Checklist&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Final_Checklist&gt;
-- [ ] 已滿足原始任務的所有需求（沒有縮減範圍）
-- [ ] 沒有待處理或 in_progress 的 TODO 項目
-- [ ] 最新的測試執行輸出顯示所有測試通過
-- [ ] 最新的建置輸出顯示成功
-- [ ] lsp_diagnostics 顯示受影響檔案沒有 0 個錯誤
-- [ ] Architect 驗證通過（至少 STANDARD 等級）
-- [ ] Codex goal-mode 完成稽核通過，且在存在啟用中的目標時已呼叫 `update_goal({status: &quot;complete&quot;})`
-- [ ] 已在變更檔案上完成 ai-slop-cleaner 執行（或已指定 --no-deslop）
-- [ ] deslop 後回歸測試通過
-- [ ] 已執行 `/cancel` 以清理乾淨狀態
-&lt;/Final_Checklist&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Advanced&gt;
-## PRD Mode (Optional)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Advanced&gt;
-## PRD 模式（可選）</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>When the user provides the `--prd` flag, initialize a Product Requirements Document before starting the ralph loop.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>當使用者提供 `--prd` 旗標時，在開始 ralph 迴圈之前先初始化產品需求文件。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Detecting PRD Mode
-Check if `{{PROMPT}}` contains `--prd` or `--PRD`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 偵測 PRD 模式
-檢查 `{{PROMPT}}` 是否包含 `--prd` 或 `--PRD`。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Prompt-side `$ralph` workflow activation is lighter-weight than `omx ralph --prd ...`.
-It seeds Ralph workflow state and guidance, but it does not implicitly launch the
-CLI entrypoint or apply the PRD startup gate. Treat `omx ralph --prd ...` as the
-explicit PRD-gated path.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>在提示詞端啟動 `$ralph` 工作流程比 `omx ralph --prd ...` 更輕量。
-它會建立 Ralph 工作流程狀態與指引，但不會隱式啟動
-CLI 進入點或套用 PRD 啟動閘門。請將 `omx ralph --prd ...` 視為
-明確的 PRD 閘門路徑。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Detecting `--no-deslop`
-Check if `{{PROMPT}}` contains `--no-deslop`.
-If `--no-deslop` is present, skip the deslop pass entirely after Step 7 and continue using the latest successful pre-deslop verification evidence.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 偵測 `--no-deslop`
-檢查 `{{PROMPT}}` 是否包含 `--no-deslop`。
-如果存在 `--no-deslop`，則在步驟 7 之後完全跳過 deslop 步驟，並繼續使用最新一次成功的 pre-deslop 驗證證據。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Visual Reference Flags (Optional)
-Ralph execution supports visual reference flags for screenshot tasks:
-- Repeatable image inputs: `-i &lt;image-path&gt;` (can be used multiple times)
-- Image directory input: `--images-dir &lt;directory&gt;`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 視覺參考旗標（可選）
-Ralph 執行支援用於截圖任務的視覺參考旗標：
-- 可重複的圖片輸入：`-i &lt;image-path&gt;`（可多次使用）
-- 圖片目錄輸入：`--images-dir &lt;directory&gt;`</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Example:
-`ralph -i refs/hn.png -i refs/hn-item.png --images-dir ./screenshots &quot;match HackerNews layout&quot;`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>範例：
-`ralph -i refs/hn.png -i refs/hn-item.png --images-dir ./screenshots &quot;match HackerNews layout&quot;`</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### PRD Workflow
-1. Run deep-interview in quick mode before creating PRD artifacts:
-   - Execute: `$deep-interview --quick &lt;task&gt;`
-   - Complete a compact requirements pass (context, goals, scope, constraints, validation)
-   - Persist interview output to `.omx/interviews/{slug}-{timestamp}.md`
-2. Create canonical PRD/progress artifacts:
-   - PRD: `.omx/plans/prd-{slug}.md`
-   - Progress ledger: `.omx/state/{scope}/ralph-progress.json` (session scope when available, else root scope)
-3. Parse the task (everything after `--prd` flag)
-4. Break down into user stories:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### PRD 工作流程
-1. 在建立 PRD 產物之前，以快速模式執行 deep-interview：
-   - 執行：`$deep-interview --quick &lt;task&gt;`
-   - 完成一個精簡的需求流程（context、goals、scope、constraints、validation）
-   - 將訪談輸出保存到 `.omx/interviews/{slug}-{timestamp}.md`
-2. 建立標準化的 PRD/進度產物：
-   - PRD：`.omx/plans/prd-{slug}.md`
-   - 進度台帳：`.omx/state/{scope}/ralph-progress.json`（可用時使用 session scope，否則使用 root scope）
-3. 解析任務（`--prd` 旗標之後的所有內容）
-4. 拆解為使用者故事：</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```json
-{
+delegate(executor, THOROUGH, &quot;Refactor auth&quot;)</code></pre>
+<p>Why bad: These are independent tasks that should run in parallel, not sequentially. &lt;/Bad&gt; &lt;/Examples&gt;</p></section>
+<section class="sync-block" id="orig-b025"><a class="block-anchor" href="#orig-b025" aria-label="orig-b025">b025</a><p>&lt;Escalation_And_Stop_Conditions&gt;</p>
+<ul><li>Stop and report when a fundamental blocker requires user input (missing credentials, unclear requirements, external service down)</li><li>Stop when the user says &quot;stop&quot;, &quot;cancel&quot;, or &quot;abort&quot; -- run <code>/cancel</code></li><li>Continue working when the hook system sends &quot;The boulder never stops&quot; -- this means the iteration continues</li><li>If architect rejects verification, fix the issues and re-verify (do not stop)</li><li>If the same issue recurs across 3+ iterations, report it as a potential fundamental problem</li></ul>
+<p>&lt;/Escalation_And_Stop_Conditions&gt;</p></section>
+<section class="sync-block" id="orig-b026"><a class="block-anchor" href="#orig-b026" aria-label="orig-b026">b026</a><p>&lt;Final_Checklist&gt;</p>
+<ul><li>[ ] All requirements from the original task are met (no scope reduction)</li><li>[ ] Zero pending or in_progress TODO items</li><li>[ ] Fresh test run output shows all tests pass</li><li>[ ] Fresh build output shows success</li><li>[ ] lsp_diagnostics shows 0 errors on affected files</li><li>[ ] Architect verification passed (STANDARD tier minimum)</li><li>[ ] Codex goal-mode completion audit passed, and <code>update_goal({status: &quot;complete&quot;})</code> was called when an active goal exists</li><li>[ ] ai-slop-cleaner pass completed on changed files (or --no-deslop specified)</li><li>[ ] Post-deslop regression tests pass</li><li>[ ] <code>/cancel</code> run for clean state cleanup</li></ul>
+<p>&lt;/Final_Checklist&gt;</p></section>
+<section class="sync-block" id="orig-b027"><a class="block-anchor" href="#orig-b027" aria-label="orig-b027">b027</a><p>&lt;Advanced&gt;</p>
+<h2>PRD Mode (Optional)</h2></section>
+<section class="sync-block" id="orig-b028"><a class="block-anchor" href="#orig-b028" aria-label="orig-b028">b028</a><p>When the user provides the <code>--prd</code> flag, initialize a Product Requirements Document before starting the ralph loop.</p></section>
+<section class="sync-block" id="orig-b029"><a class="block-anchor" href="#orig-b029" aria-label="orig-b029">b029</a><h3>Detecting PRD Mode</h3>
+<p>Check if <code>{{PROMPT}}</code> contains <code>--prd</code> or <code>--PRD</code>.</p></section>
+<section class="sync-block" id="orig-b030"><a class="block-anchor" href="#orig-b030" aria-label="orig-b030">b030</a><p>Prompt-side <code>$ralph</code> workflow activation is lighter-weight than <code>omx ralph --prd ...</code>. It seeds Ralph workflow state and guidance, but it does not implicitly launch the CLI entrypoint or apply the PRD startup gate. Treat <code>omx ralph --prd ...</code> as the explicit PRD-gated path.</p></section>
+<section class="sync-block" id="orig-b031"><a class="block-anchor" href="#orig-b031" aria-label="orig-b031">b031</a><h3>Detecting <code>--no-deslop</code></h3>
+<p>Check if <code>{{PROMPT}}</code> contains <code>--no-deslop</code>. If <code>--no-deslop</code> is present, skip the deslop pass entirely after Step 7 and continue using the latest successful pre-deslop verification evidence.</p></section>
+<section class="sync-block" id="orig-b032"><a class="block-anchor" href="#orig-b032" aria-label="orig-b032">b032</a><h3>Visual Reference Flags (Optional)</h3>
+<p>Ralph execution supports visual reference flags for screenshot tasks:</p>
+<ul><li>Repeatable image inputs: <code>-i &lt;image-path&gt;</code> (can be used multiple times)</li><li>Image directory input: <code>--images-dir &lt;directory&gt;</code></li></ul></section>
+<section class="sync-block" id="orig-b033"><a class="block-anchor" href="#orig-b033" aria-label="orig-b033">b033</a><p>Example: <code>ralph -i refs/hn.png -i refs/hn-item.png --images-dir ./screenshots &quot;match HackerNews layout&quot;</code></p></section>
+<section class="sync-block" id="orig-b034"><a class="block-anchor" href="#orig-b034" aria-label="orig-b034">b034</a><h3>PRD Workflow</h3>
+<ol><li>Run deep-interview in quick mode before creating PRD artifacts:</li></ol>
+<ul><li>Execute: <code>$deep-interview --quick &lt;task&gt;</code></li><li>Complete a compact requirements pass (context, goals, scope, constraints, validation)</li><li>Persist interview output to <code>.omx/interviews/{slug}-{timestamp}.md</code></li></ul>
+<ol><li>Create canonical PRD/progress artifacts:</li></ol>
+<ul><li>PRD: <code>.omx/plans/prd-{slug}.md</code></li><li>Progress ledger: <code>.omx/state/{scope}/ralph-progress.json</code> (session scope when available, else root scope)</li></ul>
+<ol><li>Parse the task (everything after <code>--prd</code> flag)</li><li>Break down into user stories:</li></ol></section>
+<section class="sync-block" id="orig-b035"><a class="block-anchor" href="#orig-b035" aria-label="orig-b035">b035</a><pre><code class="language-json">{
   &quot;project&quot;: &quot;[Project Name]&quot;,
   &quot;branchName&quot;: &quot;ralph/[feature-name]&quot;,
   &quot;description&quot;: &quot;[Feature description]&quot;,
@@ -410,9 +126,123 @@ Ralph 執行支援用於截圖任務的視覺參考旗標：
       &quot;passes&quot;: false
     }
   ]
-}
-```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```json
-{
+}</code></pre></section>
+<section class="sync-block" id="orig-b036"><a class="block-anchor" href="#orig-b036" aria-label="orig-b036">b036</a><ol><li>Initialize canonical progress ledger at <code>.omx/state/{scope}/ralph-progress.json</code></li><li>Guidelines: right-sized stories (one session each), verifiable criteria, independent stories, priority order (foundational work first)</li><li>Proceed to normal ralph loop using user stories as the task list</li></ol></section>
+<section class="sync-block" id="orig-b037"><a class="block-anchor" href="#orig-b037" aria-label="orig-b037">b037</a><h3>Example</h3>
+<p>User input: <code>--prd build a todo app with React and TypeScript</code> Workflow: Detect flag, extract task, create <code>.omx/plans/prd-{slug}.md</code>, create <code>.omx/state/{scope}/ralph-progress.json</code>, begin ralph loop.</p></section>
+<section class="sync-block" id="orig-b038"><a class="block-anchor" href="#orig-b038" aria-label="orig-b038">b038</a><h3>Legacy compatibility</h3>
+<ul><li>During the compatibility window, Ralph <code>--prd</code> startup still validates machine-readable story state from <code>.omx/prd.json</code>.</li><li><code>.omx/plans/prd-{slug}.md</code> remains the canonical storage/documentation artifact, but it is not yet the startup validation source.</li><li>If <code>.omx/prd.json</code> exists and canonical PRD is absent, migrate one-way into <code>.omx/plans/prd-{slug}.md</code>.</li><li>If <code>.omx/progress.txt</code> exists and canonical progress ledger is absent, import one-way into <code>.omx/state/{scope}/ralph-progress.json</code>.</li><li>Keep legacy files unchanged for one release cycle.</li></ul></section>
+<section class="sync-block" id="orig-b039"><a class="block-anchor" href="#orig-b039" aria-label="orig-b039">b039</a><h2>Background Execution Rules</h2></section>
+<section class="sync-block" id="orig-b040"><a class="block-anchor" href="#orig-b040" aria-label="orig-b040">b040</a><p><strong>Run in background</strong> (<code>run_in_background: true</code>):</p>
+<ul><li>Package installation (npm install, pip install, cargo build)</li><li>Build processes (make, project build commands)</li><li>Test suites</li><li>Docker operations (docker build, docker pull)</li></ul></section>
+<section class="sync-block" id="orig-b041"><a class="block-anchor" href="#orig-b041" aria-label="orig-b041">b041</a><p><strong>Run blocking</strong> (foreground):</p>
+<ul><li>Quick status checks (git status, ls, pwd)</li><li>File reads and edits</li><li>Simple commands</li></ul>
+<p>&lt;/Advanced&gt;</p></section>
+<section class="sync-block" id="orig-b042"><a class="block-anchor" href="#orig-b042" aria-label="orig-b042">b042</a><p>Original task: {{PROMPT}}</p></section></article>
+<article class="source-column"><h2 class="column-header">中文翻譯</h2><section class="sync-block" id="zh-b001"><a class="block-anchor" href="#zh-b001" aria-label="zh-b001">b001</a><pre><code>---
+name: ralph
+description: 透過架構師驗證，持續自我參照迴圈直到任務完成
+---</code></pre></section>
+<section class="sync-block" id="zh-b002"><a class="block-anchor" href="#zh-b002" aria-label="zh-b002">b002</a><p>[RALPH + ULTRAWORK - 第 {{ITERATION}}/{{MAX}} 次迭代]</p></section>
+<section class="sync-block" id="zh-b003"><a class="block-anchor" href="#zh-b003" aria-label="zh-b003">b003</a><p>你先前的嘗試沒有輸出完成承諾。請繼續處理這個任務。</p></section>
+<section class="sync-block" id="zh-b004"><a class="block-anchor" href="#zh-b004" aria-label="zh-b004">b004</a><p>&lt;Purpose&gt; Ralph 是一個持續性迴圈，會持續處理任務，直到任務完全完成並通過架構師驗證。它將 ultrawork 的平行執行包裝起來，結合工作階段持續、失敗時自動重試，以及在完成前的強制驗證。 &lt;/Purpose&gt;</p></section>
+<section class="sync-block" id="zh-b005"><a class="block-anchor" href="#zh-b005" aria-label="zh-b005">b005</a><p>&lt;Use_When&gt;</p>
+<ul><li>任務需要保證完成並經過驗證（不只是「盡力而為」）</li><li>使用者說「ralph」、「不要停」、「必須完成」、「把這個完成」，或「一直做到結束」</li><li>工作可能跨越多次迭代，且需要在重試之間保持持續性</li><li>任務可受益於平行執行，並在最後取得架構師核准</li></ul>
+<p>&lt;/Use_When&gt;</p></section>
+<section class="sync-block" id="zh-b006"><a class="block-anchor" href="#zh-b006" aria-label="zh-b006">b006</a><p>&lt;Do_Not_Use_When&gt;</p>
+<ul><li>使用者想要從構想到程式碼的完整自主流程 -- 請改用 <code>autopilot</code></li><li>使用者想在提交前先探索或規劃 -- 請改用 <code>plan</code> skill</li><li>使用者想要快速的一次性修復 -- 直接委派給執行代理</li><li>使用者想手動控制完成流程 -- 直接使用 <code>ultrawork</code></li></ul>
+<p>&lt;/Do_Not_Use_When&gt;</p></section>
+<section class="sync-block" id="zh-b007"><a class="block-anchor" href="#zh-b007" aria-label="zh-b007">b007</a><p>&lt;Why_This_Exists&gt; 複雜任務常常會悄悄失敗：部分實作被宣稱為「完成」，測試被跳過，邊界情況被遺忘。Ralph 透過持續迴圈直到工作真正完成、在允許完成前要求新的驗證證據，以及使用分層的架構師審查來確認品質，來防止這種情況。 &lt;/Why_This_Exists&gt;</p></section>
+<section class="sync-block" id="zh-b008"><a class="block-anchor" href="#zh-b008" aria-label="zh-b008">b008</a><p>&lt;Execution_Policy&gt;</p>
+<ul><li>同時發出獨立的代理呼叫 -- 絕不要為彼此獨立的工作依序等待</li><li>對長時間操作（安裝、建置、測試套件）使用 <code>run_in_background: true</code></li><li>在委派給代理時，務必明確傳入 <code>model</code> 參數</li><li>在第一次委派前先閱讀 <code>docs/shared/agent-tiers.md</code>，以選擇正確的代理層級</li><li>交付完整實作：不要縮減範圍、不要只完成部分、不要為了讓測試通過而刪除測試</li><li>套用共享工作流程指引模式：以成果為先的框架、針對多步驟執行提供簡潔且可見的更新、對目前工作流程分支套用本地覆寫、與風險相稱的驗證、明確的停止規則，以及對安全且可回復步驟的自動續行。只有在涉及重大、破壞性、需憑證、外部正式環境，或取決於偏好的分支時才詢問。</li><li>當可用目標工具時，整合 Codex 目標模式：使用 <code>get_goal</code> 檢查目前執行緒的目標，將其保留為最上層停止條件，並且只有在 Ralph 完成審核證明目標確實達成之後，才呼叫 <code>update_goal({status: &quot;complete&quot;})</code>。</li></ul>
+<p>&lt;/Execution_Policy&gt;</p></section>
+<section class="sync-block" id="zh-b009"><a class="block-anchor" href="#zh-b009" aria-label="zh-b009">b009</a><p>&lt;Steps&gt;</p>
+<ol><li><strong>前置脈絡收集（在規劃／執行迴圈開始前必須完成）</strong>：</li></ol>
+<ul><li>在 <code>.omx/context/{task-slug}-{timestamp}.md</code>（UTC <code>YYYYMMDDTHHMMSSZ</code>）建立或載入一份脈絡快照。</li><li>快照至少應包含：</li><li>任務敘述</li><li>期望結果</li><li>已知事實／證據</li><li>限制條件</li><li>未知項／開放問題</li><li>可能涉及的程式碼庫接觸點</li><li>如果已有現成且相關的快照可用，請重用它，並將路徑記錄到 Ralph 狀態中。</li><li>如果需求歧義很高，請先蒐集 brownfield 事實。<code>omx explore</code> 已棄用；對於簡單的唯讀程式碼庫查詢，請使用一般的儲存庫檢視工具／子代理，而 <code>omx sparkshell</code> 只用於明確的 shell 原生唯讀證據。接著執行 <code>$deep-interview --quick &lt;task&gt;</code> 以補齊關鍵缺口。</li><li>在有快照作為依據之前，不要開始 Ralph 的執行工作（委派、實作或驗證迴圈）。如果必須快速推進，請明確記錄風險取捨。</li></ul>
+<ol><li><strong>檢視進度</strong>：檢查 TODO 清單與任何前一輪的狀態</li><li><strong>從上次中斷處繼續</strong>：接手未完成的任務</li><li><strong>平行委派</strong>：將任務路由給適當層級的專門代理</li></ol>
+<ul><li>簡單查詢：LOW tier -- &quot;這個函式回傳什麼？&quot;</li><li>標準工作：STANDARD tier -- &quot;替這個模組加入錯誤處理&quot;</li><li>複雜分析：THOROUGH tier -- &quot;除錯這個競態條件&quot;</li><li>當 Ralph 以 ralplan 後續步驟進入時，請從已核准的 <strong>available-agent-types roster</strong> 開始，並明確化委派計畫：實作通道、證據／回歸通道，以及最終簽核通道，且只使用已知的代理類型</li></ul>
+<ol><li><strong>將長時間操作放到背景執行</strong>：建置、安裝、測試套件使用 <code>run_in_background: true</code></li><li><strong>視覺任務閘門（當有截圖／參考圖片時）</strong>：</li></ol>
+<ul><li>在<strong>每一次下一個編輯之前</strong>都執行 Visual Ralph verdict 步驟。</li><li>要求結構化 JSON 輸出：<code>score</code>、<code>verdict</code>、<code>category_match</code>、<code>differences[]</code>、<code>suggestions[]</code>、<code>reasoning</code>。</li><li>將 verdict 持久化到 <code>.omx/state/{scope}/ralph-progress.json</code>，包含數值與定性回饋。</li><li>預設通過門檻：<code>score &gt;= 90</code>。</li><li><strong>基於 URL 的視覺克隆任務</strong>：當任務描述包含目標 URL（例如 <code>clone https://example.com</code>）時，請將工作路由到 <code>$visual-ralph</code>。<code>$web-clone</code> 已被硬性棄用；Visual Ralph 負責遷移後的 live-URL 視覺實作用例，並使用其內建的視覺 verdict 步驟進行量化的視覺評分。</li></ul>
+<ol><li><strong>以新證據驗證完成狀態</strong>：</li></ol>
+<ul><li>如果 Codex goal mode 可用，在最終驗證前呼叫 <code>get_goal</code>，重新陳述目前目標，並將其納入證據清單。</li></ul>
+<p>a. 確認哪個命令可以證明任務已完成 b. 執行驗證（test、build、lint） c. 閱讀輸出，確認它確實通過 d. 檢查：沒有任何 pending/in_progress 的 TODO 項目</p>
+<ol><li><strong>架構驗證</strong>（分層）：</li></ol>
+<ul><li>&lt;5 個檔案、&lt;100 行且有完整測試：至少使用 STANDARD tier（architect role）</li><li>標準變更：STANDARD tier（architect role）</li><li>&gt;20 個檔案或安全性／架構變更：THOROUGH tier（architect role）</li><li>Ralph 下限：即使是小變更，也一律至少 STANDARD</li></ul>
+<p>7.5 <strong>強制 Deslop Pass</strong>：</p>
+<ul><li>在 Step 7 通過後，對 <strong>Ralph 期間所有變更過的檔案</strong> 執行 <code>oh-my-codex:ai-slop-cleaner</code>。</li><li>cleaner 的範圍只限於 <strong>已變更檔案</strong>；不要將範圍擴大到 Ralph 擁有的編輯之外。</li><li>以 <strong>標準模式</strong> 執行 cleaner（不要加 <code>--review</code>）。</li><li>如果提示詞包含 <code>--no-deslop</code>，則完全跳過 Step 7.5，並以最近一次成功的驗證證據繼續。</li></ul>
+<p>7.6 <strong>回歸重新驗證</strong>：</p>
+<ul><li>在 deslop pass 之後，重新執行所有 tests/build/lint，並閱讀輸出以確認它們仍然通過。</li><li>如果 deslop 後回歸失敗，請回滾 cleaner 的變更或修正後重試。接著重新執行 Step 7.5 與 Step 7.6，直到回歸為綠燈。</li><li>在 deslop pass 之後的回歸驗證變綠之前，不要進入完成狀態（除非 <code>--no-deslop</code> 明確略過 deslop pass）。</li></ul>
+<ol><li><strong>核准時</strong>：如果 Codex goal mode 已啟用，請在 <code>/cancel</code> 前呼叫 <code>update_goal({status: &quot;complete&quot;})</code>；當工具回傳時，回報最終經過時間與 token 預算用量。然後執行 <code>/cancel</code> 以乾淨地退出並清理所有狀態檔。</li><li><strong>被拒絕時</strong>：修正提出的問題，然後以相同層級重新驗證</li></ol>
+<p>&lt;/Steps&gt;</p></section>
+<section class="sync-block" id="zh-b010"><a class="block-anchor" href="#zh-b010" aria-label="zh-b010">b010</a><p>&lt;Tool_Usage&gt;</p>
+<ul><li>當變更涉及安全敏感、架構性內容，或牽涉複雜的多系統整合時，使用帶有 <code>agent_role: &quot;architect&quot;</code> 的 <code>ask_codex</code> 進行驗證交叉檢查</li><li>對於簡單的功能新增、已充分測試的變更，或時間敏感的驗證，略過 Codex 諮詢</li><li>如果 MCP 相容性工具不可用，僅以 CLI／代理驗證繼續 -- 絕不要因外部工具而卡住</li><li>在 ralph mode 的迭代之間，使用 <code>omx state write/read --input '&lt;json&gt;' --json</code> 來持久化狀態</li><li>在有可用的 Codex goal 工具時使用它們：用 <code>get_goal</code> 來發現或重新確認目前目標，只有在使用者／系統明確要求建立新目標且目前沒有 active goal 時才使用 <code>create_goal</code>，而 <code>update_goal</code> 只在審核過的目標完全達成後才使用。</li><li>在 Ralph mode 狀態中持久化脈絡快照路徑，以便後續階段與代理共享相同的依據脈絡</li><li>優先使用 CLI 狀態命令。如果明確的 MCP 相容 <code>omx_state</code> 呼叫回報其 stdio transport 無法使用／已關閉，請<strong>不要</strong>重試相同的 MCP 呼叫。請改用受支援的 CLI 對等介面，以相同 payload 再試一次，並保留 <code>workingDirectory</code> 與 <code>session_id</code>：<code>omx state write --input '&lt;json&gt;' --json</code>、<code>omx state read --input '&lt;json&gt;' --json</code>，或 <code>omx state clear --input '&lt;json&gt;' --json</code>。如果 CLI 路徑也失敗，則繼續使用 <code>.omx/context</code>／<code>.omx/plans</code> 的檔案型產物，並回報狀態持久化阻礙。</li></ul>
+<p>&lt;/Tool_Usage&gt;</p></section>
+<section class="sync-block" id="zh-b011"><a class="block-anchor" href="#zh-b011" aria-label="zh-b011">b011</a><h2>Goal Mode 整合</h2></section>
+<section class="sync-block" id="zh-b012"><a class="block-anchor" href="#zh-b012" aria-label="zh-b012">b012</a><p>Codex goal mode 是長時間 Ralph 工作的執行緒層級完成契約。Ralph state 追蹤工作流程機制；goal mode 追蹤使用者目標是否真的已完成。當 goal 工具可用時：</p></section>
+<section class="sync-block" id="zh-b013"><a class="block-anchor" href="#zh-b013" aria-label="zh-b013">b013</a><ol><li>在 intake 期間，或在第一個 execution loop 之前，如果 prompt/hook 表示存在一個 active thread goal，請呼叫 <code>get_goal</code>。</li><li>如果不存在 goal，只有在使用者或系統明確要求 goal tracking 時才呼叫 <code>create_goal</code>；否則只使用 Ralph state 繼續。</li><li>將 <code>goal.objective</code> 視為具約束力的接受範圍。較新的使用者更新可以細化目前分支，但不要默默縮小 goal。</li><li>在完成前，根據真實證據執行 prompt-to-artifact 清單與 completion audit：</li></ol>
+<ul><li>將 objective 重新表述為可交付成果/成功標準</li><li>將每個 prompt requirement、命名 workflow (<code>$ralplan</code>, <code>$ralph</code>)、檔案、指令、測試、gate 和可交付成果對應到證據</li><li>檢查每個 checklist 項目背後實際的檔案、命令輸出、狀態與測試</li><li>找出缺漏、驗證薄弱或未涵蓋的需求，若仍有任何項目未完成就繼續</li></ul>
+<ol><li>只有在 audit 顯示沒有任何必需工作未完成時，才呼叫 <code>update_goal({status: &quot;complete&quot;})</code>。除非 passing tests、Ralph state 或 architect approval 覆蓋整個 goal，否則不要把它們當作替代證明。</li><li>如果 goal tools 無法使用，請繼續依 Ralph state 工作，並在最終報告中提及缺少 goal-mode 證據。</li></ol></section>
+<section class="sync-block" id="zh-b014"><a class="block-anchor" href="#zh-b014" aria-label="zh-b014">b014</a><h2>狀態管理</h2></section>
+<section class="sync-block" id="zh-b015"><a class="block-anchor" href="#zh-b015" aria-label="zh-b015">b015</a><p>使用以 CLI 為先的狀態介面來管理 Ralph 的 lifecycle state（<code>omx state write/read/clear --input '&lt;json&gt;' --json</code>）。只有在已經啟用時，顯式的 MCP 相容工具（<code>state_write</code>、<code>state_read</code>、<code>state_clear</code>）才仍可接受。</p></section>
+<section class="sync-block" id="zh-b016"><a class="block-anchor" href="#zh-b016" aria-label="zh-b016">b016</a><ul><li><strong>在開始時</strong>：</li></ul>
+<p><code>omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;active&quot;:true,&quot;iteration&quot;:1,&quot;max_iterations&quot;:10,&quot;current_phase&quot;:&quot;executing&quot;,&quot;started_at&quot;:&quot;&lt;now&gt;&quot;,&quot;state&quot;:{&quot;context_snapshot_path&quot;:&quot;&lt;snapshot-path&gt;&quot;}}' --json</code></p>
+<ul><li><strong>在每次迭代時</strong>：</li></ul>
+<p><code>omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;iteration&quot;:&lt;current&gt;,&quot;current_phase&quot;:&quot;executing&quot;}' --json</code></p>
+<ul><li><strong>在驗證/修復轉換時</strong>：</li></ul>
+<p><code>omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;current_phase&quot;:&quot;verifying&quot;}' --json</code> 或 <code>omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;current_phase&quot;:&quot;fixing&quot;}' --json</code></p>
+<ul><li><strong>在完成時</strong>（僅在 completion audit 以真實證據通過之後）：</li></ul>
+<p><code>omx state write --input '{&quot;mode&quot;:&quot;ralph&quot;,&quot;active&quot;:false,&quot;current_phase&quot;:&quot;complete&quot;,&quot;completed_at&quot;:&quot;&lt;now&gt;&quot;,&quot;completion_audit&quot;:{&quot;passed&quot;:true,&quot;prompt_to_artifact_checklist&quot;:[&quot;&lt;requirement mapped to artifact/evidence&gt;&quot;],&quot;verification_evidence&quot;:[&quot;&lt;fresh test/build/lint command and result&gt;&quot;]}}' --json</code></p>
+<ul><li><strong>在最終答案之前</strong>：</li></ul>
+<ol><li>執行新的驗證並讀取輸出。</li><li>建立 <code>prompt_to_artifact_checklist</code> 條目，將每個使用者需求、workflow gate、命名檔案、指令、PR/delivery 要求，以及停止條件對應到具體的 artifact 或證據項目。</li><li>建立 <code>verification_evidence</code> 條目，包含具體指令、結束狀態、檢視的檔案、PR URL，或其他可由機器檢查的證據。</li><li>在 Ralph state object 上寫入帶有頂層 <code>completion_audit</code> 欄位的 Ralph completion state。不要單獨寫入裸露的頂層 <code>prompt_to_artifact_checklist</code> 或 <code>verification_evidence</code> 欄位；Stop gate 會拒絕它們。</li><li>使用 <code>omx state read --input '{&quot;mode&quot;:&quot;ralph&quot;}' --json</code> 讀回 state，並在產生最終答案前驗證 <code>completion_audit.passed === true</code>、非空的 checklist，以及非空的 verification evidence。</li><li>如果 Codex goal mode 啟用，只有在這次 Ralph audit 讀回成功後才呼叫 <code>update_goal({status:&quot;complete&quot;})</code>。</li></ol>
+<ul><li><strong>在取消/清理時</strong>：</li></ul>
+<p>執行 <code>$cancel</code>（它應該呼叫 <code>omx state clear --input '{&quot;mode&quot;:&quot;ralph&quot;}' --json</code>）</p></section>
+<section class="sync-block" id="zh-b017"><a class="block-anchor" href="#zh-b017" aria-label="zh-b017">b017</a><h2>情境範例</h2></section>
+<section class="sync-block" id="zh-b018"><a class="block-anchor" href="#zh-b018" aria-label="zh-b018">b018</a><p><strong>好：</strong> 在 workflow 已經有明確下一步之後，使用者說 <code>continue</code>。請延續目前的工作分支，而不是重新開始或再次詢問同一個問題。</p></section>
+<section class="sync-block" id="zh-b019"><a class="block-anchor" href="#zh-b019" aria-label="zh-b019">b019</a><p><strong>好：</strong> 使用者只變更輸出形式或下游交付步驟（例如 <code>make a PR</code>）。保留先前不衝突的 workflow 約束，並在本地套用更新。</p></section>
+<section class="sync-block" id="zh-b020"><a class="block-anchor" href="#zh-b020" aria-label="zh-b020">b020</a><p><strong>壞：</strong> 使用者說 <code>continue</code>，而 workflow 重新開始探索，或在收集缺少的驗證/證據之前就停止。</p></section>
+<section class="sync-block" id="zh-b021"><a class="block-anchor" href="#zh-b021" aria-label="zh-b021">b021</a><p>&lt;Examples&gt; &lt;Good&gt; 正確的平行委派：</p>
+<pre><code>delegate(role=&quot;executor&quot;, tier=&quot;LOW&quot;, task=&quot;Add type export for UserConfig&quot;)
+delegate(role=&quot;executor&quot;, tier=&quot;STANDARD&quot;, task=&quot;Implement the caching layer for API responses&quot;)
+delegate(role=&quot;executor&quot;, tier=&quot;THOROUGH&quot;, task=&quot;Refactor auth module to support OAuth2 flow&quot;)</code></pre>
+<p>原因：三個彼此獨立的任務同時以適當層級發出。 &lt;/Good&gt;</p></section>
+<section class="sync-block" id="zh-b022"><a class="block-anchor" href="#zh-b022" aria-label="zh-b022">b022</a><p>&lt;Good&gt; 完成前的正確驗證：</p>
+<pre><code>1. Run: npm test           → Output: &quot;42 passed, 0 failed&quot;
+2. Run: npm run build      → Output: &quot;Build succeeded&quot;
+3. Run: lsp_diagnostics    → Output: 0 errors
+4. Delegate to architect at STANDARD tier  → Verdict: &quot;APPROVED&quot;
+5. Run /cancel</code></pre>
+<p>原因：每一步都有新的證據、架構師驗證，然後乾淨退出。 &lt;/Good&gt;</p></section>
+<section class="sync-block" id="zh-b023"><a class="block-anchor" href="#zh-b023" aria-label="zh-b023">b023</a><p>&lt;Bad&gt; 未經驗證就宣稱完成： &quot;All the changes look good, the implementation should work correctly. Task complete.&quot; 原因：使用了 &quot;should&quot; 和 &quot;look good&quot; -- 沒有新的測試/建置輸出，也沒有架構師驗證。 &lt;/Bad&gt;</p></section>
+<section class="sync-block" id="zh-b024"><a class="block-anchor" href="#zh-b024" aria-label="zh-b024">b024</a><p>&lt;Bad&gt; 獨立任務的順序執行：</p>
+<pre><code>delegate(executor, LOW, &quot;Add type export&quot;) → wait →
+delegate(executor, STANDARD, &quot;Implement caching&quot;) → wait →
+delegate(executor, THOROUGH, &quot;Refactor auth&quot;)</code></pre>
+<p>原因：這些是應該平行執行而不是依序執行的獨立任務。 &lt;/Bad&gt; &lt;/Examples&gt;</p></section>
+<section class="sync-block" id="zh-b025"><a class="block-anchor" href="#zh-b025" aria-label="zh-b025">b025</a><p>&lt;Escalation_And_Stop_Conditions&gt;</p>
+<ul><li>當根本性阻礙需要使用者輸入時就停止並回報（缺少憑證、需求不清楚、外部服務中斷）</li><li>當使用者說 &quot;stop&quot;、&quot;cancel&quot; 或 &quot;abort&quot; 時就停止 -- 執行 <code>/cancel</code></li><li>當 hook system 傳送 &quot;The boulder never stops&quot; 時繼續工作 -- 這表示迭代持續進行</li><li>如果 architect 拒絕驗證，修正問題並重新驗證（不要停止）</li><li>如果同一個問題在 3+ 次迭代中重複出現，將其回報為潛在的根本性問題</li></ul>
+<p>&lt;/Escalation_And_Stop_Conditions&gt;</p></section>
+<section class="sync-block" id="zh-b026"><a class="block-anchor" href="#zh-b026" aria-label="zh-b026">b026</a><p>&lt;Final_Checklist&gt;</p>
+<ul><li>[ ] 已滿足原始任務的所有需求（沒有縮減範圍）</li><li>[ ] 沒有待處理或 in_progress 的 TODO 項目</li><li>[ ] 最新的測試執行輸出顯示所有測試通過</li><li>[ ] 最新的建置輸出顯示成功</li><li>[ ] lsp_diagnostics 顯示受影響檔案沒有 0 個錯誤</li><li>[ ] Architect 驗證通過（至少 STANDARD 等級）</li><li>[ ] Codex goal-mode 完成稽核通過，且在存在啟用中的目標時已呼叫 <code>update_goal({status: &quot;complete&quot;})</code></li><li>[ ] 已在變更檔案上完成 ai-slop-cleaner 執行（或已指定 --no-deslop）</li><li>[ ] deslop 後回歸測試通過</li><li>[ ] 已執行 <code>/cancel</code> 以清理乾淨狀態</li></ul>
+<p>&lt;/Final_Checklist&gt;</p></section>
+<section class="sync-block" id="zh-b027"><a class="block-anchor" href="#zh-b027" aria-label="zh-b027">b027</a><p>&lt;Advanced&gt;</p>
+<h2>PRD 模式（可選）</h2></section>
+<section class="sync-block" id="zh-b028"><a class="block-anchor" href="#zh-b028" aria-label="zh-b028">b028</a><p>當使用者提供 <code>--prd</code> 旗標時，在開始 ralph 迴圈之前先初始化產品需求文件。</p></section>
+<section class="sync-block" id="zh-b029"><a class="block-anchor" href="#zh-b029" aria-label="zh-b029">b029</a><h3>偵測 PRD 模式</h3>
+<p>檢查 <code>{{PROMPT}}</code> 是否包含 <code>--prd</code> 或 <code>--PRD</code>。</p></section>
+<section class="sync-block" id="zh-b030"><a class="block-anchor" href="#zh-b030" aria-label="zh-b030">b030</a><p>在提示詞端啟動 <code>$ralph</code> 工作流程比 <code>omx ralph --prd ...</code> 更輕量。 它會建立 Ralph 工作流程狀態與指引，但不會隱式啟動 CLI 進入點或套用 PRD 啟動閘門。請將 <code>omx ralph --prd ...</code> 視為 明確的 PRD 閘門路徑。</p></section>
+<section class="sync-block" id="zh-b031"><a class="block-anchor" href="#zh-b031" aria-label="zh-b031">b031</a><h3>偵測 <code>--no-deslop</code></h3>
+<p>檢查 <code>{{PROMPT}}</code> 是否包含 <code>--no-deslop</code>。 如果存在 <code>--no-deslop</code>，則在步驟 7 之後完全跳過 deslop 步驟，並繼續使用最新一次成功的 pre-deslop 驗證證據。</p></section>
+<section class="sync-block" id="zh-b032"><a class="block-anchor" href="#zh-b032" aria-label="zh-b032">b032</a><h3>視覺參考旗標（可選）</h3>
+<p>Ralph 執行支援用於截圖任務的視覺參考旗標：</p>
+<ul><li>可重複的圖片輸入：<code>-i &lt;image-path&gt;</code>（可多次使用）</li><li>圖片目錄輸入：<code>--images-dir &lt;directory&gt;</code></li></ul></section>
+<section class="sync-block" id="zh-b033"><a class="block-anchor" href="#zh-b033" aria-label="zh-b033">b033</a><p>範例： <code>ralph -i refs/hn.png -i refs/hn-item.png --images-dir ./screenshots &quot;match HackerNews layout&quot;</code></p></section>
+<section class="sync-block" id="zh-b034"><a class="block-anchor" href="#zh-b034" aria-label="zh-b034">b034</a><h3>PRD 工作流程</h3>
+<ol><li>在建立 PRD 產物之前，以快速模式執行 deep-interview：</li></ol>
+<ul><li>執行：<code>$deep-interview --quick &lt;task&gt;</code></li><li>完成一個精簡的需求流程（context、goals、scope、constraints、validation）</li><li>將訪談輸出保存到 <code>.omx/interviews/{slug}-{timestamp}.md</code></li></ul>
+<ol><li>建立標準化的 PRD/進度產物：</li></ol>
+<ul><li>PRD：<code>.omx/plans/prd-{slug}.md</code></li><li>進度台帳：<code>.omx/state/{scope}/ralph-progress.json</code>（可用時使用 session scope，否則使用 root scope）</li></ul>
+<ol><li>解析任務（<code>--prd</code> 旗標之後的所有內容）</li><li>拆解為使用者故事：</li></ol></section>
+<section class="sync-block" id="zh-b035"><a class="block-anchor" href="#zh-b035" aria-label="zh-b035">b035</a><pre><code class="language-json">{
   &quot;project&quot;: &quot;[Project Name]&quot;,
   &quot;branchName&quot;: &quot;ralph/[feature-name]&quot;,
   &quot;description&quot;: &quot;[Feature description]&quot;,
@@ -426,51 +256,19 @@ Ralph 執行支援用於截圖任務的視覺參考旗標：
       &quot;passes&quot;: false
     }
   ]
-}
-```</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>5. Initialize canonical progress ledger at `.omx/state/{scope}/ralph-progress.json`
-6. Guidelines: right-sized stories (one session each), verifiable criteria, independent stories, priority order (foundational work first)
-7. Proceed to normal ralph loop using user stories as the task list</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>5. 在 `.omx/state/{scope}/ralph-progress.json` 初始化標準化進度台帳
-6. 指引：大小適中的故事（每個一個 session）、可驗證的條件、彼此獨立的故事、優先順序（先做基礎工作）
-7. 以使用者故事作為任務清單，繼續進入正常的 ralph 迴圈</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Example
-User input: `--prd build a todo app with React and TypeScript`
-Workflow: Detect flag, extract task, create `.omx/plans/prd-{slug}.md`, create `.omx/state/{scope}/ralph-progress.json`, begin ralph loop.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 範例
-使用者輸入：`--prd build a todo app with React and TypeScript`
-工作流程：偵測旗標、擷取任務、建立 `.omx/plans/prd-{slug}.md`、建立 `.omx/state/{scope}/ralph-progress.json`，開始 ralph 迴圈。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>### Legacy compatibility
-- During the compatibility window, Ralph `--prd` startup still validates machine-readable story state from `.omx/prd.json`.
-- `.omx/plans/prd-{slug}.md` remains the canonical storage/documentation artifact, but it is not yet the startup validation source.
-- If `.omx/prd.json` exists and canonical PRD is absent, migrate one-way into `.omx/plans/prd-{slug}.md`.
-- If `.omx/progress.txt` exists and canonical progress ledger is absent, import one-way into `.omx/state/{scope}/ralph-progress.json`.
-- Keep legacy files unchanged for one release cycle.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>### 舊版相容性
-- 在相容性期間內，Ralph 的 `--prd` 啟動仍會驗證來自 `.omx/prd.json` 的機器可讀故事狀態。
-- `.omx/plans/prd-{slug}.md` 仍然是標準的儲存/文件產物，但它尚不是啟動驗證來源。
-- 如果 `.omx/prd.json` 存在且標準 PRD 不存在，則單向遷移到 `.omx/plans/prd-{slug}.md`。
-- 如果 `.omx/progress.txt` 存在且標準進度台帳不存在，則單向匯入到 `.omx/state/{scope}/ralph-progress.json`。
-- 讓舊版檔案在一個發行週期內保持不變。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Background Execution Rules</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 背景執行規則</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Run in background** (`run_in_background: true`):
-- Package installation (npm install, pip install, cargo build)
-- Build processes (make, project build commands)
-- Test suites
-- Docker operations (docker build, docker pull)</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**在背景執行**（`run_in_background: true`）：
-- 套件安裝（npm install、pip install、cargo build）
-- 建置流程（make、專案建置指令）
-- 測試套件
-- Docker 操作（docker build、docker pull）</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>**Run blocking** (foreground):
-- Quick status checks (git status, ls, pwd)
-- File reads and edits
-- Simple commands
-&lt;/Advanced&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>**阻塞執行**（前景）：
-- 快速狀態檢查（git status、ls、pwd）
-- 檔案讀取與編輯
-- 簡單指令
-&lt;/Advanced&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Original task:
-{{PROMPT}}</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>原始任務：
-{{PROMPT}}</code></pre></div></section>
+}</code></pre></section>
+<section class="sync-block" id="zh-b036"><a class="block-anchor" href="#zh-b036" aria-label="zh-b036">b036</a><ol><li>在 <code>.omx/state/{scope}/ralph-progress.json</code> 初始化標準化進度台帳</li><li>指引：大小適中的故事（每個一個 session）、可驗證的條件、彼此獨立的故事、優先順序（先做基礎工作）</li><li>以使用者故事作為任務清單，繼續進入正常的 ralph 迴圈</li></ol></section>
+<section class="sync-block" id="zh-b037"><a class="block-anchor" href="#zh-b037" aria-label="zh-b037">b037</a><h3>範例</h3>
+<p>使用者輸入：<code>--prd build a todo app with React and TypeScript</code> 工作流程：偵測旗標、擷取任務、建立 <code>.omx/plans/prd-{slug}.md</code>、建立 <code>.omx/state/{scope}/ralph-progress.json</code>，開始 ralph 迴圈。</p></section>
+<section class="sync-block" id="zh-b038"><a class="block-anchor" href="#zh-b038" aria-label="zh-b038">b038</a><h3>舊版相容性</h3>
+<ul><li>在相容性期間內，Ralph 的 <code>--prd</code> 啟動仍會驗證來自 <code>.omx/prd.json</code> 的機器可讀故事狀態。</li><li><code>.omx/plans/prd-{slug}.md</code> 仍然是標準的儲存/文件產物，但它尚不是啟動驗證來源。</li><li>如果 <code>.omx/prd.json</code> 存在且標準 PRD 不存在，則單向遷移到 <code>.omx/plans/prd-{slug}.md</code>。</li><li>如果 <code>.omx/progress.txt</code> 存在且標準進度台帳不存在，則單向匯入到 <code>.omx/state/{scope}/ralph-progress.json</code>。</li><li>讓舊版檔案在一個發行週期內保持不變。</li></ul></section>
+<section class="sync-block" id="zh-b039"><a class="block-anchor" href="#zh-b039" aria-label="zh-b039">b039</a><h2>背景執行規則</h2></section>
+<section class="sync-block" id="zh-b040"><a class="block-anchor" href="#zh-b040" aria-label="zh-b040">b040</a><p><strong>在背景執行</strong>（<code>run_in_background: true</code>）：</p>
+<ul><li>套件安裝（npm install、pip install、cargo build）</li><li>建置流程（make、專案建置指令）</li><li>測試套件</li><li>Docker 操作（docker build、docker pull）</li></ul></section>
+<section class="sync-block" id="zh-b041"><a class="block-anchor" href="#zh-b041" aria-label="zh-b041">b041</a><p><strong>阻塞執行</strong>（前景）：</p>
+<ul><li>快速狀態檢查（git status、ls、pwd）</li><li>檔案讀取與編輯</li><li>簡單指令</li></ul>
+<p>&lt;/Advanced&gt;</p></section>
+<section class="sync-block" id="zh-b042"><a class="block-anchor" href="#zh-b042" aria-label="zh-b042">b042</a><p>原始任務： {{PROMPT}}</p></section></article></section>
 </main>
 </body>
 </html>

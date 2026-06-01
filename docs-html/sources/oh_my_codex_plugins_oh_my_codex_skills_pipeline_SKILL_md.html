@@ -4,74 +4,89 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>oh-my-codex/plugins/oh-my-codex/skills/pipeline/SKILL.md</title>
-<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{width:100%;box-sizing:border-box;margin:0;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0;border-radius:4px;padding:.1em .3em}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{width:100%;box-sizing:border-box;margin:0;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.path{word-break:break-all}.source-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start;margin-top:24px}.source-column{min-width:0}.column-header{position:sticky;top:0;z-index:2;margin:0 0 14px;padding:10px 0;background:rgba(255,255,255,.96);border-bottom:1px solid #e5e7eb;font-size:.8rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:.04em}.sync-block{position:relative;margin:0 0 18px;padding-left:42px}.block-anchor{position:absolute;left:0;top:.45rem;color:#94a3b8;font-size:.72rem;line-height:1;text-decoration:none;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.block-anchor:hover{color:#075985;text-decoration:underline}.sync-block>*:not(.block-anchor):first-child{margin-top:0}.sync-block>*:last-child{margin-bottom:0}p{margin:0 0 1rem}ul,ol{margin:.4rem 0 1rem;padding-left:1.4rem}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background:#f1f5f9;border-radius:4px;padding:.1em .3em}pre code{background:transparent;border-radius:0;padding:0;color:inherit}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0}@media (max-width:760px){main{padding:28px 16px 64px}.source-columns{display:block}.source-column+.source-column{margin-top:36px}.column-header{top:0}.sync-block{padding-left:38px}}</style>
 </head>
 <body>
 <main>
 <nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
-<h1 class="path">oh-my-codex/plugins/oh-my-codex/skills/pipeline/SKILL.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-codex/plugins/oh-my-codex/skills/pipeline/SKILL.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---
+<h1 class="path">oh-my-codex/plugins/oh-my-codex/skills/pipeline/SKILL.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-codex/plugins/oh-my-codex/skills/pipeline/SKILL.md">原始檔案路徑</a></p><section class="source-columns"><article class="source-column"><h2 class="column-header">Original</h2><section class="sync-block" id="orig-b001"><a class="block-anchor" href="#orig-b001" aria-label="orig-b001">b001</a><pre><code>---
 name: pipeline
 description: Configurable pipeline orchestrator for sequencing stages
----</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---
+---</code></pre></section>
+<section class="sync-block" id="orig-b002"><a class="block-anchor" href="#orig-b002" aria-label="orig-b002">b002</a><h1>Pipeline Skill</h1></section>
+<section class="sync-block" id="orig-b003"><a class="block-anchor" href="#orig-b003" aria-label="orig-b003">b003</a><p><code>$pipeline</code> is the configurable pipeline orchestrator for OMX. It sequences stages through a uniform <code>PipelineStage</code> interface, with state persistence and resume support.</p></section>
+<section class="sync-block" id="orig-b004"><a class="block-anchor" href="#orig-b004" aria-label="orig-b004">b004</a><h2>Default Autopilot Pipeline</h2></section>
+<section class="sync-block" id="orig-b005"><a class="block-anchor" href="#orig-b005" aria-label="orig-b005">b005</a><p>The default Autopilot pipeline sequences:</p></section>
+<section class="sync-block" id="orig-b006"><a class="block-anchor" href="#orig-b006" aria-label="orig-b006">b006</a><pre><code>deep-interview -&gt; ralplan -&gt; ultragoal (+ team if needed) -&gt; code-review -&gt; ultraqa</code></pre></section>
+<section class="sync-block" id="orig-b007"><a class="block-anchor" href="#orig-b007" aria-label="orig-b007">b007</a><p><code>$team</code> is conditional: use it only inside an active Ultragoal story when independent lanes or broad verification make coordinated parallel execution useful. Explicit legacy Ralph pipelines remain available through custom stages, but Ralph is not the advertised default Autopilot loop.</p></section>
+<section class="sync-block" id="orig-b008"><a class="block-anchor" href="#orig-b008" aria-label="orig-b008">b008</a><h2>Configuration</h2></section>
+<section class="sync-block" id="orig-b009"><a class="block-anchor" href="#orig-b009" aria-label="orig-b009">b009</a><p>Pipeline parameters are configurable per run:</p></section>
+<section class="sync-block" id="orig-b010"><a class="block-anchor" href="#orig-b010" aria-label="orig-b010">b010</a><div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><code>maxRalphIterations</code></td><td>10</td><td>Quality-gate retry ceiling; legacy option name retained for compatibility</td></tr><tr><td><code>workerCount</code></td><td>2</td><td>Number of Codex CLI team workers</td></tr><tr><td><code>agentType</code></td><td><code>executor</code></td><td>Agent type for team workers</td></tr></tbody></table></div></section>
+<section class="sync-block" id="orig-b011"><a class="block-anchor" href="#orig-b011" aria-label="orig-b011">b011</a><h2>Stage Interface</h2></section>
+<section class="sync-block" id="orig-b012"><a class="block-anchor" href="#orig-b012" aria-label="orig-b012">b012</a><p>Every stage implements the <code>PipelineStage</code> interface:</p></section>
+<section class="sync-block" id="orig-b013"><a class="block-anchor" href="#orig-b013" aria-label="orig-b013">b013</a><pre><code class="language-typescript">interface PipelineStage {
+  readonly name: string;
+  run(ctx: StageContext): Promise&lt;StageResult&gt;;
+  canSkip?(ctx: StageContext): boolean;
+}</code></pre></section>
+<section class="sync-block" id="orig-b014"><a class="block-anchor" href="#orig-b014" aria-label="orig-b014">b014</a><p>Stages receive a <code>StageContext</code> with accumulated artifacts from prior stages and return a <code>StageResult</code> with status, artifacts, and duration.</p></section>
+<section class="sync-block" id="orig-b015"><a class="block-anchor" href="#orig-b015" aria-label="orig-b015">b015</a><h2>Built-in Stages</h2></section>
+<section class="sync-block" id="orig-b016"><a class="block-anchor" href="#orig-b016" aria-label="orig-b016">b016</a><ul><li><strong>deep-interview</strong>: Requirements clarification and ambiguity gate.</li><li><strong>ralplan</strong>: Consensus planning (planner + architect + critic). Skips only when both <code>prd-*.md</code> and <code>test-spec-*.md</code> planning artifacts already exist <strong>and</strong> durable consensus evidence records Architect approval followed by Critic approval. Plan/test-spec files alone are not consensus evidence. If either review is missing, blocked, out of order, or non-approving, the stage remains in ralplan or fails with an explicit blocker/max-iteration outcome instead of progressing to execution. Carries any <code>deep-interview-*.md</code> spec paths forward for traceability.</li><li><strong>ultragoal</strong>: Durable goal-mode execution with <code>.omx/ultragoal</code> ledgers. Launch <code>$team</code> only from inside an Ultragoal story when parallel lanes are warranted.</li><li><strong>code-review</strong>: Merge-readiness review gate.</li><li><strong>ultraqa</strong>: Adversarial QA gate after a clean review; docs-only/trivially non-runtime changes may record an explicit skip reason.</li><li><strong>team-exec</strong> and <strong>ralph-verify</strong>: Legacy/custom pipeline adapters retained for explicit non-default pipelines.</li></ul></section>
+<section class="sync-block" id="orig-b017"><a class="block-anchor" href="#orig-b017" aria-label="orig-b017">b017</a><h2>State Management</h2></section>
+<section class="sync-block" id="orig-b018"><a class="block-anchor" href="#orig-b018" aria-label="orig-b018">b018</a><p>Pipeline state persists via the ModeState system at <code>.omx/state/pipeline-state.json</code>. The HUD renders pipeline phase automatically. Resume is supported from the last incomplete stage.</p></section>
+<section class="sync-block" id="orig-b019"><a class="block-anchor" href="#orig-b019" aria-label="orig-b019">b019</a><ul><li><strong>On start</strong>: <code>omx state write --input '{&quot;mode&quot;:&quot;pipeline&quot;,&quot;active&quot;:true,&quot;current_phase&quot;:&quot;stage:ralplan&quot;}' --json</code></li><li><strong>On stage transitions</strong>: <code>omx state write --input '{&quot;mode&quot;:&quot;pipeline&quot;,&quot;current_phase&quot;:&quot;stage:&lt;name&gt;&quot;}' --json</code></li><li><strong>On completion</strong>: <code>omx state write --input '{&quot;mode&quot;:&quot;pipeline&quot;,&quot;active&quot;:false,&quot;current_phase&quot;:&quot;complete&quot;}' --json</code></li></ul></section>
+<section class="sync-block" id="orig-b020"><a class="block-anchor" href="#orig-b020" aria-label="orig-b020">b020</a><h2>API</h2></section>
+<section class="sync-block" id="orig-b021"><a class="block-anchor" href="#orig-b021" aria-label="orig-b021">b021</a><pre><code class="language-typescript">import {
+  runPipeline,
+  createAutopilotPipelineConfig,
+  createDeepInterviewStage,
+  createRalplanStage,
+  createUltragoalStage,
+  createCodeReviewStage,
+  createUltraqaStage,
+} from './pipeline/index.js';
+
+const config = createAutopilotPipelineConfig('build feature X', {
+  stages: [
+    createDeepInterviewStage(),
+    createRalplanStage(),
+    createUltragoalStage(),
+    createCodeReviewStage(),
+    createUltraqaStage(),
+  ],
+});
+
+const result = await runPipeline(config);</code></pre></section>
+<section class="sync-block" id="orig-b022"><a class="block-anchor" href="#orig-b022" aria-label="orig-b022">b022</a><h2>Relationship to Other Modes</h2></section>
+<section class="sync-block" id="orig-b023"><a class="block-anchor" href="#orig-b023" aria-label="orig-b023">b023</a><ul><li><strong>autopilot</strong>: Autopilot can use pipeline as its execution engine (v0.8+)</li><li><strong>team</strong>: Pipeline delegates execution to team mode (Codex CLI workers)</li><li><strong>ultragoal</strong>: Autopilot delegates durable execution to Ultragoal by default</li><li><strong>team</strong>: Optional execution engine inside an Ultragoal story when parallel lanes are needed</li><li><strong>ralph</strong>: Available only for explicit legacy/custom pipelines</li><li><strong>ralplan</strong>: Pipeline planning runs RALPLAN consensus planning</li></ul></section></article>
+<article class="source-column"><h2 class="column-header">中文翻譯</h2><section class="sync-block" id="zh-b001"><a class="block-anchor" href="#zh-b001" aria-label="zh-b001">b001</a><pre><code>---
 name: pipeline
 description: 用於排序各階段的可配置流水線編排器
----</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code># Pipeline Skill</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code># Pipeline 技能</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>`$pipeline` is the configurable pipeline orchestrator for OMX. It sequences stages
-through a uniform `PipelineStage` interface, with state persistence and resume support.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>`$pipeline` 是 OMX 的可配置流水線編排器。它透過一致的 `PipelineStage` 介面來排序各個階段，並支援狀態持久化與續跑。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Default Autopilot Pipeline</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 預設 Autopilot 流水線</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>The default Autopilot pipeline sequences:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>預設的 Autopilot 流水線依序執行：</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```
-deep-interview -&gt; ralplan -&gt; ultragoal (+ team if needed) -&gt; code-review -&gt; ultraqa
-```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```
-deep-interview -&gt; ralplan -&gt; ultragoal (+ team if needed) -&gt; code-review -&gt; ultraqa
-```</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>`$team` is conditional: use it only inside an active Ultragoal story when independent lanes or broad verification make coordinated parallel execution useful. Explicit legacy Ralph pipelines remain available through custom stages, but Ralph is not the advertised default Autopilot loop.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>`$team` 是有條件的：只有在一個進行中的 Ultragoal story 內，當獨立分工或廣泛驗證使協調式平行執行有價值時才使用它。明確的舊版 Ralph 流水線仍可透過自訂階段使用，但 Ralph 並不是所宣稱的預設 Autopilot 迴圈。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Configuration</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 設定</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Pipeline parameters are configurable per run:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>流水線參數可依每次執行進行設定：</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><div class="table-wrap"><table><thead><tr><th>Parameter</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><code>maxRalphIterations</code></td><td>10</td><td>Quality-gate retry ceiling; legacy option name retained for compatibility</td></tr><tr><td><code>workerCount</code></td><td>2</td><td>Number of Codex CLI team workers</td></tr><tr><td><code>agentType</code></td><td><code>executor</code></td><td>Agent type for team workers</td></tr></tbody></table></div></div><div class="source-translation"><div class="label">中文翻譯</div><div class="table-wrap"><table><thead><tr><th>參數</th><th>預設值</th><th>說明</th></tr></thead><tbody><tr><td><code>maxRalphIterations</code></td><td>10</td><td>品質門檻重試上限；保留舊選項名稱以兼容</td></tr><tr><td><code>workerCount</code></td><td>2</td><td>Codex CLI team 工作者數量</td></tr><tr><td><code>agentType</code></td><td><code>executor</code></td><td>team 工作者的代理類型</td></tr></tbody></table></div></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Stage Interface</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 階段介面</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Every stage implements the `PipelineStage` interface:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>每個階段都實作 `PipelineStage` 介面：</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```typescript
-interface PipelineStage {
+---</code></pre></section>
+<section class="sync-block" id="zh-b002"><a class="block-anchor" href="#zh-b002" aria-label="zh-b002">b002</a><h1>Pipeline 技能</h1></section>
+<section class="sync-block" id="zh-b003"><a class="block-anchor" href="#zh-b003" aria-label="zh-b003">b003</a><p><code>$pipeline</code> 是 OMX 的可配置流水線編排器。它透過一致的 <code>PipelineStage</code> 介面來排序各個階段，並支援狀態持久化與續跑。</p></section>
+<section class="sync-block" id="zh-b004"><a class="block-anchor" href="#zh-b004" aria-label="zh-b004">b004</a><h2>預設 Autopilot 流水線</h2></section>
+<section class="sync-block" id="zh-b005"><a class="block-anchor" href="#zh-b005" aria-label="zh-b005">b005</a><p>預設的 Autopilot 流水線依序執行：</p></section>
+<section class="sync-block" id="zh-b006"><a class="block-anchor" href="#zh-b006" aria-label="zh-b006">b006</a><pre><code>deep-interview -&gt; ralplan -&gt; ultragoal (+ team if needed) -&gt; code-review -&gt; ultraqa</code></pre></section>
+<section class="sync-block" id="zh-b007"><a class="block-anchor" href="#zh-b007" aria-label="zh-b007">b007</a><p><code>$team</code> 是有條件的：只有在一個進行中的 Ultragoal story 內，當獨立分工或廣泛驗證使協調式平行執行有價值時才使用它。明確的舊版 Ralph 流水線仍可透過自訂階段使用，但 Ralph 並不是所宣稱的預設 Autopilot 迴圈。</p></section>
+<section class="sync-block" id="zh-b008"><a class="block-anchor" href="#zh-b008" aria-label="zh-b008">b008</a><h2>設定</h2></section>
+<section class="sync-block" id="zh-b009"><a class="block-anchor" href="#zh-b009" aria-label="zh-b009">b009</a><p>流水線參數可依每次執行進行設定：</p></section>
+<section class="sync-block" id="zh-b010"><a class="block-anchor" href="#zh-b010" aria-label="zh-b010">b010</a><div class="table-wrap"><table><thead><tr><th>參數</th><th>預設值</th><th>說明</th></tr></thead><tbody><tr><td><code>maxRalphIterations</code></td><td>10</td><td>品質門檻重試上限；保留舊選項名稱以兼容</td></tr><tr><td><code>workerCount</code></td><td>2</td><td>Codex CLI team 工作者數量</td></tr><tr><td><code>agentType</code></td><td><code>executor</code></td><td>team 工作者的代理類型</td></tr></tbody></table></div></section>
+<section class="sync-block" id="zh-b011"><a class="block-anchor" href="#zh-b011" aria-label="zh-b011">b011</a><h2>階段介面</h2></section>
+<section class="sync-block" id="zh-b012"><a class="block-anchor" href="#zh-b012" aria-label="zh-b012">b012</a><p>每個階段都實作 <code>PipelineStage</code> 介面：</p></section>
+<section class="sync-block" id="zh-b013"><a class="block-anchor" href="#zh-b013" aria-label="zh-b013">b013</a><pre><code class="language-typescript">interface PipelineStage {
   readonly name: string;
   run(ctx: StageContext): Promise&lt;StageResult&gt;;
   canSkip?(ctx: StageContext): boolean;
-}
-```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```typescript
-interface PipelineStage {
-  readonly name: string;
-  run(ctx: StageContext): Promise&lt;StageResult&gt;;
-  canSkip?(ctx: StageContext): boolean;
-}
-```</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Stages receive a `StageContext` with accumulated artifacts from prior stages and
-return a `StageResult` with status, artifacts, and duration.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>各階段會接收一個 `StageContext`，其中包含前一階段累積的產物，並
-回傳一個包含狀態、產物與持續時間的 `StageResult`。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Built-in Stages</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 內建階段</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **deep-interview**: Requirements clarification and ambiguity gate.
-- **ralplan**: Consensus planning (planner + architect + critic). Skips only when both `prd-*.md` and `test-spec-*.md` planning artifacts already exist **and** durable consensus evidence records Architect approval followed by Critic approval. Plan/test-spec files alone are not consensus evidence. If either review is missing, blocked, out of order, or non-approving, the stage remains in ralplan or fails with an explicit blocker/max-iteration outcome instead of progressing to execution. Carries any `deep-interview-*.md` spec paths forward for traceability.
-- **ultragoal**: Durable goal-mode execution with `.omx/ultragoal` ledgers. Launch `$team` only from inside an Ultragoal story when parallel lanes are warranted.
-- **code-review**: Merge-readiness review gate.
-- **ultraqa**: Adversarial QA gate after a clean review; docs-only/trivially non-runtime changes may record an explicit skip reason.
-- **team-exec** and **ralph-verify**: Legacy/custom pipeline adapters retained for explicit non-default pipelines.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **deep-interview**：需求釐清與歧義門檻。
-- **ralplan**：共識式規劃（planner + architect + critic）。只有在 `prd-*.md` 與 `test-spec-*.md` 規劃產物都已存在，**而且** 持久化的共識證據記錄了 Architect 核准，接著是 Critic 核准時才會跳過。只有 plan/test-spec 檔案本身不算是共識證據。若任一審查缺失、受阻、順序錯誤，或未核准，該階段會停留在 ralplan，或以明確的阻塞／最大迭代結果失敗，而不是進入執行。會將任何 `deep-interview-*.md` 規格路徑往後傳遞以利追蹤。
-- **ultragoal**：具備 `.omx/ultragoal` 帳本的持久化目標模式執行。只有在 Ultragoal story 內、且需要平行分工時才啟動 `$team`。
-- **code-review**：可合併就緒審查門檻。
-- **ultraqa**：在乾淨審查後進行的對抗式 QA 門檻；僅限文件變更／明顯不影響執行期的變更可記錄明確的跳過原因。
-- **team-exec** 與 **ralph-verify**：為明確的非預設流水線保留的舊版／自訂流水線介接器。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## State Management</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 狀態管理</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Pipeline state persists via the ModeState system at `.omx/state/pipeline-state.json`.
-The HUD renders pipeline phase automatically. Resume is supported from the last incomplete stage.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>流水線狀態會透過位於 `.omx/state/pipeline-state.json` 的 ModeState 系統持久化。
-HUD 會自動顯示流水線階段。支援從最後一個未完成的階段續跑。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **On start**: `omx state write --input '{&quot;mode&quot;:&quot;pipeline&quot;,&quot;active&quot;:true,&quot;current_phase&quot;:&quot;stage:ralplan&quot;}' --json`
-- **On stage transitions**: `omx state write --input '{&quot;mode&quot;:&quot;pipeline&quot;,&quot;current_phase&quot;:&quot;stage:&lt;name&gt;&quot;}' --json`
-- **On completion**: `omx state write --input '{&quot;mode&quot;:&quot;pipeline&quot;,&quot;active&quot;:false,&quot;current_phase&quot;:&quot;complete&quot;}' --json`</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **開始時**：`omx state write --input '{&quot;mode&quot;:&quot;pipeline&quot;,&quot;active&quot;:true,&quot;current_phase&quot;:&quot;stage:ralplan&quot;}' --json`
-- **在階段切換時**：`omx state write --input '{&quot;mode&quot;:&quot;pipeline&quot;,&quot;current_phase&quot;:&quot;stage:&lt;name&gt;&quot;}' --json`
-- **完成時**：`omx state write --input '{&quot;mode&quot;:&quot;pipeline&quot;,&quot;active&quot;:false,&quot;current_phase&quot;:&quot;complete&quot;}' --json`</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## API</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## API</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```typescript
-import {
+}</code></pre></section>
+<section class="sync-block" id="zh-b014"><a class="block-anchor" href="#zh-b014" aria-label="zh-b014">b014</a><p>各階段會接收一個 <code>StageContext</code>，其中包含前一階段累積的產物，並 回傳一個包含狀態、產物與持續時間的 <code>StageResult</code>。</p></section>
+<section class="sync-block" id="zh-b015"><a class="block-anchor" href="#zh-b015" aria-label="zh-b015">b015</a><h2>內建階段</h2></section>
+<section class="sync-block" id="zh-b016"><a class="block-anchor" href="#zh-b016" aria-label="zh-b016">b016</a><ul><li><strong>deep-interview</strong>：需求釐清與歧義門檻。</li><li><strong>ralplan</strong>：共識式規劃（planner + architect + critic）。只有在 <code>prd-*.md</code> 與 <code>test-spec-*.md</code> 規劃產物都已存在，<strong>而且</strong> 持久化的共識證據記錄了 Architect 核准，接著是 Critic 核准時才會跳過。只有 plan/test-spec 檔案本身不算是共識證據。若任一審查缺失、受阻、順序錯誤，或未核准，該階段會停留在 ralplan，或以明確的阻塞／最大迭代結果失敗，而不是進入執行。會將任何 <code>deep-interview-*.md</code> 規格路徑往後傳遞以利追蹤。</li><li><strong>ultragoal</strong>：具備 <code>.omx/ultragoal</code> 帳本的持久化目標模式執行。只有在 Ultragoal story 內、且需要平行分工時才啟動 <code>$team</code>。</li><li><strong>code-review</strong>：可合併就緒審查門檻。</li><li><strong>ultraqa</strong>：在乾淨審查後進行的對抗式 QA 門檻；僅限文件變更／明顯不影響執行期的變更可記錄明確的跳過原因。</li><li><strong>team-exec</strong> 與 <strong>ralph-verify</strong>：為明確的非預設流水線保留的舊版／自訂流水線介接器。</li></ul></section>
+<section class="sync-block" id="zh-b017"><a class="block-anchor" href="#zh-b017" aria-label="zh-b017">b017</a><h2>狀態管理</h2></section>
+<section class="sync-block" id="zh-b018"><a class="block-anchor" href="#zh-b018" aria-label="zh-b018">b018</a><p>流水線狀態會透過位於 <code>.omx/state/pipeline-state.json</code> 的 ModeState 系統持久化。 HUD 會自動顯示流水線階段。支援從最後一個未完成的階段續跑。</p></section>
+<section class="sync-block" id="zh-b019"><a class="block-anchor" href="#zh-b019" aria-label="zh-b019">b019</a><ul><li><strong>開始時</strong>：<code>omx state write --input '{&quot;mode&quot;:&quot;pipeline&quot;,&quot;active&quot;:true,&quot;current_phase&quot;:&quot;stage:ralplan&quot;}' --json</code></li><li><strong>在階段切換時</strong>：<code>omx state write --input '{&quot;mode&quot;:&quot;pipeline&quot;,&quot;current_phase&quot;:&quot;stage:&lt;name&gt;&quot;}' --json</code></li><li><strong>完成時</strong>：<code>omx state write --input '{&quot;mode&quot;:&quot;pipeline&quot;,&quot;active&quot;:false,&quot;current_phase&quot;:&quot;complete&quot;}' --json</code></li></ul></section>
+<section class="sync-block" id="zh-b020"><a class="block-anchor" href="#zh-b020" aria-label="zh-b020">b020</a><h2>API</h2></section>
+<section class="sync-block" id="zh-b021"><a class="block-anchor" href="#zh-b021" aria-label="zh-b021">b021</a><pre><code class="language-typescript">import {
   runPipeline,
   createAutopilotPipelineConfig,
   createDeepInterviewStage,
@@ -91,42 +106,9 @@ const config = createAutopilotPipelineConfig('build feature X', {
   ],
 });
 
-const result = await runPipeline(config);
-```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```typescript
-import {
-  runPipeline,
-  createAutopilotPipelineConfig,
-  createDeepInterviewStage,
-  createRalplanStage,
-  createUltragoalStage,
-  createCodeReviewStage,
-  createUltraqaStage,
-} from './pipeline/index.js';
-
-const config = createAutopilotPipelineConfig('build feature X', {
-  stages: [
-    createDeepInterviewStage(),
-    createRalplanStage(),
-    createUltragoalStage(),
-    createCodeReviewStage(),
-    createUltraqaStage(),
-  ],
-});
-
-const result = await runPipeline(config);
-```</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>## Relationship to Other Modes</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>## 與其他模式的關係</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>- **autopilot**: Autopilot can use pipeline as its execution engine (v0.8+)
-- **team**: Pipeline delegates execution to team mode (Codex CLI workers)
-- **ultragoal**: Autopilot delegates durable execution to Ultragoal by default
-- **team**: Optional execution engine inside an Ultragoal story when parallel lanes are needed
-- **ralph**: Available only for explicit legacy/custom pipelines
-- **ralplan**: Pipeline planning runs RALPLAN consensus planning</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>- **autopilot**：Autopilot 可以將 pipeline 作為其執行引擎（v0.8+）
-- **team**：Pipeline 將執行委派給 team 模式（Codex CLI workers）
-- **ultragoal**：Autopilot 預設將持久化執行委派給 Ultragoal
-- **team**：在需要平行分工的 Ultragoal story 內，可選的執行引擎
-- **ralph**：僅供明確的舊版／自訂流水線使用
-- **ralplan**：Pipeline 規劃會執行 RALPLAN 共識式規劃</code></pre></div></section>
+const result = await runPipeline(config);</code></pre></section>
+<section class="sync-block" id="zh-b022"><a class="block-anchor" href="#zh-b022" aria-label="zh-b022">b022</a><h2>與其他模式的關係</h2></section>
+<section class="sync-block" id="zh-b023"><a class="block-anchor" href="#zh-b023" aria-label="zh-b023">b023</a><ul><li><strong>autopilot</strong>：Autopilot 可以將 pipeline 作為其執行引擎（v0.8+）</li><li><strong>team</strong>：Pipeline 將執行委派給 team 模式（Codex CLI workers）</li><li><strong>ultragoal</strong>：Autopilot 預設將持久化執行委派給 Ultragoal</li><li><strong>team</strong>：在需要平行分工的 Ultragoal story 內，可選的執行引擎</li><li><strong>ralph</strong>：僅供明確的舊版／自訂流水線使用</li><li><strong>ralplan</strong>：Pipeline 規劃會執行 RALPLAN 共識式規劃</li></ul></section></article></section>
 </main>
 </body>
 </html>

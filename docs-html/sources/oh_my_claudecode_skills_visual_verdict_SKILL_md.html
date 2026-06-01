@@ -4,101 +4,42 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>oh-my-claudecode/skills/visual-verdict/SKILL.md</title>
-<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{width:100%;box-sizing:border-box;margin:0;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0;border-radius:4px;padding:.1em .3em}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{width:100%;box-sizing:border-box;margin:0;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.path{word-break:break-all}.source-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start;margin-top:24px}.source-column{min-width:0}.column-header{position:sticky;top:0;z-index:2;margin:0 0 14px;padding:10px 0;background:rgba(255,255,255,.96);border-bottom:1px solid #e5e7eb;font-size:.8rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:.04em}.sync-block{position:relative;margin:0 0 18px;padding-left:42px}.block-anchor{position:absolute;left:0;top:.45rem;color:#94a3b8;font-size:.72rem;line-height:1;text-decoration:none;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.block-anchor:hover{color:#075985;text-decoration:underline}.sync-block>*:not(.block-anchor):first-child{margin-top:0}.sync-block>*:last-child{margin-bottom:0}p{margin:0 0 1rem}ul,ol{margin:.4rem 0 1rem;padding-left:1.4rem}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background:#f1f5f9;border-radius:4px;padding:.1em .3em}pre code{background:transparent;border-radius:0;padding:0;color:inherit}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0}@media (max-width:760px){main{padding:28px 16px 64px}.source-columns{display:block}.source-column+.source-column{margin-top:36px}.column-header{top:0}.sync-block{padding-left:38px}}</style>
 </head>
 <body>
 <main>
 <nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
-<h1 class="path">oh-my-claudecode/skills/visual-verdict/SKILL.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-claudecode/skills/visual-verdict/SKILL.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---
+<h1 class="path">oh-my-claudecode/skills/visual-verdict/SKILL.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-claudecode/skills/visual-verdict/SKILL.md">原始檔案路徑</a></p><section class="source-columns"><article class="source-column"><h2 class="column-header">Original</h2><section class="sync-block" id="orig-b001"><a class="block-anchor" href="#orig-b001" aria-label="orig-b001">b001</a><pre><code>---
 name: visual-verdict
 description: Structured visual QA verdict for screenshot-to-reference comparisons
 level: 2
----</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---
-name: visual-verdict
-description: 用於截圖與參考圖比較的結構化視覺 QA 判定
-level: 2
----</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Purpose&gt;
-Use this skill to compare generated UI screenshots against one or more reference images and return a strict JSON verdict that can drive the next edit iteration.
-&lt;/Purpose&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Purpose&gt;
-使用此技能將生成的 UI 截圖與一張或多張參考圖片進行比較，並回傳嚴格的 JSON 判定，以驅動下一輪編輯。
-&lt;/Purpose&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Use_When&gt;
-- The task includes visual fidelity requirements (layout, spacing, typography, component styling)
-- You have a generated screenshot and at least one reference image
-- You need deterministic pass/fail guidance before continuing edits
-&lt;/Use_When&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Use_When&gt;
-- 任務包含視覺保真需求（版面、間距、排版、元件樣式）
-- 你有一張生成的截圖和至少一張參考圖片
-- 在繼續編輯前，你需要可決定性的通過／失敗指引
-&lt;/Use_When&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Inputs&gt;
-- `reference_images[]` (one or more image paths)
-- `generated_screenshot` (current output image)
-- Optional: `category_hint` (e.g., `hackernews`, `sns-feed`, `dashboard`)
-&lt;/Inputs&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Inputs&gt;
-- `reference_images[]`（一個或多個圖片路徑）
-- `generated_screenshot`（目前輸出圖片）
-- Optional: `category_hint`（例如 `hackernews`、`sns-feed`、`dashboard`）
-&lt;/Inputs&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Output_Contract&gt;
-Return **JSON only** with this exact shape:</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Output_Contract&gt;
-僅回傳 **JSON**，且必須使用這個精確結構：</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>```json
-{
+---</code></pre></section>
+<section class="sync-block" id="orig-b002"><a class="block-anchor" href="#orig-b002" aria-label="orig-b002">b002</a><p>&lt;Purpose&gt; Use this skill to compare generated UI screenshots against one or more reference images and return a strict JSON verdict that can drive the next edit iteration. &lt;/Purpose&gt;</p></section>
+<section class="sync-block" id="orig-b003"><a class="block-anchor" href="#orig-b003" aria-label="orig-b003">b003</a><p>&lt;Use_When&gt;</p>
+<ul><li>The task includes visual fidelity requirements (layout, spacing, typography, component styling)</li><li>You have a generated screenshot and at least one reference image</li><li>You need deterministic pass/fail guidance before continuing edits</li></ul>
+<p>&lt;/Use_When&gt;</p></section>
+<section class="sync-block" id="orig-b004"><a class="block-anchor" href="#orig-b004" aria-label="orig-b004">b004</a><p>&lt;Inputs&gt;</p>
+<ul><li><code>reference_images[]</code> (one or more image paths)</li><li><code>generated_screenshot</code> (current output image)</li><li>Optional: <code>category_hint</code> (e.g., <code>hackernews</code>, <code>sns-feed</code>, <code>dashboard</code>)</li></ul>
+<p>&lt;/Inputs&gt;</p></section>
+<section class="sync-block" id="orig-b005"><a class="block-anchor" href="#orig-b005" aria-label="orig-b005">b005</a><p>&lt;Output_Contract&gt; Return <strong>JSON only</strong> with this exact shape:</p></section>
+<section class="sync-block" id="orig-b006"><a class="block-anchor" href="#orig-b006" aria-label="orig-b006">b006</a><pre><code class="language-json">{
   &quot;score&quot;: 0,
   &quot;verdict&quot;: &quot;revise&quot;,
   &quot;category_match&quot;: false,
   &quot;differences&quot;: [&quot;...&quot;],
   &quot;suggestions&quot;: [&quot;...&quot;],
   &quot;reasoning&quot;: &quot;short explanation&quot;
-}
-```</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>```json
-{
-  &quot;score&quot;: 0,
-  &quot;verdict&quot;: &quot;revise&quot;,
-  &quot;category_match&quot;: false,
-  &quot;differences&quot;: [&quot;...&quot;],
-  &quot;suggestions&quot;: [&quot;...&quot;],
-  &quot;reasoning&quot;: &quot;簡短說明&quot;
-}
-```</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Rules:
-- `score`: integer 0-100
-- `verdict`: short status (`pass`, `revise`, or `fail`)
-- `category_match`: `true` when the generated screenshot matches the intended UI category/style
-- `differences[]`: concrete visual mismatches (layout, spacing, typography, colors, hierarchy)
-- `suggestions[]`: actionable next edits tied to the differences
-- `reasoning`: 1-2 sentence summary</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>規則：
-- `score`：0-100 的整數
-- `verdict`：簡短狀態（`pass`、`revise` 或 `fail`）
-- `category_match`：當生成的截圖符合預期的 UI 類別／風格時為 `true`
-- `differences[]`：具體的視覺不一致之處（版面、間距、排版、色彩、層級）
-- `suggestions[]`：針對差異提出可執行的下一步編輯
-- `reasoning`：1-2 句摘要</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Threshold_And_Loop&gt;
-- Target pass threshold is **90+**.
-- If `score &lt; 90`, continue editing and rerun `/oh-my-claudecode:visual-verdict` before any further visual review pass.
-- Do **not** treat the visual task as complete until the next screenshot clears the threshold.
-&lt;/Threshold_And_Loop&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Threshold_And_Loop&gt;
-- 目標通過門檻是 **90+**。
-- 如果 `score &lt; 90`，請繼續編輯，並在進行任何進一步的視覺審查前重新執行 `/oh-my-claudecode:visual-verdict`。
-- 在下一張截圖達到門檻之前，**不要**將此視覺任務視為完成。
-&lt;/Threshold_And_Loop&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Debug_Visualization&gt;
-When mismatch diagnosis is hard:
-1. Keep `$visual-verdict` as the authoritative decision.
-2. Use pixel-level diff tooling (pixel diff / pixelmatch overlay) as a **secondary debug aid** to localize hotspots.
-3. Convert pixel diff hotspots into concrete `differences[]` and `suggestions[]` updates.
-&lt;/Debug_Visualization&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Debug_Visualization&gt;
-當難以診斷不一致時：
-1. 讓 `$visual-verdict` 作為權威判定。
-2. 使用像素層級 diff 工具（pixel diff / pixelmatch overlay）作為**次要除錯輔助**來定位熱點。
-3. 將像素 diff 的熱點轉換為具體的 `differences[]` 與 `suggestions[]` 更新。
-&lt;/Debug_Visualization&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Example&gt;
-```json
-{
+}</code></pre></section>
+<section class="sync-block" id="orig-b007"><a class="block-anchor" href="#orig-b007" aria-label="orig-b007">b007</a><p>Rules:</p>
+<ul><li><code>score</code>: integer 0-100</li><li><code>verdict</code>: short status (<code>pass</code>, <code>revise</code>, or <code>fail</code>)</li><li><code>category_match</code>: <code>true</code> when the generated screenshot matches the intended UI category/style</li><li><code>differences[]</code>: concrete visual mismatches (layout, spacing, typography, colors, hierarchy)</li><li><code>suggestions[]</code>: actionable next edits tied to the differences</li><li><code>reasoning</code>: 1-2 sentence summary</li></ul></section>
+<section class="sync-block" id="orig-b008"><a class="block-anchor" href="#orig-b008" aria-label="orig-b008">b008</a><p>&lt;Threshold_And_Loop&gt;</p>
+<ul><li>Target pass threshold is <strong>90+</strong>.</li><li>If <code>score &lt; 90</code>, continue editing and rerun <code>/oh-my-claudecode:visual-verdict</code> before any further visual review pass.</li><li>Do <strong>not</strong> treat the visual task as complete until the next screenshot clears the threshold.</li></ul>
+<p>&lt;/Threshold_And_Loop&gt;</p></section>
+<section class="sync-block" id="orig-b009"><a class="block-anchor" href="#orig-b009" aria-label="orig-b009">b009</a><p>&lt;Debug_Visualization&gt; When mismatch diagnosis is hard:</p>
+<ol><li>Keep <code>$visual-verdict</code> as the authoritative decision.</li><li>Use pixel-level diff tooling (pixel diff / pixelmatch overlay) as a <strong>secondary debug aid</strong> to localize hotspots.</li><li>Convert pixel diff hotspots into concrete <code>differences[]</code> and <code>suggestions[]</code> updates.</li></ol>
+<p>&lt;/Debug_Visualization&gt;</p></section>
+<section class="sync-block" id="orig-b010"><a class="block-anchor" href="#orig-b010" aria-label="orig-b010">b010</a><p>&lt;Example&gt;</p>
+<pre><code class="language-json">{
   &quot;score&quot;: 87,
   &quot;verdict&quot;: &quot;revise&quot;,
   &quot;category_match&quot;: true,
@@ -111,11 +52,40 @@ When mismatch diagnosis is hard:
     &quot;Set primary button font-weight to 600&quot;
   ],
   &quot;reasoning&quot;: &quot;Core layout matches, but style details still diverge.&quot;
-}
-```
-&lt;/Example&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Example&gt;
-```json
-{
+}</code></pre>
+<p>&lt;/Example&gt;</p></section>
+<section class="sync-block" id="orig-b011"><a class="block-anchor" href="#orig-b011" aria-label="orig-b011">b011</a><p>Task: {{ARGUMENTS}}</p></section></article>
+<article class="source-column"><h2 class="column-header">中文翻譯</h2><section class="sync-block" id="zh-b001"><a class="block-anchor" href="#zh-b001" aria-label="zh-b001">b001</a><pre><code>---
+name: visual-verdict
+description: 用於截圖與參考圖比較的結構化視覺 QA 判定
+level: 2
+---</code></pre></section>
+<section class="sync-block" id="zh-b002"><a class="block-anchor" href="#zh-b002" aria-label="zh-b002">b002</a><p>&lt;Purpose&gt; 使用此技能將生成的 UI 截圖與一張或多張參考圖片進行比較，並回傳嚴格的 JSON 判定，以驅動下一輪編輯。 &lt;/Purpose&gt;</p></section>
+<section class="sync-block" id="zh-b003"><a class="block-anchor" href="#zh-b003" aria-label="zh-b003">b003</a><p>&lt;Use_When&gt;</p>
+<ul><li>任務包含視覺保真需求（版面、間距、排版、元件樣式）</li><li>你有一張生成的截圖和至少一張參考圖片</li><li>在繼續編輯前，你需要可決定性的通過／失敗指引</li></ul>
+<p>&lt;/Use_When&gt;</p></section>
+<section class="sync-block" id="zh-b004"><a class="block-anchor" href="#zh-b004" aria-label="zh-b004">b004</a><p>&lt;Inputs&gt;</p>
+<ul><li><code>reference_images[]</code>（一個或多個圖片路徑）</li><li><code>generated_screenshot</code>（目前輸出圖片）</li><li>Optional: <code>category_hint</code>（例如 <code>hackernews</code>、<code>sns-feed</code>、<code>dashboard</code>）</li></ul>
+<p>&lt;/Inputs&gt;</p></section>
+<section class="sync-block" id="zh-b005"><a class="block-anchor" href="#zh-b005" aria-label="zh-b005">b005</a><p>&lt;Output_Contract&gt; 僅回傳 <strong>JSON</strong>，且必須使用這個精確結構：</p></section>
+<section class="sync-block" id="zh-b006"><a class="block-anchor" href="#zh-b006" aria-label="zh-b006">b006</a><pre><code class="language-json">{
+  &quot;score&quot;: 0,
+  &quot;verdict&quot;: &quot;revise&quot;,
+  &quot;category_match&quot;: false,
+  &quot;differences&quot;: [&quot;...&quot;],
+  &quot;suggestions&quot;: [&quot;...&quot;],
+  &quot;reasoning&quot;: &quot;簡短說明&quot;
+}</code></pre></section>
+<section class="sync-block" id="zh-b007"><a class="block-anchor" href="#zh-b007" aria-label="zh-b007">b007</a><p>規則：</p>
+<ul><li><code>score</code>：0-100 的整數</li><li><code>verdict</code>：簡短狀態（<code>pass</code>、<code>revise</code> 或 <code>fail</code>）</li><li><code>category_match</code>：當生成的截圖符合預期的 UI 類別／風格時為 <code>true</code></li><li><code>differences[]</code>：具體的視覺不一致之處（版面、間距、排版、色彩、層級）</li><li><code>suggestions[]</code>：針對差異提出可執行的下一步編輯</li><li><code>reasoning</code>：1-2 句摘要</li></ul></section>
+<section class="sync-block" id="zh-b008"><a class="block-anchor" href="#zh-b008" aria-label="zh-b008">b008</a><p>&lt;Threshold_And_Loop&gt;</p>
+<ul><li>目標通過門檻是 <strong>90+</strong>。</li><li>如果 <code>score &lt; 90</code>，請繼續編輯，並在進行任何進一步的視覺審查前重新執行 <code>/oh-my-claudecode:visual-verdict</code>。</li><li>在下一張截圖達到門檻之前，<strong>不要</strong>將此視覺任務視為完成。</li></ul>
+<p>&lt;/Threshold_And_Loop&gt;</p></section>
+<section class="sync-block" id="zh-b009"><a class="block-anchor" href="#zh-b009" aria-label="zh-b009">b009</a><p>&lt;Debug_Visualization&gt; 當難以診斷不一致時：</p>
+<ol><li>讓 <code>$visual-verdict</code> 作為權威判定。</li><li>使用像素層級 diff 工具（pixel diff / pixelmatch overlay）作為<strong>次要除錯輔助</strong>來定位熱點。</li><li>將像素 diff 的熱點轉換為具體的 <code>differences[]</code> 與 <code>suggestions[]</code> 更新。</li></ol>
+<p>&lt;/Debug_Visualization&gt;</p></section>
+<section class="sync-block" id="zh-b010"><a class="block-anchor" href="#zh-b010" aria-label="zh-b010">b010</a><p>&lt;Example&gt;</p>
+<pre><code class="language-json">{
   &quot;score&quot;: 87,
   &quot;verdict&quot;: &quot;revise&quot;,
   &quot;category_match&quot;: true,
@@ -128,10 +98,9 @@ When mismatch diagnosis is hard:
     &quot;將主要按鈕的 font-weight 設為 600&quot;
   ],
   &quot;reasoning&quot;: &quot;核心版面相符，但樣式細節仍有差異。&quot;
-}
-```
-&lt;/Example&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Task: {{ARGUMENTS}}</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>Task: {{ARGUMENTS}}</code></pre></div></section>
+}</code></pre>
+<p>&lt;/Example&gt;</p></section>
+<section class="sync-block" id="zh-b011"><a class="block-anchor" href="#zh-b011" aria-label="zh-b011">b011</a><p>Task: {{ARGUMENTS}}</p></section></article></section>
 </main>
 </body>
 </html>

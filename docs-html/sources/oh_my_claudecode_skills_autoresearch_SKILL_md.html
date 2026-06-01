@@ -4,157 +4,99 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>oh-my-claudecode/skills/autoresearch/SKILL.md</title>
-<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{width:100%;box-sizing:border-box;margin:0;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.source-card{border:1px solid #d1d5db;border-radius:8px;margin:16px 0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-original,.source-translation{min-width:0;padding:12px 14px}.source-original{background:#f8fafc}.source-translation{background:#ecfdf5;border-left:1px solid #bbf7d0}.label{font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}.path{word-break:break-all}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0;border-radius:4px;padding:.1em .3em}@media (max-width:760px){main{padding:28px 16px 64px}.source-card{display:block}.source-translation{border-left:0;border-top:1px solid #bbf7d0}}</style>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{width:100%;box-sizing:border-box;margin:0;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.path{word-break:break-all}.source-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start;margin-top:24px}.source-column{min-width:0}.column-header{position:sticky;top:0;z-index:2;margin:0 0 14px;padding:10px 0;background:rgba(255,255,255,.96);border-bottom:1px solid #e5e7eb;font-size:.8rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:.04em}.sync-block{position:relative;margin:0 0 18px;padding-left:42px}.block-anchor{position:absolute;left:0;top:.45rem;color:#94a3b8;font-size:.72rem;line-height:1;text-decoration:none;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.block-anchor:hover{color:#075985;text-decoration:underline}.sync-block>*:not(.block-anchor):first-child{margin-top:0}.sync-block>*:last-child{margin-bottom:0}p{margin:0 0 1rem}ul,ol{margin:.4rem 0 1rem;padding-left:1.4rem}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background:#f1f5f9;border-radius:4px;padding:.1em .3em}pre code{background:transparent;border-radius:0;padding:0;color:inherit}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0}@media (max-width:760px){main{padding:28px 16px 64px}.source-columns{display:block}.source-column+.source-column{margin-top:36px}.column-header{top:0}.sync-block{padding-left:38px}}</style>
 </head>
 <body>
 <main>
 <nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
-<h1 class="path">oh-my-claudecode/skills/autoresearch/SKILL.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-claudecode/skills/autoresearch/SKILL.md">原始檔案路徑</a></p><section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>---
+<h1 class="path">oh-my-claudecode/skills/autoresearch/SKILL.md</h1><p>被引用於：<code>03-agent-skill-tool-map.md</code></p><p><a href="../../oh-my-claudecode/skills/autoresearch/SKILL.md">原始檔案路徑</a></p><section class="source-columns"><article class="source-column"><h2 class="column-header">Original</h2><section class="sync-block" id="orig-b001"><a class="block-anchor" href="#orig-b001" aria-label="orig-b001">b001</a><pre><code>---
 name: autoresearch
 description: Stateful single-mission improvement loop with strict evaluator contract, markdown decision logs, and max-runtime stop behavior
 argument-hint: &quot;[--mission-dir &lt;path&gt;] [--max-runtime &lt;duration&gt;] [--cron &lt;spec&gt;] [--resume &lt;run-id&gt;]&quot;
 level: 4
----</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>---
+---</code></pre></section>
+<section class="sync-block" id="orig-b002"><a class="block-anchor" href="#orig-b002" aria-label="orig-b002">b002</a><p>&lt;Purpose&gt; Autoresearch is a stateful skill for bounded, evaluator-driven iterative improvement. It owns one mission at a time, keeps iterating through non-passing results, records each evaluation and decision as durable artifacts, and stops only when an explicit max-runtime ceiling or another explicit terminal condition is reached. &lt;/Purpose&gt;</p></section>
+<section class="sync-block" id="orig-b003"><a class="block-anchor" href="#orig-b003" aria-label="orig-b003">b003</a><p>&lt;Use_When&gt;</p>
+<ul><li>You already have a mission and evaluator from <code>/deep-interview --autoresearch</code></li><li>You want persistent single-mission improvement with strict evaluation</li><li>You need durable experiment logs under <code>.omc/autoresearch/</code></li><li>You want a supported path for periodic reruns via Claude Code native cron</li></ul>
+<p>&lt;/Use_When&gt;</p></section>
+<section class="sync-block" id="orig-b004"><a class="block-anchor" href="#orig-b004" aria-label="orig-b004">b004</a><p>&lt;Do_Not_Use_When&gt;</p>
+<ul><li>You need evaluator generation at runtime — use <code>/deep-interview --autoresearch</code> first</li><li>You need multiple missions orchestrated together — v1 forbids that</li><li>You want the deprecated <code>omc autoresearch</code> CLI flow — it is no longer authoritative</li></ul>
+<p>&lt;/Do_Not_Use_When&gt;</p></section>
+<section class="sync-block" id="orig-b005"><a class="block-anchor" href="#orig-b005" aria-label="orig-b005">b005</a><p>&lt;Contract&gt;</p>
+<ul><li>Single-mission only in v1</li><li>Mission setup/evaluator generation stays in <code>deep-interview --autoresearch</code></li><li>Evaluator output must be structured JSON with required boolean <code>pass</code> and optional numeric <code>score</code></li><li>Non-passing iterations do <strong>not</strong> stop the run</li><li>Stop conditions are explicit and bounded, with max-runtime as the primary strict stop hook</li></ul>
+<p>&lt;/Contract&gt;</p></section>
+<section class="sync-block" id="orig-b006"><a class="block-anchor" href="#orig-b006" aria-label="orig-b006">b006</a><p>&lt;Required_Artifacts&gt; Canonical persistent storage lives under <code>.omc/autoresearch/&lt;mission-slug&gt;/</code> and/or <code>.omc/logs/autoresearch/&lt;run-id&gt;/</code>.</p></section>
+<section class="sync-block" id="orig-b007"><a class="block-anchor" href="#orig-b007" aria-label="orig-b007">b007</a><p>Minimum required artifacts:</p>
+<ul><li>mission spec</li><li>evaluator script or command reference</li><li>per-iteration evaluation JSON</li><li>markdown decision logs</li></ul></section>
+<section class="sync-block" id="orig-b008"><a class="block-anchor" href="#orig-b008" aria-label="orig-b008">b008</a><p>Recommended canonical shape:</p>
+<pre><code class="language-text">.omc/autoresearch/&lt;mission-slug&gt;/
+  mission.md
+  evaluator.json
+  runs/&lt;run-id&gt;/
+    evaluations/
+      iteration-0001.json
+      iteration-0002.json
+    decision-log.md</code></pre>
+<p>Reuse existing runtime artifacts when available rather than duplicating them unnecessarily. &lt;/Required_Artifacts&gt;</p></section>
+<section class="sync-block" id="orig-b009"><a class="block-anchor" href="#orig-b009" aria-label="orig-b009">b009</a><p>&lt;Workflow&gt;</p>
+<ol><li>Confirm a single mission exists and evaluator setup is already available.</li><li>Ensure mode/state is active for <code>autoresearch</code> and records:</li></ol>
+<ul><li>mission slug/dir</li><li>evaluator reference</li><li>iteration count</li><li>started/updated timestamps</li><li>explicit max-runtime or deadline</li></ul>
+<ol><li>On every iteration:</li></ol>
+<ul><li>run exactly one experiment/change cycle</li><li>run the evaluator</li><li>persist machine-readable evaluation JSON</li><li>append a human-readable markdown decision log entry</li><li>continue even when evaluation does not pass</li></ul>
+<ol><li>Stop when:</li></ol>
+<ul><li>max-runtime ceiling is reached</li><li>user explicitly cancels</li><li>another explicit terminal condition is recorded by the runtime</li></ul>
+<p>&lt;/Workflow&gt;</p></section>
+<section class="sync-block" id="orig-b010"><a class="block-anchor" href="#orig-b010" aria-label="orig-b010">b010</a><p>&lt;Cron_Integration&gt; Claude Code native cron is a supported integration point for periodic mission enhancement. In v1, prefer documenting/configuring cron inputs over building a large scheduler UI.</p></section>
+<section class="sync-block" id="orig-b011"><a class="block-anchor" href="#orig-b011" aria-label="orig-b011">b011</a><p>If cron is used:</p>
+<ul><li>keep one mission per scheduled job</li><li>preserve the same mission/evaluator contract</li><li>append new run artifacts rather than overwriting prior experiments</li></ul>
+<p>&lt;/Cron_Integration&gt;</p></section>
+<section class="sync-block" id="orig-b012"><a class="block-anchor" href="#orig-b012" aria-label="orig-b012">b012</a><p>&lt;Execution_Policy&gt;</p>
+<ul><li>Do not hand execution back to <code>omc autoresearch</code></li><li>Do not create multi-mission orchestration</li><li>Prefer reusing <code>src/autoresearch/*</code> runtime/schema helpers where they already match the stricter contract</li><li>Keep logs useful to humans, not only machines</li></ul>
+<p>&lt;/Execution_Policy&gt;</p></section></article>
+<article class="source-column"><h2 class="column-header">中文翻譯</h2><section class="sync-block" id="zh-b001"><a class="block-anchor" href="#zh-b001" aria-label="zh-b001">b001</a><pre><code>---
 name: autoresearch
 description: 具狀態的單一任務改進迴圈，具嚴格 evaluator 契約、Markdown 決策日誌，以及 max-runtime 停止行為
 argument-hint: &quot;[--mission-dir &lt;path&gt;] [--max-runtime &lt;duration&gt;] [--cron &lt;spec&gt;] [--resume &lt;run-id&gt;]&quot;
 level: 4
----</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Purpose&gt;
-Autoresearch is a stateful skill for bounded, evaluator-driven iterative improvement. It owns one mission at a time, keeps iterating through non-passing results, records each evaluation and decision as durable artifacts, and stops only when an explicit max-runtime ceiling or another explicit terminal condition is reached.
-&lt;/Purpose&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Purpose&gt;
-Autoresearch 是一個具狀態、以 evaluator 驅動的受限迭代式改進 skill。它一次只負責一個 mission，會持續針對未通過結果進行迭代，將每次 evaluation 與決策記錄為可持久保存的產物，並且只會在達到明確的 max-runtime 上限或其他明確的終止條件時停止。
-&lt;/Purpose&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Use_When&gt;
-- You already have a mission and evaluator from `/deep-interview --autoresearch`
-- You want persistent single-mission improvement with strict evaluation
-- You need durable experiment logs under `.omc/autoresearch/`
-- You want a supported path for periodic reruns via Claude Code native cron
-&lt;/Use_When&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Use_When&gt;
-- 你已經透過 `/deep-interview --autoresearch` 取得 mission 和 evaluator
-- 你想要具持久性的單一任務改進與嚴格評估
-- 你需要儲存在 `.omc/autoresearch/` 下的持久實驗日誌
-- 你想要透過 Claude Code 原生 cron 進行定期重新執行的支援路徑
-&lt;/Use_When&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Do_Not_Use_When&gt;
-- You need evaluator generation at runtime — use `/deep-interview --autoresearch` first
-- You need multiple missions orchestrated together — v1 forbids that
-- You want the deprecated `omc autoresearch` CLI flow — it is no longer authoritative
-&lt;/Do_Not_Use_When&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Do_Not_Use_When&gt;
-- 你需要在執行時產生 evaluator —— 先使用 `/deep-interview --autoresearch`
-- 你需要把多個 mission 一起編排 —— v1 禁止這樣做
-- 你想使用已棄用的 `omc autoresearch` CLI 流程 —— 它已不再是權威來源
-&lt;/Do_Not_Use_When&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Contract&gt;
-- Single-mission only in v1
-- Mission setup/evaluator generation stays in `deep-interview --autoresearch`
-- Evaluator output must be structured JSON with required boolean `pass` and optional numeric `score`
-- Non-passing iterations do **not** stop the run
-- Stop conditions are explicit and bounded, with max-runtime as the primary strict stop hook
-&lt;/Contract&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Contract&gt;
-- v1 只支援單一 mission
-- mission 設定/evaluator 生成保留在 `deep-interview --autoresearch`
-- evaluator 輸出必須是結構化 JSON，且必須包含布林值 `pass`，並可選擇性包含數值 `score`
-- 未通過的迭代 **不會** 中止執行
-- 停止條件是明確且有界的，其中 max-runtime 是主要的嚴格停止鉤子
-&lt;/Contract&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Required_Artifacts&gt;
-Canonical persistent storage lives under `.omc/autoresearch/&lt;mission-slug&gt;/` and/or `.omc/logs/autoresearch/&lt;run-id&gt;/`.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Required_Artifacts&gt;
-規範性的持久儲存位於 `.omc/autoresearch/&lt;mission-slug&gt;/` 和/或 `.omc/logs/autoresearch/&lt;run-id&gt;/`。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Minimum required artifacts:
-- mission spec
-- evaluator script or command reference
-- per-iteration evaluation JSON
-- markdown decision logs</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>最低必需產物：
-- mission 規格
-- evaluator script 或 command 參考
-- 每次迭代的 evaluation JSON
-- Markdown 決策日誌</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>Recommended canonical shape:
-```text
-.omc/autoresearch/&lt;mission-slug&gt;/
+---</code></pre></section>
+<section class="sync-block" id="zh-b002"><a class="block-anchor" href="#zh-b002" aria-label="zh-b002">b002</a><p>&lt;Purpose&gt; Autoresearch 是一個具狀態、以 evaluator 驅動的受限迭代式改進 skill。它一次只負責一個 mission，會持續針對未通過結果進行迭代，將每次 evaluation 與決策記錄為可持久保存的產物，並且只會在達到明確的 max-runtime 上限或其他明確的終止條件時停止。 &lt;/Purpose&gt;</p></section>
+<section class="sync-block" id="zh-b003"><a class="block-anchor" href="#zh-b003" aria-label="zh-b003">b003</a><p>&lt;Use_When&gt;</p>
+<ul><li>你已經透過 <code>/deep-interview --autoresearch</code> 取得 mission 和 evaluator</li><li>你想要具持久性的單一任務改進與嚴格評估</li><li>你需要儲存在 <code>.omc/autoresearch/</code> 下的持久實驗日誌</li><li>你想要透過 Claude Code 原生 cron 進行定期重新執行的支援路徑</li></ul>
+<p>&lt;/Use_When&gt;</p></section>
+<section class="sync-block" id="zh-b004"><a class="block-anchor" href="#zh-b004" aria-label="zh-b004">b004</a><p>&lt;Do_Not_Use_When&gt;</p>
+<ul><li>你需要在執行時產生 evaluator —— 先使用 <code>/deep-interview --autoresearch</code></li><li>你需要把多個 mission 一起編排 —— v1 禁止這樣做</li><li>你想使用已棄用的 <code>omc autoresearch</code> CLI 流程 —— 它已不再是權威來源</li></ul>
+<p>&lt;/Do_Not_Use_When&gt;</p></section>
+<section class="sync-block" id="zh-b005"><a class="block-anchor" href="#zh-b005" aria-label="zh-b005">b005</a><p>&lt;Contract&gt;</p>
+<ul><li>v1 只支援單一 mission</li><li>mission 設定/evaluator 生成保留在 <code>deep-interview --autoresearch</code></li><li>evaluator 輸出必須是結構化 JSON，且必須包含布林值 <code>pass</code>，並可選擇性包含數值 <code>score</code></li><li>未通過的迭代 <strong>不會</strong> 中止執行</li><li>停止條件是明確且有界的，其中 max-runtime 是主要的嚴格停止鉤子</li></ul>
+<p>&lt;/Contract&gt;</p></section>
+<section class="sync-block" id="zh-b006"><a class="block-anchor" href="#zh-b006" aria-label="zh-b006">b006</a><p>&lt;Required_Artifacts&gt; 規範性的持久儲存位於 <code>.omc/autoresearch/&lt;mission-slug&gt;/</code> 和/或 <code>.omc/logs/autoresearch/&lt;run-id&gt;/</code>。</p></section>
+<section class="sync-block" id="zh-b007"><a class="block-anchor" href="#zh-b007" aria-label="zh-b007">b007</a><p>最低必需產物：</p>
+<ul><li>mission 規格</li><li>evaluator script 或 command 參考</li><li>每次迭代的 evaluation JSON</li><li>Markdown 決策日誌</li></ul></section>
+<section class="sync-block" id="zh-b008"><a class="block-anchor" href="#zh-b008" aria-label="zh-b008">b008</a><p>建議的標準結構：</p>
+<pre><code class="language-text">.omc/autoresearch/&lt;mission-slug&gt;/
   mission.md
   evaluator.json
   runs/&lt;run-id&gt;/
     evaluations/
       iteration-0001.json
       iteration-0002.json
-    decision-log.md
-```
-Reuse existing runtime artifacts when available rather than duplicating them unnecessarily.
-&lt;/Required_Artifacts&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>建議的標準結構：
-```text
-.omc/autoresearch/&lt;mission-slug&gt;/
-  mission.md
-  evaluator.json
-  runs/&lt;run-id&gt;/
-    evaluations/
-      iteration-0001.json
-      iteration-0002.json
-    decision-log.md
-```
-在可用時重用既有 runtime artifacts，而不是不必要地複製它們。
-&lt;/Required_Artifacts&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Workflow&gt;
-1. Confirm a single mission exists and evaluator setup is already available.
-2. Ensure mode/state is active for `autoresearch` and records:
-   - mission slug/dir
-   - evaluator reference
-   - iteration count
-   - started/updated timestamps
-   - explicit max-runtime or deadline
-3. On every iteration:
-   - run exactly one experiment/change cycle
-   - run the evaluator
-   - persist machine-readable evaluation JSON
-   - append a human-readable markdown decision log entry
-   - continue even when evaluation does not pass
-4. Stop when:
-   - max-runtime ceiling is reached
-   - user explicitly cancels
-   - another explicit terminal condition is recorded by the runtime
-&lt;/Workflow&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Workflow&gt;
-1. 確認只有一個 mission 存在，且 evaluator 設定已經可用。
-2. 確保 `autoresearch` 的 mode/state 已啟用，並記錄：
-   - mission slug/dir
-   - evaluator 參考
-   - 迭代次數
-   - started/updated 時戳
-   - 明確的 max-runtime 或 deadline
-3. 每次迭代時：
-   - 嚴格執行一次 experiment/change 週期
-   - 執行 evaluator
-   - 持久化可機器讀取的 evaluation JSON
-   - 附加一則人類可讀的 markdown 決策日誌條目
-   - 即使 evaluation 未通過也持續進行
-4. 在下列情況停止：
-   - 已達到 max-runtime 上限
-   - 使用者明確取消
-   - runtime 記錄了另一個明確的終止條件
-&lt;/Workflow&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Cron_Integration&gt;
-Claude Code native cron is a supported integration point for periodic mission enhancement. In v1, prefer documenting/configuring cron inputs over building a large scheduler UI.</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Cron_Integration&gt;
-Claude Code 原生 cron 是一個受支援的整合點，可用於週期性的 mission 增強。在 v1 中，與其建立大型排程器 UI，不如優先記錄/設定 cron 輸入。</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>If cron is used:
-- keep one mission per scheduled job
-- preserve the same mission/evaluator contract
-- append new run artifacts rather than overwriting prior experiments
-&lt;/Cron_Integration&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>如果使用 cron：
-- 保持每個排程工作只對應一個 mission
-- 保留相同的 mission/evaluator 契約
-- 附加新的 run artifacts，而不是覆寫先前的實驗
-&lt;/Cron_Integration&gt;</code></pre></div></section>
-<section class="source-card"><div class="source-original"><div class="label">Original</div><pre><code>&lt;Execution_Policy&gt;
-- Do not hand execution back to `omc autoresearch`
-- Do not create multi-mission orchestration
-- Prefer reusing `src/autoresearch/*` runtime/schema helpers where they already match the stricter contract
-- Keep logs useful to humans, not only machines
-&lt;/Execution_Policy&gt;</code></pre></div><div class="source-translation"><div class="label">中文翻譯</div><pre><code>&lt;Execution_Policy&gt;
-- 不要把執行交回 `omc autoresearch`
-- 不要建立多 mission 編排
-- 優先重用已符合更嚴格契約的 `src/autoresearch/*` runtime/schema helpers
-- 保持日誌對人類有用，而不只是對機器有用
-&lt;/Execution_Policy&gt;</code></pre></div></section>
+    decision-log.md</code></pre>
+<p>在可用時重用既有 runtime artifacts，而不是不必要地複製它們。 &lt;/Required_Artifacts&gt;</p></section>
+<section class="sync-block" id="zh-b009"><a class="block-anchor" href="#zh-b009" aria-label="zh-b009">b009</a><p>&lt;Workflow&gt;</p>
+<ol><li>確認只有一個 mission 存在，且 evaluator 設定已經可用。</li><li>確保 <code>autoresearch</code> 的 mode/state 已啟用，並記錄：</li></ol>
+<ul><li>mission slug/dir</li><li>evaluator 參考</li><li>迭代次數</li><li>started/updated 時戳</li><li>明確的 max-runtime 或 deadline</li></ul>
+<ol><li>每次迭代時：</li></ol>
+<ul><li>嚴格執行一次 experiment/change 週期</li><li>執行 evaluator</li><li>持久化可機器讀取的 evaluation JSON</li><li>附加一則人類可讀的 markdown 決策日誌條目</li><li>即使 evaluation 未通過也持續進行</li></ul>
+<ol><li>在下列情況停止：</li></ol>
+<ul><li>已達到 max-runtime 上限</li><li>使用者明確取消</li><li>runtime 記錄了另一個明確的終止條件</li></ul>
+<p>&lt;/Workflow&gt;</p></section>
+<section class="sync-block" id="zh-b010"><a class="block-anchor" href="#zh-b010" aria-label="zh-b010">b010</a><p>&lt;Cron_Integration&gt; Claude Code 原生 cron 是一個受支援的整合點，可用於週期性的 mission 增強。在 v1 中，與其建立大型排程器 UI，不如優先記錄/設定 cron 輸入。</p></section>
+<section class="sync-block" id="zh-b011"><a class="block-anchor" href="#zh-b011" aria-label="zh-b011">b011</a><p>如果使用 cron：</p>
+<ul><li>保持每個排程工作只對應一個 mission</li><li>保留相同的 mission/evaluator 契約</li><li>附加新的 run artifacts，而不是覆寫先前的實驗</li></ul>
+<p>&lt;/Cron_Integration&gt;</p></section>
+<section class="sync-block" id="zh-b012"><a class="block-anchor" href="#zh-b012" aria-label="zh-b012">b012</a><p>&lt;Execution_Policy&gt;</p>
+<ul><li>不要把執行交回 <code>omc autoresearch</code></li><li>不要建立多 mission 編排</li><li>優先重用已符合更嚴格契約的 <code>src/autoresearch/*</code> runtime/schema helpers</li><li>保持日誌對人類有用，而不只是對機器有用</li></ul>
+<p>&lt;/Execution_Policy&gt;</p></section></article></section>
 </main>
 </body>
 </html>
