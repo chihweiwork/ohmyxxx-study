@@ -317,6 +317,10 @@ function renderMarkdownTable(table) {
   return `<div class="table-wrap"><table><thead><tr>${headerHtml}</tr></thead><tbody>${bodyHtml}</tbody></table></div>`;
 }
 
+function fenceLanguage(infoString) {
+  return infoString.trim().split(/\s+/, 1)[0].toLowerCase();
+}
+
 function renderMarkdownBlock(text) {
   const trimmed = text.trim();
   if (!trimmed) return "";
@@ -340,6 +344,7 @@ function renderMarkdownBlock(text) {
 
     if (lines[index].startsWith("```")) {
       const language = lines[index].slice(3).trim();
+      const normalizedLanguage = fenceLanguage(language);
       const codeLines = [];
       index += 1;
       while (index < lines.length && !lines[index].startsWith("```")) {
@@ -347,6 +352,10 @@ function renderMarkdownBlock(text) {
         index += 1;
       }
       if (index < lines.length) index += 1;
+      if (normalizedLanguage === "mermaid") {
+        parts.push(`<div class="mermaid">${escapeHtml(codeLines.join("\n"))}</div>`);
+        continue;
+      }
       const className = language ? ` class="language-${escapeHtml(language)}"` : "";
       parts.push(`<pre><code${className}>${escapeHtml(codeLines.join("\n"))}</code></pre>`);
       continue;
@@ -406,21 +415,43 @@ function renderMarkdownBlock(text) {
   return parts.join("\n");
 }
 
-function htmlPage(title, body) {
+function hasMermaidFence(text) {
+  const lines = text.replace(/\r\n/g, "\n").split("\n");
+  let inFence = false;
+  for (const line of lines) {
+    if (!line.startsWith("```")) continue;
+    if (!inFence) {
+      inFence = true;
+      if (fenceLanguage(line.slice(3)) === "mermaid") return true;
+      continue;
+    }
+    inFence = false;
+  }
+  return false;
+}
+
+function htmlPage(title, body, options = {}) {
+  const mermaidScript = options.hasMermaid
+    ? `<script type="module">
+import mermaid from "../assets/mermaid.esm.min.mjs";
+mermaid.initialize({ startOnLoad: true });
+</script>
+`
+    : "";
   return `<!doctype html>
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escapeHtml(title)}</title>
-<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{width:100%;box-sizing:border-box;margin:0;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.path{word-break:break-all}.source-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start;margin-top:24px}.source-column{min-width:0}.column-header{position:sticky;top:0;z-index:2;margin:0 0 14px;padding:10px 0;background:rgba(255,255,255,.96);border-bottom:1px solid #e5e7eb;font-size:.8rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:.04em}.sync-block{position:relative;margin:0 0 18px;padding-left:42px}.block-anchor{position:absolute;left:0;top:.45rem;color:#94a3b8;font-size:.72rem;line-height:1;text-decoration:none;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.block-anchor:hover{color:#075985;text-decoration:underline}.sync-block>*:not(.block-anchor):first-child{margin-top:0}.sync-block>*:last-child{margin-bottom:0}p{margin:0 0 1rem}ul,ol{margin:.4rem 0 1rem;padding-left:1.4rem}img{max-width:100%;height:auto}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background:#f1f5f9;border-radius:4px;padding:.1em .3em}pre code{background:transparent;border-radius:0;padding:0;color:inherit}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0}@media (max-width:760px){main{padding:28px 16px 64px}.source-columns{display:block}.source-column+.source-column{margin-top:36px}.column-header{top:0}.sync-block{padding-left:38px}}</style>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{width:100%;box-sizing:border-box;margin:0;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.path{word-break:break-all}.source-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start;margin-top:24px}.source-column{min-width:0}.column-header{position:sticky;top:0;z-index:2;margin:0 0 14px;padding:10px 0;background:rgba(255,255,255,.96);border-bottom:1px solid #e5e7eb;font-size:.8rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:.04em}.sync-block{position:relative;margin:0 0 18px;padding-left:42px}.block-anchor{position:absolute;left:0;top:.45rem;color:#94a3b8;font-size:.72rem;line-height:1;text-decoration:none;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.block-anchor:hover{color:#075985;text-decoration:underline}.sync-block>*:not(.block-anchor):first-child{margin-top:0}.sync-block>*:last-child{margin-bottom:0}p{margin:0 0 1rem}ul,ol{margin:.4rem 0 1rem;padding-left:1.4rem}img{max-width:100%;height:auto}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background:#f1f5f9;border-radius:4px;padding:.1em .3em}pre code{background:transparent;border-radius:0;padding:0;color:inherit}.mermaid{margin:12px 0;max-width:100%;overflow-x:auto;padding:12px 0}.mermaid svg{display:block;max-width:none}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0}@media (max-width:760px){main{padding:28px 16px 64px}.source-columns{display:block}.source-column+.source-column{margin-top:36px}.column-header{top:0}.sync-block{padding-left:38px}}</style>
 </head>
 <body>
 <main>
 <nav><a href="../index.html">Docs Home</a><a href="../sources/index.html">Sources</a></nav>
 ${body}
 </main>
-</body>
+${mermaidScript}</body>
 </html>
 `;
 }
@@ -442,7 +473,8 @@ function renderTranslatedSource(item, pairs) {
     `<p>被引用於：${item.docs.map((d) => `<code>${escapeHtml(d)}</code>`).join("、")}</p>` +
     `<p><a href="../../${escapeHtml(item.file)}">原始檔案路徑</a></p>` +
     `<section class="source-columns">${renderColumn("orig", "Original", "original")}\n${renderColumn("zh", "中文翻譯", "zh_tw")}</section>`;
-  fs.writeFileSync(path.join(outDir, sourceName(item.file)), htmlPage(item.file, body));
+  const hasMermaid = pairs.some((pair) => hasMermaidFence(pair.original) || hasMermaidFence(pair.zh_tw));
+  fs.writeFileSync(path.join(outDir, sourceName(item.file)), htmlPage(item.file, body, { hasMermaid }));
 }
 
 let selected = manifest;

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>oh-my-codex/docs/STATE_MODEL.md</title>
-<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{width:100%;box-sizing:border-box;margin:0;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.path{word-break:break-all}.source-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start;margin-top:24px}.source-column{min-width:0}.column-header{position:sticky;top:0;z-index:2;margin:0 0 14px;padding:10px 0;background:rgba(255,255,255,.96);border-bottom:1px solid #e5e7eb;font-size:.8rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:.04em}.sync-block{position:relative;margin:0 0 18px;padding-left:42px}.block-anchor{position:absolute;left:0;top:.45rem;color:#94a3b8;font-size:.72rem;line-height:1;text-decoration:none;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.block-anchor:hover{color:#075985;text-decoration:underline}.sync-block>*:not(.block-anchor):first-child{margin-top:0}.sync-block>*:last-child{margin-bottom:0}p{margin:0 0 1rem}ul,ol{margin:.4rem 0 1rem;padding-left:1.4rem}img{max-width:100%;height:auto}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background:#f1f5f9;border-radius:4px;padding:.1em .3em}pre code{background:transparent;border-radius:0;padding:0;color:inherit}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0}@media (max-width:760px){main{padding:28px 16px 64px}.source-columns{display:block}.source-column+.source-column{margin-top:36px}.column-header{top:0}.sync-block{padding-left:38px}}</style>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7;margin:0;color:#1f2937;background:#f8fafc}main{width:100%;box-sizing:border-box;margin:0;padding:40px 24px 80px;background:#fff;min-height:100vh}nav{margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;flex-wrap:wrap}a{color:#075985}h1,h2,h3{line-height:1.25;color:#111827}h1{font-size:2rem}.path{word-break:break-all}.source-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start;margin-top:24px}.source-column{min-width:0}.column-header{position:sticky;top:0;z-index:2;margin:0 0 14px;padding:10px 0;background:rgba(255,255,255,.96);border-bottom:1px solid #e5e7eb;font-size:.8rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:.04em}.sync-block{position:relative;margin:0 0 18px;padding-left:42px}.block-anchor{position:absolute;left:0;top:.45rem;color:#94a3b8;font-size:.72rem;line-height:1;text-decoration:none;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.block-anchor:hover{color:#075985;text-decoration:underline}.sync-block>*:not(.block-anchor):first-child{margin-top:0}.sync-block>*:last-child{margin-bottom:0}p{margin:0 0 1rem}ul,ol{margin:.4rem 0 1rem;padding-left:1.4rem}img{max-width:100%;height:auto}pre{background:#0f172a;color:#e5e7eb;padding:16px;border-radius:8px;overflow-x:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background:#f1f5f9;border-radius:4px;padding:.1em .3em}pre code{background:transparent;border-radius:0;padding:0;color:inherit}.mermaid{margin:12px 0;max-width:100%;overflow-x:auto;padding:12px 0}.mermaid svg{display:block;max-width:none}.table-wrap{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.95rem;background:#fff}th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top}th{background:#f1f5f9;font-weight:700}td code,th code{background:#e2e8f0}@media (max-width:760px){main{padding:28px 16px 64px}.source-columns{display:block}.source-column+.source-column{margin-top:36px}.column-header{top:0}.sync-block{padding-left:38px}}</style>
 </head>
 <body>
 <main>
@@ -40,7 +40,7 @@
 <section class="sync-block" id="orig-b029"><a class="block-anchor" href="#orig-b029" aria-label="orig-b029">b029</a><h2>Core files</h2></section>
 <section class="sync-block" id="orig-b030"><a class="block-anchor" href="#orig-b030" aria-label="orig-b030">b030</a><ul><li><code>src/state/workflow-transition.ts</code> — transition policy and decision model</li><li><code>src/state/workflow-transition-reconcile.ts</code> — shared transition reconciliation helper</li><li><code>src/modes/base.ts</code> — mode start/update lifecycle</li><li><code>src/mcp/state-server.ts</code> — MCP state writes/reads/clears</li><li><code>src/hooks/keyword-detector.ts</code> — prompt keyword activation + state seeding</li><li><code>src/scripts/codex-native-hook.ts</code> — native hook routing and prompt-submit output</li></ul></section>
 <section class="sync-block" id="orig-b031"><a class="block-anchor" href="#orig-b031" aria-label="orig-b031">b031</a><h2>Transition flow</h2></section>
-<section class="sync-block" id="orig-b032"><a class="block-anchor" href="#orig-b032" aria-label="orig-b032">b032</a><pre><code class="language-mermaid">flowchart TD
+<section class="sync-block" id="orig-b032"><a class="block-anchor" href="#orig-b032" aria-label="orig-b032">b032</a><div class="mermaid">flowchart TD
   A[Prompt / CLI / MCP request] --&gt; B[Detect requested workflow skill(s)]
   B --&gt; C[Evaluate transition policy]
   C --&gt;|deny| D[Return denial message]
@@ -49,20 +49,20 @@
   F --&gt; G[Sync compatibility skill-active state]
   G --&gt; H[Activate destination mode(s)]
   E --&gt; G
-  H --&gt; I[Emit routing / transition message]</code></pre></section>
+  H --&gt; I[Emit routing / transition message]</div></section>
 <section class="sync-block" id="orig-b033"><a class="block-anchor" href="#orig-b033" aria-label="orig-b033">b033</a><h2>Reconciliation sequence</h2></section>
 <section class="sync-block" id="orig-b034"><a class="block-anchor" href="#orig-b034" aria-label="orig-b034">b034</a><p>The shared reconciliation helper should follow this sequence:</p></section>
 <section class="sync-block" id="orig-b035"><a class="block-anchor" href="#orig-b035" aria-label="orig-b035">b035</a><ol><li>decide outcome</li><li>complete source mode(s) with audit metadata</li><li>sync compatibility <code>skill-active</code> state</li><li>activate destination mode(s)</li><li>return transition message for rendering</li></ol></section>
 <section class="sync-block" id="orig-b036"><a class="block-anchor" href="#orig-b036" aria-label="orig-b036">b036</a><p>This ordering matters because syncing too early can resurrect a mode that was just auto-completed.</p></section>
 <section class="sync-block" id="orig-b037"><a class="block-anchor" href="#orig-b037" aria-label="orig-b037">b037</a><h2>Prompt-submit flow</h2></section>
-<section class="sync-block" id="orig-b038"><a class="block-anchor" href="#orig-b038" aria-label="orig-b038">b038</a><pre><code class="language-mermaid">flowchart TD
+<section class="sync-block" id="orig-b038"><a class="block-anchor" href="#orig-b038" aria-label="orig-b038">b038</a><div class="mermaid">flowchart TD
   A[UserPromptSubmit] --&gt; B[detectKeywords()]
   B --&gt; C[ordered explicit skill list]
   C --&gt; D[recordSkillActivation()]
   D --&gt; E[shared reconciliation helper]
   E --&gt; F[final active skills]
   F --&gt; G[buildAdditionalContextMessage()]
-  G --&gt; H[native hook output]</code></pre></section>
+  G --&gt; H[native hook output]</div></section>
 <section class="sync-block" id="orig-b039"><a class="block-anchor" href="#orig-b039" aria-label="orig-b039">b039</a><h2>Transition rule categories</h2></section>
 <section class="sync-block" id="orig-b040"><a class="block-anchor" href="#orig-b040" aria-label="orig-b040">b040</a><h3>A. Allow with no change</h3></section>
 <section class="sync-block" id="orig-b041"><a class="block-anchor" href="#orig-b041" aria-label="orig-b041">b041</a><p>The requested mode is already active.</p></section>
@@ -142,7 +142,7 @@
 <section class="sync-block" id="zh-b029"><a class="block-anchor" href="#zh-b029" aria-label="zh-b029">b029</a><h2>核心檔案</h2></section>
 <section class="sync-block" id="zh-b030"><a class="block-anchor" href="#zh-b030" aria-label="zh-b030">b030</a><ul><li><code>src/state/workflow-transition.ts</code> — transition policy and decision model</li><li><code>src/state/workflow-transition-reconcile.ts</code> — shared transition reconciliation helper</li><li><code>src/modes/base.ts</code> — mode start/update lifecycle</li><li><code>src/mcp/state-server.ts</code> — MCP state writes/reads/clears</li><li><code>src/hooks/keyword-detector.ts</code> — prompt keyword activation + state seeding</li><li><code>src/scripts/codex-native-hook.ts</code> — native hook routing and prompt-submit output</li></ul></section>
 <section class="sync-block" id="zh-b031"><a class="block-anchor" href="#zh-b031" aria-label="zh-b031">b031</a><h2>轉換流程</h2></section>
-<section class="sync-block" id="zh-b032"><a class="block-anchor" href="#zh-b032" aria-label="zh-b032">b032</a><pre><code class="language-mermaid">flowchart TD
+<section class="sync-block" id="zh-b032"><a class="block-anchor" href="#zh-b032" aria-label="zh-b032">b032</a><div class="mermaid">flowchart TD
   A[Prompt / CLI / MCP request] --&gt; B[偵測請求的 workflow skill(s)]
   B --&gt; C[評估 transition policy]
   C --&gt;|deny| D[返回拒絕訊息]
@@ -151,20 +151,20 @@
   F --&gt; G[同步相容性 skill-active 狀態]
   G --&gt; H[啟用目的地 mode(s)]
   E --&gt; G
-  H --&gt; I[輸出 routing / transition 訊息]</code></pre></section>
+  H --&gt; I[輸出 routing / transition 訊息]</div></section>
 <section class="sync-block" id="zh-b033"><a class="block-anchor" href="#zh-b033" aria-label="zh-b033">b033</a><h2>Reconciliation 順序</h2></section>
 <section class="sync-block" id="zh-b034"><a class="block-anchor" href="#zh-b034" aria-label="zh-b034">b034</a><p>共享的 reconciliation 輔助工具應遵循以下順序：</p></section>
 <section class="sync-block" id="zh-b035"><a class="block-anchor" href="#zh-b035" aria-label="zh-b035">b035</a><ol><li>決定 outcome</li><li>使用 audit metadata 完成來源 mode(s)</li><li>同步相容性 <code>skill-active</code> 狀態</li><li>啟用目的地 mode(s)</li><li>回傳供呈現用的 transition 訊息</li></ol></section>
 <section class="sync-block" id="zh-b036"><a class="block-anchor" href="#zh-b036" aria-label="zh-b036">b036</a><p>這個順序很重要，因為同步得太早可能會重新喚起一個剛剛被 auto-complete 的 mode。</p></section>
 <section class="sync-block" id="zh-b037"><a class="block-anchor" href="#zh-b037" aria-label="zh-b037">b037</a><h2>Prompt-submit 流程</h2></section>
-<section class="sync-block" id="zh-b038"><a class="block-anchor" href="#zh-b038" aria-label="zh-b038">b038</a><pre><code class="language-mermaid">flowchart TD
+<section class="sync-block" id="zh-b038"><a class="block-anchor" href="#zh-b038" aria-label="zh-b038">b038</a><div class="mermaid">flowchart TD
   A[UserPromptSubmit] --&gt; B[detectKeywords()]
   B --&gt; C[有序的明確 skill 清單]
   C --&gt; D[recordSkillActivation()]
   D --&gt; E[共享 reconciliation 輔助工具]
   E --&gt; F[最終啟用中的 skills]
   F --&gt; G[buildAdditionalContextMessage()]
-  G --&gt; H[native hook 輸出]</code></pre></section>
+  G --&gt; H[native hook 輸出]</div></section>
 <section class="sync-block" id="zh-b039"><a class="block-anchor" href="#zh-b039" aria-label="zh-b039">b039</a><h2>轉換規則類別</h2></section>
 <section class="sync-block" id="zh-b040"><a class="block-anchor" href="#zh-b040" aria-label="zh-b040">b040</a><h3>A. 允許且不變更</h3></section>
 <section class="sync-block" id="zh-b041"><a class="block-anchor" href="#zh-b041" aria-label="zh-b041">b041</a><p>請求的 mode 已經是啟用狀態。</p></section>
@@ -214,5 +214,9 @@
 <section class="sync-block" id="zh-b085"><a class="block-anchor" href="#zh-b085" aria-label="zh-b085">b085</a><p>請定義：</p></section>
 <section class="sync-block" id="zh-b086"><a class="block-anchor" href="#zh-b086" aria-label="zh-b086">b086</a><ul><li>來源模式</li><li>目的模式</li><li>來源是否自動完成或目的端是否重疊</li><li>回滾行為</li><li>預期的 native-hook / CLI / MCP 轉換輸出</li><li>session 與 root 範圍的 regression tests</li></ul></section></article></section>
 </main>
+<script type="module">
+import mermaid from "../assets/mermaid.esm.min.mjs";
+mermaid.initialize({ startOnLoad: true });
+</script>
 </body>
 </html>
