@@ -57,6 +57,6 @@
   },
   {
     "original": "<Bad>\nPresenting all design options at once:\n```\n\"Here are 4 approaches: Option A... Option B... Option C... Option D... Which do you prefer?\"\n```\nWhy bad: Decision fatigue. Present one option with trade-offs, get reaction, then present the next.\n</Bad>\n</Examples>",
-    "zh_tw": "<Bad>\n一次 प्रस्तुत所有設計選項：\n```\n\"這裡有 4 種做法：Option A... Option B... Option C... Option D... 你偏好哪一個？\"\n```\nWhy bad: 會造成決策疲勞。先提出一個有取捨的選項，取得回應後，再提出下一個。\n</Bad>\n</Examples>"
+    "zh_tw": "<Bad>\n一次呈現所有設計選項：\n```\n\"這裡有 4 種做法：Option A... Option B... Option C... Option D... 你偏好哪一個？\"\n```\nWhy bad: 會造成決策疲勞。先提出一個有取捨的選項，取得回應後，再提出下一個。\n</Bad>\n</Examples>"
   }
 ]

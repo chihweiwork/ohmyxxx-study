@@ -142,7 +142,7 @@ description: 具備可選訪談流程的策略規劃
 <p>在未理解需求的情況下直接投入程式碼，會導致返工、範圍擴張，以及遺漏邊界情況。Plan 提供有結構的需求蒐集、專家分析與具品質門檻的計畫，讓執行能建立在穩固的基礎上。共識模式則為高風險專案加入多角度驗證。</p>
 <div class="prompt-tag"><code>&lt;/Why_This_Exists&gt;</code></div></section>
 <section class="sync-block" id="zh-b006"><a class="block-anchor" href="#zh-b006" aria-label="zh-b006">b006</a><div class="prompt-tag"><code>&lt;Execution_Policy&gt;</code></div>
-<ul><li>依據請求的具體程度，自動判斷是訪談模式還是直接模式</li><li>訪談時一次只問一個問題 -- 絕不要把多輪訪談合併成一個提問表單</li><li>在詢問使用者之前，先透過 <code>explore</code> agent 蒐集程式碼庫事實</li><li><code>omx explore</code> 已棄用。規劃期間，針對簡單的唯讀倉庫查找，請使用一般的倉庫檢查工具／子代理；只有在需要明確的 shell 原生唯讀證據時才使用 <code>omx sparkshell</code>，而將需要大量提示或較模糊的規劃工作留在更完整的正常流程中。</li><li>計畫必須符合品質標準：80% 以上的主張需引用檔案／行號，90% 以上的準則必須可測試</li><li>實作步驟數必須與任務範圍相稱；當工作明顯更小或更大時，避免預設剛好五步</li><li>共識模式預設輸出最終計畫；加入 <code>--interactive</code> 以啟用執行交接</li><li>共識模式預設使用 RALPLAN-DR 短模式；在 <code>--deliberate</code> 或請求明確 संकेत高風險（驗證／安全、資料遷移、破壞性／不可逆變更、正式環境事故、合規／PII、公開 API 破壞）時切換到審慎模式</li><li>套用共享工作流程指引模式：以結果為先的表述、多步規劃時簡潔可見的更新、針對目前工作流程分支的本地覆寫、以證據支撐的規劃與驗證期待、明確的停止規則，以及對安全且可回復步驟的自動續行。只針對具實質性、破壞性、需憑證、外部正式環境或依偏好而定的分支提問。</li></ul>
+<ul><li>依據請求的具體程度，自動判斷是訪談模式還是直接模式</li><li>訪談時一次只問一個問題 -- 絕不要把多輪訪談合併成一個提問表單</li><li>在詢問使用者之前，先透過 <code>explore</code> agent 蒐集程式碼庫事實</li><li><code>omx explore</code> 已棄用。規劃期間，針對簡單的唯讀倉庫查找，請使用一般的倉庫檢查工具／子代理；只有在需要明確的 shell 原生唯讀證據時才使用 <code>omx sparkshell</code>，而將需要大量提示或較模糊的規劃工作留在更完整的正常流程中。</li><li>計畫必須符合品質標準：80% 以上的主張需引用檔案／行號，90% 以上的準則必須可測試</li><li>實作步驟數必須與任務範圍相稱；當工作明顯更小或更大時，避免預設剛好五步</li><li>共識模式預設輸出最終計畫；加入 <code>--interactive</code> 以啟用執行交接</li><li>共識模式預設使用 RALPLAN-DR 短模式；在 <code>--deliberate</code> 或請求明確顯示高風險（驗證／安全、資料遷移、破壞性／不可逆變更、正式環境事故、合規／PII、公開 API 破壞）時切換到審慎模式</li><li>套用共享工作流程指引模式：以結果為先的表述、多步規劃時簡潔可見的更新、針對目前工作流程分支的本地覆寫、以證據支撐的規劃與驗證期待、明確的停止規則，以及對安全且可回復步驟的自動續行。只針對具實質性、破壞性、需憑證、外部正式環境或依偏好而定的分支提問。</li></ul>
 <div class="prompt-tag"><code>&lt;/Execution_Policy&gt;</code></div></section>
 <section class="sync-block" id="zh-b007"><a class="block-anchor" href="#zh-b007" aria-label="zh-b007">b007</a><div class="prompt-tag"><code>&lt;Steps&gt;</code></div></section>
 <section class="sync-block" id="zh-b008"><a class="block-anchor" href="#zh-b008" aria-label="zh-b008">b008</a><h3>模式選擇</h3></section>
@@ -211,7 +211,7 @@ User: &quot;呃，我想是在 src/auth 的某處？&quot;</code></pre>
 <p>Why bad: 一次問三個問題只會得到淺薄的答案。請一次只問一個。</p>
 <div class="prompt-tag"><code>&lt;/Bad&gt;</code></div></section>
 <section class="sync-block" id="zh-b031"><a class="block-anchor" href="#zh-b031" aria-label="zh-b031">b031</a><div class="prompt-tag"><code>&lt;Bad&gt;</code></div>
-<p>一次 प्रस्तुत所有設計選項：</p>
+<p>一次呈現所有設計選項：</p>
 <pre><code>&quot;這裡有 4 種做法：Option A... Option B... Option C... Option D... 你偏好哪一個？&quot;</code></pre>
 <p>Why bad: 會造成決策疲勞。先提出一個有取捨的選項，取得回應後，再提出下一個。</p>
 <div class="prompt-tag"><code>&lt;/Bad&gt;</code></div>
