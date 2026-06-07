@@ -1,0 +1,8 @@
+# .understandignore - patterns for files/dirs to exclude from analysis
+# Built-in defaults already exclude node_modules/, .git/, dist/, build/, lockfiles, etc.
+
+.understand-anything/
+graphify-out/
+docs-html/
+__pycache__/
+*.pyc
