@@ -19,7 +19,7 @@
 <li>四個專案的 <code>README.md</code>、<code>AGENTS.md</code>、<code>agents/</code>、<code>skills/</code>、<code>prompts/</code>、<code>tools/</code>、<code>hooks/</code></li>
 </ul>
 <h2 id="如何讀-graphify">如何讀 Graphify</h2>
-<p>graphify 在這個工作區抽出 352 個節點、1229 條邊、27 個 communities。你可以把它當成「文件與 prompt 的知識地圖」，但不要把每一條 inferred edge 都直接視為作者明示的設計意圖。</p>
+<p>graphify 在這個工作區抽出 1047 個節點、51794 條邊、6 個 communities。你可以把它當成「文件與 prompt 的知識地圖」，但不要把每一條 inferred edge 都直接視為作者明示的設計意圖。</p>
 <p>讀 graphify 時建議分三層：</p>
 <table>
 <thead><tr><th>層級</th><th>看什麼</th><th>用途</th></tr></thead>
@@ -55,11 +55,11 @@
 </ul>
 <p>OMO 在 graphify 中主要落在：</p>
 <ul>
-<li>Community 1: OpenCode OpenAgent Orchestration</li>
-<li>Community 2: OpenAgent Specialized Personas</li>
-<li>Community 6: OpenCode Hooks and Tools</li>
+<li>Community 0: Oh My Openagent + Oh My Codex: <code>oh-my-openagent/packages/omo-codex</code> / <code>oh-my-codex/prompts</code></li>
+<li>Community 3: Oh My Openagent + Oh My Claudecode: <code>oh-my-openagent/packages/omo-codex</code> / <code>oh-my-openagent/packages/shared-skills</code></li>
+<li>Community 4: Oh My Openagent + Oh My Claudecode: <code>oh-my-openagent/.agents</code> / <code>oh-my-openagent/src</code></li>
 </ul>
-<p>這表示 OMO 的知識圖分成三塊：orchestrator、specialist personas、runtime tools/hooks。</p>
+<p>這表示 OMO 在新版 graph 中和 Codex/Claude Code 相容層高度交織，特別是 <code>omo-codex</code>、shared skills、runtime source tree 與 prompt surface。</p>
 <h2 id="omc-developer-lifecycle-os">OMC: Developer Lifecycle OS</h2>
 <p>OMC 的核心是把 Claude Code 的日常工作變成明確 lifecycle。command 是入口，skill 是流程，agent 是專家角色，tool 是支援性能力。</p>
 <p>你可以用這條線理解 OMC：</p>
@@ -67,12 +67,12 @@
 <p>例如 <code>visual-verdict</code> 不是單純「看圖片」，而是一個 UI 驗證 workflow；<code>self-improve</code> 不是一般 agent，而是把目標、研究、benchmark builder 串成自我改善流程。</p>
 <p>OMC 在 graphify 中主要落在：</p>
 <ul>
-<li>Community 3: Claude Code Specialized Agents</li>
-<li>Community 5: Claude Code Compatibility Commands</li>
-<li>Community 8: Claude Code Core Skills &amp; Design</li>
-<li>Community 9: Claude Code Self-Improvement Workflow</li>
+<li>Community 1: Oh My Codex + Oh My Claudecode: <code>oh-my-codex/docs</code> / <code>oh-my-codex/skills</code></li>
+<li>Community 2: Oh My Claudecode + Oh My Codex: <code>oh-my-claudecode/skills</code> / <code>oh-my-antigravity/commands</code></li>
+<li>Community 3: Oh My Openagent + Oh My Claudecode: <code>oh-my-openagent/packages/omo-codex</code> / <code>oh-my-openagent/packages/shared-skills</code></li>
+<li>Community 5: Oh My Codex + Oh My Claudecode: <code>oh-my-codex/docs</code> / <code>oh-my-codex/skills</code></li>
 </ul>
-<p>這表示 OMC 的結構很適合用「任務生命週期」來讀，而不是只看檔案類型。</p>
+<p>這表示 OMC 的結構很適合用「任務生命週期」來讀，但新版 graph 也顯示它和 Codex-oriented skill/prompt migration surface 有大量交叉引用。</p>
 <h2 id="omx-structured-prompt-system">OMX: Structured Prompt System</h2>
 <p>OMX 的核心是把 agent 行為結構化。它大量使用 specialist prompts，但這些 prompt 不只是角色描述，而是搭配 plugin skills、state model、team runtime 形成控制面。</p>
 <p>OMX 的閱讀順序應該是：</p>
@@ -83,36 +83,31 @@
 </ol>
 <p>OMX 在 graphify 中主要落在：</p>
 <ul>
-<li>Community 4: Codex Specialized Prompts</li>
-<li>Community 7: Codex Local Advisor Skills</li>
-<li>Community 25: Codex Explore Prompt</li>
-<li>Community 26: Codex SparkShell Prompt</li>
+<li>Community 0: Oh My Openagent + Oh My Codex: <code>oh-my-openagent/packages/omo-codex</code> / <code>oh-my-codex/prompts</code></li>
+<li>Community 1: Oh My Codex + Oh My Claudecode: <code>oh-my-codex/docs</code> / <code>oh-my-codex/skills</code></li>
+<li>Community 5: Oh My Codex + Oh My Claudecode: <code>oh-my-codex/docs</code> / <code>oh-my-codex/skills</code></li>
 </ul>
-<p>這表示 OMX 的重點在 prompt library 和 skill entrypoint 的組合，而不是只靠 runtime hooks。</p>
+<p>這表示 OMX 的重點仍在 prompt library、skill entrypoint、docs contract 的組合；新版 graph 也把 OMO 的 Codex compatibility package 拉進同一組語意區域。</p>
 <h2 id="oma-consensus-and-learning">OmA: Consensus and Learning</h2>
 <p>OmA 的核心是「不要讓單一 agent 直接決策」。它用多個 specialist agent 產生提案，再由 Consensus 合併，由 Director 做最終 gatekeeping，最後透過 learn hook 把 session 中的有效經驗保存成規則。</p>
 <p>一個簡化流程是：</p>
 <pre><code>task -&gt; specialist proposals -&gt; consensus merge -&gt; director gate -&gt; execute/verify -&gt; learn rules</code></pre>
 <p>OmA 在 graphify 中主要落在：</p>
 <ul>
-<li>Community 0: Antigravity CLI Framework</li>
-<li>Community 10: Agent Autoresearch Showcase &amp; Missions</li>
+<li>Community 2: Oh My Claudecode + Oh My Codex: <code>oh-my-claudecode/skills</code> / <code>oh-my-antigravity/commands</code></li>
+<li>Community 3: Oh My Openagent + Oh My Claudecode: <code>oh-my-openagent/packages/omo-codex</code> / <code>oh-my-openagent/packages/shared-skills</code></li>
 </ul>
-<p>這表示 OmA 的文件高度集中在 CLI framework、agents、skills 和 learned-rules style 的工作流。</p>
+<p>這表示 OmA 在新版 graph 中主要透過 <code>commands/oma</code>、agents 和 skills 和其他專案的 lifecycle / orchestration 概念相連。</p>
 <h2 id="graphify-community-對照">Graphify Community 對照</h2>
 <table>
 <thead><tr><th>Community</th><th>名稱</th><th>主要對應</th><th>建議用途</th></tr></thead>
 <tbody>
-<tr><td>0</td><td>Antigravity CLI Framework</td><td>OmA agents、skills、commands</td><td>研究共識決策與本地學習</td></tr>
-<tr><td>1</td><td>OpenCode OpenAgent Orchestration</td><td>OMO Atlas、Prometheus、agent orchestration</td><td>研究 runtime routing</td></tr>
-<tr><td>2</td><td>OpenAgent Specialized Personas</td><td>OMO Hephaestus、Oracle、Librarian、Metis、Momus</td><td>研究 specialist role design</td></tr>
-<tr><td>3</td><td>Claude Code Specialized Agents</td><td>OMC <code>agents/*.md</code></td><td>研究 Claude Code agent persona</td></tr>
-<tr><td>4</td><td>Codex Specialized Prompts</td><td>OMX <code>prompts/*.md</code> 與部分 skills</td><td>研究 prompt library</td></tr>
-<tr><td>5</td><td>Claude Code Compatibility Commands</td><td>OMC <code>commands/*.md</code></td><td>研究 command shim</td></tr>
-<tr><td>6</td><td>OpenCode Hooks and Tools</td><td>OMO <code>src/tools</code> 與 <code>src/hooks</code></td><td>研究 runtime tool/hook</td></tr>
-<tr><td>7</td><td>Codex Local Advisor Skills</td><td>OMX ask/analyze/design/wiki 等 skills</td><td>研究本地 advisor 工作流</td></tr>
-<tr><td>8</td><td>Claude Code Core Skills &amp; Design</td><td>OMC core skills 與架構文件</td><td>研究 skill lifecycle</td></tr>
-<tr><td>9</td><td>Claude Code Self-Improvement Workflow</td><td>OMC <code>self-improve</code> skill family</td><td>研究 benchmark-driven improvement</td></tr>
+<tr><td>0</td><td>Oh My Openagent + Oh My Codex</td><td><code>oh-my-openagent/packages/omo-codex</code>、<code>oh-my-codex/prompts</code></td><td>研究 OMO/OMX compatibility prompt surface</td></tr>
+<tr><td>1</td><td>Oh My Codex + Oh My Claudecode</td><td><code>oh-my-codex/docs</code>、<code>oh-my-codex/skills</code></td><td>研究 Codex docs contract 和 skill entrypoint</td></tr>
+<tr><td>2</td><td>Oh My Claudecode + Oh My Codex</td><td><code>oh-my-claudecode/skills</code>、<code>oh-my-antigravity/commands</code></td><td>研究 skill lifecycle 與 OmA command 對照</td></tr>
+<tr><td>3</td><td>Oh My Openagent + Oh My Claudecode</td><td><code>oh-my-openagent/packages/omo-codex</code>、<code>oh-my-openagent/packages/shared-skills</code></td><td>研究 shared skill / Codex compatibility layer</td></tr>
+<tr><td>4</td><td>Oh My Openagent + Oh My Claudecode</td><td><code>oh-my-openagent/.agents</code>、<code>oh-my-openagent/src</code></td><td>研究 OpenAgent runtime source 和 agent guidance</td></tr>
+<tr><td>5</td><td>Oh My Codex + Oh My Claudecode</td><td><code>oh-my-codex/docs</code>、<code>oh-my-codex/skills</code></td><td>研究 Codex/Claude Code workflow overlap</td></tr>
 </tbody>
 </table>
 <h2 id="核心節點怎麼讀">核心節點怎麼讀</h2>

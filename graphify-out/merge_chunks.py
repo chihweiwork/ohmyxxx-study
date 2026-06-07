@@ -14,17 +14,20 @@ def merge_chunks():
     seen_nodes = set()
     seen_edges = set()
     
-    for i in range(10):
-        chunk_file = out_dir / f".graphify_chunk_{i}.json"
-        if not chunk_file.exists():
-            print(f"Warning: chunk {i} JSON not found on disk.")
-            continue
+    chunk_files = sorted(
+        out_dir.glob(".graphify_chunk_*.json"),
+        key=lambda path: int(path.stem.rsplit("_", 1)[-1]),
+    )
+    if not chunk_files:
+        print("Warning: no chunk JSON files found on disk.")
+
+    for chunk_file in chunk_files:
             
         try:
             with open(chunk_file, 'r', encoding='utf-8') as f:
                 data = json.load(f)
         except Exception as e:
-            print(f"Error reading chunk {i}: {e}")
+            print(f"Error reading {chunk_file.name}: {e}")
             continue
             
         # Merge nodes
