@@ -65,9 +65,7 @@ function pathLayer(path) {
   if (path.startsWith("oh-my-claudecode/")) return "oh-my-claudecode";
   if (path.startsWith("oh-my-openagent/")) return "oh-my-openagent";
   if (path.startsWith("oh-my-antigravity/")) return "oh-my-antigravity";
-  if (path.startsWith("docs/")) return "study-docs";
-  if (path.startsWith("scripts/")) return "study-scripts";
-  return "root";
+  return "outside-target";
 }
 
 const nodes = new Map();
@@ -194,13 +192,11 @@ for (const node of nodes.values()) {
 }
 
 const layerNames = {
-  root: "Study root",
-  "study-docs": "Study documentation",
-  "study-scripts": "Study scripts",
   "oh-my-codex": "oh-my-codex submodule",
   "oh-my-claudecode": "oh-my-claudecode submodule",
   "oh-my-openagent": "oh-my-openagent submodule",
   "oh-my-antigravity": "oh-my-antigravity submodule",
+  "outside-target": "Outside targeted submodules",
 };
 
 const layers = [...layerNodes.entries()].sort().map(([id, nodeIds]) => ({
@@ -229,10 +225,10 @@ const graph = {
   tour: [
     {
       order: 1,
-      title: "專案總覽",
-      description: "從 root 與各 submodule layer 開始，檢視 study repo 與三個主要工具專案的關係。",
+      title: "oh-my submodules 總覽",
+      description: "只檢視父 repo 內 4 個 oh-my 系列 submodule：oh-my-antigravity、oh-my-codex、oh-my-claudecode、oh-my-openagent。",
       nodeIds: topLayerIds.slice(0, 8),
-      languageLesson: "此圖由靜態掃描與 import/structure extraction 產生，適合先看檔案關係與結構熱點。",
+      languageLesson: "此圖排除父 repo 的 docs/scripts/root 檔案，只保留 4 個 targeted submodule 的靜態掃描與 import/structure extraction。",
     },
     {
       order: 2,

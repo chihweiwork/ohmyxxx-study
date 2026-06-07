@@ -25,6 +25,12 @@ function parseGitmodules() {
     .filter(Boolean);
 }
 
+function targetSubmodules() {
+  return parseGitmodules()
+    .filter((path) => path.startsWith("oh-my-"))
+    .sort((a, b) => a.localeCompare(b));
+}
+
 function lineCount(path) {
   const content = readFileSync(path, "utf8");
   if (content.length === 0) return 0;
@@ -44,9 +50,10 @@ function fileEntry(relPath) {
 }
 
 const raw = JSON.parse(readFileSync(rawScanPath, "utf8"));
-const byPath = new Map(raw.files.map((f) => [f.path, f]));
+const byPath = new Map();
+const submodules = targetSubmodules();
 
-for (const submodule of parseGitmodules()) {
+for (const submodule of submodules) {
   const subRoot = join(projectRoot, submodule);
   const files = git(["ls-files", "-z"], subRoot).split("\0").filter(Boolean);
   for (const f of files) {
@@ -76,11 +83,12 @@ const output = {
   scriptCompleted: true,
   projectRoot,
   name: "ohmyxxx-study",
-  rawDescription: "Study workspace containing oh-my-codex, oh-my-claudecode, and oh-my-openagent submodules plus generated study documentation.",
+  rawDescription: `Study workspace graph focused only on these oh-my submodules: ${submodules.join(", ")}.`,
   readmeHead: existsSync(join(projectRoot, "README.md"))
     ? readFileSync(join(projectRoot, "README.md"), "utf8").split("\n").slice(0, 40).join("\n")
     : "",
   frameworks: [],
+  submodules,
   languages: Object.keys(byLanguage).sort(),
   files,
   totalFiles: files.length,
